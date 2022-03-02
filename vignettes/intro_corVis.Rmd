@@ -20,6 +20,7 @@ devtools::load_all(".")
 
 ```{r setup}
 library(corVis)
+library(mlr3data)
 ```
 
 
@@ -36,22 +37,35 @@ Correlation is a measure of association between two random variables. There are 
 In this package we provide a range of correlation measures which can capture linear and non-linear associations between two variables. The available correlation measures include - *pearson*, *spearman*, *kendall*, *distance*, *maximal information coefficient (mic)*. A user can use `association_measure` to calculate one of these correlation measure between all the possible variable pairs in the dataset. 
 
 ```{r}
-association_measure(data = iris[,-5],method = "pearson")
+df <- ilpd[,-c(2,11)]
+association_measure(data = df,method = "pearson")
 ```
 
 A functionality to calculate correlation among the variable pairs in a grouped setting has also been introduced in  `association_measure`. One can use `group_by` to specify a grouping variable and the correlation measure will be calculated for all the variable pairs at each level of the grouping variable. 
 
 ```{r}
-df <- association_measure(data = iris,group_by = "Species",method = "distance")
+df <- ilpd[,-11]
+distance <- association_measure(data = df,group_by = "gender",method = "distance")
 ```
 
 ## Correlation displays
 
 The package also helps in plotting the calculated correlations in different displays. We have provided both matrix as well as linear layout for displaying these correlation measures. A user can pick either display to visualise correlations.
 
+### Measures using bars
 ```{r}
-bar_display(df)
+bar_display(distance)
 ```
 
+Different measures on upper and lower triangle
+```{r}
+pearson <- association_measure(data = df,group_by = "gender",method = "pearson")
+bar_display(pearson,distance)
+```
 
+### Measures using heatmap
+```{r}
+all_measures <- association_measures(df[,-2])
+heatmap_measures_Viz(all_measures)
+```
 
