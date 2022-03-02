@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' bar_display(iris,group_by = "Species",method = "distance")
+#' bar_display(lower_tri)
 
 
 bar_display <- function(lower_tri.measure, upper_tri.measure=NULL) {
