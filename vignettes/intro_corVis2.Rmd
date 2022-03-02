@@ -1,0 +1,57 @@
+---
+title: "Introduction to corVis2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro_corVis2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, include=FALSE}
+devtools::load_all(".")
+```
+
+```{r setup}
+library(corVis2)
+```
+
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE,fig.align = "center",fig.height = 6,fig.width = 6)
+```
+
+corVis2 is an R package which calculates different correlation measures for a dataset and can help in visualising these correlations in different ways. These displays can help find interesting patterns in a dataset.
+
+## Correlation
+
+Correlation is a measure of association between two random variables. There are different methods which have been proposed to calculate the strength (or direction) of association. For example, pearson's correlation coefficient calculates the strength and direction of the linear association present between two variables and it is in the range $[-1,1]$. A correlation measure can be considered a good measure if it is symmetric. Correlation measures serve as important tools during the Exploratory Data Analysis (EDA) process. These measures can be used for screening variables which are highly correlated in a high-dimensional dataset prior to modeling.
+
+In this package we provide a range of correlation measures which can capture linear and non-linear associations between two variables. The available correlation measures include - *pearson*, *spearman*, *kendall*, *distance*, *maximal information coefficient (mic)*. A user can use `association_measure` to calculate one of these correlation measure between all the possible variable pairs in the dataset. 
+
+```{r}
+association_measure(data = iris[,-5],method = "pearson")
+```
+
+A functionality to calculate correlation among the variable pairs in a grouped setting has also been introduced in  `association_measure`. One can use `group_by` to specify a grouping variable and the correlation measure will be calculated for all the variable pairs at each level of the grouping variable. 
+
+```{r}
+df <- association_measure(data = iris,group_by = "Species",method = "distance")
+```
+
+## Correlation displays
+
+The package also helps in plotting the calculated correlations in different displays. We have provided both matrix as well as linear layout for displaying these correlation measures. A user can pick either display to visualise correlations.
+
+```{r}
+bar_display(df)
+```
+
+
+
