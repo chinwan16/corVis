@@ -19,7 +19,7 @@ devtools::load_all(".")
 ```
 
 ```{r setup}
-library(corVis2)
+library(corVis)
 ```
 
 
