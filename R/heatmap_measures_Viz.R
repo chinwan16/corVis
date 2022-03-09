@@ -8,6 +8,6 @@ heatmap_measures_Viz <- function(association_measures) {
                                      values_to = "value")
   ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=var3)) +
     ggplot2::geom_tile(ggplot2::aes(fill=value)) +
-    ggplot2::scale_fill_gradientn(limits=c(-1,1),colors=c("red","white","blue"))
+    ggplot2::scale_fill_gradientn(limits=c(-1,1),colors=c("blue","white","red"))
 
 }

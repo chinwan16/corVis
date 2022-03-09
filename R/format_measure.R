@@ -15,11 +15,16 @@
 format_measure <- function(measure_matrix) {
 
   mat <- measure_matrix
-  mat_melt <- reshape2::melt(mat)
-  low_tri_pos <- reshape2::melt(lower.tri(mat))
-  m <- mat_melt[ low_tri_pos$value, ]
+  mat_melt <- data.frame(index1=as.vector(row(mat)),index2=as.vector(col(mat)),measure=as.vector(mat))
+  m <- subset(mat_melt, index1<index2)
+
+  m$var1 <- rownames(mat)[m$index1]
+  m$var2 <- rownames(mat)[m$index2]
+  index_vars <- c("index1", "index2")
+
+  m <- dplyr::select(m,-all_of(index_vars))
   rownames(m) <- NULL
-  names(m) <- c("var1","var2","measure")
+  m <- m[,c("var1","var2","measure")]
 
   return(m)
 
