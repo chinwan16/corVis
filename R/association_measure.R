@@ -20,16 +20,21 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
 
       measure_matrix <- cor(data, method = method, use = use)
       m <- format_measure(measure_matrix)
+      names(m)[3] <- method
 
 
     }else if (method=="distance") {
 
-      m <- cor_dis(data = data, index=index)
+      measure_matrix <- cor_dis(data = data, index=index)
+      m <- format_measure(measure_matrix)
+      names(m)[3] <- method
+
 
     } else if (method=="mic") {
 
       measure_matrix <- minerva::mine(data, use = use)[["MIC"]]
       m <- format_measure(measure_matrix)
+      names(m)[3] <- method
 
     }
 
@@ -41,6 +46,7 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
         data <- dplyr::select(x,-all_of(group_by))
         measure_matrix_level <- cor(data, method = method, use = use)
         measure_level <- format_measure(measure_matrix_level)
+        names(measure_level)[3] <- method
         measure_level$group_by <- x[1,group_by]
 
         return(measure_level)
@@ -50,6 +56,7 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
       data <- dplyr::select(data,-all_of(group_by))
       measure_matrix_overall <- cor(data, method = method, use = use)
       overall_measure <- format_measure(measure_matrix_overall)
+      names(overall_measure)[3] <- method
       overall_measure$group_by <- "overall"
 
       m <- rbind(m,overall_measure)
@@ -58,7 +65,9 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
 
       m <- do.call(rbind, lapply( split( data, data[,group_by]), function(x) {
         data <- dplyr::select(x,-all_of(group_by))
-        measure_level <- cor_dis(data = data, index=index)
+        measure_matrix_level <- cor_dis(data = data, index=index)
+        measure_level <- format_measure(measure_matrix_level)
+        names(measure_level)[3] <- method
         measure_level$group_by <- x[1,group_by]
 
         return(measure_level)
@@ -66,7 +75,9 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
       rownames(m) <- NULL
 
       data <- dplyr::select(data,-all_of(group_by))
-      overall_measure <- cor_dis(data = data, index=index)
+      measure_matrix_overall <- cor_dis(data = data, index=index)
+      overall_measure <- format_measure(measure_matrix_overall)
+      names(overall_measure)[3] <- method
       overall_measure$group_by <- "overall"
 
       m <- rbind(m,overall_measure)
@@ -77,6 +88,7 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
         data <- dplyr::select(x,-all_of(group_by))
         measure_level_matrix <- minerva::mine(data, use = use)[["MIC"]]
         measure_level <- format_measure(measure_level_matrix)
+        names(measure_level)[3] <- method
         measure_level$group_by <- x[1,group_by]
 
         return(measure_level)
@@ -86,6 +98,7 @@ association_measure <- function(data,group_by=NULL,use="everything",method="pear
       data <- dplyr::select(data,-all_of(group_by))
       overall_measure_matrix <- minerva::mine(data, use = use)[["MIC"]]
       overall_measure <- format_measure(overall_measure_matrix)
+      names(overall_measure)[3] <- method
       overall_measure$group_by <- "overall"
 
       m <- rbind(m,overall_measure)

@@ -11,15 +11,20 @@
 #' @examples
 #' cor_dis(iris[,-5])
 
-cor_dis <- function(data, index=index) {
+cor_dis <- function(data, index) {
 
-  var_pairs <- data.frame(t(combn(names(data),2)))
-  names(var_pairs) <- c("var1","var2")
-  for (i in 1:nrow(var_pairs)){
-    var_pairs$measure[i] <- energy::dcor(data[,var_pairs$var1[i]] ,
-                                         data[,var_pairs$var2[i]],index = index )
+  vars <- names(data)
+  measure <- matrix(nrow = length(vars), ncol = length(vars))
+  for (i in 1:length(vars)){
+    for (j in 1:length(vars)) {
+      measure[i,j] <- energy::dcor(data[,vars[i]] , data[,vars[j]], index=index)
+    }
   }
-  m <- var_pairs
+
+  m <- measure
+  rownames(m) <- vars
+  colnames(m) <- vars
 
   return(m)
+
 }
