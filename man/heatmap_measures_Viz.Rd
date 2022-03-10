@@ -5,7 +5,7 @@
 \title{Display a linear layout plot for the measures of association
 between all the pairs of variables}
 \usage{
-heatmap_measures_Viz(association_measures)
+heatmap_measures_Viz(association_measures, group_by = NULL)
 }
 \arguments{
 \item{association_measures}{dataframe}

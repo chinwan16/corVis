@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, include=FALSE}
-devtools::load_all(".")
-```
-
 ```{r setup}
 library(corVis)
 library(mlr3data)
@@ -25,7 +21,7 @@ library(mlr3data)
 
 
 ```{r setup2, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE,fig.align = "center",fig.height = 6,fig.width = 6)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE,fig.align = "center",fig.height = 10,fig.width = 10)
 ```
 
 corVis2 is an R package which calculates different correlation measures for a dataset and can help in visualising these correlations in different ways. These displays can help find interesting patterns in a dataset.
@@ -67,5 +63,12 @@ bar_display(pearson,distance)
 ```{r}
 all_measures <- association_measures(df[,-2])
 heatmap_measures_Viz(all_measures)
+```
+
+
+### Heatmap with measures faceted by grouping variable
+```{r}
+all_measures <- association_measures(df,group_by = "gender")
+heatmap_measures_Viz(all_measures,group_by="gender")
 ```
 
