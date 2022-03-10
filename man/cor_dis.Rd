@@ -4,7 +4,7 @@
 \alias{cor_dis}
 \title{Find distance correlation data structure}
 \usage{
-cor_dis(data, index = index)
+cor_dis(data, index)
 }
 \arguments{
 \item{data}{dataframe}
