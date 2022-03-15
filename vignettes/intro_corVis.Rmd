@@ -34,7 +34,7 @@ In this package we provide a range of correlation measures which can capture lin
 
 ```{r}
 df <- ilpd[,-c(2,11)]
-association_measure(data = df,method = "pearson")
+dplyr::glimpse(association_measure(data = df,method = "pearson"))
 ```
 
 A functionality to calculate correlation among the variable pairs in a grouped setting has also been introduced in  `association_measure`. One can use `group_by` to specify a grouping variable and the correlation measure will be calculated for all the variable pairs at each level of the grouping variable. 
