@@ -34,6 +34,7 @@ bar_display <- function(lower_tri.measure, upper_tri.measure=NULL) {
       ggplot2::facet_grid(ggplot2::vars(var1), ggplot2::vars(var2)) +
       ggplot2::geom_bar(ggplot2::aes(x=1,y=measure,fill=group_by),stat = "identity",position = "dodge") +
       ggplot2::geom_hline(data=overall_cor,ggplot2::aes(yintercept=measure),linetype="dashed")  +
+      ggplot2::geom_hline(ggplot2::aes(yintercept=0), size=0.5) +
       ggplot2::scale_y_continuous(limits=c(-1,1)) +
       ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                      panel.background = ggplot2::element_rect(),
@@ -67,6 +68,7 @@ bar_display <- function(lower_tri.measure, upper_tri.measure=NULL) {
         ggplot2::facet_grid(ggplot2::vars(var1), ggplot2::vars(var2)) +
         ggplot2::geom_bar(ggplot2::aes(x=1,y=measure,fill=group_by),stat = "identity",position = "dodge") +
         ggplot2::geom_hline(data=overall_cor,ggplot2::aes(yintercept=measure),linetype="dashed")  +
+        ggplot2::geom_hline(ggplot2::aes(yintercept=0), size=0.5) +
         ggplot2::scale_y_continuous(limits=c(-1,1)) +
         ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                        panel.background = ggplot2::element_rect(),
