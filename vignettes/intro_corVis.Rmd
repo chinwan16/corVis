@@ -1,8 +1,8 @@
 ---
-title: "Introduction to corVis2"
+title: "Introduction to corVis"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{intro_corVis2}
+  %\VignetteIndexEntry{intro_corVis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -24,7 +24,7 @@ library(mlr3data)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE,fig.align = "center",fig.height = 10,fig.width = 10)
 ```
 
-corVis2 is an R package which calculates different correlation measures for a dataset and can help in visualising these correlations in different ways. These displays can help find interesting patterns in a dataset.
+corVis is an R package which calculates different correlation measures for a dataset and can help in visualising these correlations in different ways. These displays can help find interesting patterns in a dataset.
 
 ## Correlation
 
@@ -70,5 +70,22 @@ heatmap_measures_Viz(all_measures)
 ```{r}
 all_measures <- association_measures(df,group_by = "gender")
 heatmap_measures_Viz(all_measures,group_by="gender")
+```
+
+
+### Funnel plot with a designated response
+For the regression setting where we have a continuous response, we can also plot the correlations among the response variable and the continuous independent variables grouped by a grouping variable. This plot can help us in finding out the highly correlated variables with the response.
+
+```{r}
+df <- ilpd[,-11]
+pearson <- association_measure(data = df,group_by = "gender",method = "pearson")
+funnel_plot(pearson,response = "alkaline_phosphatase")
+
+```
+
+```{r}
+df <- ilpd[,-2]
+pearson <- association_measure(data = df,group_by = "diseased",method = "pearson")
+funnel_plot(pearson,response = "alkaline_phosphatase")
 ```
 
