@@ -89,3 +89,23 @@ pearson <- association_measure(data = df,group_by = "diseased",method = "pearson
 funnel_plot(pearson,response = "alkaline_phosphatase")
 ```
 
+
+### Heatmap for categorical variables
+```{r}
+df <- thyroid_disease
+df$patient_gender <- factor(df$patient_gender)
+df$sick <- factor(df$sick)
+df$psych_condition <- factor(df$psych_condition)
+df$thyroid_surgery <- factor(df$thyroid_surgery)
+df$ThryroidClass <- factor(df$ThryroidClass)
+
+factor_vars <- names(which(sapply(df,is.factor)))
+df_factors <- df[,factor_vars]
+
+library(correlationfunnel)
+library(corrplot)
+binarized_df_factors <- binarize(df_factors)
+corr_mat <- cor(binarized_df_factors)
+corrplot(corr_mat)
+```
+
