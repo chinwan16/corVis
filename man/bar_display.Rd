@@ -4,7 +4,7 @@
 \alias{bar_display}
 \title{Display a matrix layout plot for correlations between pairs of variables grouped by a grouping variable}
 \usage{
-bar_display(lower_tri.measure, upper_tri.measure = NULL)
+bar_display(lower_tri.measure, upper_tri.measure = NULL, order.by = "overall")
 }
 \arguments{
 \item{data}{dataframe}

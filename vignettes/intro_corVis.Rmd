@@ -50,8 +50,12 @@ distance <- association_measure(data = df,group_by = "gender",method = "distance
 The package also helps in plotting the calculated correlations in different displays. We have provided both matrix as well as linear layout for displaying these correlation measures. A user can pick either display to visualise correlations.
 
 ### Measures using bars
+
+The default seriation is by the overall correlation between pairs of variables. One could choose the maximum difference between the levels or overall as the measure for seriating the barplot. It would assist an analyst in locating interesting displays easily.
 ```{r}
 bar_display(distance)
+bar_display(distance,order.by = "max_diff")
+
 ```
 
 Different measures on upper and lower triangle
