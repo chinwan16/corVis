@@ -18,16 +18,15 @@ bar_display <- function(lower_tri.measure, upper_tri.measure=NULL,order.by="over
     m <- lower_tri.measure
     cor_df_overall <- dplyr::filter(m,group_by == "overall")
 
-    uni <- unique(unlist(cor_df_overall[,1:2]))
-    m1 <- matrix(0, nrow=length(uni), ncol=length(uni),dimnames=list(uni, uni))
-    m1[cbind(match(cor_df_overall$var1, rownames(m1)), match(cor_df_overall$var2, colnames(m1)))] <-
-      cor_df_overall$measure
-
+    vars_df <- unique(unlist(cor_df_overall[,1:2]))
+    m1 <- matrix(0, nrow=length(vars_df), ncol=length(vars_df),dimnames=list(vars_df, vars_df))
+    m1[upper.tri(m1)] <- cor_df_overall$measure
     cor_matrix <- m1 + t(m1)
+    diag(cor_matrix) <- 1
+
     cor_matrix_n <- 1-cor_matrix
-    diag(cor_matrix_n) <- 0
     d <- stats::dist(cor_matrix_n)
-    clust <- stats::hclust(d)
+    clust <- stats::hclust(d, method = "average")
     ordering <- rownames(cor_matrix)[clust$order]
 
   }else if(order.by=="max_diff"){
@@ -39,17 +38,14 @@ bar_display <- function(lower_tri.measure, upper_tri.measure=NULL,order.by="over
     df_max_diff <- dplyr::mutate(df_max_diff,max_diff=diff(range(measure)))
     df_max_diff_uni <- unique.data.frame(df_max_diff[,c("var1","var2","max_diff")])
 
-    uni <- unique(unlist(df_max_diff_uni[,1:2]))
-    m1 <- matrix(0, nrow=length(uni), ncol=length(uni),dimnames=list(uni, uni))
-    m1[cbind(match(df_max_diff_uni$var1, rownames(m1)), match(df_max_diff_uni$var2, colnames(m1)))] <-
-      df_max_diff_uni$max_diff
+    vars_df <- unique(unlist(df_max_diff_uni[,1:2]))
+    m1 <- matrix(0, nrow=length(vars_df), ncol=length(vars_df),dimnames=list(vars_df, vars_df))
+    m1[upper.tri(m1)] <- df_max_diff_uni$max_diff
+    max_diff_matrix <- m1 + t(m1)
 
-    cor_matrix <- m1+t(m1)
-    cor_matrix_n <- 1-cor_matrix
-    diag(cor_matrix_n) <- 0
-    d <- stats::dist(cor_matrix_n)
-    clust <- stats::hclust(d)
-    ordering <- rownames(cor_matrix)[clust$order]
+    d <- stats::dist(max_diff_matrix)
+    clust <- stats::hclust(d, method = "average")
+    ordering <- rownames(max_diff_matrix)[clust$order]
 
   }
 
