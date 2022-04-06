@@ -28,7 +28,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
     all_measure_longer <- tidyr::pivot_longer(all_measures_ordered,1:length(all_measures_ordered)-1,
                                               names_to = "measure",
                                               values_to = "value")
-    ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=var3)) +
+    ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=rev(var3))) +
       ggplot2::geom_tile(ggplot2::aes(fill=value)) +
       ggplot2::scale_fill_gradient(high = "#132B43",low = "#56B1F7")+
       ggplot2::theme(legend.position = "bottom")

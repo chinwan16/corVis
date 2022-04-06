@@ -34,15 +34,20 @@ Correlation is a measure of association between two random variables. There are 
 In this package we provide a range of correlation measures which can capture linear and non-linear associations between two variables. The available correlation measures include - *pearson*, *spearman*, *kendall*, *distance*, *maximal information coefficient (mic)*. A user can use `association_measure` to calculate one of these correlation measure between all the possible variable pairs in the dataset. 
 
 ```{r}
-df <- ilpd[,-c(2,11)]
-dplyr::glimpse(association_measure(data = df,method = "pearson"))
+df <- as.data.frame(csgo)
+glimpse(df)
+
+numeric_vars <- names(df[sapply(df,is.numeric)])
+int_numeric_vars <- numeric_vars[4:length(numeric_vars)]
+
+dplyr::glimpse(association_measure(data = df[int_numeric_vars],method = "pearson"))
 ```
 
 A functionality to calculate correlation among the variable pairs in a grouped setting has also been introduced in  `association_measure`. One can use `group_by` to specify a grouping variable and the correlation measure will be calculated for all the variable pairs at each level of the grouping variable. 
 
 ```{r}
-df <- ilpd[,-11]
-distance <- association_measure(data = df,group_by = "gender",method = "distance")
+df <- df[c(int_numeric_vars,"result")]
+distance <- association_measure(data = df,group_by = "result",method = "distance")
 ```
 
 ## Correlation displays
@@ -60,57 +65,33 @@ bar_display(distance,order.by = "max_diff")
 
 Different measures on upper and lower triangle
 ```{r}
-pearson <- association_measure(data = df,group_by = "gender",method = "pearson")
+pearson <- association_measure(data = df,group_by = "result",method = "pearson")
 bar_display(pearson,distance)
 ```
 
+One can use a different grouping variable to find out the interesting pairs of variables.
+
+```{r}
+df <- as.data.frame(csgo)
+df <- df[c(int_numeric_vars,"map")]
+
+pearson <- association_measure(data = df,group_by = "map",method = "pearson")
+bar_display(pearson,order.by = "overall")
+```
+
+
 ### Measures using heatmap
 ```{r}
-all_measures <- association_measures(df[,-2])
+all_measures <- association_measures(df[int_numeric_vars])
 heatmap_measures_Viz(all_measures)
 ```
 
 
 ### Heatmap with measures faceted by grouping variable
 ```{r}
-all_measures <- association_measures(df,group_by = "gender")
-heatmap_measures_Viz(all_measures,group_by="gender")
+all_measures <- association_measures(df,group_by = "map")
+heatmap_measures_Viz(all_measures,group_by="map")
 ```
 
 
-### Funnel plot with a designated response
-For the regression setting where we have a continuous response, we can also plot the correlations among the response variable and the continuous independent variables grouped by a grouping variable. This plot can help us in finding out the highly correlated variables with the response.
-
-```{r}
-df <- ilpd[,-11]
-pearson <- association_measure(data = df,group_by = "gender",method = "pearson")
-funnel_plot(pearson,response = "alkaline_phosphatase")
-
-```
-
-```{r}
-df <- ilpd[,-2]
-pearson <- association_measure(data = df,group_by = "diseased",method = "pearson")
-funnel_plot(pearson,response = "alkaline_phosphatase")
-```
-
-
-### Heatmap for categorical variables
-```{r}
-df <- thyroid_disease
-df$patient_gender <- factor(df$patient_gender)
-df$sick <- factor(df$sick)
-df$psych_condition <- factor(df$psych_condition)
-df$thyroid_surgery <- factor(df$thyroid_surgery)
-df$ThryroidClass <- factor(df$ThryroidClass)
-
-factor_vars <- names(which(sapply(df,is.factor)))
-df_factors <- df[,factor_vars]
-
-library(correlationfunnel)
-library(corrplot)
-binarized_df_factors <- binarize(df_factors)
-corr_mat <- cor(binarized_df_factors)
-corrplot(corr_mat)
-```
 
