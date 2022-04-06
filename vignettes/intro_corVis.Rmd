@@ -35,7 +35,7 @@ In this package we provide a range of correlation measures which can capture lin
 
 ```{r}
 df <- as.data.frame(csgo)
-glimpse(df)
+dplyr::glimpse(df)
 
 numeric_vars <- names(df[sapply(df,is.numeric)])
 int_numeric_vars <- numeric_vars[4:length(numeric_vars)]
@@ -81,6 +81,8 @@ bar_display(pearson,order.by = "overall")
 
 
 ### Measures using heatmap
+
+Heatmap display has been seriated by the maximum difference between the measures. Therefore, variable pairs with highest difference will be displayed on the top and the pairs with lowest difference at the bottom. This will help an analyst to quickly spot the variable pairs with highest difference, and can investigate the reasons behind this difference.
 ```{r}
 all_measures <- association_measures(df[int_numeric_vars])
 heatmap_measures_Viz(all_measures)
@@ -89,8 +91,9 @@ heatmap_measures_Viz(all_measures)
 
 ### Heatmap with measures faceted by grouping variable
 ```{r}
-all_measures <- association_measures(df,group_by = "map")
-heatmap_measures_Viz(all_measures,group_by="map")
+df <- as.data.frame(csgo)
+all_measures <- association_measures(df[c(int_numeric_vars,"result")],group_by = "result")
+heatmap_measures_Viz(all_measures,group_by="result")
 ```
 
 
