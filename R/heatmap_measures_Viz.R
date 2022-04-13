@@ -31,7 +31,11 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
     ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=var3)) +
       ggplot2::geom_tile(ggplot2::aes(fill=value)) +
       ggplot2::scale_fill_gradient(high = "#08306B",low = "#F7FBFF")+
-      ggplot2::theme(legend.position = "bottom")
+      ggplot2::theme(legend.position = "top") +
+      ggplot2::scale_x_discrete(position = "top") +
+      ggplot2::labs(y="") +
+      ggplot2::scale_y_discrete(limits=rev) +
+      ggplot2::theme_minimal()
 
   }else{
     all_measures <- association_measures
@@ -46,7 +50,11 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
       ggplot2::geom_tile(ggplot2::aes(fill=value)) +
       ggplot2::scale_fill_gradient(high = "#08306B",low = "#F7FBFF") +
       ggplot2::facet_wrap(~group_by) +
-      ggplot2::theme(legend.position = "bottom")
+      ggplot2::theme(legend.position = "top") +
+      ggplot2::scale_x_discrete(position = "top") +
+      ggplot2::labs(y="") +
+      ggplot2::scale_y_discrete(limits=rev) +
+      ggplot2::theme_minimal()
   }
 
 }
