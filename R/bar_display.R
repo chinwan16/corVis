@@ -70,18 +70,27 @@ bar_display <- function(lower_tri.measure, upper_tri.measure=NULL,order.by="over
     overall_cor$var1 <- factor(overall_cor$var1,levels=ordering)
     overall_cor$var2 <- factor(overall_cor$var2,levels=ordering)
 
+    diag_label_df <- data.frame(var1=overall_cor$var1, var2=overall_cor$var1, text= overall_cor$var1)
+
     ggplot2::ggplot(cor_df) +
       ggplot2::facet_grid(ggplot2::vars(var1), ggplot2::vars(var2)) +
       ggplot2::geom_bar(ggplot2::aes(x=1,y=measure,fill=group_by),stat = "identity",position = "dodge") +
       ggplot2::geom_hline(data=overall_cor,ggplot2::aes(yintercept=measure),linetype="dashed")  +
       ggplot2::geom_hline(ggplot2::aes(yintercept=0), size=0.5) +
-      ggplot2::scale_y_continuous(limits=c(-1,1)) +
+      #ggplot2::scale_y_continuous(limits=c(-1,1)) +
+      ggplot2::geom_text(data=diag_label_df,ggplot2::aes(x=1,y=0,label=text),size=2.8) +
       ggplot2::theme(axis.text.x = ggplot2::element_blank(),
+                     axis.text = ggplot2::element_text(size = 7),
                      panel.background = ggplot2::element_rect(),
                      panel.grid.major = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank(),
                      axis.ticks.x = ggplot2::element_blank(),
-                     legend.position = "bottom")
+                     legend.position = "bottom",
+                     axis.title.x = ggplot2::element_blank(),
+                     strip.background = ggplot2::element_blank(),
+                     strip.text.y = ggplot2::element_blank(),
+                     strip.text.x = ggplot2::element_blank(),
+                     axis.title.y = ggplot2::element_blank())
     }else{
 
       names(lower_tri.measure)[3] <- "measure"
