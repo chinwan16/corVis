@@ -21,7 +21,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
     all_measures$max_diff <- apply(all_measures[,-c(1,2)],1,function(x) max_difference(x))
     all_measures_ordered <- dplyr::arrange(all_measures,dplyr::desc(max_diff))
 
-    all_measures_ordered$var3 <- paste0(all_measures_ordered$var1,"Vs",all_measures_ordered$var2)
+    all_measures_ordered$var3 <- paste0(all_measures_ordered$var1," : ",all_measures_ordered$var2)
     all_measures_ordered$var3 <- forcats::fct_inorder(all_measures_ordered$var3)
     all_measures_ordered <- all_measures_ordered[,-c(1,2,(length(all_measures_ordered)-1))]
 
@@ -30,7 +30,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
                                               values_to = "value")
     ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=var3)) +
       ggplot2::geom_tile(ggplot2::aes(fill=value)) +
-      ggplot2::scale_fill_gradient(high = "#08306B",low = "#F7FBFF")+
+      viridis::scale_fill_viridis()+
       ggplot2::theme(legend.position = "top") +
       ggplot2::scale_x_discrete(position = "top") +
       ggplot2::labs(y="") +
@@ -39,7 +39,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
 
   }else{
     all_measures <- association_measures
-    all_measures$var3 <- paste0(all_measures$var1,"Vs",all_measures$var2)
+    all_measures$var3 <- paste0(all_measures_ordered$var1," : ",all_measures_ordered$var2)
     all_measures <- all_measures[,-c(1,2)]
     keep <- c("var3","group_by")
 
