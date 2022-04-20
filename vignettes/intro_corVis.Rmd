@@ -34,20 +34,25 @@ Correlation is a measure of association between two random variables. There are 
 In this package we provide a range of correlation measures which can capture linear and non-linear associations between two variables. The available correlation measures include - *pearson*, *spearman*, *kendall*, *distance*, *maximal information coefficient (mic)*. A user can use `association_measure` to calculate one of these correlation measure between all the possible variable pairs in the dataset. 
 
 ```{r}
-df <- as.data.frame(csgo)
-dplyr::glimpse(df)
+library(readr)
+breast_cancer_coimbra <- read_csv("../data/breast_cancer_coimbra.csv")
+
+dplyr::glimpse(breast_cancer_coimbra)
+
+df <- breast_cancer_coimbra
+df$Classification <- ifelse(df$Classification=="1","control","patients")
 
 numeric_vars <- names(df[sapply(df,is.numeric)])
-int_numeric_vars <- numeric_vars[4:length(numeric_vars)]
 
-dplyr::glimpse(association_measure(data = df[int_numeric_vars],method = "pearson"))
+dplyr::glimpse(association_measure(data = df[numeric_vars],method = "pearson"))
+
+df <- as.data.frame(df)
 ```
 
 A functionality to calculate correlation among the variable pairs in a grouped setting has also been introduced in  `association_measure`. One can use `group_by` to specify a grouping variable and the correlation measure will be calculated for all the variable pairs at each level of the grouping variable. 
 
 ```{r}
-df <- df[c(int_numeric_vars,"result")]
-distance <- association_measure(data = df,group_by = "result",method = "distance")
+distance <- association_measure(data = df,group_by = "Classification",method = "distance")
 ```
 
 ## Correlation displays
@@ -65,18 +70,8 @@ bar_display(distance,order.by = "max_diff")
 
 Different measures on upper and lower triangle
 ```{r}
-pearson <- association_measure(data = df,group_by = "result",method = "pearson")
+pearson <- association_measure(data = df,group_by = "Classification",method = "pearson")
 bar_display(pearson,distance)
-```
-
-One can use a different grouping variable to find out the interesting pairs of variables.
-
-```{r}
-df <- as.data.frame(csgo)
-df <- df[c(int_numeric_vars,"map")]
-
-pearson <- association_measure(data = df,group_by = "map",method = "pearson")
-bar_display(pearson,order.by = "overall")
 ```
 
 
@@ -84,16 +79,32 @@ bar_display(pearson,order.by = "overall")
 
 Heatmap display has been seriated by the maximum difference between the measures. Therefore, variable pairs with highest difference will be displayed on the top and the pairs with lowest difference at the bottom. This will help an analyst to quickly spot the variable pairs with highest difference, and can investigate the reasons behind this difference.
 ```{r}
-all_measures <- association_measures(df[int_numeric_vars])
+all_measures <- association_measures(df[numeric_vars])
 heatmap_measures_Viz(all_measures)
 ```
 
 
 ### Heatmap with measures faceted by grouping variable
 ```{r}
-df <- as.data.frame(csgo)
-all_measures <- association_measures(df[c(int_numeric_vars,"result")],group_by = "result")
-heatmap_measures_Viz(all_measures,group_by="result")
+
+all_measures <- association_measures(df,group_by = "Classification")
+heatmap_measures_Viz(all_measures,group_by="Classification")
+```
+
+
+### Funnel plot for all the pairs
+
+```{r}
+pearson_measure <- association_measure(df, group_by = "Classification", method = "pearson")
+
+funnel_plot(pearson_measure)
+```
+
+
+### Funnel plot for a designated response and predictors
+
+```{r}
+funnel_plot(pearson_measure,response = "Resistin")
 ```
 
 

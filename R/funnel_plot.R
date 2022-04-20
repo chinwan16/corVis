@@ -26,7 +26,7 @@ funnel_plot <- function(measure_df,response=NULL){
       ggplot2::coord_flip() +
       ggplot2::scale_x_discrete(limits=rev) +
       ggplot2::theme(legend.position = "bottom",
-                     axis.title.y  = element_blank())
+                     axis.title.y  = ggplot2::element_blank())
   } else{
 
     m <- measure_df
