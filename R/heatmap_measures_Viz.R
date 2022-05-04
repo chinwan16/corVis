@@ -21,7 +21,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
     all_measures$max_diff <- apply(all_measures[,-c(1,2)],1,function(x) max_difference(x))
     all_measures_ordered <- dplyr::arrange(all_measures,dplyr::desc(max_diff))
 
-    all_measures_ordered$var3 <- paste0(all_measures_ordered$var1," : ",all_measures_ordered$var2)
+    all_measures_ordered$var3 <- paste0(all_measures_ordered$var1,":",all_measures_ordered$var2)
     all_measures_ordered$var3 <- forcats::fct_inorder(all_measures_ordered$var3)
     all_measures_ordered <- all_measures_ordered[,-c(1,2,(length(all_measures_ordered)-1))]
 
@@ -30,16 +30,18 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
                                               values_to = "value")
     ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=var3)) +
       ggplot2::geom_tile(ggplot2::aes(fill=value)) +
-      viridis::scale_fill_viridis()+
+      viridis::scale_fill_viridis(direction = -1)+
       ggplot2::scale_x_discrete(position = "top") +
       ggplot2::labs(y="") +
+      ggplot2::labs(x="") +
       ggplot2::scale_y_discrete(limits=rev) +
       ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "top")
+      ggplot2::theme(legend.position = "top",
+                     axis.text.x = element_text(angle = 45, hjust = 0, vjust = 0))
 
   }else{
     all_measures <- association_measures
-    all_measures$var3 <- paste0(all_measures$var1," : ",all_measures$var2)
+    all_measures$var3 <- paste0(all_measures$var1,":",all_measures$var2)
     all_measures <- all_measures[,-c(1,2)]
     keep <- c("var3","group_by")
 
@@ -48,13 +50,15 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
     all_measure_longer$value <- abs(all_measure_longer$value)
     ggplot2::ggplot(data=all_measure_longer,ggplot2::aes(x=measure,y=var3)) +
       ggplot2::geom_tile(ggplot2::aes(fill=value)) +
-      viridis::scale_fill_viridis() +
+      viridis::scale_fill_viridis(direction = -1) +
       ggplot2::facet_wrap(~group_by) +
       ggplot2::scale_x_discrete(position = "top") +
       ggplot2::labs(y="") +
+      ggplot2::labs(x="") +
       ggplot2::scale_y_discrete(limits=rev) +
       ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "top")
+      ggplot2::theme(legend.position = "top",
+                     axis.text.x = element_text(angle = 45, hjust = 0, vjust = 0))
   }
 
 }

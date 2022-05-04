@@ -16,7 +16,7 @@ funnel_plot <- function(measure_df,response=NULL){
 
   if(is.null(response)){
     names(measure_df)[3] <- "measure"
-    measure_df$var3 <- paste0(measure_df$var1, sep=" : ", measure_df$var2)
+    measure_df$var3 <- paste0(measure_df$var1, sep=":", measure_df$var2)
     measure_df <- dplyr::arrange(measure_df,desc(abs(measure)))
     measure_df$var3 <- forcats::fct_inorder(measure_df$var3)
 
