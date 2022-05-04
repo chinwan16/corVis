@@ -37,7 +37,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
       ggplot2::scale_y_discrete(limits=rev) +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "top",
-                     axis.text.x = element_text(angle = 45, hjust = 0, vjust = 0))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0))
 
   }else{
     all_measures <- association_measures
@@ -58,7 +58,7 @@ heatmap_measures_Viz <- function(association_measures,group_by=NULL) {
       ggplot2::scale_y_discrete(limits=rev) +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "top",
-                     axis.text.x = element_text(angle = 45, hjust = 0, vjust = 0))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0))
   }
 
 }

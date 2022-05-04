@@ -14,7 +14,7 @@
 #' association_measures(data=iris, group_by="Species)
 association_measures <- function(data=data,
                                  group_by=NULL,
-                                 measures=c("pearson","spearman","kendall","distance","mic")){
+                                 measures=c("pearson","spearman","kendall","distance","mic","nmi")){
   Measures <- list()
   for (i in 1:length(measures)){
     Measures[[i]] <- association_measure(data=data,group_by=group_by,method = measures[i])
