@@ -85,7 +85,7 @@ heatmap_measures_Viz(all_measures)
 
 
 ### Heatmap with measures faceted by grouping variable
-```{r}
+```{r,eval=FALSE}
 
 all_measures <- association_measures(df,group_by = "Classification")
 heatmap_measures_Viz(all_measures,group_by="Classification")
