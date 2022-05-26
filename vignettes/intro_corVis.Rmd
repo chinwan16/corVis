@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(corVis)
 library(mlr3data)
 library(MLDataR)
+library(dplyr)
 ```
 
 
@@ -31,7 +32,7 @@ corVis is an R package which calculates different correlation measures for a dat
 
 Correlation is a measure of association between two random variables. There are different methods which have been proposed to calculate the strength (or direction) of association. For example, pearson's correlation coefficient calculates the strength and direction of the linear association present between two variables and it is in the range $[-1,1]$. A correlation measure can be considered a good measure if it is symmetric. Correlation measures serve as important tools during the Exploratory Data Analysis (EDA) process. These measures can be used for screening variables which are highly correlated in a high-dimensional dataset prior to modeling.
 
-In this package we provide a range of correlation measures which can capture linear and non-linear associations between two variables. The available correlation measures include - *pearson*, *spearman*, *kendall*, *distance*, *maximal information coefficient (mic)*. A user can use `association_measure` to calculate one of these correlation measure between all the possible variable pairs in the dataset. 
+In this package we provide a range of correlation measures which can capture linear and non-linear associations between two variables. The available correlation measures include - *pearson*, *spearman*, *kendall*, *distance*, *maximal information coefficient (mic)*.A user can use `calc_assoc` to calculate one of these correlation measure between the variable pairs in the dataset.
 
 ```{r}
 library(readr)
@@ -44,68 +45,64 @@ df$Classification <- ifelse(df$Classification=="1","control","patients")
 
 numeric_vars <- names(df[sapply(df,is.numeric)])
 
-dplyr::glimpse(association_measure(data = df[numeric_vars],method = "pearson"))
-
-df <- as.data.frame(df)
+dplyr::glimpse(calc_assoc(df))
 ```
 
-A functionality to calculate correlation among the variable pairs in a grouped setting has also been introduced in  `association_measure`. One can use `group_by` to specify a grouping variable and the correlation measure will be calculated for all the variable pairs at each level of the grouping variable. 
+A functionality to calculate correlation among the variable pairs in a grouped setting has been introduced in  `calc_assoc_by`. One can use `by` to specify a grouping variable and the association measure will be calculated for all the variable pairs at each level of the grouping variable. 
 
 ```{r}
-distance <- association_measure(data = df,group_by = "Classification",method = "distance")
+assoc_by <- calc_assoc_by(d = df,by = "Classification",types = default_assoc())
+glimpse(assoc_by)
 ```
 
-## Correlation displays
+## Visualisating Association
 
-The package also helps in plotting the calculated correlations in different displays. We have provided both matrix as well as linear layout for displaying these correlation measures. A user can pick either display to visualise correlations.
+The package also helps in plotting the calculated measures of association in different displays. We have provided both matrix as well as linear layout for displaying these measures. A user can pick either display to visualise the associations.
 
-### Measures using bars
+### Traditional heatmap
+
+```{r}
+assoc <- calc_assoc(df, types = default_assoc())
+association_heatmap(assoc)
+association_heatmap(calc_assoc(ilpd))
+```
+
+
+## Visualising Conditional Association
+
+### Matrix-Layout Visualisation
 
 The default seriation is by the overall correlation between pairs of variables. One could choose the maximum difference between the levels or overall as the measure for seriating the barplot. It would assist an analyst in locating interesting displays easily.
 ```{r}
-bar_display(distance)
-bar_display(distance,order.by = "max_diff")
+b <- calc_assoc_by(df, by="Classification")
+pairwise_summary_plot(b)
 
 ```
 
-Different measures on upper and lower triangle
+Different measures of association on same plot
 ```{r}
-pearson <- association_measure(data = df,group_by = "Classification",method = "pearson")
-bar_display(pearson,distance)
+
+spearman_assoc <- default_assoc()
+spearman_assoc$argList[[1]] <- list(method="spearman")
+pearson <- calc_assoc(iris[,1:4])
+spearman <- calc_assoc(iris[,1:4], types=spearman_assoc)
+pairwise_summary_plot(a <- rbind(pearson,spearman), group_var = "measure_type")
 ```
 
 
-### Measures using heatmap
+### Linear-layout Visualisation
 
-Heatmap display has been seriated by the maximum difference between the measures. Therefore, variable pairs with highest difference will be displayed on the top and the pairs with lowest difference at the bottom. This will help an analyst to quickly spot the variable pairs with highest difference, and can investigate the reasons behind this difference.
-```{r}
-all_measures <- association_measures(df[numeric_vars])
-heatmap_measures_Viz(all_measures)
-```
-
-
-### Heatmap with measures faceted by grouping variable
-```{r,eval=FALSE}
-
-all_measures <- association_measures(df,group_by = "Classification")
-heatmap_measures_Viz(all_measures,group_by="Classification")
-```
-
+Linear layouts are more space-efficient than matrix layouts, but lookup is more challenging. Variable pairs can be ordered by relevance (usually difference in measures of association or across the factor levels), and less relevant pairs can be omitted. Linear displays are also suitable to display associations between the response and predictors only.
 
 ### Funnel plot for all the pairs
 
 ```{r}
-pearson_measure <- association_measure(df, group_by = "Classification", method = "pearson")
+b <- calc_assoc_by(df, by="Classification")
 
-funnel_plot(pearson_measure)
+pairwise_linear_plot(b)
 ```
 
 
-### Funnel plot for a designated response and predictors
-
-```{r}
-funnel_plot(pearson_measure,response = "Resistin")
-```
 
 
 
