@@ -32,7 +32,7 @@ calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,includ
   if (include.overall){
     overall <- d %>%
       select(-all_of(by)) %>%
-      calc_assoc(types=types,handle.na=handle.na,...) %>%
+      calc_assoc(types=types,handle.na=handle.na) %>%
       mutate(by = "overall")
     result <- rbind(result, overall)
   }
