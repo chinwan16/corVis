@@ -23,6 +23,8 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
              DescTools::KendallW)
   fn <- fns[[method]]
-  a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
+  if (method =="W")
+    a$measure <- mapply(function(x,y) fn(d[c(x,y)], correct=TRUE,...), a$x,a$y)
+  else a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
