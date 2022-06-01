@@ -49,7 +49,8 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
     ggplot2::facet_grid(vars(x), vars(y)) +
     ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=text))+
     #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
-    viridis::scale_fill_viridis(direction = -1,na.value=NA,limits=limits) +
+    #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +
+    ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
                    axis.text = ggplot2::element_text(size = 7),
