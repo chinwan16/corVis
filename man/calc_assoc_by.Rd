@@ -35,5 +35,5 @@ Calculates a measure of association for every variable pair at different levels 
 variable in a dataset.
 }
 \examples{
-cal_assoc_by(iris,by="Species")
+calc_assoc_by(iris,by="Species")
 }

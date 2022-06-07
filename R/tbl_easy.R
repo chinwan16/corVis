@@ -10,6 +10,7 @@
 #'               "hoeffding" (for Hoeffding's D), "gamma", "gaussian" (for Gaussian Rank correlation) or
 #'               "shepherd" (for Shepherd's Pi correlation). Setting "auto" will select the most most relevant
 #'               method depending on the variable types in the dataset.
+#' @param handle.na NA handling not available
 #' @param ... in progress
 #'
 #' @return tibble
@@ -28,6 +29,6 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
   ez <- correlation::correlation(d, method=method)[,1:3]
   class(ez) <- "data.frame"
   names(ez) <- c("y","x","measure")
-  a<-rows_patch(a,ez,  by = c("x","y"))
+  a<-dplyr::rows_patch(a,ez,  by = c("x","y"))
   a
 }

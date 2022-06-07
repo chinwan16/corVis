@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples
-#' cal_assoc(iris)
+#' calc_assoc(iris)
 
 
 calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
@@ -30,8 +30,8 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
     else "other")
 
   lookup <- function(xtype,ytype){
-    entry <-filter(types, typeX==xtype, typeY==ytype)
-    if (nrow(entry)==0) entry <-filter(types, typeX=="other", typeY=="other")
+    entry <-dplyr::filter(types, typeX==xtype, typeY==ytype)
+    if (nrow(entry)==0) entry <-dplyr::filter(types, typeX=="other", typeY=="other")
     list(funName = get(entry$funName[1]), argList = entry$argList[[1]])
   }
   utypes <- unique(vartypes)
@@ -51,7 +51,7 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
       m <- sym_assoc(m)
       w <- match(paste(m$x,m$y), paste( pcor$x, pcor$y))
       m <- m[!is.na(w),]
-      pcor <- rows_patch(pcor, m, by = c("x","y"))
+      pcor <- dplyr::rows_patch(pcor, m, by = c("x","y"))
     }
   }
 

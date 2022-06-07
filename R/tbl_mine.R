@@ -5,7 +5,7 @@
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param method character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 #'               "mcn", or "mic-r2"
-#' @param handle.NA If TRUE uses pairwise complete observations to calculate correlation coefficient
+#' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... in progress
 #'
 #' @return tibble

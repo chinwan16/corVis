@@ -9,14 +9,14 @@
 #' default_assoc()
 #' spearman_assoc <- default_assoc()
 #' spearman_assoc$argList[[1]] <- list(method="spearman")
-#' spearman_assoc()
+#' spearman_assoc
 
 
 default_assoc <- function(){
-  tribble(
+  dplyr::tribble(
     ~funName, ~typeX, ~typeY, ~argList,
     "tbl_cor", "numeric", "numeric", NULL,
     "tbl_tau", "ordered", "ordered", NULL,
-    "tbl_cancor",  "factor", "numeric", NULL,
-    "tbl_cancor", "other", "other",NULL)
+    "tbl_nmi",  "factor", "numeric", NULL,
+    "tbl_nmi", "other", "other",NULL)
 }

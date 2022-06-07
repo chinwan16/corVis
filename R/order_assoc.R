@@ -16,20 +16,20 @@
 #'
 #' @examples
 #' order_assoc(calc_assoc(iris))
-#' order_assoc(calc_assoc_by(iris,"Species))
-#' order_assoc(calc_assoc_by(iris,"Species),method="max_diff")
+#' order_assoc(calc_assoc_by(iris,"Species"))
+#' order_assoc(calc_assoc_by(iris,"Species"),method="max_diff")
 
 
 order_assoc <- function(assoc, method = "default", group_var = NULL){
   if (method == "max_diff"){
     if (isTRUE(group_var %in% names(assoc))){
-      assoc <- filter(assoc, group_var != "overall")
+      assoc <- dplyr::filter(assoc, group_var != "overall")
     }
     assoc <- assoc %>%
-      group_by(x,y) %>%
-      summarize(measure = max(measure, na.rm=TRUE) - min(measure, na.rm=TRUE),.groups = 'drop')
+      dplyr::group_by(x,y) %>%
+      dplyr::summarize(measure = max(measure, na.rm=TRUE) - min(measure, na.rm=TRUE),.groups = 'drop')
   } else if (isTRUE("by" %in% names(assoc))){
-    assoc <- filter(assoc, by == "overall")
+    assoc <- dplyr::filter(assoc, by == "overall")
   }
   m <- matrix_assoc(assoc)
   h <- stats::hclust(stats::as.dist(-m), method = "average")

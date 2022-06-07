@@ -46,8 +46,8 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
   assoc$x <- factor(assoc$x, levels=var_order)
   assoc$y <- factor(assoc$y, levels=var_order)
   if ("by" %in% names(assoc)){
-    overall <- filter(assoc, by =="overall")
-    assoc <- filter(assoc, by != "overall")
+    overall <- dplyr::filter(assoc, by =="overall")
+    assoc <- dplyr::filter(assoc, by != "overall")
   }
   else overall <- NULL
 
@@ -62,7 +62,7 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
 
 
   p <- ggplot2::ggplot(assoc) +
-    ggplot2::facet_grid(vars(x), vars(y)) +
+    ggplot2::facet_grid(ggplot2::vars(x), ggplot2::vars(y)) +
     ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=text))+
     ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +

@@ -16,5 +16,5 @@ Creates a tibble for different measures of association for different variable ty
 default_assoc()
 spearman_assoc <- default_assoc()
 spearman_assoc$argList[[1]] <- list(method="spearman")
-spearman_assoc()
+spearman_assoc
 }

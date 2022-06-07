@@ -14,6 +14,7 @@
 #' tbl_tau(iris)
 #' tbl_tau(iris, method="A")
 #' tbl_tau(iris, method="C")
+#' tbl_tau(iris, method="W")
 
 
 tbl_tau <- function(d,method=c("B","A","C","W"),...){

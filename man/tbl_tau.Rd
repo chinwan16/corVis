@@ -24,4 +24,5 @@ Calculates one of either Kendall's tau A, B, C or Kendall's W for every ordinal 
 tbl_tau(iris)
 tbl_tau(iris, method="A")
 tbl_tau(iris, method="C")
+tbl_tau(iris, method="W")
 }

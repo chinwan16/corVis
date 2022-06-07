@@ -5,7 +5,7 @@
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param method a character string for the correlation coefficient to be calculated. Either "pearson" (default),
 #'               "spearman", or "kendall"
-#' @param handle.NA If TRUE uses pairwise complete observations to calculate correlation coefficient
+#' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... in progress
 #'
 #' @return tibble

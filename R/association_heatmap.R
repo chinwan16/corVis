@@ -46,7 +46,7 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
   assoc <- rbind(assoc, diag_df)
 
   p <- ggplot2::ggplot(assoc) +
-    ggplot2::facet_grid(vars(x), vars(y)) +
+    ggplot2::facet_grid(ggplot2::vars(x), ggplot2::vars(y)) +
     ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=text))+
     #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
     #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +

@@ -3,7 +3,7 @@
 #' Calculates distance correlation for every numeric variable pair in a dataset.
 #'
 #' @param d dataframe A dataset for exploring association among the variables.
-#' @param handle.NA If TRUE uses pairwise complete observations to calculate correlation coefficient
+#' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... in progress
 #'
 #' @return tibble

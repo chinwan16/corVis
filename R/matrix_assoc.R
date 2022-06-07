@@ -14,7 +14,7 @@
 
 matrix_assoc <- function(assoc){
   if ("by" %in% names(assoc))
-    assoc<- filter(assoc, by =="overall")
+    assoc<- dplyr::filter(assoc, by =="overall")
   assoc_vars <- unique(c(assoc$y, assoc$x))
   m <- matrix(0, nrow=length(assoc_vars), ncol=length(assoc_vars))
   rownames(m)<- colnames(m)<- assoc_vars

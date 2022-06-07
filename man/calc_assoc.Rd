@@ -23,5 +23,5 @@ tibble
 Calculates a measure of association for every variable pair in a dataset.
 }
 \examples{
-cal_assoc(iris)
+calc_assoc(iris)
 }

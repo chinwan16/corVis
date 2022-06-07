@@ -9,9 +9,9 @@ tbl_uncertainty(d, handle.na = TRUE, ...)
 \arguments{
 \item{d}{dataframe A dataset for exploring association among the variables.}
 
-\item{...}{in progress}
+\item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
-\item{handle.NA}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
+\item{...}{in progress}
 }
 \value{
 tibble

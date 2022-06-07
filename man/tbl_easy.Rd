@@ -16,6 +16,8 @@ tbl_easy(d, method = "pearson", handle.na = TRUE, ...)
 "shepherd" (for Shepherd's Pi correlation). Setting "auto" will select the most most relevant
 method depending on the variable types in the dataset.}
 
+\item{handle.na}{NA handling not available}
+
 \item{...}{in progress}
 }
 \value{

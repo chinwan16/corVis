@@ -15,25 +15,26 @@
 #'                        includes it in the result.
 #'
 #' @return tibble
+#' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
-#' cal_assoc_by(iris,by="Species")
+#' calc_assoc_by(iris,by="Species")
 
 
 calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,include.overall=TRUE){
   if (!(by %in% names(d))) stop("by variable not present in data")
   result <- d %>%
-    rename(by=by) %>%
-    group_by(by) %>%
-    group_modify(function(x,y) calc_assoc(x, types=types,handle.na=handle.na)) %>%
-    ungroup() %>%
-    relocate(by, .after=measure_type)
+    dplyr::rename(by=by) %>%
+    dplyr::group_by(by) %>%
+    dplyr::group_modify(function(x,y) calc_assoc(x, types=types,handle.na=handle.na)) %>%
+    dplyr::ungroup() %>%
+    dplyr::relocate(by, .after=measure_type)
   if (include.overall){
     overall <- d %>%
-      select(-all_of(by)) %>%
+      dplyr::select(-dplyr::all_of(by)) %>%
       calc_assoc(types=types,handle.na=handle.na) %>%
-      mutate(by = "overall")
+      dplyr::mutate(by = "overall")
     result <- rbind(result, overall)
   }
   class(result)<-append("pairwise", class(result))

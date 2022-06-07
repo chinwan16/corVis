@@ -12,9 +12,9 @@ tbl_cor(d, method = "pearson", handle.na = TRUE, ...)
 \item{method}{a character string for the correlation coefficient to be calculated. Either "pearson" (default),
 "spearman", or "kendall"}
 
-\item{...}{in progress}
+\item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
-\item{handle.NA}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
+\item{...}{in progress}
 }
 \value{
 tibble

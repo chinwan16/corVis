@@ -12,9 +12,9 @@ tbl_mine(d, method = "mic", handle.na = TRUE, ...)
 \item{method}{character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 "mcn", or "mic-r2"}
 
-\item{...}{in progress}
+\item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
-\item{handle.NA}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
+\item{...}{in progress}
 }
 \value{
 tibble
