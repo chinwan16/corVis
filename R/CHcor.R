@@ -106,14 +106,16 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
   a
 }
 
-tbl_tau <- function(d,handle.na=TRUE,method=c("B","A","C","W"),...){
+tbl_tau <- function(d,method=c("B","A","C","W"),...){
   # automatically does pairwise omit, Kendall
   method <- method[1]
   a <- assoc_tibble(d, measure_type=paste0("tau", method))
   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
              DescTools::KendallW)
   fn <- fns[[method]]
-  a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
+  if (method =="W")
+    a$measure <- mapply(function(x,y) fn(d[c(x,y)], correct=TRUE,...), a$x,a$y)
+  else a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
 
@@ -249,7 +251,7 @@ calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,includ
   if (include.overall){
     overall <- d |>
       select(-all_of(by)) |>
-      calc_assoc(types=types,handle.na=handle.na,...) |>
+      calc_assoc(types=types,handle.na=handle.na) |>
       mutate(by = "overall")
     result <- rbind(result, overall)
   }
