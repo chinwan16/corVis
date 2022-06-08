@@ -133,7 +133,7 @@ default_assoc <- function(){
     ~funName, ~typeX, ~typeY, ~argList,
     "tbl_cor", "numeric", "numeric", NULL,
     "tbl_tau", "ordered", "ordered", NULL,
-    "tbl_nmi",  "factor", "numeric", NULL,
-    "tbl_nmi", "other", "other",NULL)
+    "tbl_cancor",  "factor", "numeric", NULL,
+    "tbl_cancor", "other", "other",NULL)
 }
 

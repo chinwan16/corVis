@@ -7,8 +7,10 @@ output:
      toc: true
 vignette: >
   %\VignetteIndexEntry{Introduction to corVis}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -20,9 +22,12 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 
 ```{r}
 library(corVis)
-library(mlr3data)
-library(MLDataR)
+library(NHANES)
 library(dplyr)
+
+dim(NHANES)
+set.seed(456)
+nhanes_mod <- NHANES[,sample(1:ncol(NHANES),15)]
 ```
 
 corVis is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. The package can also calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. Efficient seriation techniques have been included to highlight interesting relationships. These ordered assocation and conditional association displays can help find interesting patterns in the dataset.
@@ -61,7 +66,7 @@ Table 1: Available measures of association in the package
 We introduce a method which creates a tibble or matrix structure for all the variable pairs in a dataset along with calculated association measures. These measures are controlled by the user and depend on the types of variable in the variable pair. For example, a user might be interested in calculating Pearson's correlation for numeric pair of variables and canonical correlation for categorical variable pair or mixed variable pair. The function with `tbl_` calculates the association measure for applicable pairs of variable and report them in a tibble structure. The tibble of measures can be easily converted to a matrix structure by using `matrix_assoc`
 
 ```{r}
-a <- tbl_cor(iris)
+a <- tbl_cor(nhanes_mod)
 glimpse(a)
 
 matrix_assoc(a)
@@ -71,10 +76,13 @@ matrix_assoc(a)
 `calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset. The function has a *types* argument which is basically a tibble of the association measures for different variable types. The default tibble of measures is `default_assoc()` which calculates Pearson's correlation if both the variables are numeric, Kendall's tau-b if both the variables are ordinal, canonical correlation if one is factor and other is numeric and canonical correlation for the rest of the variable pairs. An analyst can update these measures as shown below.
 
 ```{r}
-dist_assoc <- default_assoc()
-dist_assoc$funName[1] <- "tbl_dcor"
+glimpse(calc_assoc(nhanes_mod))
 
-calc_assoc(iris, types=dist_assoc)
+#update the measures
+spearman_assoc <- default_assoc()
+spearman_assoc$argList[[1]] <- list(method="spearman")
+
+glimpse(calc_assoc(nhanes_mod, types=spearman_assoc))
 ```
 
 
@@ -82,33 +90,38 @@ calc_assoc(iris, types=dist_assoc)
 
 ## Visualising Association
 
-After calculating association measures among different variable pairs, these can be visualised using different layouts. Figure 1 shows the famous matrix layout of association measure for every variable pair in the *iris* dataset. It shows a high positive Pearson's correlation among Petal.Length and Petal.Width, Petal.Length and Sepal.Length, and Petal.Width and Sepal.Length. The plot also shows that there is a high positive canonical correlation among Species and Petal.Width, Species and Petal.Length, and Species and Sepal.Length which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. 
-```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 1: Association matrix display for iris data"}
-association_heatmap(calc_assoc(iris))
+After calculating association measures among different variable pairs, these can be visualised using different layouts. Figure 1 shows the famous matrix layout of association measure for every variable pair in the sampled version of *NHANES* dataset. It shows a high positive Pearson's correlation among BPSys1 and BPSysAve, BPSys1 and BPSys3, BPSys3 and BPSysAve and HomeRooms and Poverty. The plot also shows that there is some mutual information between Race3 and UrineVol2 and PhysActive and UrineVol2 which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. 
+```{r fig.width=8, fig.height=8, fig.align='center', fig.cap="Figure 1: Association matrix display for iris data"}
+assoc <- calc_assoc(nhanes_mod)
+assoc_complete <- assoc[complete.cases(assoc),]
+association_heatmap(assoc_complete)
 ```
 
 
-We can also compare association measures to find out pairs of variables with a high difference and can investigate these bivariate relationships in more detail. The `pairwise_summary_plot` function can be used to compare various measures using the matrix layout. It plots different measures among the variable pairs as bars, where each bar represents one measure of association. Figure 2 shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in *iris* data. It seems that both the coefficients are very similar for every variable pair.
+We can also compare association measures to find out pairs of variables with a high difference and can investigate these bivariate relationships in more detail. The `pairwise_summary_plot` function can be used to compare various measures using the matrix layout. It plots different measures among the variable pairs as bars, where each bar represents one measure of association. Figure 2 shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in sampled *NHANES* data. It seems that both the coefficients are very similar for every variable pair.
 ```{r fig.width=5, fig.height=5, fig.align='center',fig.cap="Figure 2: Comparing Pearson's and Spearman's correlation coefficient"}
-pearson <- calc_assoc(iris[,1:4])
+
+num_vars <- names(which(sapply(nhanes_mod,is.numeric)))
+pearson <- calc_assoc(nhanes_mod[,num_vars])
 
 spearman_assoc <- default_assoc()
 spearman_assoc$argList[[1]] <- list(method="spearman")
-spearman <- calc_assoc(iris[,1:4], types=spearman_assoc)
+spearman <- calc_assoc(nhanes_mod[,num_vars], types=spearman_assoc)
 
 pairwise_summary_plot(a <- rbind(pearson,spearman), group_var = "measure_type")
 ```
 
 
-We can also use linear layouts for comparing multiple measures (to be completed....)
+We can also use linear layouts for comparing multiple measures (in progress....)
 
 
 ## Visualising Conditional Association
 
 
-The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 3 shows a conditional association plot for the *iris* data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation in this case) calculated at the levels of conditioning variable *Species*. The dashed line represents the overall association measure. The plot shows that there is a high positive correlation between Petal.Length and Petal.Width for *versicolor* species compared to the other two levels suggesting a stronger linear relationship among this variable pair for *versicolor*. It can also be seen that the cell corresponding to variable pair Petal.Length and Sepal.Width has a negative overall correlation but positive correlation at different levels of the conditioning variable. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
+The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 3 shows a conditional association plot for the sampled *NHANES* data. Each cell corresponding to a variable pair shows two bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable *PhysActive*. The dashed line represents the overall association measure. The plot shows that there is a high positive canonical correlation between nPregnancies and Race3 for individuals who responded *No* for *PhysActive* compared to the individuals who responded *Yes*. It can also be seen that the cell corresponding to variable pair HomeRooms and TotChol has a positive overall correlation but negative and positive correlations at different levels of the conditioning variable. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
 ```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 3: Conditional Association plot"}
-cond_assoc <- calc_assoc_by(iris, by="Species")
+nhanes_mod_comp <- nhanes_mod[complete.cases(nhanes_mod),]
+cond_assoc <- calc_assoc_by(nhanes_mod_comp, by="PhysActive")
 pairwise_summary_plot(cond_assoc)
 ```
 
