@@ -114,7 +114,7 @@ calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,includ
 }
 
 
-#' A user defined function for association measures
+#' A function for default association measures
 #'
 #' Creates a tibble for different measures of association for different variable types of a dataset.
 #'
@@ -137,3 +137,18 @@ default_assoc <- function(){
     "tbl_cancor", "other", "other",NULL)
 }
 
+#' A user friendly function for changing association measures
+#'
+#' Creates a tibble for different measures of association for different variable types of a dataset.
+#' @param assoc_fun the association function user would like to use
+#' @param fun_index an index for the function representing the row on which function needs to be updated
+#' @param argList a character string specifying the method to use when multiple methods present in assoc_fun
+#' @return tibble
+#' @export
+
+write_own_assoc <- function(assoc_fun,fun_index,argList=NULL){
+
+  new_assoc <- default_assoc()
+  new_assoc$funName[fun_index] <- assoc_fun
+  new_assoc
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_association.R
 \name{default_assoc}
 \alias{default_assoc}
-\title{A user defined function for association measures}
+\title{A function for default association measures}
 \usage{
 default_assoc()
 }
