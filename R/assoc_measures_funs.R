@@ -2,7 +2,7 @@
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
 #'
-#' @param d dataframe A dataset for exploring association among the variables or a dataframe with calculated
+#' @param data dataframe A dataset for exploring association among the variables or a dataframe with calculated
 #'          measure of association for every variable pair
 
 #' @param measure_type a character string indicating the measure of association
@@ -15,20 +15,21 @@
 #' assoc_tibble(iris)
 
 
-assoc_tibble <- function(d, measure_type="?"){
-  UseMethod("assoc_tibble", d)
+assoc_tibble <- function(data, measure_type="?"){
+  UseMethod("assoc_tibble", data)
 }
 
 
 #' A tibble structure for a measure of association
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
-#' @param m matrix A symmetric matrix of the variabels of a dataset with entries representing the measure of
+#' @param data matrix A symmetric matrix of the variabels of a dataset with entries representing the measure of
 #'          association
 #' @param measure_type a character string indicating the measure of association
 #' @return tibble
 #' @export
-assoc_tibble.matrix <- function(m, measure_type="?"){
+assoc_tibble.matrix <- function(data, measure_type="?"){
+  m <- data
   if (!isSymmetric(m))
     stop("Input must be a symmetric matrix")
   xindex <- as.vector(row(m))
@@ -43,7 +44,7 @@ assoc_tibble.matrix <- function(m, measure_type="?"){
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
 #'
-#' @param d dataframe A dataset for exploring association among the variables or a dataframe with calculated
+#' @param data dataframe A dataset for exploring association among the variables or a dataframe with calculated
 #'          measure of association for every variable pair
 
 #' @param measure_type a character string indicating the measure of association
@@ -51,7 +52,8 @@ assoc_tibble.matrix <- function(m, measure_type="?"){
 #' @return tibble
 #' @export
 #' @export
-assoc_tibble.data.frame <- function(d, measure_type=NA_character_){
+assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
+  d <- data
   dcor <- diag(ncol(d))
   dcor[]<- NA
   rownames(dcor)<- colnames(dcor) <- names(d)
@@ -83,8 +85,8 @@ assoc_tibble.data.frame <- function(d, measure_type=NA_character_){
 tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.numeric))
   if (handle.na)
-    dcor <- cor(d,method=method,use="pairwise.complete.obs")
-  else dcor <- cor(d,method=method,...)
+    dcor <- stats::cor(d,method=method,use="pairwise.complete.obs")
+  else dcor <- stats::cor(d,method=method,...)
   assoc_tibble(dcor, measure_type=method)
 }
 
@@ -108,7 +110,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
   a <- assoc_tibble(d, measure_type="cancor")
   fn <- function(x,y){
     if(handle.na){
-      pick <- complete.cases(x, y)
+      pick <- stats::complete.cases(x, y)
       x <- x[pick]
       y <- y[pick]
     }
@@ -148,7 +150,7 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
     x <- d[[x]]
     y <- d[[y]]
     if(handle.na){
-      pick <- complete.cases(x, y)
+      pick <- stats::complete.cases(x, y)
       x <- x[pick]
       y <- y[pick]
     }

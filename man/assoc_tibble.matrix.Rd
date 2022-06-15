@@ -4,10 +4,10 @@
 \alias{assoc_tibble.matrix}
 \title{A tibble structure for a measure of association}
 \usage{
-\method{assoc_tibble}{matrix}(m, measure_type = "?")
+\method{assoc_tibble}{matrix}(data, measure_type = "?")
 }
 \arguments{
-\item{m}{matrix A symmetric matrix of the variabels of a dataset with entries representing the measure of
+\item{data}{matrix A symmetric matrix of the variabels of a dataset with entries representing the measure of
 association}
 
 \item{measure_type}{a character string indicating the measure of association}

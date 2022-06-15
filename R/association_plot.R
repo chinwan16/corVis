@@ -62,9 +62,9 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
 
 
   p <- ggplot2::ggplot(assoc) +
-    ggplot2::facet_grid(ggplot2::vars(x), ggplot2::vars(y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=text))+
-    ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
+    ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
+    ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text = ggplot2::element_text(size = 7),
@@ -81,15 +81,15 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
 
   if (isTRUE(group_var %in% names(assoc))){
     if (isTRUE(fillvar %in% names(assoc)))
-      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
-    else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
+      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
+    else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
-      p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=measure),linetype="dashed")
+      p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dashed")
   }
   else {
     if (isTRUE(fillvar %in% names(assoc)))
-      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=measure, fill=.data[[fillvar]]))
-    else p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=measure), fill=fillvar)
+      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]]))
+    else p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure), fill=.data$fillvar)
   }
   suppressWarnings(print(p))
 }
@@ -100,6 +100,7 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
 #'
 #' Plots the calculated measures of association among different variable pairs for a dataset in a
 #' conventional way.
+#' @importFrom rlang .data
 #'
 #' @param lassoc A tibble with the calculated association measures for the lower triangle of the matrix plot.
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
@@ -144,8 +145,8 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
   assoc <- rbind(assoc, diag_df)
 
   p <- ggplot2::ggplot(assoc) +
-    ggplot2::facet_grid(ggplot2::vars(x), ggplot2::vars(y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=text))+
+    ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
     #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
     #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +
     ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
@@ -194,15 +195,15 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
 
   if (isTRUE(var_order == "default")){
     assoc$z <- paste0(assoc$x, sep=":", assoc$y)
-    assoc <- dplyr::arrange(assoc,desc(abs(measure)))
+    assoc <- dplyr::arrange(assoc,dplyr::desc(abs(.data$measure)))
     assoc$z <- forcats::fct_inorder(assoc$z)
 
   } else {
     assoc <- assoc %>%
-      group_by(x,y) %>%
-      summarize(measure,measure_type,by,max_diff = max(measure, na.rm=TRUE) - min(measure, na.rm=TRUE),.groups = 'drop')
+      dplyr::group_by(.data$x,.data$y) %>%
+      dplyr::summarize(.data$measure,.data$measure_type,.data$by,max_diff = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
     assoc$z <- paste0(assoc$x, sep=":", assoc$y)
-    assoc <- dplyr::arrange(assoc,desc(max_diff))
+    assoc <- dplyr::arrange(assoc,dplyr::desc(.data$max_diff))
     assoc$z <- forcats::fct_inorder(assoc$z)
   }
 
@@ -214,13 +215,13 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
   else fillvar <- fill
 
   if (is.null(limits)) {
-    limits <- range(lassoc$measure, na.rm=TRUE)
+    limits <- range(.data$lassoc$measure, na.rm=TRUE)
     limits <- range(labeling::rpretty(limits[1], limits[2]))
   }
 
 
   p <- ggplot2::ggplot(data=assoc) +
-    ggplot2::geom_point(ggplot2::aes(x=z,y=measure,colour=by)) +
+    ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$by)) +
     ggplot2::ylim(-1,1) +
     ggplot2::coord_flip() +
     ggplot2::scale_x_discrete(limits=rev) +

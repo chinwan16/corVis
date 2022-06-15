@@ -21,6 +21,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 
 
 ```{r}
+if (!requireNamespace("NHANES", quietly = TRUE))
+  install.packages("NHANES")
 library(corVis)
 library(NHANES)
 library(dplyr)

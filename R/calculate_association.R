@@ -30,8 +30,8 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
     else "other")
 
   lookup <- function(xtype,ytype){
-    entry <-dplyr::filter(types, typeX==xtype, typeY==ytype)
-    if (nrow(entry)==0) entry <-dplyr::filter(types, typeX=="other", typeY=="other")
+    entry <-dplyr::filter(types, .data$typeX==xtype, .data$typeY==ytype)
+    if (nrow(entry)==0) entry <-dplyr::filter(types, .data$typeX=="other", .data$typeY=="other")
     list(funName = get(entry$funName[1]), argList = entry$argList[[1]])
   }
   utypes <- unique(vartypes)
@@ -101,7 +101,7 @@ calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,includ
     dplyr::group_by(by) %>%
     dplyr::group_modify(function(x,y) calc_assoc(x, types=types,handle.na=handle.na)) %>%
     dplyr::ungroup() %>%
-    dplyr::relocate(by, .after=measure_type)
+    dplyr::relocate(by, .after=.data$measure_type)
   if (include.overall){
     overall <- d %>%
       dplyr::select(-dplyr::all_of(by)) %>%

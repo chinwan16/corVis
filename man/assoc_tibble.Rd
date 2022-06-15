@@ -4,10 +4,10 @@
 \alias{assoc_tibble}
 \title{A tibble structure for a measure of association}
 \usage{
-assoc_tibble(d, measure_type = "?")
+assoc_tibble(data, measure_type = "?")
 }
 \arguments{
-\item{d}{dataframe A dataset for exploring association among the variables or a dataframe with calculated
+\item{data}{dataframe A dataset for exploring association among the variables or a dataframe with calculated
 measure of association for every variable pair}
 
 \item{measure_type}{a character string indicating the measure of association}

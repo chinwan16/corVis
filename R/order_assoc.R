@@ -26,8 +26,8 @@ order_assoc <- function(assoc, method = "default", group_var = NULL){
       assoc <- dplyr::filter(assoc, group_var != "overall")
     }
     assoc <- assoc %>%
-      dplyr::group_by(x,y) %>%
-      dplyr::summarize(measure = max(measure, na.rm=TRUE) - min(measure, na.rm=TRUE),.groups = 'drop')
+      dplyr::group_by(.data$x,.data$y) %>%
+      dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
   } else if (isTRUE("by" %in% names(assoc))){
     assoc <- dplyr::filter(assoc, by == "overall")
   }
