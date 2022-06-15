@@ -11,9 +11,9 @@
 #'
 #' @param var_order a character string for the ordering of the variables. Either "default" (default) or "max_diff"
 #' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
-#'
+#' @param sp a logical vector for highlighting instances of Simpson's paradox
 #' @export
-#'
+#' @importFrom magrittr %>%
 #' @examples
 #' pairwise_summary_plot(calc_assoc(iris))
 #' pairwise_summary_plot(calc_assoc_by(iris,"Species"))
@@ -21,7 +21,7 @@
 
 
 pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
-                                  var_order = "default", limits=c(-1,1)){
+                                  var_order = "default", limits=c(-1,1), sp=TRUE){
 
   if (isTRUE(var_order %in% c("default", "max_diff"))){
     var_order <- order_assoc(lassoc, method=var_order, group_var=group_var)
@@ -43,6 +43,13 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
     limits <- range(labeling::rpretty(limits[1], limits[2]))
   }
 
+  # if sp is true
+  assoc$measure_sign <- sign(assoc$measure)
+  simpson <- assoc %>% dplyr::group_by(.data$x,.data$y) %>%
+    dplyr::summarise(simpson=ifelse(length(unique(.data$measure_sign))==1,"no","yes"),.groups = "drop")
+  simpson <- sym_assoc(simpson)
+  simpson <- dplyr::filter(simpson,simpson=="yes")
+
   assoc$x <- factor(assoc$x, levels=var_order)
   assoc$y <- factor(assoc$y, levels=var_order)
   if ("by" %in% names(assoc)){
@@ -60,8 +67,10 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
   assoc$intercept <- 0
   assoc <- rbind(assoc, diag_df)
 
-
   p <- ggplot2::ggplot(assoc) +
+    ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+                       data=simpson[,1:2],
+                       fill = 'red', alpha = 0.1) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
     ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
@@ -93,6 +102,7 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
   }
   suppressWarnings(print(p))
 }
+
 
 
 

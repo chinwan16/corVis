@@ -10,7 +10,8 @@ pairwise_summary_plot(
   group_var = "by",
   fill = "default",
   var_order = "default",
-  limits = c(-1, 1)
+  limits = c(-1, 1),
+  sp = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ for using levels of conditioning variable, "measure" for displaying a gradient o
 \item{var_order}{a character string for the ordering of the variables. Either "default" (default) or "max_diff"}
 
 \item{limits}{a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)}
+
+\item{sp}{a logical vector for highlighting instances of Simpson's paradox}
 }
 \description{
 Plots the calculated measures of association among different variable pairs for a dataset in a matrix layout.
