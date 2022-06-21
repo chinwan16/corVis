@@ -28,10 +28,8 @@ library(NHANES)
 library(dplyr)
 
 dim(NHANES)
-set.seed(12)
-rows <- sample(1:nrow(NHANES),5000)
-cols <- sample(1:ncol(NHANES),15)
-nhanes_mod <- NHANES[rows,cols]
+NHANES <- NHANES %>% dplyr::select(-ID)
+nhanes_mod <- NHANES %>% select(Age,SleepHrsNight,BPSys1,Depressed,Diabetes,TotChol,PhysActive,HealthGen)
 
 ```
 
@@ -86,14 +84,8 @@ default
 glimpse(calc_assoc(nhanes_mod))
 
 #update the measures
-spearman_assoc <- default_assoc()
-spearman_assoc$argList[[1]] <- list(method="spearman")
-
-glimpse(calc_assoc(nhanes_mod, types=spearman_assoc))
-
-#update the association function
-updated_assoc <- write_own_assoc("tbl_dcor",1)
-updated_assoc
+updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "spearman",mixed_pair = "tbl_cancor",other_pair = "tbl_nmi")
+glimpse(calc_assoc(nhanes_mod,types = updated_assoc))
 ```
 
 
@@ -115,15 +107,28 @@ We can also compare association measures to find out pairs of variables with a h
 num_vars <- names(which(sapply(nhanes_mod,is.numeric)))
 pearson <- calc_assoc(nhanes_mod[,num_vars])
 
-spearman_assoc <- default_assoc()
-spearman_assoc$argList[[1]] <- list(method="spearman")
+spearman_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "spearman",mixed_pair = "tbl_cancor",other_pair = "tbl_nmi")
 spearman <- calc_assoc(nhanes_mod[,num_vars], types=spearman_assoc)
-
-pairwise_summary_plot(a <- rbind(pearson,spearman), group_var = "measure_type")
+a <- rbind(pearson,spearman)
+pairwise_summary_plot(a, group_var = "measure_type")
 ```
 
 
-We can also use linear layouts for comparing multiple measures (in progress....)
+We can also use linear layouts for comparing multiple measures. 
+
+```{r fig.width=8, fig.height=8, fig.align='center',fig.cap="Figure 3: Comparing multiple association measures using a linear layout"}
+
+updated_assoc <- update_assoc(num_pair = "tbl_cor",mixed_pair = "tbl_cancor",other_pair = "tbl_nmi")
+a <- calc_assoc(nhanes_mod,updated_assoc)
+updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "spearman",mixed_pair = "tbl_nmi",other_pair = "tbl_nmi")
+b <- calc_assoc(nhanes_mod,updated_assoc)
+updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "kendall",mixed_pair = "tbl_nmi",other_pair = "tbl_nmi")
+c <- calc_assoc(nhanes_mod,updated_assoc)
+assoc <- unique(rbind(a,b,c))
+pairwise_measures_compare(assoc)
+
+```
+
 
 
 ## Visualising Conditional Association

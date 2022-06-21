@@ -140,15 +140,34 @@ default_assoc <- function(){
 #' A user friendly function for changing association measures
 #'
 #' Creates a tibble for different measures of association for different variable types of a dataset.
-#' @param assoc_fun the association function user would like to use
-#' @param fun_index an index for the function representing the row on which function needs to be updated
-#' @param argList a character string specifying the method to use when multiple methods present in assoc_fun
+#' @param num_pair a measure(s) function for numeric pair of variables
+#' @param num_pair_method a character string specifying the measure to be calculated using num_pair
+#' @param ordered_pair a measure(s) function for ordered pair of variables
+#' @param ordered_pair_method a character string specifying the measure to be calculated using ordered_pair
+#' @param mixed_pair a measure(s) function for mixed pair of variables
+#' @param mixed_pair_method a character string specifying the measure to be calculated using mixed_pair
+#' @param other_pair a measure(s) function for other pair of variables
+#' @param other_pair_method a character string specifying the measure to be calculated using other_pair
+#' @param ... in progress
 #' @return tibble
 #' @export
+#' @examples
+#' updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_method=NULL,
+#' ordered_pair="tbl_tau", ordered_pair_method=NULL,
+#' mixed_pair="tbl_cancor", mixed_pair_method=NULL,
+#' other_pair="tbl_cancor", other_pair_method=NULL)
+#' calc_assoc(iris,updated_assoc)
 
-write_own_assoc <- function(assoc_fun,fun_index,argList=NULL){
-
-  new_assoc <- default_assoc()
-  new_assoc$funName[fun_index] <- assoc_fun
-  new_assoc
+update_assoc <- function(num_pair="tbl_cor", num_pair_method=NULL,
+                         ordered_pair="tbl_tau", ordered_pair_method=NULL,
+                         mixed_pair="tbl_cancor", mixed_pair_method=NULL,
+                         other_pair="tbl_cancor", other_pair_method=NULL,
+                         ...){
+  dplyr::tribble(
+    ~funName, ~typeX, ~typeY, ~argList,
+    num_pair, "numeric", "numeric", if(is.null(num_pair_method)) {NULL}else{list(method=num_pair_method,...)},
+    ordered_pair, "ordered", "ordered", if(is.null(ordered_pair_method)){NULL}else{list(method=ordered_pair_method,...)},
+    mixed_pair,  "factor", "numeric", if(is.null(mixed_pair_method)){NULL}else{list(method=mixed_pair_method,...)},
+    other_pair, "other", "other", if(is.null(other_pair_method)){NULL}else{list(method=other_pair_method,...)})
 }
+

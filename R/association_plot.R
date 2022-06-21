@@ -68,9 +68,9 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
   assoc <- rbind(assoc, diag_df)
 
   p <- ggplot2::ggplot(assoc) +
-    ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-                       data=simpson[,1:2],
-                       fill = 'red', alpha = 0.1) +
+    #ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+                      #data=simpson[,1:2],
+                       #fill = 'red', alpha = 0.1) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
     ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
@@ -231,6 +231,7 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
 
 
   p <- ggplot2::ggplot(data=assoc) +
+    ggplot2::geom_hline(yintercept = 0) +
     ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$by)) +
     ggplot2::ylim(-1,1) +
     ggplot2::coord_flip() +
@@ -239,3 +240,63 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
                    axis.title.y  = ggplot2::element_blank())
   suppressWarnings(print(p))
 }
+
+#' Pairwise linear plot for comparing multiple measures of association
+#'
+#' Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
+#'
+#' @param assoc A tibble with the calculated multiple association measures for every variable pair in the dataset..
+#' @param group_var a character string for the grouping variable. One of "by" (default) or "measure_type".
+#' @param var_order a character string for the ordering of the variables. Either  "max_diff"
+#' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
+#'
+#' @export
+#'
+#' @examples
+#' updated_assoc <- update_assoc(num_pair = "tbl_cor",mixed_pair = "tbl_cancor",other_pair = "tbl_nmi")
+#' a <- calc_assoc(iris,updated_assoc)
+#' updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "spearman",mixed_pair = "tbl_nmi",
+#' other_pair = "tbl_nmi")
+#' b <- calc_assoc(iris,updated_assoc)
+#' updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "kendall",mixed_pair = "tbl_nmi",
+#' other_pair = "tbl_nmi")
+#' c <- calc_assoc(iris,updated_assoc)
+#' assoc <- unique(rbind(a,b,c))
+#' pairwise_measures_compare(assoc)
+
+
+pairwise_measures_compare <- function(assoc, var_order = "max_diff",
+                                      limits=c(-1,1), group_var=NULL){
+
+  #assoc$measure <- abs(assoc$measure)
+  assoc$var3 <- paste0(assoc$x,",",assoc$y)
+
+  if (isTRUE(var_order %in% c( "max_diff"))){
+    var_order <- assoc %>% dplyr::group_by(.data$var3) %>%
+      dplyr::summarise(max_diff=diff(range(.data$measure))) %>%
+      dplyr::arrange(.data$max_diff) %>% dplyr::pull(.data$var3)
+  } else var_order <- unique(assoc$var3)
+
+
+  if (is.null(limits)) {
+    limits <- range(.data$lassoc$measure, na.rm=TRUE)
+    limits <- range(labeling::rpretty(limits[1], limits[2]))
+  }
+
+  assoc$var3 <- factor(assoc$var3, levels=var_order)
+
+
+  p <- ggplot2::ggplot(assoc) +
+    ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$var3,fill=.data$measure)) +
+    ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits)+
+    ggplot2::scale_x_discrete(position = "top") +
+    #ggplot2::scale_y_discrete(limits=rev) +
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_blank(),
+                   legend.position = "top",
+                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0))
+
+  suppressWarnings(print(p))
+}
+
+
