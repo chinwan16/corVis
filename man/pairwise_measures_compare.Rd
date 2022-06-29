@@ -5,14 +5,17 @@
 \title{Pairwise linear plot for comparing multiple measures of association}
 \usage{
 pairwise_measures_compare(
-  assoc,
+  df,
+  measures = c("pearson", "spearman", "kendall", "cancor", "nmi"),
   var_order = "max_diff",
   limits = c(-1, 1),
   group_var = NULL
 )
 }
 \arguments{
-\item{assoc}{A tibble with the calculated multiple association measures for every variable pair in the dataset..}
+\item{df}{A tibble with the calculated multiple association measures for every variable pair in the dataset.}
+
+\item{measures}{association measures to be calculated}
 
 \item{var_order}{a character string for the ordering of the variables. Either  "max_diff"}
 
@@ -24,14 +27,5 @@ pairwise_measures_compare(
 Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
 }
 \examples{
-updated_assoc <- update_assoc(num_pair = "tbl_cor",mixed_pair = "tbl_cancor",other_pair = "tbl_nmi")
-a <- calc_assoc(iris,updated_assoc)
-updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "spearman",mixed_pair = "tbl_nmi",
-other_pair = "tbl_nmi")
-b <- calc_assoc(iris,updated_assoc)
-updated_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "kendall",mixed_pair = "tbl_nmi",
-other_pair = "tbl_nmi")
-c <- calc_assoc(iris,updated_assoc)
-assoc <- unique(rbind(a,b,c))
-pairwise_measures_compare(assoc)
+pairwise_measures_compare(iris)
 }

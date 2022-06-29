@@ -45,10 +45,12 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
   }
 
   pcor <- assoc_tibble(d)
+  class(pcor) <- class(pcor)[-1]
 
   for (m in measures){
     if (!is.null(m)){
       m <- sym_assoc(m)
+      class(m) <- class(pcor)[-1]
       w <- match(paste(m$x,m$y), paste( pcor$x, pcor$y))
       m <- m[!is.na(w),]
       pcor <- dplyr::rows_patch(pcor, m, by = c("x","y"))
