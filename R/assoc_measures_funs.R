@@ -36,6 +36,7 @@ assoc_tibble.matrix <- function(data, measure_type="?"){
   yindex <- as.vector(col(m))
   d <- dplyr::tibble(x=rownames(m)[xindex], y= rownames(m)[yindex],measure=as.vector(m),
                      measure_type=measure_type)
+  class(d)<-append("pairwise", class(d))
   d[xindex > yindex,]
 }
 
@@ -58,6 +59,7 @@ assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
   dcor[]<- NA
   rownames(dcor)<- colnames(dcor) <- names(d)
   dcor <- assoc_tibble(dcor, measure_type=measure_type)
+  #class(dcor)<-append("pairwise", class(dcor))
   dcor
 }
 
@@ -188,10 +190,12 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
   ez <- correlation::correlation(d, method=method, ...)[,1:3]
   ez <- correlation::correlation(d, method=method)[,1:3]
   class(ez) <- "data.frame"
+  class(a) <- class(a)[-1]
   names(ez) <- c("y","x","measure")
   a<-dplyr::rows_patch(a,ez,  by = c("x","y"))
+  class(a) <- append("pairwise",class(a))
   a
-}
+ }
 
 #' MINE family measures
 #'
