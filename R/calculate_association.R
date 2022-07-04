@@ -142,34 +142,60 @@ default_assoc <- function(){
 #' A user friendly function for changing association measures
 #'
 #' Creates a tibble for different measures of association for different variable types of a dataset.
-#' @param num_pair a measure(s) function for numeric pair of variables
-#' @param num_pair_method a character string specifying the measure to be calculated using num_pair
-#' @param ordered_pair a measure(s) function for ordered pair of variables
-#' @param ordered_pair_method a character string specifying the measure to be calculated using ordered_pair
-#' @param mixed_pair a measure(s) function for mixed pair of variables
-#' @param mixed_pair_method a character string specifying the measure to be calculated using mixed_pair
-#' @param other_pair a measure(s) function for other pair of variables
-#' @param other_pair_method a character string specifying the measure to be calculated using other_pair
+#' @param default default measure functions for different variable pairs. set to default_assoc()
+#' @param num_pair a measure(s) function for numeric pair of variables, default is NULL
+#' @param num_pair_argList a character string specifying the measure to be calculated using num_pair, default is NULL
+#' @param ordered_pair a measure(s) function for ordered pair of variables, default is NULL
+#' @param ordered_pair_argList a character string specifying the measure to be calculated using ordered_pair, default is NULL
+#' @param mixed_pair a measure(s) function for mixed pair of variables, default is NULL
+#' @param mixed_pair_argList a character string specifying the measure to be calculated using mixed_pair, default is NULL
+#' @param other_pair a measure(s) function for other pair of variables, default is NULL
+#' @param other_pair_argList a character string specifying the measure to be calculated using other_pair, default is NULL
 #' @param ... in progress
 #' @return tibble
 #' @export
 #' @examples
-#' updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_method=NULL,
-#' ordered_pair="tbl_tau", ordered_pair_method=NULL,
-#' mixed_pair="tbl_cancor", mixed_pair_method=NULL,
-#' other_pair="tbl_cancor", other_pair_method=NULL)
+#' updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_argList="spearman",
+#' ordered_pair="tbl_tau",mixed_pair="tbl_nmi",other_pair="tbl_cancor")
 #' calc_assoc(iris,updated_assoc)
 
-update_assoc <- function(num_pair="tbl_cor", num_pair_method=NULL,
-                         ordered_pair="tbl_tau", ordered_pair_method=NULL,
-                         mixed_pair="tbl_cancor", mixed_pair_method=NULL,
-                         other_pair="tbl_cancor", other_pair_method=NULL,
-                         ...){
-  dplyr::tribble(
-    ~funName, ~typeX, ~typeY, ~argList,
-    num_pair, "numeric", "numeric", if(is.null(num_pair_method)) {NULL}else{list(method=num_pair_method,...)},
-    ordered_pair, "ordered", "ordered", if(is.null(ordered_pair_method)){NULL}else{list(method=ordered_pair_method,...)},
-    mixed_pair,  "factor", "numeric", if(is.null(mixed_pair_method)){NULL}else{list(method=mixed_pair_method,...)},
-    other_pair, "other", "other", if(is.null(other_pair_method)){NULL}else{list(method=other_pair_method,...)})
+update_assoc <- function(default=default_assoc(),
+                              num_pair=NULL, num_pair_argList=NULL,
+                              ordered_pair=NULL, ordered_pair_argList=NULL,
+                              mixed_pair=NULL, mixed_pair_argList=NULL,
+                              other_pair=NULL, other_pair_argList=NULL,
+                              ...){
+  funName_list <- list(num_pair,ordered_pair,mixed_pair,other_pair)
+  argList_list <- list(num_pair_argList,ordered_pair_argList,mixed_pair_argList,
+                       other_pair_argList)
+  check_funName <- all(sapply(funName_list,is.null))
+  check_argList <- all(sapply(argList_list,is.null))
+
+  if(isTRUE(check_funName & check_argList)){
+    updated <- default
+  } else {
+    updated <- default
+    fun_ind_notnull <- which(!sapply(funName_list,is.null))
+    updated_fun <- c(num_pair,ordered_pair,mixed_pair,other_pair)
+    if(!is.null(updated_fun)){
+      for (i in 1:length(fun_ind_notnull)){
+        fun_ind <- fun_ind_notnull[i]
+        updated$funName[fun_ind] <- updated_fun[i]
+      }
+    }
+
+    argList_ind_notnull <- which(!sapply(argList_list,is.null))
+    updated_argList <- c(num_pair_argList,ordered_pair_argList,mixed_pair_argList,
+                         other_pair_argList)
+    if(!is.null(updated_argList)){
+      for (i in 1:length(argList_ind_notnull)){
+        argList_ind <- argList_ind_notnull[i]
+        updated$argList[argList_ind] <- list(method=updated_argList[i])
+      }
+    }
+
+    updated <- updated
+  }
+  updated
 }
 
