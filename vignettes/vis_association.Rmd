@@ -23,10 +23,13 @@ corVis is an R package which calculates measures of association for every variab
 ```{r}
 if (!requireNamespace("palmerpenguins", quietly = TRUE))
   install.packages("palmerpenguins")
+if (!requireNamespace("reshape2", quietly = TRUE))
+  install.packages("reshape")
 
 library(corVis)
 library(palmerpenguins)
 library(dplyr)
+library(reshape2)
 
 ```
 
@@ -56,7 +59,10 @@ We can also calculate multiple association measures for all the variable pairs i
 df_num <- select(df,where(is.numeric))
 pearson <- calc_assoc(df_num)
 
-spearman_assoc <- update_assoc(num_pair = "tbl_cor",num_pair_method = "spearman",mixed_pair = "tbl_cancor",other_pair = "tbl_nmi")
+spearman_assoc <- update_assoc(num_pair = "tbl_cor",
+                               argList_method= "spearman",
+                               mixed_pair = "tbl_cancor",
+                               other_pair = "tbl_nmi")
 spearman <- calc_assoc(df_num, types=spearman_assoc)
 compare <- rbind(pearson,spearman)
 pairwise_summary_plot(compare, group_var = "measure_type")
@@ -113,6 +119,22 @@ pairwise_linear_plot(cond_assoc)
 
 
 
+## Display for two categorical variables
+```{r, fig.width=6, fig.height=6, fig.align='center'}
+data<-penguins[complete.cases(penguins),]
+x<- data$species
+y <- data$island
+data<-data.frame(x=x,y=y)
+
+chi_sq_test<-chisq.test(x=data$x,y=data$y)$residuals
+
+long.res<-reshape2::melt(chi_sq_test)
+names(long.res)<-c("species","island","stand_res")
+
+ggplot2::ggplot(data = long.res,ggplot2::aes(x=species,y=island)) + ggplot2::geom_tile(ggplot2::aes(fill=stand_res))+
+  ggplot2::scale_fill_gradient2(limit=range(long.res$stand_res))+
+  ggplot2::theme_bw() + ggplot2::xlab("species") + ggplot2::ylab("island")
+```
 
 
 

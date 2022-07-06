@@ -23,6 +23,7 @@
 pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
                                   var_order = "default", limits=c(-1,1), sp=TRUE){
 
+
   if (isTRUE(var_order %in% c("default", "max_diff"))){
     var_order <- order_assoc(lassoc, method=var_order, group_var=group_var)
   } else var_order <- unique(c(lassoc$y, lassoc$x))
@@ -76,7 +77,7 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = 5),
+                   axis.text = ggplot2::element_text(size = 3),
                    panel.background = ggplot2::element_rect(),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
@@ -89,8 +90,12 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
                    axis.title.y = ggplot2::element_blank())
 
   if (isTRUE(group_var %in% names(assoc))){
+    by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
-      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
+      if(group_var=="measure_type"){
+        p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
+      }else{p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge") +
+        ggplot2::labs(fill = by_var)}
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dashed")
@@ -207,7 +212,7 @@ pairwise_summary_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = 5),
+                   axis.text = ggplot2::element_text(size = 3),
                    panel.background = ggplot2::element_rect(),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
@@ -220,8 +225,13 @@ pairwise_summary_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",
                    axis.title.y = ggplot2::element_blank())
 
   if (isTRUE(group_var %in% names(assoc))){
+    by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
-      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
+      if(group_var=="measure_type"){
+        p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
+      }else{p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge") +
+        ggplot2::labs(fill = by_var)}
+
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dashed")
@@ -297,7 +307,7 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
     ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = 5),
+                   axis.text = ggplot2::element_text(size = 3),
                    panel.background = ggplot2::element_rect(),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
@@ -364,6 +374,8 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
     limits <- range(labeling::rpretty(limits[1], limits[2]))
   }
 
+  by_var <- attr(assoc,"by_var")
+
 
   p <- ggplot2::ggplot(data=assoc) +
     ggplot2::geom_hline(yintercept = 0) +
@@ -372,7 +384,8 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
     ggplot2::coord_flip() +
     ggplot2::scale_x_discrete(limits=rev) +
     ggplot2::theme(legend.position = "bottom",
-                   axis.title.y  = ggplot2::element_blank())
+                   axis.title.y  = ggplot2::element_blank()) +
+    ggplot2::labs(colour = by_var)
   suppressWarnings(print(p))
 }
 

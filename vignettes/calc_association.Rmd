@@ -74,6 +74,7 @@ glimpse(nmi)
 ```
 
 These functions return a tibble with the variable pairs and calculated measure, and also with additional classes *pairwise* and *data.frame*. With the pairwise measures of association in a tibble or dataframe structure, the output of these functions can then be used with packages like _dplyr_ , _ggplot2_ for further exploration of association measures. 
+
 ```{r}
 class(distance)
 ```
@@ -99,7 +100,7 @@ class(complete_assoc)
 The function has a *types* argument which is basically a tibble of the association measure to be calculated for different variable pairs. The default tibble of measures is `default_assoc()` which calculates Pearson's correlation if both the variables are numeric, Kendall's tau-b if both the variables are ordinal, canonical correlation if one is factor and other is numeric and canonical correlation for the rest of the variable pairs. 
 
 ```{r}
-default_measures <- default_assoc()
+default_measures <- update_assoc()
 default_measures
 ```
 
@@ -108,7 +109,7 @@ An analyst can update these measures using the `update_assoc` function where one
 
 ```{r}
 updated_assoc <- update_assoc(num_pair = "tbl_cor",
-                              num_pair_method = "spearman",
+                              num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
                               other_pair = "tbl_nmi")
 updated_assoc
@@ -117,6 +118,12 @@ updated_complete_assoc <- calc_assoc(df, types = updated_assoc)
 glimpse(updated_complete_assoc)
 ```
 
+The tibble output for `calc_assoc` has the following structure:
+  - `x` and `y` representing a pair of variables
+  - `measure` representing the calculated value for association measure
+  - `measure_type` representing the association measure calculated for `x` and `y` pair.
+  
+The variable pairs in the output are unique pairs and a subset of all the variable pairs of a dataset where `x` $\neq$ `y`. As explained earlier, the `measure_type` represents the association measure calculated for a specific type of variable pair. A user can be interested in calculating multiple association measures for a type of variable pair. This can be done by using the `calc_assoc` and `update_assoc` together for calculating different association measures and then merging the output tibbles. 
 
 ## Calculating conditional association
 
@@ -128,18 +135,26 @@ complete_assoc_by <- calc_assoc_by(df,by = "sex")
 The function also has a `types` argument which can be updated similarly to `calc_assoc`. 
 ```{r}
 updated_assoc <- update_assoc(num_pair = "tbl_cor",
-                              num_pair_method = "spearman",
+                              num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
                               other_pair = "tbl_nmi")
 updated_complete_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc)
 glimpse(updated_complete_assoc_by)
 ```
 
-By default, the function calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (*overall*). This behaviour can be changed by setting `include.overall` to *FALSE*.
+By default, the function calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (*overall*). This behavior can be changed by setting `include.overall` to *FALSE*.
 
 ```{r}
 complete_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
 ```
+
+The tibble output for `calc_assoc_by` has the following structure:
+  - `x` and `y` representing a pair of variables
+  - `measure` representing the calculated value for association measure
+  - `measure_type` representing the association measure calculated for `x` and `y` pair.
+  - `by` representing the levels of the categorical variable used in the function. 
+ 
+The variable pairs in the output are repeated for every level of `by` variable. At present the function doesn't allow multiple `by` variables to be used for conditioning but is something which can be done by using the `calc_assoc_by` function multiple times and then merging the multiple outputs.For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc_by` and then can merge these multiple tibble outputs.
 
 
 

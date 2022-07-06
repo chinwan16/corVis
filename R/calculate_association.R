@@ -112,6 +112,7 @@ calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,includ
     result <- rbind(result, overall)
   }
   class(result)<-append("pairwise", class(result))
+  attr(result,"by_var") <- by
   result
 }
 
