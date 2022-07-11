@@ -60,7 +60,7 @@ df_num <- select(df,where(is.numeric))
 pearson <- calc_assoc(df_num)
 
 spearman_assoc <- update_assoc(num_pair = "tbl_cor",
-                               argList_method= "spearman",
+                               num_pair_argList= "spearman",
                                mixed_pair = "tbl_cancor",
                                other_pair = "tbl_nmi")
 spearman <- calc_assoc(df_num, types=spearman_assoc)
