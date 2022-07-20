@@ -4,10 +4,13 @@
 \alias{matrix_assoc}
 \title{Symmetric association matrix}
 \usage{
-matrix_assoc(assoc)
+matrix_assoc(assoc, group = "overall")
 }
 \arguments{
 \item{assoc}{A tibble or dataframe with calculated association measures for variable pairs.}
+
+\item{group}{A character string specifying the level of the conditioning variable for
+which matrix to be created}
 }
 \value{
 tibble

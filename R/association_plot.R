@@ -442,7 +442,7 @@ pairwise_measures_compare <- function(df,
 
   p <- ggplot2::ggplot(assoc) +
     ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$var3,fill=.data$measure)) +
-    ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits)+
+    ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits)+
     ggplot2::scale_x_discrete(position = "top") +
     #ggplot2::scale_y_discrete(limits=rev) +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -451,7 +451,7 @@ pairwise_measures_compare <- function(df,
                    axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
-                   panel.background = ggplot2::element_blank())
+                   panel.background = ggplot2::element_rect(fill = "grey95"))
 
 
   suppressWarnings(print(p))

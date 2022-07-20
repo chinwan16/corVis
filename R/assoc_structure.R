@@ -26,6 +26,8 @@ sym_assoc <- function(assoc){
 #'
 #'
 #' @param assoc A tibble or dataframe with calculated association measures for variable pairs.
+#' @param group A character string specifying the level of the conditioning variable for
+#'              which matrix to be created
 #' @return tibble
 #' @export
 #'
@@ -34,12 +36,16 @@ sym_assoc <- function(assoc){
 
 
 
-matrix_assoc <- function(assoc){
-  if ("by" %in% names(assoc))
-    assoc<- dplyr::filter(assoc, by =="overall")
+matrix_assoc <- function(assoc,group="overall"){
+  if ("by" %in% names(assoc)){
+    #if(is.null(group)) stop("argument group is missing")
+    assoc<- dplyr::filter(assoc, by == group)
+  }
   assoc_vars <- unique(c(assoc$y, assoc$x))
   m <- matrix(0, nrow=length(assoc_vars), ncol=length(assoc_vars))
   rownames(m)<- colnames(m)<- assoc_vars
-  m[assoc$x,assoc$y]<- m[assoc$y,assoc$x]<- assoc$measure
+  diag(m) <- 1
+  m[lower.tri(m)] <- assoc$measure
+  m[upper.tri(m)] <- t(m)[upper.tri(m)]
   m
 }
