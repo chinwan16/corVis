@@ -73,11 +73,11 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
                       #data=simpson[,1:2],
                        #fill = 'red', alpha = 0.1) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),size=2.5)+
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = 3),
+                   axis.text = ggplot2::element_text(size = 5),
                    panel.background = ggplot2::element_rect(),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
@@ -208,11 +208,11 @@ pairwise_summary_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",
 
   p <- ggplot2::ggplot(assoc) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),,size=2.5)+
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = 3),
+                   axis.text = ggplot2::element_text(size = 5),
                    panel.background = ggplot2::element_rect(),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
@@ -301,13 +301,13 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
 
   p <- ggplot2::ggplot(assoc) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text))+
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),size=2.5)+
     #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
     #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +
     ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = 3),
+                   axis.text = ggplot2::element_text(size = 5),
                    panel.background = ggplot2::element_rect(),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
