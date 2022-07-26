@@ -54,5 +54,4 @@ matrix_assoc <- function(assoc,group="overall"){
   m
 }
 
-m[assoc$x,assoc$y]<- assoc$measure
 
