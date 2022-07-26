@@ -42,10 +42,17 @@ matrix_assoc <- function(assoc,group="overall"){
     assoc<- dplyr::filter(assoc, by == group)
   }
   assoc_vars <- unique(c(assoc$y, assoc$x))
-  m <- matrix(0, nrow=length(assoc_vars), ncol=length(assoc_vars))
+  m <- matrix(NA, nrow=length(assoc_vars), ncol=length(assoc_vars))
   rownames(m)<- colnames(m)<- assoc_vars
   diag(m) <- 1
-  m[lower.tri(m)] <- assoc$measure
+  for(i in 1:nrow(assoc)){
+    m[assoc$x[i],assoc$y[i]] <- assoc$measure[i]
+  }
   m[upper.tri(m)] <- t(m)[upper.tri(m)]
+
+  #m[assoc$x,assoc$y]<- m[assoc$y,assoc$x]<- assoc$measure
   m
 }
+
+m[assoc$x,assoc$y]<- assoc$measure
+
