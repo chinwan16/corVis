@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.19)  20 JUL 2022 08:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.19)  26 JUL 2022 05:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -767,13 +767,13 @@ Overfull \hbox (25.24289pt too wide) in paragraph at lines 170--171
  [][] 
  []
 
-<rj_paper_files/figure-latex/compare-linear-1.pdf, id=63, 419.5675pt x 416.55624pt>
+<rj_paper_files/figure-latex/compare-linear-1.pdf, id=63, 423.5825pt x 418.56375pt>
 File: rj_paper_files/figure-latex/compare-linear-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-linear-1.pdf>
 Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 187.
-(pdftex.def)             Requested size: 419.56647pt x 416.55522pt.
+(pdftex.def)             Requested size: 423.58147pt x 418.56271pt.
 
-Overfull \hbox (21.22789pt too wide) in paragraph at lines 187--188
+Overfull \hbox (25.24289pt too wide) in paragraph at lines 187--188
  [][] 
  []
 
@@ -811,13 +811,13 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Here is how much of TeX's memory you used:
  26422 strings out of 479958
  490535 string characters out of 5885588
- 791829 words of memory out of 5000000
+ 791828 words of memory out of 5000000
  43920 multiletter control sequences out of 15000+600000
  501861 words of font info for 194 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  115i,11n,131p,1006b,757s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (7 pages, 128917 bytes).
+Output written on RJwrapper.pdf (7 pages, 128941 bytes).
 PDF statistics:
  173 PDF objects out of 1000 (max. 8388607)
  136 compressed objects within 2 object streams

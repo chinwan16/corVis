@@ -80,11 +80,17 @@ class(distance)
 ```
 
 
-In some applications, a matrix structure for a measure is more useful than dataframe or tibble. The function `matrix_assoc` helps in converting the tibble of association measure to matrix structure. The function only works if the tibble or dataframe has a *pairwise* class attribute. 
+In some applications, a matrix structure for a measure is more useful than dataframe or tibble. The function `matrix_assoc` helps in converting the tibble of association measure to matrix structure. The function takes a tibble or dataframe of the variable pairs of the dataset along with the calculated association measures and returns a symmetric matrix of the variables.
 ```{r}
 head(matrix_assoc(distance))
 ```
+The function outputs a matrix even if any variable pair is missing in the input tibble with  *NA* for corresponding variable pair cell in the matrix output.
+```{r}
+distance <- distance[-1,]
+matrix_assoc(distance)
+```
 
+The function has an additional argument called *group* which represents the level of the grouping categorical variable for which the matrix output needs to be calculated and is set to *overall* as default. 
 
 
 ## Calculating association measures for whole dataset
@@ -119,6 +125,7 @@ glimpse(updated_complete_assoc)
 ```
 
 The tibble output for `calc_assoc` has the following structure:
+
   - `x` and `y` representing a pair of variables
   - `measure` representing the calculated value for association measure
   - `measure_type` representing the association measure calculated for `x` and `y` pair.

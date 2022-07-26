@@ -208,7 +208,7 @@ pairwise_summary_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",
 
   p <- ggplot2::ggplot(assoc) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),,size=2.5)+
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),size=2.5)+
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
     ggplot2::scale_y_continuous(limits=limits) +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),

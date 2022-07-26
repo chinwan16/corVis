@@ -18,7 +18,7 @@ editor_options:
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-corVis is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. The package can also calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette focuses on the new visualisation techniques for the calculated association and conditional association for every variable pair in the dataset. Efficient seriation techniques have been included to highlight interesting relationships. These ordered assocation and conditional association displays can help find interesting patterns in the dataset.
+corVis is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. The package can also calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette focuses on the new visualisation techniques for the calculated association and conditional association for variable pairs in the dataset. Efficient seriation techniques have been included to order and highlight interesting relationships. These ordered association and conditional association displays can help find interesting patterns in the dataset.
 
 ```{r}
 if (!requireNamespace("palmerpenguins", quietly = TRUE))
@@ -37,10 +37,10 @@ library(dplyr)
 
 After calculating association measures among different variable pairs, these can be visualised using different layouts. `association_heatmap` function can be used to produce famous matrix layout of association measures for every variable pair in the dataset. Figure 1 shows this display for every variable pair in the *penguins* dataset from the *palmerpenguins* package.
    
-It shows a high positive Pearson's correlation among flipper_length_mm and body_mass_g, flipper_length_mm and bill_length_mm, and bill_length_mm and bodymass_g. There seems to be a strong negative Pearson's correlation between flipper_length_mm and bill_depth_mm, and bill_depth_mm and body_mass_g. The plot also shows that there is a high canonical correlation between species and other variables except year and sex, and a high canonical correlation between island and species, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. The variables in the display are ordered using average linkage clustering method to find out highly associated variables quickly.
+It shows a high positive Pearson's correlation among flipper_length_mm and body_mass_g, flipper_length_mm and bill_length_mm, and bill_length_mm and bodymass_g. There seems to be a strong negative Pearson's correlation between flipper_length_mm and bill_depth_mm, and bill_depth_mm and body_mass_g. The plot also shows that there is a high canonical correlation between species and other variables except year and sex, and a high canonical correlation between island and species, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. The variables in the matrix display are ordered using average linkage clustering method of the association matrix to find out highly associated variables quickly.
 
 
-```{r fig.width=6, fig.height=6, fig.align='center', fig.cap="Figure 1: Association matrix display for penguins data"}
+```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 1: Association matrix display for penguins data"}
 df <- penguins
 assoc <- calc_assoc(df)
 association_heatmap(assoc)
@@ -50,9 +50,9 @@ association_heatmap(assoc)
 ### Comparing multiple association measures
 
 
-We can also calculate multiple association measures for all the variable pairs in the dataset and compare them. This will help in finding out pairs of variables with a high difference among different measures and one can investigate these bivariate relationships in more detail. The `pairwise_summary_plot` function can be used to compare various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure 2 shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in *penguins* data. 
+We can also calculate multiple association measures for all the variable pairs in the dataset and compare them. This will help in finding out pairs of variables with a high difference among different measures and one can then investigate these bivariate relationships in more detail. The `pairwise_summary_plot` function can be used to compare various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure 2 shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in *penguins* data. 
 
-```{r fig.width=6, fig.height=6, fig.align='center',fig.cap="Figure 2: Comparing Pearson's and Spearman's correlation coefficient"}
+```{r fig.width=4, fig.height=4, fig.align='center',fig.cap="Figure 2: Comparing Pearson's and Spearman's correlation coefficient"}
 
 df_num <- select(df,where(is.numeric))
 pearson <- calc_assoc(df_num)
@@ -67,9 +67,9 @@ pairwise_summary_plot(compare, group_var = "measure_type")
 ```
 
 
-In addition to matrix layout, we can also use linear layouts for comparing multiple measures. Linear layouts seems to be more suitable when comparing high number of association measures.   
+In addition to matrix layout, we can also use linear layouts for comparing multiple measures. Figure 3 compares the multiple association measures for all the variable pairs in the dataset in a linear layout with all the variable pairs listed on the y-axis and the association measures on the x-axis. The fill of each cell corresponds to the value of association measure. Linear layouts seems to be more suitable when comparing high number of association measures.    
 
-```{r fig.width=6, fig.height=6, fig.align='center',fig.cap="Figure 3: Comparing multiple association measures using a linear layout"}
+```{r fig.width=4, fig.height=5, fig.align='center',fig.cap="Figure 3: Comparing multiple association measures using a linear layout"}
 
 
 pairwise_measures_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
@@ -81,10 +81,10 @@ pairwise_measures_compare(df,measures=c("pearson","spearman","kendall","cancor",
 ## Visualising Conditional Association
 
 
-The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 3 shows a conditional association plot for the *penguins* data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable *island*. The dashed line represents the overall association measure. The plot shows that there is a high value for normalised mutual information between bill_length_mm and species for the penguins which lived in *Biscoe* island compared to the penguins which lived in *Dream* island. It can also be seen that the cell corresponding to variable pair flipper_length_mm and bill_depth_mm has a high negative overall Pearson's correlation and for the penguins which lived in *Biscoe* island but positive  correlation for penguins which lived in *Dream* and *Torgersen* island. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
+The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 4 shows a conditional association plot for the *penguins* data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable *island*. The dashed line represents the overall association measure. The plot shows that there is a high value for normalised mutual information between bill_length_mm and species for the penguins which lived in *Biscoe* island compared to the penguins which lived in *Dream* island. It can also be seen that the cell corresponding to variable pair flipper_length_mm and bill_depth_mm has a high negative overall Pearson's correlation and for the penguins which lived in *Biscoe* island but positive  correlation for penguins which lived in *Dream* and *Torgersen* island. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
 
 
-```{r fig.width=6, fig.height=6, fig.align='center', fig.cap="Figure 4: Conditional Association plot"}
+```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 4: Conditional Association plot"}
 updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               mixed_pair = "tbl_nmi",
                               other_pair = "tbl_nmi")
@@ -93,14 +93,15 @@ cond_assoc <- calc_assoc_by(df, by="island")
 pairwise_summary_plot(cond_assoc)
 ```
 
-We also provide a functionality for highlighting interesting patterns like Simpson's paradox. In the below figure, the highlighted cells indicate the variable pairs where Simpson's paradox is present.
-```{r,fig.width=6, fig.height=6, fig.align='center',fig.cap="Figure 5: Conditional Association plot with Simpson's paradox"}
+We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure 5 shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present.
+
+```{r,fig.width=4, fig.height=4, fig.align='center',fig.cap="Figure 5: Conditional Association plot with Simpson's paradox"}
 pairwise_summary_plot_sp_high(cond_assoc,highlight = "sp")
 ```
 
-The cells can also be higlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score.
+The cells can also be highlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score. Figure 6 shows highlighted cells on the basis of a score provided for a subset of variable pairs.
 
-```{r,fig.width=6, fig.height=6, fig.align='center',fig.cap="Figure 6: Conditional Association plot with manual highlighting"}
+```{r,fig.width=4, fig.height=4, fig.align='center',fig.cap="Figure 6: Conditional Association plot with manual highlighting"}
 highlight <- data.frame(x=c("bill_depth_mm","bill_length_mm","body_mass_g"),
                         y=rep("flipper_length_mm",3),score=c(0.8,0.4,0.1))
 pairwise_summary_plot_sp_high(cond_assoc,highlight = highlight)
@@ -108,9 +109,9 @@ pairwise_summary_plot_sp_high(cond_assoc,highlight = highlight)
 
 
 
-We can also use linear layouts for displaying conditional association. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
+We can also use linear layouts for displaying conditional association. Figure 7 shows a funnel-like linear display for conditional association measures with all the variable pairs on the y-axis, the value of association measure on x-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
 
-```{r fig.width=5, fig.height=7, fig.align='center', fig.cap="Figure 7: Conditional Association plot using linear layout"}
+```{r fig.width=4, fig.height=5, fig.align='center', fig.cap="Figure 7: Conditional Association plot using linear layout"}
 
 pairwise_linear_plot(cond_assoc)
 ```
