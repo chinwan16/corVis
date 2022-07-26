@@ -341,29 +341,3 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
   a
 }
 
-#' Patial Association
-#'
-#' Calculates partial association coefficient for every ordinal variable pair in a dataset.
-#'
-#' @param d dataframe A dataset for exploring association among the variables.
-#' @param method a character string for the correlation coefficient to be calculated. Either "pearson" (default),
-#'               "spearman", or "kendall"
-#' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
-#'
-#' @return tibble
-#' @export
-
-
-tbl_passo <- function(d, method="pearson",handle.na=TRUE,...){
-
-  responses <- names(d)[sapply(d,is.ordered)]
-  adjustments <- setdiff(names(d),responses)
-  passo <- PAsso::PAsso(responses = responses,
-                        adjustments = adjustments,
-                        data = d,
-                        method = method)
-  passo_cor <- passo[["corr"]]
-  assoc_tibble(passo_cor, measure_type="passo")
-
-}
