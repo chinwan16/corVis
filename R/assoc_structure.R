@@ -44,13 +44,7 @@ matrix_assoc <- function(assoc,group="overall"){
   assoc_vars <- unique(c(assoc$y, assoc$x))
   m <- matrix(NA, nrow=length(assoc_vars), ncol=length(assoc_vars))
   rownames(m)<- colnames(m)<- assoc_vars
-  diag(m) <- 1
-  for(i in 1:nrow(assoc)){
-    m[assoc$x[i],assoc$y[i]] <- assoc$measure[i]
-  }
-  m[upper.tri(m)] <- t(m)[upper.tri(m)]
-
-  #m[assoc$x,assoc$y]<- m[assoc$y,assoc$x]<- assoc$measure
+  m[cbind(assoc$x,assoc$y)]<- m[cbind(assoc$y,assoc$x)]<-assoc$measure
   m
 }
 
