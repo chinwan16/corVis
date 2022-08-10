@@ -34,9 +34,9 @@ library(ggplot2)
 library(dplyr)
 ```
 
-# Introduction
+# Section 1: Introduction
 
-Exploratory Data Analysis (EDA) is an important step to explore multivariate datasets prior to modeling. One of the important tools used for EDA is correlation matrix display, popularly known as _corrgram_[@friendly2002corrgrams]. This display is produced by first calculating the association measure (correlation in this case) and then plotting these calcualted values in a matrix display. The display is useful to quickly find highly associated variables which can be explored further and can be taken into consideration during the modeling step. Figure \@ref(fig:corrgram) shows the _corrgram_ for the *penguins* dataset from the *palmerpenguins* package where the diagonal cells have the variable names of the numeric variables in the dataset and the non-diagnonal cell corresponding to a variable pair is colored by the value of Pearson's correlation coefficient between the two variables. It seems that there is a strong positive correlation between _flipper_length_mm_ and _body_mass_g_, and a strong negative correlation between _bill_depth_mm_ and _flipper_length_mm_ of the penguins suggesting a linear trend for these two variable pairs.
+Exploratory Data Analysis (EDA) is an important step to explore multivariate datasets prior to modeling. One of the important tools used for EDA is correlation matrix display, also known as _corrgram_ [@friendly2002corrgrams]. This display is produced by first calculating the correlation and then plotting these calculated values in a matrix display. The display is useful to quickly find highly associated variables which are explored further and are taken into consideration during the modeling step. Figure \@ref(fig:corrgram) shows the _corrgram_ for the `penguins` dataset from the \CRANpkg{palmerpenguins} package where the diagonal cells have the variable names of the numeric variables in the dataset and the non-diagnonal cell corresponding to a variable pair is colored by the value of Pearson's correlation coefficient between the two variables. It seems that there is a strong positive correlation between `flipper_length_mm` and `body_mass_g`, and a strong negative correlation between `bill_depth_mm` and `flipper_length_mm` of the penguins suggesting a linear trend for these two variable pairs.
 
 ```{r corrgram,fig.width=3, fig.height=3, fig.align='center', fig.cap="Example correlation matrix display for penguins data",echo=FALSE}
 df <- penguins
@@ -44,16 +44,20 @@ assoc <- tbl_cor(df)
 association_heatmap(assoc)
 ```
 
-These displays are generally used with Pearson's correlation coefficient and are therefore limited to only numeric variables. In this paper, we propose an extension of the existing _corrgram_ which includes a variety of association measures and where mixed type variables can also be used. We introduce new visualisations which look at multiple association measures for pairs of variables and can assist an analyst to discover interesting variable pairs. We also present displays for conditional associations at different levels of a factor variable which can help to find interesting trivariate relationships. The paper is organised in the following way: first a review of existing packages/methods to calculate and display association, then a quick overiew of some association measures used in the package, then our approach to calculate and visualize associations, followed by a summary.
+The correlation matrix displays are generally used with one of the Pearson's, Spearman's or Kendall's correlation coefficient and are therefore limited to numeric variables. In this paper, we propose extensions of these displays and new visualizations which look at multiple association measures, variables of mixed type, and conditional associations. 
+
+The new visualizations look at multiple association measures for every pair of variables in the data and assist an analyst to discover interesting variable pairs.These displays are useful for all the variable types, which is something existing methods lack. The presented conditional association display is produced by plotting association display at different levels of a factor variable, which helps to find interesting patterns. The paper is organised in the following way: first a review of existing packages/methods to calculate and display association with a quick overiew of some association measures used in the package, then our approach to calculate, visualize and order associations in the package, followed by a discussion.
 
 
-# Background
+# Section 2: Background
 
-There have been extensions to corrgrams like: [@buja2016visualization] and [@sCorrPlot], which have been proposed mainly for exploring correlations among the numeric variables for a high dimensional dataset. We introduce a display which includes all the variables of a dataset, irrespective of the data type, in a conventional corrgram plot displaying  every pairwise association. This saves the effort and time of an analyst for exploring relationship among all the variable pairs. [@kuhn2013applied] have proposed display techniques to compare multiple association measures for every pair of output variable and a predictor to measure the importance of each predictor. This can help in summarizing a complex relationship more efficiently as compared to using just one measure like Pearson's correlation which can only find linear associations. In a similar way, we propose different visualization techniques to compare multiple association measures for all the variable pairs in a dataset which can assist a user in finding interesting patterns.
+The correlation matrix display is an important tool to explore association among variables in a multivariate analysis. It was first introduced by @murdoch1996graphical in which they replaced the numerical entries of a correlation matrix with ellipses and then popularized by [@friendly2002corrgrams] who called them _corrgrams_, wherein he rendered the correlation values with shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The main goal of these displays is to describe the bivariate patterns in a dataset. This section provides a brief review of correlation displays and the association measures which are used to explore interesting relationships.
 
+## Section 2.1: Literature Review on Correlation Displays
 
+There are packages available in R which can be used to create correlation matrix displays. The R package \CRANpkg{corrgram} provides these displays with shaded squares, bars, ellipses, or circular ‘pac-man’ glyphs. The package includes various variable ordering methods which assist in detecting patterns of relations among the variables. The package \CRANpkg{corrr} produces correlation matrix in a `tidy` structure, which then can be used to create correlation displays. In addition to matrix display, the package also plots the correlation values in a network display which is useful when dealing with high-dimensional datasets. There have been other extensions to correlation displays like: [@buja2016visualization] and \CRANpkg{sCorrPlot}, which have been proposed mainly for exploring correlations among the numeric variables for a high dimensional dataset. We introduce a display which includes all the variables of a dataset, irrespective of the data type, displaying  every pairwise association. This saves the effort and time of an analyst for exploring relationship among all the variable pairs. @kuhn2013applied have proposed display techniques to compare multiple association measures for every pair of output variable and a predictor to measure the importance of each predictor. This can help in summarizing a complex relationship more efficiently as compared to using just one measure like Pearson's correlation which can only find linear associations. In a similar way, we propose different visualization techniques to compare multiple association measures for all the variable pairs in a dataset which can assist a user in finding interesting patterns.
 
-# Association Measures
+## Section 2.2: Literature Review on Association Measures
 
 An association measure can be defined as a numerical summary quantifying relationship between two or more variables. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two \emph{numeric} variables and is in the range $[-1,1]$. Similarly, distance correlation coefficient measures the non-linear association between two \emph{numeric} variables and summarizes it in $[0,1]$ where $0$ suggests no non-linear relationship and $1$ suggests very high non-linear relationship. The package provides a collection of various measures of association which can be used to quantify the relationship between two variables and could be used to explore patterns prior to modeling. The measures available in the package are not limited to \emph{numeric} variables only and can be used with \emph{categorical} and \emph{ordinal} variables as well.
 \begin{itemize}
@@ -65,8 +69,8 @@ An association measure can be defined as a numerical summary quantifying relatio
 \item Maximal-information based non-parametric exploration (MINE) statistics.
 \end{itemize}
 
-The package provides a collection of various measures of association which can be used to quantify the relationship between two variables and could be used to explore patterns prior to modeling. The measures available in the package are not limited to *numeric* variables only and can be used with *categorical* and *ordinal* variables as well. Table \@ref(tab:association_measures) lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure. 
-```{r association_measures,echo=FALSE,eval=FALSE}
+The package provides a collection of various measures of association which is used to quantify the relationship between two variables and is used to explore patterns prior to modeling. The measures available in the package are not limited to *numeric* variables and are used with *categorical* and *ordinal* variables as well. Table \@ref(tab:association_measures) lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure. 
+```{r association_measures,echo=FALSE}
 assocMethods <- tribble(
   ~funName, ~typeX, ~typeY,  ~from, ~symmetric, ~min, ~max,
   "tbl_cor", "numeric", "numeric",  "stats::cor", TRUE, -1,1,
@@ -84,50 +88,54 @@ assocMethods <- tribble(
   "tbl_nmi", "any", "any", "corVis", TRUE, 0,1,
   "tbl_easy", "any", "any", "correlation::correlation", TRUE, -1, 1)
 
-knitr::kable(assocMethods)
+kableExtra::kbl(assocMethods, booktabs = T)
+#kableExtra::kable_styling(kable_input,latex_options = "striped")
+#knitr::kable(assocMethods)
 ```
 
-# Calculating Association
+# Section 3: corVis Package
+
+
+## Section 3.1: Calculating Association
 
 We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table 1) for different association measures in the form `tbl_*` to calculate them. For example, a user might be interested in calculating distance correlation for numeric pair of variables in a dataset. This can be done by using `tbl_dcor`. 
 
-```{r}
+```{r,echo=TRUE}
 df <- penguins
 distance <- tbl_dcor(df)
-glimpse(distance)
+head(distance)
 ```
 
 Similarly, one can use `tbl_nmi` to calculate normalised mutual information for numeric, nominal and mixed pair of variables.
-```{r}
+```{r,echo=TRUE}
 nmi <- tbl_nmi(df)
-glimpse(nmi)
+head(nmi)
 ```
 
-These functions return a tibble with the variable pairs and calculated measure, and also with additional classes *pairwise* and *data.frame*. With the pairwise measures of association in a tibble or dataframe structure, the output of these functions can then be used with packages like _dplyr_ , _ggplot2_ for further exploration of association measures. 
+These functions return a tibble with the variable pairs and calculated measure, and also with additional classes `pairwise` and `data.frame`. With the pairwise measures of association in a tibble or dataframe structure, the output of these functions can then be used with packages like `dplyr` , `ggplot2` for further exploration of association measures. 
 
-```{r}
+```{r,echo=TRUE}
 class(distance)
 ```
 
-
-In some applications, a matrix structure for a measure is more useful than dataframe or tibble. The function `matrix_assoc` helps in converting the tibble of association measure to matrix structure. The function takes a tibble or dataframe of the variable pairs of the dataset along with the calculated association measures and returns a symmetric matrix of the variables.
-```{r}
+The function `matrix_assoc` helps in converting the tibble of association measure to matrix structure. The function takes a tibble or dataframe of the variable pairs of the dataset along with the calculated association measures and returns a symmetric matrix of the variables.
+```{r,echo=TRUE}
 head(matrix_assoc(distance))
 ```
-The function outputs a matrix even if any variable pair is missing in the input tibble with  *NA* for corresponding variable pair cell in the matrix output.
-```{r}
+The function outputs a matrix even if any variable pair is missing in the input tibble with  `NA` for corresponding variable pair cell in the matrix output.
+```{r,echo=TRUE}
 distance <- distance[-1,]
 matrix_assoc(distance)
 ```
 
-The function has an additional argument called *group* which represents the level of the grouping categorical variable for which the matrix output needs to be calculated and is set to *overall* as default. 
+The function has an additional argument called `group` which represents the level of the grouping categorical variable for which the matrix output needs to be calculated and is set to `overall` as default. 
 
 
-## Calculating association measures for whole dataset
+### Calculating association measures for whole dataset
 
-`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. In addition to tibble structure, the output also has *paiwise* and *data.frame* class which are important class attributes for producing visual summaries in this package. 
+`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. In addition to tibble structure, the output also has `paiwise` and `data.frame` class which are important class attributes for producing visual summaries in this package. 
 
-```{r}
+```{r,echo=TRUE}
 complete_assoc <- calc_assoc(df)
 glimpse(complete_assoc)
 class(complete_assoc)
@@ -135,7 +143,7 @@ class(complete_assoc)
 
 The function has a *types* argument which is basically a tibble of the association measure to be calculated for different variable pairs. The default tibble of measures is `default_assoc()` which calculates Pearson's correlation if both the variables are numeric, Kendall's tau-b if both the variables are ordinal, canonical correlation if one is factor and other is numeric and canonical correlation for the rest of the variable pairs. 
 
-```{r}
+```{r,echo=TRUE}
 default_measures <- update_assoc()
 default_measures
 ```
@@ -143,7 +151,7 @@ default_measures
 
 An analyst can update these measures using the `update_assoc` function where one can specify a `tbl_*` function to calculate association measure depending on the variable pair in the dataset and a method if it calculates more than one measure.
 
-```{r}
+```{r,echo=TRUE}
 updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
@@ -151,7 +159,7 @@ updated_assoc <- update_assoc(num_pair = "tbl_cor",
 updated_assoc
 
 updated_complete_assoc <- calc_assoc(df, types = updated_assoc)
-glimpse(updated_complete_assoc)
+head(updated_complete_assoc)
 ```
 
 The tibble output for `calc_assoc` has the following structure:
@@ -162,30 +170,31 @@ The tibble output for `calc_assoc` has the following structure:
   
 The variable pairs in the output are unique pairs and a subset of all the variable pairs of a dataset where `x` $\neq$ `y`. As explained earlier, the `measure_type` represents the association measure calculated for a specific type of variable pair. A user can be interested in calculating multiple association measures for a type of variable pair. This can be done by using the `calc_assoc` and `update_assoc` together for calculating different association measures and then merging the output tibbles. 
 
-## Calculating conditional association
+### Calculating conditional association
 
-`calc_assoc_by` can be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a tibble structure with _pairwise_ and _data.frame_ as additional class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
-```{r}
+`calc_assoc_by` can be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a tibble structure with `pairwise` and `data.frame` as additional class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
+```{r,echo=TRUE}
 complete_assoc_by <- calc_assoc_by(df,by = "sex")
 ```
 
 The function also has a `types` argument which can be updated similarly to `calc_assoc`. 
-```{r}
+```{r,echo=TRUE}
 updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
                               other_pair = "tbl_nmi")
 updated_complete_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc)
-glimpse(updated_complete_assoc_by)
+head(updated_complete_assoc_by)
 ```
 
 By default, the function calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (*overall*). This behavior can be changed by setting `include.overall` to *FALSE*.
 
-```{r}
+```{r,echo=TRUE}
 complete_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
 ```
 
 The tibble output for `calc_assoc_by` has the following structure:
+
   - `x` and `y` representing a pair of variables
   - `measure` representing the calculated value for association measure
   - `measure_type` representing the association measure calculated for `x` and `y` pair.
@@ -193,13 +202,13 @@ The tibble output for `calc_assoc_by` has the following structure:
  
 The variable pairs in the output are repeated for every level of `by` variable. At present the function doesn't allow multiple `by` variables to be used for conditioning but is something which can be done by using the `calc_assoc_by` function multiple times and then merging the multiple outputs.For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc_by` and then can merge these multiple tibble outputs.
 
-## Creating Your Own Association Measure
+### Creating Your Own Association Measure
 
 We introduce a new structure for calculating association measures which can be used to add other existing or new measures in the package. These measures can then then be analysed and visualised using the plot functions present in the package. For example, Cramer's V is a measure to summarize association between two categorical variables using the Chi-square test statistic. If a user wants to add Cramer's V to the package, they can write a simple function and then can use it for their analysis.
 
 
 
-# Visualising Association
+## Section 3.2: Visualising Association
 
 We propose novel visualisations to display association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously to find out interesting patterns. Efficient seriation techniques have been included to order and highlight interesting relationships. These ordered association and conditional association displays can help find interesting patterns in the dataset. While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies lookup, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but lookup is more challenging. Variable pairs can be ordered by relevance (usually difference in measures of association or across the factor levels), and less relevant pairs can be omitted. Linear displays are also suitable to display associations between the response and predictors only. Our selection criteria for a better display were based on :
 \begin{itemize}
@@ -247,7 +256,7 @@ pairwise_measures_compare(df,measures=c("pearson","spearman","kendall","cancor",
 
 
 
-## Visualising Conditional Association
+### Visualising Conditional Association
 
 The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure \@ref(fig:cond-assoc) shows a conditional association plot for the *penguins* data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable *island*. The dashed line represents the overall association measure. The plot shows that there is a high value for normalised mutual information between bill_length_mm and species for the penguins which lived in *Biscoe* island compared to the penguins which lived in *Dream* island. It can also be seen that the cell corresponding to variable pair flipper_length_mm and bill_depth_mm has a high negative overall Pearson's correlation and for the penguins which lived in *Biscoe* island but positive  correlation for penguins which lived in *Dream* and *Torgersen* island. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
 
@@ -284,7 +293,10 @@ We can also use linear layouts for displaying conditional association. Figure 7 
 pairwise_linear_plot(cond_assoc)
 ```
 
+## Section 3.3: Seriation
 
-# Summary
+
+
+# Section 4: Discussion
 
 

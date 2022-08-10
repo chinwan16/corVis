@@ -22,27 +22,27 @@ We use seriation in our displays which helps in highlighting interesting
 patterns easily. The R package \emph{corVis} provides an implementation.
 }
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\hypertarget{section-1-introduction}{%
+\section{Section 1: Introduction}\label{section-1-introduction}}
 
 Exploratory Data Analysis (EDA) is an important step to explore
 multivariate datasets prior to modeling. One of the important tools used
-for EDA is correlation matrix display, popularly known as
-\emph{corrgram}\citep{friendly2002corrgrams}. This display is produced
-by first calculating the association measure (correlation in this case)
-and then plotting these calcualted values in a matrix display. The
-display is useful to quickly find highly associated variables which can
-be explored further and can be taken into consideration during the
-modeling step. Figure \ref{fig:corrgram} shows the \emph{corrgram} for
-the \emph{penguins} dataset from the \emph{palmerpenguins} package where
-the diagonal cells have the variable names of the numeric variables in
-the dataset and the non-diagnonal cell corresponding to a variable pair
-is colored by the value of Pearson's correlation coefficient between the
-two variables. It seems that there is a strong positive correlation
-between \emph{flipper\_length\_mm} and \emph{body\_mass\_g}, and a
-strong negative correlation between \emph{bill\_depth\_mm} and
-\emph{flipper\_length\_mm} of the penguins suggesting a linear trend for
-these two variable pairs.
+for EDA is correlation matrix display, also known as \emph{corrgram}
+\citep{friendly2002corrgrams}. This display is produced by first
+calculating the correlation and then plotting these calculated values in
+a matrix display. The display is useful to quickly find highly
+associated variables which are explored further and are taken into
+consideration during the modeling step. Figure \ref{fig:corrgram} shows
+the \emph{corrgram} for the \texttt{penguins} dataset from the
+\CRANpkg{palmerpenguins} package where the diagonal cells have the
+variable names of the numeric variables in the dataset and the
+non-diagnonal cell corresponding to a variable pair is colored by the
+value of Pearson's correlation coefficient between the two variables. It
+seems that there is a strong positive correlation between
+\texttt{flipper\_length\_mm} and \texttt{body\_mass\_g}, and a strong
+negative correlation between \texttt{bill\_depth\_mm} and
+\texttt{flipper\_length\_mm} of the penguins suggesting a linear trend
+for these two variable pairs.
 
 \begin{Schunk}
 \begin{figure}
@@ -55,42 +55,73 @@ these two variable pairs.
 \end{figure}
 \end{Schunk}
 
-These displays are generally used with Pearson's correlation coefficient
-and are therefore limited to only numeric variables. In this paper, we
-propose an extension of the existing \emph{corrgram} which includes a
-variety of association measures and where mixed type variables can also
-be used. We introduce new visualisations which look at multiple
-association measures for pairs of variables and can assist an analyst to
-discover interesting variable pairs. We also present displays for
-conditional associations at different levels of a factor variable which
-can help to find interesting trivariate relationships. The paper is
-organised in the following way: first a review of existing
-packages/methods to calculate and display association, then a quick
-overiew of some association measures used in the package, then our
-approach to calculate and visualize associations, followed by a summary.
+The correlation matrix displays are generally used with one of the
+Pearson's, Spearman's or Kendall's correlation coefficient and are
+therefore limited to numeric variables. In this paper, we propose
+extensions of these displays and new visualizations which look at
+multiple association measures, variables of mixed type, and conditional
+associations.
 
-\hypertarget{background}{%
-\section{Background}\label{background}}
+The new visualizations look at multiple association measures for every
+pair of variables in the data and assist an analyst to discover
+interesting variable pairs.These displays are useful for all the
+variable types, which is something existing methods lack. The presented
+conditional association display is produced by plotting association
+display at different levels of a factor variable, which helps to find
+interesting patterns. The paper is organised in the following way: first
+a review of existing packages/methods to calculate and display
+association with a quick overiew of some association measures used in
+the package, then our approach to calculate, visualize and order
+associations in the package, followed by a discussion.
 
-There have been extensions to corrgrams like:
-\citep{buja2016visualization} and \citep{sCorrPlot}, which have been
-proposed mainly for exploring correlations among the numeric variables
-for a high dimensional dataset. We introduce a display which includes
-all the variables of a dataset, irrespective of the data type, in a
-conventional corrgram plot displaying every pairwise association. This
-saves the effort and time of an analyst for exploring relationship among
-all the variable pairs. \citep{kuhn2013applied} have proposed display
-techniques to compare multiple association measures for every pair of
-output variable and a predictor to measure the importance of each
-predictor. This can help in summarizing a complex relationship more
+\hypertarget{section-2-background}{%
+\section{Section 2: Background}\label{section-2-background}}
+
+The correlation matrix display is an important tool to explore
+association among variables in a multivariate analysis. It was first
+introduced by \citet{murdoch1996graphical} in which they replaced the
+numerical entries of a correlation matrix with ellipses and then
+popularized by \citep{friendly2002corrgrams} who called them
+\emph{corrgrams}, wherein he rendered the correlation values with shaded
+squares, bars, ellipses, or circular `pac-man' symbols. The main goal of
+these displays is to describe the bivariate patterns in a dataset. This
+section provides a brief review of correlation displays and the
+association measures which are used to explore interesting
+relationships.
+
+\hypertarget{section-2.1-literature-review-on-correlation-displays}{%
+\subsection{Section 2.1: Literature Review on Correlation
+Displays}\label{section-2.1-literature-review-on-correlation-displays}}
+
+There are packages available in R which can be used to create
+correlation matrix displays. The R package \CRANpkg{corrgram} provides
+these displays with shaded squares, bars, ellipses, or circular
+`pac-man' glyphs. The package includes various variable ordering methods
+which assist in detecting patterns of relations among the variables. The
+package \CRANpkg{corrr} produces correlation matrix in a \texttt{tidy}
+structure, which then can be used to create correlation displays. In
+addition to matrix display, the package also plots the correlation
+values in a network display which is useful when dealing with
+high-dimensional datasets. There have been other extensions to
+correlation displays like: \citep{buja2016visualization} and
+\CRANpkg{sCorrPlot}, which have been proposed mainly for exploring
+correlations among the numeric variables for a high dimensional dataset.
+We introduce a display which includes all the variables of a dataset,
+irrespective of the data type, displaying every pairwise association.
+This saves the effort and time of an analyst for exploring relationship
+among all the variable pairs. \citet{kuhn2013applied} have proposed
+display techniques to compare multiple association measures for every
+pair of output variable and a predictor to measure the importance of
+each predictor. This can help in summarizing a complex relationship more
 efficiently as compared to using just one measure like Pearson's
 correlation which can only find linear associations. In a similar way,
 we propose different visualization techniques to compare multiple
 association measures for all the variable pairs in a dataset which can
 assist a user in finding interesting patterns.
 
-\hypertarget{association-measures}{%
-\section{Association Measures}\label{association-measures}}
+\hypertarget{section-2.2-literature-review-on-association-measures}{%
+\subsection{Section 2.2: Literature Review on Association
+Measures}\label{section-2.2-literature-review-on-association-measures}}
 
 An association measure can be defined as a numerical summary quantifying
 relationship between two or more variables. For example, Pearson's
@@ -116,18 +147,49 @@ used with \emph{categorical} and \emph{ordinal} variables as well.
 \end{itemize}
 
 The package provides a collection of various measures of association
-which can be used to quantify the relationship between two variables and
-could be used to explore patterns prior to modeling. The measures
-available in the package are not limited to \emph{numeric} variables
-only and can be used with \emph{categorical} and \emph{ordinal}
-variables as well. Table @ref(tab:association\_measures) lists the
-different measures of association provided in the package with the
-variable types they can be used with, the package used for calculation,
-the information on whether the measure is symmetric, and the minimum and
-maximum value of the measure.
+which is used to quantify the relationship between two variables and is
+used to explore patterns prior to modeling. The measures available in
+the package are not limited to \emph{numeric} variables and are used
+with \emph{categorical} and \emph{ordinal} variables as well. Table
+@ref(tab:association\_measures) lists the different measures of
+association provided in the package with the variable types they can be
+used with, the package used for calculation, the information on whether
+the measure is symmetric, and the minimum and maximum value of the
+measure.
 
-\hypertarget{calculating-association}{%
-\section{Calculating Association}\label{calculating-association}}
+\begin{Schunk}
+
+\begin{tabular}[t]{lllllrr}
+\toprule
+funName & typeX & typeY & from & symmetric & min & max\\
+\midrule
+tbl\_cor & numeric & numeric & stats::cor & TRUE & -1 & 1\\
+tbl\_dcor & numeric & numeric & energy::dcor2d & TRUE & 0 & 1\\
+tbl\_mine & numeric & numeric & minerva::mine & TRUE & 0 & 1\\
+tbl\_polycor & ordinal & ordinal & polycor::polychor & TRUE & -1 & 1\\
+tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & TRUE & -1 & 1\\
+\addlinespace
+tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & FALSE & 0 & 1\\
+tbl\_gkLambda & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & 0 & 1\\
+tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & 0 & 1\\
+tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & TRUE & 0 & 1\\
+tbl\_chi & nominal & nominal & DescTools::ContCoef & TRUE & 0 & 1\\
+\addlinespace
+tbl\_cancor & nominal & nominal & corVis & TRUE & 0 & 1\\
+tbl\_cancor & nominal & numerical & corVis & TRUE & 0 & 1\\
+tbl\_nmi & any & any & corVis & TRUE & 0 & 1\\
+tbl\_easy & any & any & correlation::correlation & TRUE & -1 & 1\\
+\bottomrule
+\end{tabular}
+
+\end{Schunk}
+
+\hypertarget{section-3-corvis-package}{%
+\section{Section 3: corVis Package}\label{section-3-corvis-package}}
+
+\hypertarget{section-3.1-calculating-association}{%
+\subsection{Section 3.1: Calculating
+Association}\label{section-3.1-calculating-association}}
 
 We introduce a method which creates a tibble structure for the variable
 pairs in a dataset along with calculated association measure. The
@@ -138,13 +200,21 @@ for numeric pair of variables in a dataset. This can be done by using
 \texttt{tbl\_dcor}.
 
 \begin{Schunk}
+\begin{Sinput}
+df <- penguins
+distance <- tbl_dcor(df)
+head(distance)
+\end{Sinput}
 \begin{Soutput}
-#> Rows: 10
-#> Columns: 4
-#> $ x            <chr> "bill_depth_mm", "flipper_length_mm", "body_mass_g", "yea~
-#> $ y            <chr> "bill_length_mm", "bill_length_mm", "bill_length_mm", "bi~
-#> $ measure      <dbl> 0.38720211, 0.66645577, 0.58713186, 0.07842516, 0.7039636~
-#> $ measure_type <chr> "dcor", "dcor", "dcor", "dcor", "dcor", "dcor", "dcor", "~
+#> # A tibble: 6 x 4
+#>   x                 y              measure measure_type
+#>   <chr>             <chr>            <dbl> <chr>       
+#> 1 bill_depth_mm     bill_length_mm  0.387  dcor        
+#> 2 flipper_length_mm bill_length_mm  0.666  dcor        
+#> 3 body_mass_g       bill_length_mm  0.587  dcor        
+#> 4 year              bill_length_mm  0.0784 dcor        
+#> 5 flipper_length_mm bill_depth_mm   0.704  dcor        
+#> 6 body_mass_g       bill_depth_mm   0.614  dcor
 \end{Soutput}
 \end{Schunk}
 
@@ -152,37 +222,48 @@ Similarly, one can use \texttt{tbl\_nmi} to calculate normalised mutual
 information for numeric, nominal and mixed pair of variables.
 
 \begin{Schunk}
+\begin{Sinput}
+nmi <- tbl_nmi(df)
+head(nmi)
+\end{Sinput}
 \begin{Soutput}
-#> Rows: 28
-#> Columns: 4
-#> $ x            <chr> "island", "bill_length_mm", "bill_depth_mm", "flipper_len~
-#> $ y            <chr> "species", "species", "species", "species", "species", "s~
-#> $ measure      <dbl> 5.069605e-01, 3.525698e-01, 3.146613e-01, 3.431497e-01, 3~
-#> $ measure_type <chr> "nmi", "nmi", "nmi", "nmi", "nmi", "nmi", "nmi", "nmi", "~
+#> # A tibble: 6 x 4
+#>   x                 y         measure measure_type
+#>   <chr>             <chr>       <dbl> <chr>       
+#> 1 island            species 0.507     nmi         
+#> 2 bill_length_mm    species 0.353     nmi         
+#> 3 bill_depth_mm     species 0.315     nmi         
+#> 4 flipper_length_mm species 0.343     nmi         
+#> 5 body_mass_g       species 0.300     nmi         
+#> 6 sex               species 0.0000854 nmi
 \end{Soutput}
 \end{Schunk}
 
 These functions return a tibble with the variable pairs and calculated
-measure, and also with additional classes \emph{pairwise} and
-\emph{data.frame}. With the pairwise measures of association in a tibble
-or dataframe structure, the output of these functions can then be used
-with packages like \emph{dplyr} , \emph{ggplot2} for further exploration
-of association measures.
+measure, and also with additional classes \texttt{pairwise} and
+\texttt{data.frame}. With the pairwise measures of association in a
+tibble or dataframe structure, the output of these functions can then be
+used with packages like \texttt{dplyr} , \texttt{ggplot2} for further
+exploration of association measures.
 
 \begin{Schunk}
+\begin{Sinput}
+class(distance)
+\end{Sinput}
 \begin{Soutput}
 #> [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"
 \end{Soutput}
 \end{Schunk}
 
-In some applications, a matrix structure for a measure is more useful
-than dataframe or tibble. The function \texttt{matrix\_assoc} helps in
-converting the tibble of association measure to matrix structure. The
-function takes a tibble or dataframe of the variable pairs of the
-dataset along with the calculated association measures and returns a
-symmetric matrix of the variables.
+The function \texttt{matrix\_assoc} helps in converting the tibble of
+association measure to matrix structure. The function takes a tibble or
+dataframe of the variable pairs of the dataset along with the calculated
+association measures and returns a symmetric matrix of the variables.
 
 \begin{Schunk}
+\begin{Sinput}
+head(matrix_assoc(distance))
+\end{Sinput}
 \begin{Soutput}
 #>                   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
 #> bill_length_mm                NA     0.3872021         0.6664558   0.5871319
@@ -200,10 +281,14 @@ symmetric matrix of the variables.
 \end{Schunk}
 
 The function outputs a matrix even if any variable pair is missing in
-the input tibble with \emph{NA} for corresponding variable pair cell in
-the matrix output.
+the input tibble with \texttt{NA} for corresponding variable pair cell
+in the matrix output.
 
 \begin{Schunk}
+\begin{Sinput}
+distance <- distance[-1,]
+matrix_assoc(distance)
+\end{Sinput}
 \begin{Soutput}
 #>                   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
 #> bill_length_mm                NA            NA         0.6664558   0.5871319
@@ -220,22 +305,26 @@ the matrix output.
 \end{Soutput}
 \end{Schunk}
 
-The function has an additional argument called \emph{group} which
+The function has an additional argument called \texttt{group} which
 represents the level of the grouping categorical variable for which the
-matrix output needs to be calculated and is set to \emph{overall} as
+matrix output needs to be calculated and is set to \texttt{overall} as
 default.
 
 \hypertarget{calculating-association-measures-for-whole-dataset}{%
-\subsection{Calculating association measures for whole
+\subsubsection{Calculating association measures for whole
 dataset}\label{calculating-association-measures-for-whole-dataset}}
 
 \texttt{calc\_assoc} can be used to calculate association measures for
 all the variable pairs in the dataset at once in a tibble structure. In
-addition to tibble structure, the output also has \emph{paiwise} and
-\emph{data.frame} class which are important class attributes for
+addition to tibble structure, the output also has \texttt{paiwise} and
+\texttt{data.frame} class which are important class attributes for
 producing visual summaries in this package.
 
 \begin{Schunk}
+\begin{Sinput}
+complete_assoc <- calc_assoc(df)
+glimpse(complete_assoc)
+\end{Sinput}
 \begin{Soutput}
 #> Rows: 28
 #> Columns: 4
@@ -244,6 +333,9 @@ producing visual summaries in this package.
 #> $ measure      <dbl> 0.81328762, 0.84131393, 0.82447508, 0.88217284, 0.8183348~
 #> $ measure_type <chr> "cancor", "cancor", "cancor", "cancor", "cancor", "cancor~
 \end{Soutput}
+\begin{Sinput}
+class(complete_assoc)
+\end{Sinput}
 \begin{Soutput}
 #> [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"
 \end{Soutput}
@@ -258,6 +350,10 @@ if one is factor and other is numeric and canonical correlation for the
 rest of the variable pairs.
 
 \begin{Schunk}
+\begin{Sinput}
+default_measures <- update_assoc()
+default_measures
+\end{Sinput}
 \begin{Soutput}
 #> # A tibble: 4 x 4
 #>   funName    typeX   typeY   argList
@@ -275,6 +371,13 @@ association measure depending on the variable pair in the dataset and a
 method if it calculates more than one measure.
 
 \begin{Schunk}
+\begin{Sinput}
+updated_assoc <- update_assoc(num_pair = "tbl_cor",
+                              num_pair_argList = "spearman",
+                              mixed_pair = "tbl_cancor",
+                              other_pair = "tbl_nmi")
+updated_assoc
+\end{Sinput}
 \begin{Soutput}
 #> # A tibble: 4 x 4
 #>   funName    typeX   typeY   argList  
@@ -284,13 +387,20 @@ method if it calculates more than one measure.
 #> 3 tbl_cancor factor  numeric <NULL>   
 #> 4 tbl_nmi    other   other   <NULL>
 \end{Soutput}
+\begin{Sinput}
+updated_complete_assoc <- calc_assoc(df, types = updated_assoc)
+head(updated_complete_assoc)
+\end{Sinput}
 \begin{Soutput}
-#> Rows: 28
-#> Columns: 4
-#> $ x            <chr> "island", "bill_length_mm", "bill_depth_mm", "flipper_len~
-#> $ y            <chr> "species", "species", "species", "species", "species", "s~
-#> $ measure      <dbl> 5.069605e-01, 8.413139e-01, 8.244751e-01, 8.821728e-01, 8~
-#> $ measure_type <chr> "nmi", "cancor", "cancor", "cancor", "cancor", "nmi", "ca~
+#> # A tibble: 6 x 4
+#>   x                 y         measure measure_type
+#>   <chr>             <chr>       <dbl> <chr>       
+#> 1 island            species 0.507     nmi         
+#> 2 bill_length_mm    species 0.841     cancor      
+#> 3 bill_depth_mm     species 0.824     cancor      
+#> 4 flipper_length_mm species 0.882     cancor      
+#> 5 body_mass_g       species 0.818     cancor      
+#> 6 sex               species 0.0000854 nmi
 \end{Soutput}
 \end{Schunk}
 
@@ -318,30 +428,46 @@ variable pair. This can be done by using the \texttt{calc\_assoc} and
 measures and then merging the output tibbles.
 
 \hypertarget{calculating-conditional-association}{%
-\subsection{Calculating conditional
+\subsubsection{Calculating conditional
 association}\label{calculating-conditional-association}}
 
 \texttt{calc\_assoc\_by} can be used to calculate association measures
 for all the variable pairs at different levels of a categorical
 variable. This can help in exploring the conditional associations and
 find out interesting patterns in the data prior to modeling. The output
-of this function is a tibble structure with \emph{pairwise} and
-\emph{data.frame} as additional class attributes. The \texttt{by}
+of this function is a tibble structure with \texttt{pairwise} and
+\texttt{data.frame} as additional class attributes. The \texttt{by}
 argument is used for the grouping variable which needs to be
 categorical.
+
+\begin{Schunk}
+\begin{Sinput}
+complete_assoc_by <- calc_assoc_by(df,by = "sex")
+\end{Sinput}
+\end{Schunk}
 
 The function also has a \texttt{types} argument which can be updated
 similarly to \texttt{calc\_assoc}.
 
 \begin{Schunk}
+\begin{Sinput}
+updated_assoc <- update_assoc(num_pair = "tbl_cor",
+                              num_pair_argList = "spearman",
+                              mixed_pair = "tbl_cancor",
+                              other_pair = "tbl_nmi")
+updated_complete_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc)
+head(updated_complete_assoc_by)
+\end{Sinput}
 \begin{Soutput}
-#> Rows: 84
-#> Columns: 5
-#> $ x            <chr> "island", "bill_length_mm", "bill_depth_mm", "flipper_len~
-#> $ y            <chr> "species", "species", "species", "species", "species", "s~
-#> $ measure      <dbl> 0.50167116, 0.88495341, 0.89966135, 0.91412697, 0.9106057~
-#> $ measure_type <chr> "nmi", "cancor", "cancor", "cancor", "cancor", "cancor", ~
-#> $ by           <fct> female, female, female, female, female, female, female, f~
+#> # A tibble: 6 x 5
+#>   x                 y       measure measure_type by    
+#>   <chr>             <chr>     <dbl> <chr>        <fct> 
+#> 1 island            species  0.502  nmi          female
+#> 2 bill_length_mm    species  0.885  cancor       female
+#> 3 bill_depth_mm     species  0.900  cancor       female
+#> 4 flipper_length_mm species  0.914  cancor       female
+#> 5 body_mass_g       species  0.911  cancor       female
+#> 6 year              species  0.0457 cancor       female
 \end{Soutput}
 \end{Schunk}
 
@@ -351,13 +477,29 @@ pairwise association measures for the ungrouped data (\emph{overall}).
 This behavior can be changed by setting \texttt{include.overall} to
 \emph{FALSE}.
 
+\begin{Schunk}
+\begin{Sinput}
+complete_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
+\end{Sinput}
+\end{Schunk}
+
 The tibble output for \texttt{calc\_assoc\_by} has the following
-structure: - \texttt{x} and \texttt{y} representing a pair of variables
-- \texttt{measure} representing the calculated value for association
-measure - \texttt{measure\_type} representing the association measure
-calculated for \texttt{x} and \texttt{y} pair. - \texttt{by}
-representing the levels of the categorical variable used in the
-function.
+structure:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{x} and \texttt{y} representing a pair of variables
+\item
+  \texttt{measure} representing the calculated value for association
+  measure
+\item
+  \texttt{measure\_type} representing the association measure calculated
+  for \texttt{x} and \texttt{y} pair.
+\item
+  \texttt{by} representing the levels of the categorical variable used
+  in the function.
+\end{itemize}
 
 The variable pairs in the output are repeated for every level of
 \texttt{by} variable. At present the function doesn't allow multiple
@@ -369,7 +511,7 @@ measures for a specific variable type, one can use
 these multiple tibble outputs.
 
 \hypertarget{creating-your-own-association-measure}{%
-\subsection{Creating Your Own Association
+\subsubsection{Creating Your Own Association
 Measure}\label{creating-your-own-association-measure}}
 
 We introduce a new structure for calculating association measures which
@@ -381,8 +523,9 @@ Chi-square test statistic. If a user wants to add Cramer's V to the
 package, they can write a simple function and then can use it for their
 analysis.
 
-\hypertarget{visualising-association}{%
-\section{Visualising Association}\label{visualising-association}}
+\hypertarget{section-3.2-visualising-association}{%
+\subsection{Section 3.2: Visualising
+Association}\label{section-3.2-visualising-association}}
 
 We propose novel visualisations to display association for every
 variable pair in a dataset in a single plot and show multiple bivariate
@@ -472,7 +615,7 @@ suitable when comparing high number of association measures.
 \end{Schunk}
 
 \hypertarget{visualising-conditional-association}{%
-\subsection{Visualising Conditional
+\subsubsection{Visualising Conditional
 Association}\label{visualising-conditional-association}}
 
 The package includes a function \texttt{calc\_assoc\_by} which
@@ -558,6 +701,9 @@ of grouping variable are high.
 \caption[Conditional Association plot using linear layout]{Conditional Association plot using linear layout}\label{fig:linear_cond_assoc}
 \end{figure}
 \end{Schunk}
+
+\hypertarget{section-3.3-seriation}{%
+\subsection{Section 3.3: Seriation}\label{section-3.3-seriation}}
 
 \bibliography{RJreferences.bib}
 
