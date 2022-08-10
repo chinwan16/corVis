@@ -73,7 +73,7 @@ assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
 #' @param method a character string for the correlation coefficient to be calculated. Either "pearson" (default),
 #'               "spearman", or "kendall"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -99,7 +99,7 @@ tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
 #'
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -137,7 +137,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 #'
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -175,7 +175,7 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 #'               "shepherd" (for Shepherd's Pi correlation). Setting "auto" will select the most most relevant
 #'               method depending on the variable types in the dataset.
 #' @param handle.na NA handling not available
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -205,7 +205,7 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
 #' @param method character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 #'               "mcn", or "mic-r2"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -231,7 +231,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #'
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -273,7 +273,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 #'
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -295,7 +295,7 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param method a character string for the correlation coefficient to be calculated. Either "B" (default),
 #'               "A", "C" or "W"
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
@@ -327,7 +327,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 #'
 #' @param d dataframe A dataset for exploring association among the variables.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
-#' @param ... in progress
+#' @param ... other arguments
 #'
 #' @return tibble
 #' @export
