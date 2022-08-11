@@ -15,12 +15,12 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @examples
-#' pairwise_summary_plot(calc_assoc(iris))
-#' pairwise_summary_plot(calc_assoc_by(iris,"Species"))
-#' pairwise_summary_plot(calc_assoc_by(iris,"Species"),fill="measure_type")
+#' pairwise_2d_plot(calc_assoc(iris))
+#' pairwise_2d_plot(calc_assoc_by(iris,"Species"))
+#' pairwise_2d_plot(calc_assoc_by(iris,"Species"),fill="measure_type")
 
 
-pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
+pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
                                   var_order = "default", limits=c(-1,1), sp=TRUE){
 
 
@@ -126,7 +126,7 @@ pairwise_summary_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="de
 #' @importFrom magrittr %>%
 
 
-pairwise_summary_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
+pairwise_2d_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
                                           var_order = "default", limits=c(-1,1), highlight="sp"){
 
   if (isTRUE(var_order %in% c("default", "max_diff"))){
@@ -342,10 +342,10 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
 #' @export
 #'
 #' @examples
-#' pairwise_linear_plot(calc_assoc_by(iris,"Species"))
+#' pairwise_1d_plot(calc_assoc_by(iris,"Species"))
 
 
-pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
+pairwise_1d_plot <- function(assoc, group_var = "by",fill="default",
                                  var_order = "default", limits=c(-1,1)){
 
   if (isTRUE(var_order == "default")){
@@ -402,10 +402,10 @@ pairwise_linear_plot <- function(assoc, group_var = "by",fill="default",
 #' @export
 #'
 #' @examples
-#' pairwise_measures_compare(iris)
+#' pairwise_1d_compare(iris)
 
 
-pairwise_measures_compare <- function(df,
+pairwise_1d_compare <- function(df,
                                            measures=c("pearson",
                                                       "spearman",
                                                       "kendall",

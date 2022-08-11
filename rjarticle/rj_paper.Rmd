@@ -222,7 +222,7 @@ look up
 
 Figure \@ref(fig:assoc-heatmap) shows this display for every variable pair in the *penguins* dataset from the *palmerpenguins* package. It shows a high positive Pearson's correlation among flipper_length_mm and body_mass_g, flipper_length_mm and bill_length_mm, and bill_length_mm and bodymass_g. There seems to be a strong negative Pearson's correlation between flipper_length_mm and bill_depth_mm, and bill_depth_mm and body_mass_g. The plot also shows that there is a high canonical correlation between species and other variables except year and sex, and a high canonical correlation between island and species, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. The variables in the display are ordered using average linkage clustering method to find out highly associated variables quickly.
 
-```{r assoc-heatmap,fig.width=4, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data"}
+```{r assoc-heatmap,fig.width=4, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs."}
 df <- penguins
 assoc <- calc_assoc(df)
 association_heatmap(assoc)
@@ -231,7 +231,7 @@ association_heatmap(assoc)
 
 We can also calculate multiple association measures for all the variable pairs in the dataset and compare them. This will help in finding out pairs of variables with a high difference among different measures and one can investigate these bivariate relationships in more detail. The `pairwise_summary_plot` function can be used to compare various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure \@ref(fig:compare-matrix) shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in *penguins* data. 
 
-```{r compare-matrix, fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing Pearson's and Spearman's correlation coefficient"}
+```{r compare-matrix, fig.width=4, fig.height=4, fig.align='center',fig.cap="Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations."}
 
 df_num <- select(df,where(is.numeric))
 pearson <- calc_assoc(df_num)
@@ -247,7 +247,7 @@ pairwise_summary_plot(compare, group_var = "measure_type")
 
 In addition to matrix layout, we can also use linear layouts for comparing multiple measures. Figure \@ref(fig:compare-linear) shows a linear layout comparing multiple association measures for all the variable pairs in the penguins data.  Linear layouts seems to be more suitable when comparing high number of association measures.   
 
-```{r compare-linear,fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout"}
+```{r compare-linear,fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair."}
 
 
 pairwise_measures_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
