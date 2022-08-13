@@ -2,7 +2,7 @@
 #'
 #' Calculates a measure of association for every variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param types a tibble for the measures to be calculated for different variable types. The default is
 #'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
 #'              Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
@@ -77,7 +77,7 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
 #' Calculates a measure of association for every variable pair at different levels of a third (conditional)
 #' variable in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param by a character string for the name of the conditional variable. Set to *NULL* by default.
 #' @param types a tibble for the measures to be calculated for different variable types. The default is
 #'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
