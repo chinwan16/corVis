@@ -2,9 +2,7 @@
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
 #'
-#' @param data dataframe A dataset for exploring association among the variables or a dataframe with calculated
-#'          measure of association for every variable pair
-
+#' @param data dataframe
 #' @param measure_type a character string indicating the measure of association
 #'
 #' @return tibble
@@ -23,8 +21,7 @@ assoc_tibble <- function(data, measure_type="?"){
 #' A tibble structure for a measure of association
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
-#' @param data matrix A symmetric matrix of the variabels of a dataset with entries representing the measure of
-#'          association
+#' @param data matrix
 #' @param measure_type a character string indicating the measure of association
 #' @return tibble
 #' @export
@@ -45,9 +42,7 @@ assoc_tibble.matrix <- function(data, measure_type="?"){
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
 #'
-#' @param data dataframe A dataset for exploring association among the variables or a dataframe with calculated
-#'          measure of association for every variable pair
-
+#' @param data dataframe
 #' @param measure_type a character string indicating the measure of association
 #'
 #' @return tibble
@@ -69,7 +64,7 @@ assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
 #'
 #' Calculates one of either pearson, spearman or kendall correlation for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param method a character string for the correlation coefficient to be calculated. Either "pearson" (default),
 #'               "spearman", or "kendall"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
@@ -97,7 +92,7 @@ tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
 #'
 #' Calculates canonical correlation for every variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -135,7 +130,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates distance correlation for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -167,7 +162,7 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 #' Calculates one of the many correlation coefficients available with easystats package
 #' for variable pairs in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param method a character string for the correlation coefficient to be calculated. One of "pearson" (default),
 #'               "spearman", "kendall", "biserial", "polychoric", "tetrachoric", "biweight", "distance",
 #'               "percentage" (for percentage bend correlation), "blomqvist" (for Blomqvist's coefficient),
@@ -201,7 +196,7 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
 #'
 #' Calculates MINE family measures for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param method character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 #'               "mcn", or "mic-r2"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
@@ -229,7 +224,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #'
 #' Calculates normalized mutual information for every variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -271,7 +266,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 #'
 #' Calculates Polychoric correlation for every variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -292,7 +287,7 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates one of either Kendall's tau A, B, C or Kendall's W for every ordinal variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param method a character string for the correlation coefficient to be calculated. Either "B" (default),
 #'               "A", "C" or "W"
 #' @param ... other arguments
@@ -325,7 +320,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 #'
 #' Calculates uncertainty coefficient for every variable pair in a dataset.
 #'
-#' @param d dataframe A dataset for exploring association among the variables.
+#' @param d dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
