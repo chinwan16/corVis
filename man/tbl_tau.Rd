@@ -7,7 +7,7 @@
 tbl_tau(d, method = c("B", "A", "C", "W"), ...)
 }
 \arguments{
-\item{d}{dataframe A dataset for exploring association among the variables.}
+\item{d}{dataframe}
 
 \item{method}{a character string for the correlation coefficient to be calculated. Either "B" (default),
 "A", "C" or "W"}

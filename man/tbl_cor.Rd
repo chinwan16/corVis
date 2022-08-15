@@ -7,7 +7,7 @@
 tbl_cor(d, method = "pearson", handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe A dataset for exploring association among the variables.}
+\item{d}{dataframe}
 
 \item{method}{a character string for the correlation coefficient to be calculated. Either "pearson" (default),
 "spearman", or "kendall"}

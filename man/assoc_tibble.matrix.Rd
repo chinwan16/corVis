@@ -7,8 +7,7 @@
 \method{assoc_tibble}{matrix}(data, measure_type = "?")
 }
 \arguments{
-\item{data}{matrix A symmetric matrix of the variabels of a dataset with entries representing the measure of
-association}
+\item{data}{matrix}
 
 \item{measure_type}{a character string indicating the measure of association}
 }

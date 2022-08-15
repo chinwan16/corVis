@@ -7,8 +7,7 @@
 assoc_tibble(data, measure_type = "?")
 }
 \arguments{
-\item{data}{dataframe A dataset for exploring association among the variables or a dataframe with calculated
-measure of association for every variable pair}
+\item{data}{dataframe}
 
 \item{measure_type}{a character string indicating the measure of association}
 }

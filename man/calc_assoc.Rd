@@ -7,7 +7,7 @@
 calc_assoc(d, types = default_assoc(), handle.na = TRUE)
 }
 \arguments{
-\item{d}{dataframe A dataset for exploring association among the variables.}
+\item{d}{dataframe}
 
 \item{types}{a tibble for the measures to be calculated for different variable types. The default is
 \emph{default_assoc()} which calculates Pearson's correlation if the variable pair is numeric,

@@ -13,7 +13,7 @@ calc_assoc_by(
 )
 }
 \arguments{
-\item{d}{dataframe A dataset for exploring association among the variables.}
+\item{d}{dataframe}
 
 \item{by}{a character string for the name of the conditional variable. Set to \emph{NULL} by default.}
 

@@ -7,7 +7,7 @@
 tbl_cancor(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe A dataset for exploring association among the variables.}
+\item{d}{dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
