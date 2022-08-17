@@ -111,16 +111,20 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
       x <- x[pick]
       y <- y[pick]
     }
+
+    if (length(x) <= 2) {
+      # message("Cannot calculate cancor, returning NA")
+      return (NA)
+    }
     if (!is.numeric(x))
       x <- sapply(unique(x), function(u) as.numeric(x ==u))[,-1]
     if (!is.numeric(y))
       y <- sapply(unique(y), function(u) as.numeric(y ==u))[,-1]
     tryCatch(stats::cancor(x,y)$cor[1], error = function(e) {
-      message("Cannot calculate cancor, returning NA")
+      # message("Cannot calculate cancor, returning NA")
       NA
     }
     )
-
   }
   a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]]), a$x,a$y)
   a
@@ -234,6 +238,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #' @examples
 #' tbl_nmi(iris)
 
+
 tbl_nmi <- function(d,handle.na=T,...){
 
   nmi <- assoc_tibble(d, measure_type="nmi")
@@ -247,20 +252,42 @@ tbl_nmi <- function(d,handle.na=T,...){
     }
     if(is.numeric(x) & is.numeric(y)){
       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(x) * DescTools::Entropy(y) ))
-    }else if (is.factor(x) & is.factor(y)){
+    }else
       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y)) ))
-    }else{
-      data <- dplyr::tibble(x=x,y=y)
-      x <- dplyr::pull(dplyr::select(data,where(is.numeric)))
-      y <- dplyr::pull(dplyr::select(data,where(is.factor)))
-      DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y) )))
-    }
+
   }
   nmi$measure <-  mapply(fn, nmi$x,nmi$y)
   nmi
 
 }
 
+# tbl_nmi <- function(d,handle.na=T,...){
+#
+#   nmi <- assoc_tibble(d, measure_type="nmi")
+#   fn <- function(x,y){
+#     x <- d[[x]]
+#     y <- d[[y]]
+#     if(handle.na){
+#       pick <- stats::complete.cases(x, y)
+#       x <- x[pick]
+#       y <- y[pick]
+#     }
+#     if(is.numeric(x) & is.numeric(y)){
+#       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(x) * DescTools::Entropy(y) ))
+#     }else if (is.factor(x) & is.factor(y)){
+#       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y)) ))
+#     }else{
+#
+#       data <- dplyr::tibble(x=x,y=y)
+#       x <- dplyr::pull(dplyr::select(data,where(is.numeric)))
+#       y <- dplyr::pull(dplyr::select(data,where(is.factor)))
+#       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y) )))
+#     }
+#   }
+#   nmi$measure <-  mapply(fn, nmi$x,nmi$y)
+#   nmi
+#
+#}
 
 #' Polychoric correlation
 #'
@@ -302,6 +329,20 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #' tbl_tau(iris, method="W")
 
 
+# tbl_tau <- function(d,method=c("B","A","C","W"),...){
+#   # automatically does pairwise omit, Kendall
+#   method <- method[1]
+#   a <- assoc_tibble(d, measure_type=paste0("tau", method))
+#   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
+#              DescTools::KendallW)
+#   fn <- fns[[method]]
+#   if (method =="W")
+#     a$measure <- mapply(function(x,y) fn(d[c(x,y)], correct=TRUE,...), a$x,a$y)
+#   else a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
+#   a
+# }
+
+
 tbl_tau <- function(d,method=c("B","A","C","W"),...){
   # automatically does pairwise omit, Kendall
   method <- method[1]
@@ -309,12 +350,16 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
              DescTools::KendallW)
   fn <- fns[[method]]
-  if (method =="W")
-    a$measure <- mapply(function(x,y) fn(d[c(x,y)], correct=TRUE,...), a$x,a$y)
-  else a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
+  fnlocal <- function(x,y){
+    if (length(unique(d[[x]])) <= 1) return(NA)
+    if (length(unique(d[[x]])) <= 1) return(NA)
+    if (method =="W")
+      fn(d[c(x,y)], correct=TRUE,...)
+    else fn(d[[x]],d[[y]],...)
+  }
+  a$measure <- mapply(fnlocal, a$x,a$y)
   a
 }
-
 
 #' Uncertainty coefficient
 #'
