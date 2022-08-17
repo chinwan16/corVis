@@ -92,7 +92,7 @@ pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default
   if (isTRUE(group_var %in% names(assoc))){
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
-      if(group_var=="measure_type"){
+      if(group_var=="measure_type"){ # ch both sides of if mostly the same, this can be simplified
         p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
       }else{p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge") +
         ggplot2::labs(fill = by_var)}
@@ -101,7 +101,7 @@ pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dashed")
   }
   else {
-    if (isTRUE(fillvar %in% names(assoc)))
+    if (isTRUE(fillvar %in% names(assoc))) # ch both sides of if look the same
       p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]]))
     else p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure), fill=.data$fillvar)
   }
