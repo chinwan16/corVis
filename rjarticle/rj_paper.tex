@@ -30,49 +30,40 @@ multivariate datasets prior to modeling. One of the important tools used
 for EDA is correlation matrix display, also known as \emph{corrgram}
 \citep{friendly2002corrgrams}. This display is produced by first
 calculating the correlation and then plotting these calculated values in
-a matrix display. The display is useful to quickly find highly
-associated variables which are explored further and are taken into
-consideration during the modeling step. Figure \ref{fig:corrgram} shows
-the \emph{corrgram} for the \texttt{penguins} dataset from the
-\CRANpkg{palmerpenguins} package where the diagonal cells have the
-variable names of the numeric variables in the dataset and the
-non-diagnonal cell corresponding to a variable pair is colored by the
-value of Pearson's correlation coefficient between the two variables. It
-seems that there is a strong positive correlation between
-\texttt{flipper\_length\_mm} and \texttt{body\_mass\_g}, and a strong
-negative correlation between \texttt{bill\_depth\_mm} and
-\texttt{flipper\_length\_mm} of the penguins suggesting a linear trend
-for these two variable pairs.
+a matrix display. Effective ordering techniques are also used with these
+displays to highlight interesting relationships. The display is useful
+to quickly find highly associated variables which are explored further
+and are taken into consideration during the modeling step.
 
-\begin{Schunk}
-\begin{figure}
+The correlation displays are generally used with one of the Pearson's,
+Spearman's or Kendall's correlation coefficient and are therefore
+limited to numeric variables. In order to quickly explore association
+among variables in a dataset, an analyst has to use different graphical
+displays depending on different variable types and thus calls for a tool
+which can summarize associations among all the variables in a single
+step.
 
-{\centering \includegraphics{rj_paper_files/figure-latex/corrgram-1} 
+Many association measures have been proposed to summarize relationship
+among two variables. These multiple measures are useful for explaining
+complex relationships in a dataset compared to using a single measure.
+With effective displaying techniques, the multiple measures of
+association provide a comparison tool that assist an analyst in
+discovering interesting variable pairs.
 
-}
+The association measures calculated at different levels of a factor
+variable for a variable pair help in finding patterns like Simpson's
+paradox and displaying these conditional associations using graphical
+representation will help explain these patterns.
 
-\caption[Example correlation matrix display for penguins data]{Example correlation matrix display for penguins data}\label{fig:corrgram}
-\end{figure}
-\end{Schunk}
-
-The correlation matrix displays are generally used with one of the
-Pearson's, Spearman's or Kendall's correlation coefficient and are
-therefore limited to numeric variables. In this paper, we propose
-extensions of these displays and new visualizations which look at
-multiple association measures, variables of mixed type, and conditional
-associations.
-
-The new visualizations look at multiple association measures for every
-pair of variables in the data and assist an analyst to discover
-interesting variable pairs.These displays are useful for all the
-variable types, which is something existing methods lack. The presented
-conditional association display is produced by plotting association
-display at different levels of a factor variable, which helps to find
-interesting patterns. The paper is organised in the following way: first
-a review of existing packages/methods to calculate and display
-association with a quick overiew of some association measures used in
-the package, then our approach to calculate, visualize and order
-associations in the package, followed by a discussion.
+In this paper, we propose extensions of these displays and new
+visualizations which look at multiple association measures, variables of
+mixed type, and conditional associations. These displays are implemented
+in the R package \texttt{corVis}. The paper is organised in the
+following way: first a review of existing packages/methods to calculate
+and display association with a quick overiew of some association
+measures used in the package, then our approach to calculate the
+association measures, then visualizations of associations and
+conditional associations, followed by a discussion.
 
 \hypertarget{section-2-background}{%
 \section{Section 2: Background}\label{section-2-background}}
@@ -184,12 +175,9 @@ tbl\_easy & any & any & correlation::correlation & TRUE & -1 & 1\\
 
 \end{Schunk}
 
-\hypertarget{section-3-corvis-package}{%
-\section{Section 3: corVis Package}\label{section-3-corvis-package}}
-
-\hypertarget{section-3.1-calculating-association}{%
-\subsection{Section 3.1: Calculating
-Association}\label{section-3.1-calculating-association}}
+\hypertarget{section-3-corvis-calculating-association}{%
+\section{Section 3: corVis: Calculating
+Association}\label{section-3-corvis-calculating-association}}
 
 We introduce a method which creates a tibble structure for the variable
 pairs in a dataset along with calculated association measure. The
@@ -311,7 +299,7 @@ matrix output needs to be calculated and is set to \texttt{overall} as
 default.
 
 \hypertarget{calculating-association-measures-for-whole-dataset}{%
-\subsubsection{Calculating association measures for whole
+\subsection{Calculating association measures for whole
 dataset}\label{calculating-association-measures-for-whole-dataset}}
 
 \texttt{calc\_assoc} can be used to calculate association measures for
@@ -428,7 +416,7 @@ variable pair. This can be done by using the \texttt{calc\_assoc} and
 measures and then merging the output tibbles.
 
 \hypertarget{calculating-conditional-association}{%
-\subsubsection{Calculating conditional
+\subsection{Calculating conditional
 association}\label{calculating-conditional-association}}
 
 \texttt{calc\_assoc\_by} can be used to calculate association measures
@@ -511,7 +499,7 @@ measures for a specific variable type, one can use
 these multiple tibble outputs.
 
 \hypertarget{creating-your-own-association-measure}{%
-\subsubsection{Creating Your Own Association
+\subsection{Creating Your Own Association
 Measure}\label{creating-your-own-association-measure}}
 
 We introduce a new structure for calculating association measures which
@@ -523,9 +511,9 @@ Chi-square test statistic. If a user wants to add Cramer's V to the
 package, they can write a simple function and then can use it for their
 analysis.
 
-\hypertarget{section-3.2-visualising-association}{%
-\subsection{Section 3.2: Visualising
-Association}\label{section-3.2-visualising-association}}
+\hypertarget{section-4-corvis-visualising-association}{%
+\section{Section 4: corVis: Visualising
+Association}\label{section-4-corvis-visualising-association}}
 
 We propose novel visualisations to display association for every
 variable pair in a dataset in a single plot and show multiple bivariate
@@ -571,7 +559,7 @@ clustering method to find out highly associated variables quickly.
 
 }
 
-\caption[Association matrix display for penguins data]{Association matrix display for penguins data}\label{fig:assoc-heatmap}
+\caption[Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs]{Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.}\label{fig:assoc-heatmap}
 \end{figure}
 \end{Schunk}
 
@@ -593,7 +581,7 @@ numeric variable pairs in \emph{penguins} data.
 
 }
 
-\caption[Comparing Pearson's and Spearman's correlation coefficient]{Comparing Pearson's and Spearman's correlation coefficient}\label{fig:compare-matrix}
+\caption[Matrix display comparing Pearson's and Spearman's correlation coefficient]{Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations.}\label{fig:compare-matrix}
 \end{figure}
 \end{Schunk}
 
@@ -610,12 +598,12 @@ suitable when comparing high number of association measures.
 
 }
 
-\caption[Comparing multiple association measures using a linear layout]{Comparing multiple association measures using a linear layout}\label{fig:compare-linear}
+\caption[Comparing multiple association measures using a linear layout]{Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair.}\label{fig:compare-linear}
 \end{figure}
 \end{Schunk}
 
 \hypertarget{visualising-conditional-association}{%
-\subsubsection{Visualising Conditional
+\subsection{Visualising Conditional
 Association}\label{visualising-conditional-association}}
 
 The package includes a function \texttt{calc\_assoc\_by} which
@@ -701,9 +689,6 @@ of grouping variable are high.
 \caption[Conditional Association plot using linear layout]{Conditional Association plot using linear layout}\label{fig:linear_cond_assoc}
 \end{figure}
 \end{Schunk}
-
-\hypertarget{section-3.3-seriation}{%
-\subsection{Section 3.3: Seriation}\label{section-3.3-seriation}}
 
 \bibliography{RJreferences.bib}
 
