@@ -29,26 +29,41 @@ Exploratory Data Analysis (EDA) is an important step to explore
 multivariate datasets prior to modeling. One of the important tools used
 for EDA is correlation matrix display, also known as \emph{corrgram}
 \citep{friendly2002corrgrams}. This display is produced by first
-calculating the correlation and then plotting these calculated values in
-a matrix display. Effective ordering techniques are also used with these
-displays to highlight interesting relationships. The display is useful
-to quickly find highly associated variables which are explored further
-and are taken into consideration during the modeling step.
+calculating the correlation among the variables and then plotting these
+calculated values in a matrix display. Effective ordering techniques are
+also used with these displays to highlight interesting relationships.
+The display is useful to quickly find highly associated variables which
+are explored further and are taken into consideration during the
+modeling step.
 
 The correlation displays are generally used with one of the Pearson's,
 Spearman's or Kendall's correlation coefficient and are therefore
-limited to numeric variables. In order to quickly explore association
-among variables in a dataset, an analyst has to use different graphical
-displays depending on different variable types and thus calls for a tool
-which can summarize associations among all the variables in a single
-step.
+limited to quantitative variables. An analyst can use one-hot encoding
+of the qualitative variables in order to use these displays but will
+need to deal with the high dimensions produced by the encoding. The
+existing method to quickly explore association among qualitative
+variables, and mixed variables in a dataset include using proportions or
+counts with different graphical displays like boxplots or barplots
+depending on the variable types. This means that the analyst will have
+to explore quantitative, qualitative and mixed variables separately and
+thus calls for a tool which can summarize relationships among all the
+variables in a single step.
 
-Many association measures have been proposed to summarize relationship
-among two variables. These multiple measures are useful for explaining
-complex relationships in a dataset compared to using a single measure.
-With effective displaying techniques, the multiple measures of
-association provide a comparison tool that assist an analyst in
-discovering interesting variable pairs.
+MANY ASSOCIATION measures have been proposed to summarize different
+types of relationships among two variables. The most commonly used
+measure is Pearson's correlation coefficient which captures any linear
+trend present between the variables. Other popular measures include
+Kendall's or Spearman's rank correlation coefficient which are
+non-parametric measures and looks for monotonic relationship among the
+variables. The distance correlation \citep{szekely2007measuring} is an
+important measure useful in exploring non-linear relationships. The
+information theory measure maximal information coefficient
+\citep{reshef2011detecting} is capable of summarizing complex
+relationships. These multiple measures are useful for explaining complex
+relationships in a dataset compared to using a single measure. With
+effective displaying techniques, the multiple measures of association
+provide a comparison tool that assist an analyst in discovering
+interesting variable pairs.
 
 The association measures calculated at different levels of a factor
 variable for a variable pair help in finding patterns like Simpson's
@@ -56,13 +71,13 @@ paradox and displaying these conditional associations using graphical
 representation will help explain these patterns.
 
 In this paper, we propose extensions of these displays and new
-visualizations which look at multiple association measures, variables of
-mixed type, and conditional associations. These displays are implemented
-in the R package \texttt{corVis}. The paper is organised in the
-following way: first a review of existing packages/methods to calculate
-and display association with a quick overiew of some association
-measures used in the package, then our approach to calculate the
-association measures, then visualizations of associations and
+visualizations which look at variables of mixed type, multiple
+association measures and conditional associations. These displays are
+implemented in the R package \texttt{corVis}. The paper is organised in
+the following way: first a review of existing packages/methods to
+calculate and display association with a quick overiew of some
+association measures used in the package, then our approach to calculate
+the association measures, then visualizations of associations and
 conditional associations, followed by a discussion.
 
 \hypertarget{section-2-background}{%

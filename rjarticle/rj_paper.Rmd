@@ -36,16 +36,20 @@ library(dplyr)
 
 # Section 1: Introduction
 
-Exploratory Data Analysis (EDA) is an important step to explore multivariate datasets prior to modeling. One of the important tools used for EDA is correlation matrix display, also known as _corrgram_ [@friendly2002corrgrams]. This display is produced by first calculating the correlation and then plotting these calculated values in a matrix display. Effective ordering techniques are also used with these displays to highlight interesting relationships. The display is useful to quickly find highly associated variables which are explored further and are taken into consideration during the modeling step. 
+Exploratory Data Analysis (EDA) is an important step to explore multivariate datasets prior to modeling. One of the important tools used for EDA is correlation matrix display, also known as _corrgram_ [@friendly2002corrgrams]. This display is produced by first calculating the correlation among the variables and then plotting these calculated values in a matrix display. Effective ordering techniques are also used with these displays to highlight interesting relationships. The display is useful to quickly find highly associated variables which are explored further and are taken into consideration during the modeling step. 
 
-The correlation displays are generally used with one of the Pearson's, Spearman's or Kendall's correlation coefficient and are therefore limited to numeric variables. In order to quickly explore association among variables in a dataset, an analyst has to use different graphical displays depending on different variable types and thus calls for a tool which can summarize associations among all the variables in a single step. 
 
-Many association measures have been proposed to summarize relationship among two variables. These multiple measures are useful for explaining complex relationships in a dataset compared to using a single measure. With effective displaying techniques, the multiple measures of association provide a comparison tool that assist an analyst in discovering interesting variable pairs.
+The correlation displays are generally used with one of the Pearson's, Spearman's or Kendall's correlation coefficient and are therefore limited to quantitative variables. An analyst can use one-hot encoding of the qualitative variables in order to use these displays but will need to deal with the high dimensions produced by the encoding. The existing method to quickly explore association among qualitative variables, and mixed variables in a dataset include using proportions or counts with different graphical displays like boxplots or barplots depending on the variable types. This means that the analyst will have to explore quantitative, qualitative and mixed variables separately and thus calls for a tool which can summarize relationships among all the variables in a single step.
+
+
+##############
+
+MANY ASSOCIATION measures have been proposed to summarize different types of relationships among two variables. The most commonly used measure is Pearson's correlation coefficient which captures any linear trend present between the variables. Other popular measures include Kendall's or Spearman's rank correlation coefficient which are non-parametric measures and looks for monotonic relationship among the variables. The distance correlation [@szekely2007measuring] is an important measure useful in exploring non-linear relationships. The information theory measure maximal information coefficient [@reshef2011detecting] is capable of summarizing complex relationships. These multiple measures are useful for explaining complex relationships in a dataset compared to using a single measure. With effective displaying techniques, the multiple measures of association provide a comparison tool that assist an analyst in discovering interesting variable pairs.
  
 The association measures calculated at different levels of a factor variable for a variable pair help in finding patterns like Simpson's paradox and displaying these conditional associations using graphical representation will help explain these patterns.
 
 
-In this paper, we propose extensions of these displays and new visualizations which look at multiple association measures, variables of mixed type, and conditional associations. These displays are implemented in the R package `corVis`. The paper is organised in the following way: first a review of existing packages/methods to calculate and display association with a quick overiew of some association measures used in the package, then our approach to calculate the association measures, then visualizations of associations and conditional associations, followed by a discussion.
+In this paper, we propose extensions of these displays and new visualizations which look at  variables of mixed type, multiple association measures and conditional associations. These displays are implemented in the R package `corVis`. The paper is organised in the following way: first a review of existing packages/methods to calculate and display association with a quick overiew of some association measures used in the package, then our approach to calculate the association measures, then visualizations of associations and conditional associations, followed by a discussion.
 
 
 # Section 2: Background
@@ -238,7 +242,7 @@ spearman_assoc <- update_assoc(num_pair = "tbl_cor",
                                other_pair = "tbl_nmi")
 spearman <- calc_assoc(df_num, types=spearman_assoc)
 compare <- rbind(pearson,spearman)
-pairwise_summary_plot(compare, group_var = "measure_type")
+pairwise_2d_plot(compare, group_var = "measure_type")
 ```
 
 In addition to matrix layout, we can also use linear layouts for comparing multiple measures. Figure \@ref(fig:compare-linear) shows a linear layout comparing multiple association measures for all the variable pairs in the penguins data.  Linear layouts seems to be more suitable when comparing high number of association measures.   
@@ -246,7 +250,7 @@ In addition to matrix layout, we can also use linear layouts for comparing multi
 ```{r compare-linear,fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair."}
 
 
-pairwise_measures_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
+pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
 
 ```
 
@@ -263,13 +267,13 @@ updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               other_pair = "tbl_nmi")
 
 cond_assoc <- calc_assoc_by(df, by="island")
-pairwise_summary_plot(cond_assoc)
+pairwise_2d_plot(cond_assoc)
 ```
 
 We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure 5 shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present.
 
 ```{r,fig.width=4, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with Simpson's paradox"}
-pairwise_summary_plot_sp_high(cond_assoc,highlight = "sp")
+pairwise_2d_plot_sp_high(cond_assoc,highlight = "sp")
 ```
 
 The cells can also be highlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score. Figure 6 shows highlighted cells on the basis of a score provided for a subset of variable pairs.
@@ -277,7 +281,7 @@ The cells can also be highlighted on the basis of a score calculated by the user
 ```{r,fig.width=4, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with manual highlighting"}
 highlight <- data.frame(x=c("bill_depth_mm","bill_length_mm","body_mass_g"),
                         y=rep("flipper_length_mm",3),score=c(0.8,0.4,0.1))
-pairwise_summary_plot_sp_high(cond_assoc,highlight = highlight)
+pairwise_2d_plot_sp_high(cond_assoc,highlight = highlight)
 ```
 
 
@@ -286,7 +290,7 @@ We can also use linear layouts for displaying conditional association. Figure 7 
 
 ```{r linear_cond_assoc, fig.width=4, fig.height=5, fig.align='center', fig.cap="Conditional Association plot using linear layout"}
 
-pairwise_linear_plot(cond_assoc)
+pairwise_1d_plot(cond_assoc)
 ```
 
 
