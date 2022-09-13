@@ -51,24 +51,25 @@ help in summarizing the relationship, which then can be displayed like
 the correlation displays.
 
 Tukey and Tukey introduced scagnostics which are graph-theoretic
-measures for scatterplots. Along with scagnostics, they proposed a
-scagnostics scatterplot matrix which is a visual display to explore and
-compare these measures for all the variable pairs in a dataset. By
-comparing multiple measures at once, the unusual variable pairs could be
-identified and looked at in more detail. In a similar manner, a display
-comparing association measures will help in finding interesting variable
-pairs. Many association measures have been proposed to summarize
-different types of relationships. The most commonly used measure is
-Pearson's correlation coefficient which captures any linear trend
-present between the variables. Other popular measures include Kendall's
-or Spearman's rank correlation coefficient which are non-parametric
-measures and looks for monotonic relationship. Distance correlation
-\citep{szekely2007measuring} is an important measure useful in exploring
-non-linear relationships. The information theory measure maximal
-information coefficient \citep{reshef2011detecting} is capable of
-summarizing complex relationships. With effective displaying techniques,
-the multiple measures of association provide a comparison tool that
-assist an analyst to reveal structure present in the data.
+measures for scatterplots \citep{tukey1985computer}. Along with
+scagnostics, they proposed a scagnostics scatterplot matrix which is a
+visual display to explore and compare these measures for all the
+variable pairs in a dataset. By comparing multiple measures at once, the
+unusual variable pairs could be identified and looked at in more detail.
+In a similar manner, a display comparing association measures will help
+in finding interesting variable pairs. Many association measures have
+been proposed to summarize different types of relationships. The most
+commonly used measure is Pearson's correlation coefficient which
+captures any linear trend present between the variables. Other popular
+measures include Kendall's or Spearman's rank correlation coefficient
+which are non-parametric measures and looks for monotonic relationship.
+Distance correlation \citep{szekely2007measuring} is an important
+measure useful in exploring non-linear relationships. The information
+theory measure maximal information coefficient (MIC)
+\citep{reshef2011detecting} is capable of summarizing complex
+relationships. With effective displaying techniques, the multiple
+measures of association provide a comparison tool that assist an analyst
+to reveal structure present in the data.
 
 Small multiples (or Trellis display) is a simple yet powerful approach
 to compare partitions of data and understand multidimensional datasets
@@ -122,41 +123,53 @@ display, the package also plots the correlation values in a network
 display which is useful when dealing with high-dimensional datasets.
 Table @ref(tab:corrdisplay\_packages) provides a list of the packages
 available in R for either calculating correlations, visualising
-correlations or both. The majority of the packages in Table
-@ref(tab:corrdisplay\_packages) focus only on quantitative variables of
-the dataset. The packages \CRANpkg{correlationfunnel}
-\citep{correlationfunnel} and \CRANpkg{linkspotter} \citep{linkspotter}
-look at both the quantitative as well as the qualitative variables
-during the correlation analysis. \CRANpkg{correlationfunnel} speeds up
-the feature selection step by looking at the relationship of predictors
-to a response (or a target). It converts numeric predictors into
-factors, applies one-hot encoding to all the factors and then calculates
-and visualise the Pearson's correlation coefficient among the response
-and the predictors. On the other hand, \CRANpkg{linkspotter} calculates
-different association measures for the quantitative and qualitative
-variables and then uses a network plot to visualise these association.
-We believe that using different association measures is a better
-approach than using one-hot encoding for exploring all the variables, as
-the encoding increases the dimensions very quickly and it is not easy to
-assess the overall correlation.
+correlations or both.
+
+The majority of the packages in Table @ref(tab:corrdisplay\_packages)
+focus only on quantitative variables of the dataset. The packages
+\CRANpkg{correlationfunnel} \citep{correlationfunnel} and
+\CRANpkg{linkspotter} \citep{linkspotter} look at both the quantitative
+as well as the qualitative variables during the correlation analysis.
+\CRANpkg{correlationfunnel} speeds up the feature selection step by
+looking at the relationship of predictors to a response (or a target).
+It converts numeric predictors into factors, applies one-hot encoding to
+all the factors and then calculates and visualise the Pearson's
+correlation coefficient among the response and the predictors. On the
+other hand, \CRANpkg{linkspotter} calculates different association
+measures for the quantitative and qualitative variables and then uses a
+network plot to visualise these association. We believe that using
+different association measures is a better approach than using one-hot
+encoding for exploring all the variables, as the encoding increases the
+dimensions very quickly and it is not easy to assess the overall
+correlation.
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}[t]{llllll}
-\toprule
+\caption{\label{tab:corrdisplay_packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.}
+\centering
+\begin{tabular}[t]{l|l|l|l|l|l}
+\hline
 package & display & displayType & seriatedPlot & interactivePlot & highDimension\\
-\midrule
+\hline
 coreheat & heatmap & overlay & No & No & No\\
+\hline
 corrplot & heatmap & overlay & Yes & No & No\\
+\hline
 corrr & heatmap/network & facet/overlay & Yes & No & Yes\\
+\hline
 corrgrapher & network & overlay & No & No & Yes\\
+\hline
 corrarray & no display & none & No & No & No\\
-\addlinespace
+\hline
 correlationfunnel & funnel & overlay & No & No & Yes\\
+\hline
 linkspotter & network & overlay & No & Yes & Yes\\
+\hline
 correlation & heatmap/network & overlay & No & No & Yes\\
-\bottomrule
+\hline
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
@@ -167,13 +180,20 @@ interactive visualization tool for large correlation matrices with upto
 2000 variables. They also provide different functionalities including
 highlighting variables, plotting scatterplot for variable pairs. The R
 package \CRANpkg{scorrplot2022} \citep{sCorrPlot} produces an
-interactive scatterplot for exploring correlations in a large dataset by
-projecting variables as points, driven by geometric interpretation of
-correlation, on a scatterplot with respect to some user-selected
-variables of interest. In this paper, we are interested in extending
-correlation displays for different types of variables, association
-measures and conditional association, and do not look at the high
-dimensionality aspect of the correlation displays.
+interactive scatterplot for exploring pairwise correlations in a large
+dataset by projecting variables as points with respect to some
+user-selected variables on a scatterplot, driven by geometric
+interpretation of correlation. A user can update variables of interest
+and can create tours of the correlation space between different
+projections of the data using this tool. In this paper, we do not focus
+on the high dimensionality aspect of the correlation displays like these
+tools but introduce conditional association displays which are useful in
+uncovering conditional structure present in the data. Conditional
+displays (also called Small multiple displays or Trellis displays) are
+visualisations for the subsets of data produced by dividing the data by
+a partitioning variable and then plotting them. Popularised by
+\citet{tufte1986thevisual} and \citet{becker1996thevisual}, these
+displays are efficient for discovering interesting patterns in the data.
 
 \hypertarget{section-2.2-literature-review-on-association-measures}{%
 \subsection{Section 2.2: Literature Review on Association
@@ -183,65 +203,98 @@ An association measure can be defined as a numerical summary quantifying
 relationship between two or more variables. For example, Pearson's
 correlation coefficient summarizes the strength and direction of the
 linear relationship present between two numeric variables and is in the
-range \([-1,1]\). Similarly, distance correlation coefficient measures
-the non-linear association between two numeric variables and summarizes
-it in \([0,1]\) where \(0\) suggests no non-linear relationship and
-\(1\) suggests very high non-linear relationship. The package provides a
-collection of various measures of association which can be used to
-quantify the relationship between two variables and could be used to
-explore patterns prior to modeling. The measures available in the
-package are not limited to numeric variables only and can be used with
-categorical and ordinal variables as well.
+range \([-1,1]\). Kendall's or Spearman's rank correlation coefficient
+are other popular measures which look for the presence of montonic
+relationship among two numeric variables and are in the range
+\([-1,1]\). As these measures are limited to linear or monotonic
+relationships, there's a need to use association measures which can
+capture complex relationships (like non-linear or periodic). The
+distance correlation coefficient \citep{szekely2007measuring} is one
+such measure which looks for the non-linear association between two
+numeric variables and summarizes it in \([0,1]\). Similarly, MIC
+\citep{reshef2011detecting} is capable of summarizing non-linear as well
+as periodic relationships between numeric variables. In addition to
+association measures for numeric variables, association measures for
+ordinal or nominal or mixed variables will help an analyst in exploring
+a multivariate dataset. \citet{taha201673} provides an overview of the
+association measures used for categorical or mixed data.
 
-\citet{kuhn2013applied} have proposed display techniques to compare
-multiple association measures for every pair of output variable and a
-predictor to measure the importance of each predictor. This can help in
-summarizing a complex relationship more efficiently as compared to using
-just one measure like Pearson's correlation which can only find linear
-associations. In a similar way, we propose different visualization
-techniques to compare multiple association measures for all the variable
-pairs in a dataset which can assist a user in finding interesting
-patterns.
+\citet{tukey1985computer} proposed scatterplot matrix of the scagnostics
+measures, which are measures summarizing a scatterplot. They suggested
+that scatterplot matrix of the measures can be used to identify unusual
+scatterplots or variable pairs. wilkinson2005graph used this idea with
+their graph-theoretic scagnostic measures to highlight unusual
+scatterplot. Similarly, \citet{kuhn2013applied} have used this idea in a
+predictive modeling context. They have produced a scatterplot matrix of
+the measures between the response and continuous predictors such as
+Pearson's correlation coefficient, pseudo-\(R^2\) from the locally
+weighted regression model, MIC and Spearman's rank correlation
+coefficient to explore the predictor importance during feature selection
+step. These displays show the importance of comparing multiple
+association measures at once for different variable pairs. In this
+paper, we propose different visualization techniques to compare multiple
+association measures for all the variable pairs in a dataset which can
+assist a user in finding interesting patterns.
 
 \hypertarget{section-3-corvis-calculating-association}{%
 \section{Section 3: corVis: Calculating
 Association}\label{section-3-corvis-calculating-association}}
 
-The package \CRANpkg{corVis} provides a collection of various measures
-of association which is used to quantify the relationship between two
-variables and is used to explore patterns prior to modeling. The
-measures available in the package are not limited to numeric variables
-and are used with categorical and ordinal variables as well. Table
-@ref(tab:association\_measures) lists the different measures of
-association provided in the package with the variable types they can be
-used with, the package used for calculation, the information on whether
-the measure is symmetric, and the minimum and maximum value of the
-measure.
+This section provides an implementation for the calculation of
+association measures in our package \CRANpkg{corVis}. The package
+provides a collection of various measures of association which is used
+to quantify the relationship between two variables and is used to
+explore patterns during EDA. The measures available in the package are
+not limited to numeric variables and are used with categorical and
+ordinal variables as well. Table @ref(tab:association\_measures) lists
+the different measures of association provided in the package with the
+variable types they can be used with, the package used for calculation,
+the information on whether the measure is symmetric, and the minimum and
+maximum value of the measure.
+
+\hypertarget{calculating-association-for-relevant-variables}{%
+\subsection{Calculating association for relevant
+variables}\label{calculating-association-for-relevant-variables}}
 
 \begin{Schunk}
+\begin{table}
 
-\begin{tabular}[t]{lllllrr}
-\toprule
+\caption{\label{tab:association_measures}List of the functions available in the package for calculating different association measures along with the packages used for calculation.}
+\centering
+\begin{tabular}[t]{l|l|l|l|l|r|r}
+\hline
 funName & typeX & typeY & from & symmetric & min & max\\
-\midrule
+\hline
 tbl\_cor & numeric & numeric & stats::cor & TRUE & -1 & 1\\
+\hline
 tbl\_dcor & numeric & numeric & energy::dcor2d & TRUE & 0 & 1\\
+\hline
 tbl\_mine & numeric & numeric & minerva::mine & TRUE & 0 & 1\\
+\hline
 tbl\_polycor & ordinal & ordinal & polycor::polychor & TRUE & -1 & 1\\
+\hline
 tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & TRUE & -1 & 1\\
-\addlinespace
+\hline
 tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & FALSE & 0 & 1\\
+\hline
 tbl\_gkLambda & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & 0 & 1\\
+\hline
 tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & 0 & 1\\
+\hline
 tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & TRUE & 0 & 1\\
+\hline
 tbl\_chi & nominal & nominal & DescTools::ContCoef & TRUE & 0 & 1\\
-\addlinespace
+\hline
 tbl\_cancor & nominal & nominal & corVis & TRUE & 0 & 1\\
+\hline
 tbl\_cancor & nominal & numerical & corVis & TRUE & 0 & 1\\
+\hline
 tbl\_nmi & any & any & corVis & TRUE & 0 & 1\\
+\hline
 tbl\_easy & any & any & correlation::correlation & TRUE & -1 & 1\\
-\bottomrule
+\hline
 \end{tabular}
+\end{table}
 
 \end{Schunk}
 
