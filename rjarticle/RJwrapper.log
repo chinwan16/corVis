@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.9)  13 SEP 2022 21:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.9)  14 SEP 2022 05:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -688,36 +688,37 @@ Package hyperref Info: Link coloring ON on input line 16.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-(./rj_paper.tex [1{/Users/amitchinwan/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-]
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 119.
+(./rj_paper.tex
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 20.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 119.
+(Font)              scaled to size 9.18004pt on input line 20.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 151.
+[1{/Users/amitchinwan/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 151.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 151.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 151.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 151.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -726,86 +727,85 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 151.
+(Font)              scaled to size 10.42007pt on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 151.
+(Font)              scaled to size 7.91925pt on input line 147.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 151.
+(Font)              scaled to size 6.25204pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 151.
+(Font)              scaled to size 10.42007pt on input line 147.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 151.
+(Font)              scaled to size 7.91925pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 151.
+(Font)              scaled to size 6.25204pt on input line 147.
 
-Overfull \hbox (80.0757pt too wide) in paragraph at lines 151--172
+Overfull \hbox (80.0757pt too wide) in paragraph at lines 147--168
  [][] 
  []
 
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 202.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 202.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 202.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 202.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 202.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 202.
 [2]
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 206.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 206.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 206.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 206.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 206.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 206.
-
-Overfull \hbox (65.31688pt too wide) in paragraph at lines 264--297
+Overfull \hbox (65.31688pt too wide) in paragraph at lines 260--293
  [][] 
  []
 
 [3] [4] [5]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 519.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 515.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 ) [6]
-<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=160, 276.03125pt x 272.01625pt>
+<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=163, 276.03125pt x 272.01625pt>
 File: rj_paper_files/figure-latex/assoc-heatmap-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/assoc-heatmap-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 649.
+Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 645.
 (pdftex.def)             Requested size: 276.03056pt x 272.01558pt.
-<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=162, 279.0425pt x 274.02374pt>
+<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=165, 279.0425pt x 274.02374pt>
 File: rj_paper_files/figure-latex/compare-matrix-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-matrix-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 671.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 667.
 (pdftex.def)             Requested size: 279.04181pt x 274.02307pt.
-<rj_paper_files/figure-latex/compare-linear-1.pdf, id=164, 284.06125pt x 275.0275pt>
+<rj_paper_files/figure-latex/compare-linear-1.pdf, id=167, 284.06125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/compare-linear-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-linear-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 688.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 684.
 (pdftex.def)             Requested size: 284.06053pt x 275.02682pt.
-<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=166, 279.0425pt x 275.0275pt>
+<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=169, 279.0425pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 724.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 720.
 (pdftex.def)             Requested size: 279.04181pt x 275.02682pt.
 [7] [8 <./rj_paper_files/figure-latex/assoc-heatmap-1.pdf> <./rj_paper_files/figure-latex/compare-matrix-1.pdf>]
-<rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf, id=197, 279.0425pt x 275.0275pt>
+<rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf, id=200, 279.0425pt x 275.0275pt>
 File: rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 739.
+Package pdftex.def Info: rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 735.
 (pdftex.def)             Requested size: 279.04181pt x 275.02682pt.
-<rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf, id=198, 279.0425pt x 275.0275pt>
+<rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf, id=201, 279.0425pt x 275.0275pt>
 File: rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 757.
+Package pdftex.def Info: rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 753.
 (pdftex.def)             Requested size: 279.04181pt x 275.02682pt.
-<rj_paper_files/figure-latex/linear_cond_assoc-1.pdf, id=199, 284.06125pt x 346.29375pt>
+<rj_paper_files/figure-latex/linear_cond_assoc-1.pdf, id=202, 284.06125pt x 346.29375pt>
 File: rj_paper_files/figure-latex/linear_cond_assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/linear_cond_assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/linear_cond_assoc-1.pdf  used on input line 776.
+Package pdftex.def Info: rj_paper_files/figure-latex/linear_cond_assoc-1.pdf  used on input line 772.
 (pdftex.def)             Requested size: 284.06053pt x 346.2929pt.
 (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
@@ -814,10 +814,10 @@ Package pdftex.def Info: rj_paper_files/figure-latex/linear_cond_assoc-1.pdf  us
 [9 <./rj_paper_files/figure-latex/compare-linear-1.pdf>] [10 <./rj_paper_files/figure-latex/cond-assoc-1.pdf> <./rj_paper_files/figure-latex/unnamed-chunk-12-1.pdf>] [11 <./rj_paper_files/figure-latex/unnamed-chunk-13-1.pdf> <./rj_paper_files/figure-latex/linear_cond_assoc-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 794.
+(Font)              using `T1/zi4/m/n' instead on input line 790.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 804.
+(Font)              scaled to size 9.18004pt on input line 800.
 ) [12] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -825,21 +825,21 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 770229DD72A6792663FD79283B1A063F;3170.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 275D712CAC30322789DCE21E9F80BC20;1148.
+(rerunfilecheck)             Checksum: E36FE668C83DE453A0C8AE38590E03AF;1209.
  ) 
 Here is how much of TeX's memory you used:
- 26705 strings out of 479613
- 496267 string characters out of 5876389
- 797238 words of memory out of 5000000
- 44413 multiletter control sequences out of 15000+600000
- 515654 words of font info for 282 fonts, out of 8000000 for 9000
+ 26721 strings out of 479613
+ 496515 string characters out of 5876389
+ 798543 words of memory out of 5000000
+ 44419 multiletter control sequences out of 15000+600000
+ 515979 words of font info for 288 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  115i,11n,131p,1006b,788s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (12 pages, 186727 bytes).
+Output written on RJwrapper.pdf (12 pages, 187620 bytes).
 PDF statistics:
- 334 PDF objects out of 1000 (max. 8388607)
- 282 compressed objects within 3 object streams
- 59 named destinations out of 1000 (max. 500000)
+ 338 PDF objects out of 1000 (max. 8388607)
+ 286 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
  63112 words of extra memory for PDF output out of 74296 (max. 10000000)
 

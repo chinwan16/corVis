@@ -7,19 +7,16 @@ Associations}
 
 \abstract{%
 Correlation matrix displays are important tools to explore multivariate
-datasets prior to modeling. These displays with other measures of
-association can summarize interesting patterns to an analyst and assist
-them in framing right questions while performing exploratory data
-analysis. In this paper, we present new visualisation techniques to
-visualise association between all the variable pairs in a dataset in a
-single plot, which is something existing displays lack. We extend these
-displays to regression and classification settings, where these could be
-used to find out variables with high predictive power. Also, we propse
-new methods to visualise trivariate relationship summaries using
-conditioning. We use different layouts like: matrix or linear, to name a
-few, for our displays which have their own advantages and disadvantages.
-We use seriation in our displays which helps in highlighting interesting
-patterns easily. The R package \emph{corVis} provides an implementation.
+datasets. These displays with other measures of association can
+summarize interesting patterns to an analyst and assist them in framing
+questions while performing exploratory data analysis. In this paper, we
+present new visualisation techniques to visualise association between
+all the variable pairs in a dataset in a single plot, which is something
+existing displays lack. Also, we propse new methods to visualise
+relationship among variable pairs using conditioning. We use different
+layouts like matrix or linear for our displays. We use seriation in our
+displays which helps in highlighting interesting patterns easily. The R
+package \texttt{corVis} provides an implementation.
 }
 
 \hypertarget{section-1-introduction}{%
@@ -50,26 +47,25 @@ qualitative pairs similar to correlation for quantitative pairs will
 help in summarizing the relationship, which then can be displayed like
 the correlation displays.
 
-Tukey and Tukey introduced scagnostics which are graph-theoretic
-measures for scatterplots \citep{tukey1985computer}. Along with
-scagnostics, they proposed a scagnostics scatterplot matrix which is a
-visual display to explore and compare these measures for all the
-variable pairs in a dataset. By comparing multiple measures at once, the
-unusual variable pairs could be identified and looked at in more detail.
-In a similar manner, a display comparing association measures will help
-in finding interesting variable pairs. Many association measures have
-been proposed to summarize different types of relationships. The most
-commonly used measure is Pearson's correlation coefficient which
-captures any linear trend present between the variables. Other popular
-measures include Kendall's or Spearman's rank correlation coefficient
-which are non-parametric measures and looks for monotonic relationship.
-Distance correlation \citep{szekely2007measuring} is an important
-measure useful in exploring non-linear relationships. The information
-theory measure maximal information coefficient (MIC)
-\citep{reshef2011detecting} is capable of summarizing complex
-relationships. With effective displaying techniques, the multiple
-measures of association provide a comparison tool that assist an analyst
-to reveal structure present in the data.
+Tukey and Tukey introduced scagnostics which are measures for
+scatterplots \citep{tukey1985computer}. Along with scagnostics, they
+proposed a scagnostics scatterplot matrix which is a visual display to
+explore and compare these measures for all the variable pairs in a
+dataset. By comparing multiple measures at once, the unusual variable
+pairs could be identified and looked at in more detail. In a similar
+manner, a display comparing association measures will help in finding
+interesting variable pairs. Many association measures have been proposed
+to summarize different types of relationships. The most commonly used
+measure is Pearson's correlation coefficient which captures any linear
+trend present between the variables. Other popular measures include
+Kendall's or Spearman's rank correlation coefficient which are
+non-parametric measures and looks for monotonic relationship. Distance
+correlation \citep{szekely2007measuring} is an important measure useful
+in exploring non-linear relationships. The information theory measure
+maximal information coefficient (MIC) \citep{reshef2011detecting} is
+capable of summarizing complex relationships. With effective displaying
+techniques, the multiple measures of association provide a comparison
+tool that assist an analyst to reveal structure present in the data.
 
 Small multiples (or Trellis display) is a simple yet powerful approach
 to compare partitions of data and understand multidimensional datasets
@@ -222,8 +218,8 @@ association measures used for categorical or mixed data.
 \citet{tukey1985computer} proposed scatterplot matrix of the scagnostics
 measures, which are measures summarizing a scatterplot. They suggested
 that scatterplot matrix of the measures can be used to identify unusual
-scatterplots or variable pairs. wilkinson2005graph used this idea with
-their graph-theoretic scagnostic measures to highlight unusual
+scatterplots or variable pairs. \citet{wilkinson2005graph} used this
+idea with their graph-theoretic scagnostic measures to highlight unusual
 scatterplot. Similarly, \citet{kuhn2013applied} have used this idea in a
 predictive modeling context. They have produced a scatterplot matrix of
 the measures between the response and continuous predictors such as
@@ -725,7 +721,7 @@ can be taken into account during the modeling step.
 
 }
 
-\caption[Conditional Association plot]{Conditional Association plot}\label{fig:cond-assoc}
+\caption[Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs]{Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `island`. The dashed line in each cell represents overall value of the association measure.}\label{fig:cond-assoc}
 \end{figure}
 \end{Schunk}
 
@@ -740,7 +736,7 @@ cells for the variable pairs where Simpson's paradox is present.
 
 }
 
-\caption[Conditional Association plot with Simpson's paradox]{Conditional Association plot with Simpson's paradox}\label{fig:unnamed-chunk-12}
+\caption[Conditional Association plot with examples of Simpson's paradox]{Conditional Association plot with examples of Simpson's paradox}\label{fig:unnamed-chunk-12}
 \end{figure}
 \end{Schunk}
 
@@ -777,7 +773,7 @@ of grouping variable are high.
 
 }
 
-\caption[Conditional Association plot using linear layout]{Conditional Association plot using linear layout}\label{fig:linear_cond_assoc}
+\caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear_cond_assoc}
 \end{figure}
 \end{Schunk}
 
