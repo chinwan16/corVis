@@ -117,11 +117,11 @@ focus on the correlations of certain variables. The package provide
 different ways to produce correlation displays. In addition to matrix
 display, the package also plots the correlation values in a network
 display which is useful when dealing with high-dimensional datasets.
-Table @ref(tab:corrdisplay\_packages) provides a list of the packages
+Table \ref{tab:corrdisplay-packages} provides a list of the packages
 available in R for either calculating correlations, visualising
 correlations or both.
 
-The majority of the packages in Table @ref(tab:corrdisplay\_packages)
+The majority of the packages in Table \ref{tab:corrdisplay-packages}
 focus only on quantitative variables of the dataset. The packages
 \CRANpkg{correlationfunnel} \citep{correlationfunnel} and
 \CRANpkg{linkspotter} \citep{linkspotter} look at both the quantitative
@@ -142,7 +142,7 @@ correlation.
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:corrdisplay_packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.}
+\caption{\label{tab:corrdisplay-packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.}
 \centering
 \begin{tabular}[t]{l|l|l|l|l|l}
 \hline
@@ -242,20 +242,16 @@ provides a collection of various measures of association which is used
 to quantify the relationship between two variables and is used to
 explore patterns during EDA. The measures available in the package are
 not limited to numeric variables and are used with categorical and
-ordinal variables as well. Table @ref(tab:association\_measures) lists
+ordinal variables as well. Table \ref{tab:association-measures} lists
 the different measures of association provided in the package with the
 variable types they can be used with, the package used for calculation,
 the information on whether the measure is symmetric, and the minimum and
 maximum value of the measure.
 
-\hypertarget{calculating-association-for-relevant-variables}{%
-\subsection{Calculating association for relevant
-variables}\label{calculating-association-for-relevant-variables}}
-
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:association_measures}List of the functions available in the package for calculating different association measures along with the packages used for calculation.}
+\caption{\label{tab:association-measures}List of the functions available in the package for calculating different association measures along with the packages used for calculation.}
 \centering
 \begin{tabular}[t]{l|l|l|l|l|r|r}
 \hline
@@ -294,13 +290,17 @@ tbl\_easy & any & any & correlation::correlation & TRUE & -1 & 1\\
 
 \end{Schunk}
 
+\hypertarget{calculating-association-for-relevant-variables}{%
+\subsection{Calculating association for relevant
+variables}\label{calculating-association-for-relevant-variables}}
+
 We introduce a method which creates a tibble structure for the variable
 pairs in a dataset along with calculated association measure. The
-package contains various functions (shown in Table 1) for different
-association measures in the form \texttt{tbl\_*} to calculate them. For
-example, a user might be interested in calculating distance correlation
-for numeric pair of variables in a dataset. This can be done by using
-\texttt{tbl\_dcor}.
+package contains various functions (shown in Table
+\ref{tab:association-measures}) for different association measures in
+the form \texttt{tbl\_*} to calculate them. For example, a user might be
+interested in calculating distance correlation for numeric pair of
+variables in a dataset. This can be done by using \texttt{tbl\_dcor}.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -342,77 +342,6 @@ head(nmi)
 \end{Soutput}
 \end{Schunk}
 
-These functions return a tibble with the variable pairs and calculated
-measure, and also with additional classes \texttt{pairwise} and
-\texttt{data.frame}. With the pairwise measures of association in a
-tibble or dataframe structure, the output of these functions can then be
-used with packages like \texttt{dplyr} , \texttt{ggplot2} for further
-exploration of association measures.
-
-\begin{Schunk}
-\begin{Sinput}
-class(distance)
-\end{Sinput}
-\begin{Soutput}
-#> [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"
-\end{Soutput}
-\end{Schunk}
-
-The function \texttt{matrix\_assoc} helps in converting the tibble of
-association measure to matrix structure. The function takes a tibble or
-dataframe of the variable pairs of the dataset along with the calculated
-association measures and returns a symmetric matrix of the variables.
-
-\begin{Schunk}
-\begin{Sinput}
-head(matrix_assoc(distance))
-\end{Sinput}
-\begin{Soutput}
-#>                   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-#> bill_length_mm                NA     0.3872021         0.6664558   0.5871319
-#> bill_depth_mm         0.38720211            NA         0.7039636   0.6141631
-#> flipper_length_mm     0.66645577     0.7039636                NA   0.8674122
-#> body_mass_g           0.58713186     0.6141631         0.8674122          NA
-#> year                  0.07842516     0.1117057         0.1643876   0.0790560
-#>                         year
-#> bill_length_mm    0.07842516
-#> bill_depth_mm     0.11170568
-#> flipper_length_mm 0.16438763
-#> body_mass_g       0.07905600
-#> year                      NA
-\end{Soutput}
-\end{Schunk}
-
-The function outputs a matrix even if any variable pair is missing in
-the input tibble with \texttt{NA} for corresponding variable pair cell
-in the matrix output.
-
-\begin{Schunk}
-\begin{Sinput}
-distance <- distance[-1,]
-matrix_assoc(distance)
-\end{Sinput}
-\begin{Soutput}
-#>                   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-#> bill_length_mm                NA            NA         0.6664558   0.5871319
-#> bill_depth_mm                 NA            NA         0.7039636   0.6141631
-#> flipper_length_mm     0.66645577     0.7039636                NA   0.8674122
-#> body_mass_g           0.58713186     0.6141631         0.8674122          NA
-#> year                  0.07842516     0.1117057         0.1643876   0.0790560
-#>                         year
-#> bill_length_mm    0.07842516
-#> bill_depth_mm     0.11170568
-#> flipper_length_mm 0.16438763
-#> body_mass_g       0.07905600
-#> year                      NA
-\end{Soutput}
-\end{Schunk}
-
-The function has an additional argument called \texttt{group} which
-represents the level of the grouping categorical variable for which the
-matrix output needs to be calculated and is set to \texttt{overall} as
-default.
-
 \hypertarget{calculating-association-measures-for-whole-dataset}{%
 \subsection{Calculating association measures for whole
 dataset}\label{calculating-association-measures-for-whole-dataset}}
@@ -422,6 +351,29 @@ all the variable pairs in the dataset at once in a tibble structure. In
 addition to tibble structure, the output also has \texttt{paiwise} and
 \texttt{data.frame} class which are important class attributes for
 producing visual summaries in this package.
+
+The tibble output for \texttt{calc\_assoc} has the following structure:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{x} and \texttt{y} representing a pair of variables
+\item
+  \texttt{measure} representing the calculated value for association
+  measure
+\item
+  \texttt{measure\_type} representing the association measure calculated
+  for \texttt{x} and \texttt{y} pair.
+\end{itemize}
+
+The variable pairs in the output are unique pairs and a subset of all
+the variable pairs of a dataset where \texttt{x} \(\neq\) \texttt{y}. As
+explained earlier, the \texttt{measure\_type} represents the association
+measure calculated for a specific type of variable pair. A user can be
+interested in calculating multiple association measures for a type of
+variable pair. This can be done by using the \texttt{calc\_assoc} and
+\texttt{update\_assoc} together for calculating different association
+measures and then merging the output tibbles.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -507,29 +459,6 @@ head(updated_complete_assoc)
 \end{Soutput}
 \end{Schunk}
 
-The tibble output for \texttt{calc\_assoc} has the following structure:
-
-\begin{itemize}
-\tightlist
-\item
-  \texttt{x} and \texttt{y} representing a pair of variables
-\item
-  \texttt{measure} representing the calculated value for association
-  measure
-\item
-  \texttt{measure\_type} representing the association measure calculated
-  for \texttt{x} and \texttt{y} pair.
-\end{itemize}
-
-The variable pairs in the output are unique pairs and a subset of all
-the variable pairs of a dataset where \texttt{x} \(\neq\) \texttt{y}. As
-explained earlier, the \texttt{measure\_type} represents the association
-measure calculated for a specific type of variable pair. A user can be
-interested in calculating multiple association measures for a type of
-variable pair. This can be done by using the \texttt{calc\_assoc} and
-\texttt{update\_assoc} together for calculating different association
-measures and then merging the output tibbles.
-
 \hypertarget{calculating-conditional-association}{%
 \subsection{Calculating conditional
 association}\label{calculating-conditional-association}}
@@ -614,16 +543,7 @@ different measures may be displayed on the upper and lower diagonal.
 Linear layouts are more space-efficient than matrix plots, but lookup is
 more challenging. Variable pairs can be ordered by relevance (usually
 difference in measures of association or across the factor levels), and
-less relevant pairs can be omitted. Linear displays are also suitable to
-display associations between the response and predictors only. Our
-selection criteria for a better display were based on :
-
-\begin{itemize}
-\item Number of variables
-\item Easier pixel-variable or variable-pixel
-look up
-\item Number of levels of a factor for conditional association displays
-\end{itemize}
+less relevant pairs can be omitted.
 
 Figure \ref{fig:assoc-heatmap} shows this display for every variable
 pair in the \emph{penguins} dataset from the \emph{palmerpenguins}
@@ -726,17 +646,18 @@ can be taken into account during the modeling step.
 \end{Schunk}
 
 We also provide a functionality for highlighting interesting patterns
-like Simpson's paradox. Figure 5 shows the matrix plot with highlighted
-cells for the variable pairs where Simpson's paradox is present.
+like Simpson's paradox. Figure \ref{fig:cond-assoc-sp} shows the matrix
+plot with highlighted cells for the variable pairs where Simpson's
+paradox is present.
 
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/unnamed-chunk-12-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/cond-assoc-sp-1} 
 
 }
 
-\caption[Conditional Association plot with examples of Simpson's paradox]{Conditional Association plot with examples of Simpson's paradox}\label{fig:unnamed-chunk-12}
+\caption[Conditional Association plot with examples of Simpson's paradox]{Conditional Association plot with examples of Simpson's paradox}\label{fig:cond-assoc-sp}
 \end{figure}
 \end{Schunk}
 
@@ -744,36 +665,36 @@ The cells can also be highlighted on the basis of a score calculated by
 the user. This can be done by providing a dataframe with pairs of
 variables to highlight and a score for highlighting variable pairs. The
 cells with high score will have a thicker border compared to cells with
-low score. Figure 6 shows highlighted cells on the basis of a score
-provided for a subset of variable pairs.
+low score. Figure \ref{fig:cond-assoc-manual} shows highlighted cells on
+the basis of a score provided for a subset of variable pairs.
 
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/unnamed-chunk-13-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/cond-assoc-manual-1} 
 
 }
 
-\caption[Conditional Association plot with manual highlighting]{Conditional Association plot with manual highlighting}\label{fig:unnamed-chunk-13}
+\caption[Conditional Association plot with manual highlighting]{Conditional Association plot with manual highlighting}\label{fig:cond-assoc-manual}
 \end{figure}
 \end{Schunk}
 
 We can also use linear layouts for displaying conditional association.
-Figure 7 shows a funnel-like linear display for conditional association
-measures with all the variable pairs on the y-axis, the value of
-association measure on x-axis and color of the points representing the
-level of the grouping variable. The linear layout becomes more useful
-over the matrix layout when the number of variables and number of levels
-of grouping variable are high.
+Figure \ref{fig:linear-cond-assoc} shows a funnel-like linear display
+for conditional association measures with all the variable pairs on the
+y-axis, the value of association measure on x-axis and color of the
+points representing the level of the grouping variable. The linear
+layout becomes more useful over the matrix layout when the number of
+variables and number of levels of grouping variable are high.
 
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/linear_cond_assoc-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/linear-cond-assoc-1} 
 
 }
 
-\caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear_cond_assoc}
+\caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear-cond-assoc}
 \end{figure}
 \end{Schunk}
 
