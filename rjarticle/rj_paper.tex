@@ -144,26 +144,20 @@ correlation.
 
 \caption{\label{tab:corrdisplay-packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.}
 \centering
-\begin{tabular}[t]{l|l|l|l|l|l}
-\hline
+\begin{tabular}[t]{llllll}
+\toprule
 package & display & displayType & seriatedPlot & interactivePlot & highDimension\\
-\hline
+\midrule
 coreheat & heatmap & overlay & No & No & No\\
-\hline
 corrplot & heatmap & overlay & Yes & No & No\\
-\hline
 corrr & heatmap/network & facet/overlay & Yes & No & Yes\\
-\hline
 corrgrapher & network & overlay & No & No & Yes\\
-\hline
 corrarray & no display & none & No & No & No\\
-\hline
+\addlinespace
 correlationfunnel & funnel & overlay & No & No & Yes\\
-\hline
 linkspotter & network & overlay & No & Yes & Yes\\
-\hline
 correlation & heatmap/network & overlay & No & No & Yes\\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -241,50 +235,54 @@ association measures in our package \CRANpkg{corVis}. The package
 provides a collection of various measures of association which is used
 to quantify the relationship between two variables and is used to
 explore patterns during EDA. The measures available in the package are
-not limited to numeric variables and are used with categorical and
-ordinal variables as well. Table \ref{tab:association-measures} lists
-the different measures of association provided in the package with the
-variable types they can be used with, the package used for calculation,
-the information on whether the measure is symmetric, and the minimum and
-maximum value of the measure.
+not limited to numeric variables and are used with nominal, ordinal and
+mixed variables as well. Table \ref{tab:association-measures} lists
+different functions provided in the package to calculate different
+measures of association. The \texttt{funName} represents the function
+name used to calculate measure(s) of asscoiations in this package. The
+\texttt{typeX}, \texttt{typeY} and the \texttt{from} columns provide the
+information on variable types which can be used with these functions and
+the package functions used to calculate the corresponding measures. The
+\texttt{symmetric} column represents if the measure is symmetric i.e.~if
+the value of measure is same regardless of the order of variables. The
+last two columns provide the minimum and maximum values for these
+measures. The function \texttt{tbl\_easy} can be used to calculate
+association measures available in the R package \texttt{correlation}
+which can use different variable types. The highlighted functions in
+\ref{tab:association-measures} calculate the association measures which
+have been implemented in this package.
+
+There are few association measures available for mixed variable pairs.
+The function \texttt{tbl\_cancor} implemented in the package calculates
+canonical correlation for mixed pairs of variables and is useful in
+exploring association among mixed variables.
 
 \begin{Schunk}
 \begin{table}
 
 \caption{\label{tab:association-measures}List of the functions available in the package for calculating different association measures along with the packages used for calculation.}
 \centering
-\begin{tabular}[t]{l|l|l|l|l|r|r}
-\hline
+\begin{tabular}[t]{lllllrr}
+\toprule
 funName & typeX & typeY & from & symmetric & min & max\\
-\hline
+\midrule
 tbl\_cor & numeric & numeric & stats::cor & TRUE & -1 & 1\\
-\hline
 tbl\_dcor & numeric & numeric & energy::dcor2d & TRUE & 0 & 1\\
-\hline
 tbl\_mine & numeric & numeric & minerva::mine & TRUE & 0 & 1\\
-\hline
 tbl\_polycor & ordinal & ordinal & polycor::polychor & TRUE & -1 & 1\\
-\hline
 tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & TRUE & -1 & 1\\
-\hline
+\addlinespace
 tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & FALSE & 0 & 1\\
-\hline
 tbl\_gkLambda & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & 0 & 1\\
-\hline
 tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & 0 & 1\\
-\hline
 tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & TRUE & 0 & 1\\
-\hline
 tbl\_chi & nominal & nominal & DescTools::ContCoef & TRUE & 0 & 1\\
-\hline
+\addlinespace
 tbl\_cancor & nominal & nominal & corVis & TRUE & 0 & 1\\
-\hline
 tbl\_cancor & nominal & numerical & corVis & TRUE & 0 & 1\\
-\hline
 tbl\_nmi & any & any & corVis & TRUE & 0 & 1\\
-\hline
 tbl\_easy & any & any & correlation::correlation & TRUE & -1 & 1\\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 

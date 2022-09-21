@@ -31,6 +31,7 @@ library(corVis)
 library(palmerpenguins)
 library(ggplot2)
 library(dplyr)
+library(kableExtra)
 ```
 
 # Section 1: Introduction
@@ -72,7 +73,7 @@ highDimension <- c("No","No","Yes","Yes","No","Yes","Yes","Yes")
 
 df <- data.frame(package=package,display=display,displayType=displayType,seriatedPlot=seriatedPlot,interactivePlot=interactivePlot,highDimension=highDimension)
 
-kableExtra::kable(df,format="latex",caption = "List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.")
+kableExtra::kbl(df,booktabs = T,caption = "List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.")
 #df %>%
   #kbl() %>%
   #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
@@ -88,7 +89,9 @@ An association measure can be defined as a numerical summary quantifying relatio
 
 # Section 3: corVis: Calculating Association
 
-This section provides an implementation for the calculation of association measures in our package \CRANpkg{corVis}. The package  provides a collection of various measures of association which is used to quantify the relationship between two variables and is used to explore patterns during EDA. The measures available in the package are not limited to numeric variables and are used with categorical and ordinal variables as well. Table \@ref(tab:association-measures) lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure.
+This section provides an implementation for the calculation of association measures in our package \CRANpkg{corVis}. The package  provides a collection of various measures of association which is used to quantify the relationship between two variables and is used to explore patterns during EDA. The measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variables as well. Table \@ref(tab:association-measures) lists different functions provided in the package to calculate different measures of association. The `funName` represents the function name used to calculate measure(s) of asscoiations in this package. The `typeX`, `typeY` and the `from` columns provide the information on variable types which can be used with these functions and the package functions used to calculate the corresponding measures. The `symmetric` column represents if the measure is symmetric i.e. if the value of measure is same regardless of the order of variables. The last two columns provide the minimum and maximum values for these measures. The function `tbl_easy` can be used to calculate association measures available in the R package `correlation` which can use different variable types. The highlighted functions in \@ref(tab:association-measures) calculate the association measures which have been implemented in this package. 
+
+There are few association measures available for mixed variable pairs. The function `tbl_cancor` implemented in the package calculates canonical correlation for mixed pairs of variables and is useful in exploring association among mixed variables.
 
 ```{r association-measures,echo=FALSE}
 assocMethods <- tribble(
@@ -108,7 +111,7 @@ assocMethods <- tribble(
   "tbl_nmi", "any", "any", "corVis", TRUE, 0,1,
   "tbl_easy", "any", "any", "correlation::correlation", TRUE, -1, 1)
 
-kableExtra::kable(assocMethods,format="latex",caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.")
+kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.")
 #kableExtra::kable_styling(kable_input,latex_options = "striped")
 #knitr::kable(assocMethods)
 ```
