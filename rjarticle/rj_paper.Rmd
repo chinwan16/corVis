@@ -58,22 +58,20 @@ The majority of the packages in Table \@ref(tab:corrdisplay-packages) focus only
 
 ```{r corrdisplay-packages,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
-package <- c("coreheat","corrplot","corrr","corrgrapher","corrarray","correlationfunnel","linkspotter",  "correlation")
+Package <- c("coreheat","corrplot","corrr","corrgrapher","corrarray","linkspotter",  "correlation","corVis")
 
-display <- c("heatmap","heatmap","heatmap/network","network","no display", "funnel","network","heatmap/network")
+Display <- c("heatmap","heatmap","heatmap/network","network","no display","network","heatmap/network","heatmap/matrix/linear")
 
-displayType <- c("overlay","overlay","facet/overlay","overlay","none","overlay","overlay","overlay")
+MultipleMeasures <- c("No","No","No","No","Yes","Yes","No","Yes")
 
-seriatedPlot <- c("No","Yes","Yes","No","No","No","No","No")
+ConditionalPlot <- c("No","No","No","No","Yes","No","No","Yes")
 
-interactivePlot <- c("No","No","No","No","No","No","Yes","No")
-
-highDimension <- c("No","No","Yes","Yes","No","Yes","Yes","Yes")
+MixedVariables <- c("No","No","No","No","No","Yes","Yes","Yes")
 
 
-df <- data.frame(package=package,display=display,displayType=displayType,seriatedPlot=seriatedPlot,interactivePlot=interactivePlot,highDimension=highDimension)
+df <- data.frame(Package=Package,Display=Display,MultipleMeasures=MultipleMeasures,ConditionalPlot=ConditionalPlot,MixedVariables=MixedVariables)
 
-kableExtra::kbl(df,booktabs = T,caption = "List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.")
+kableExtra::kbl(df,booktabs = T,caption = "List of the R packages dealing with correlation or correlation displays with information on whether the plots display multiple measures, conditional display of measures and mixed variables in a single plot")
 #df %>%
   #kbl() %>%
   #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")

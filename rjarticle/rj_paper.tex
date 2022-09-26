@@ -142,21 +142,21 @@ correlation.
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:corrdisplay-packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots are seriated, interactive and are useful for high dimensions.}
+\caption{\label{tab:corrdisplay-packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots display multiple measures, conditional display of measures and mixed variables in a single plot}
 \centering
-\begin{tabular}[t]{llllll}
+\begin{tabular}[t]{lllll}
 \toprule
-package & display & displayType & seriatedPlot & interactivePlot & highDimension\\
+Package & Display & MultipleMeasures & ConditionalPlot & MixedVariables\\
 \midrule
-coreheat & heatmap & overlay & No & No & No\\
-corrplot & heatmap & overlay & Yes & No & No\\
-corrr & heatmap/network & facet/overlay & Yes & No & Yes\\
-corrgrapher & network & overlay & No & No & Yes\\
-corrarray & no display & none & No & No & No\\
+coreheat & heatmap & No & No & No\\
+corrplot & heatmap & No & No & No\\
+corrr & heatmap/network & No & No & No\\
+corrgrapher & network & No & No & No\\
+corrarray & no display & Yes & Yes & No\\
 \addlinespace
-correlationfunnel & funnel & overlay & No & No & Yes\\
-linkspotter & network & overlay & No & Yes & Yes\\
-correlation & heatmap/network & overlay & No & No & Yes\\
+linkspotter & network & Yes & No & Yes\\
+correlation & heatmap/network & No & No & Yes\\
+corVis & heatmap/matrix/linear & Yes & Yes & Yes\\
 \bottomrule
 \end{tabular}
 \end{table}

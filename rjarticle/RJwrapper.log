@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.21)  21 SEP 2022 10:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.21)  26 SEP 2022 17:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -745,7 +745,7 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 147.
 
-Overfull \hbox (78.07573pt too wide) in paragraph at lines 147--162
+Overfull \hbox (39.75659pt too wide) in paragraph at lines 147--162
  [][] 
  []
 
@@ -830,7 +830,7 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Here is how much of TeX's memory you used:
  26719 strings out of 477010
  496518 string characters out of 5825922
- 837041 words of memory out of 5000000
+ 837075 words of memory out of 5000000
  47021 multiletter control sequences out of 15000+600000
  515820 words of font info for 286 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
