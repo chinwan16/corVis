@@ -3088,7 +3088,7 @@ variables on a scatterplot, driven by geometric interpretation of
 correlation. A user can update variables of interest and can create
 tours of the correlation space between different projections of the data
 using this tool.</p>
-<p><a href="https://cran.r-project.org/package=correlationfunnel">correlationfunnel</a>
+<p>The R package <a href="https://cran.r-project.org/package=correlationfunnel">correlationfunnel</a>
 assists with the feature selection step by looking at the relationship
 of predictors to a response (or a target). It converts numeric
 predictors into factors, applies one-hot encoding to all the factors and
@@ -3271,12 +3271,12 @@ association measures used for categorical or mixed data.</p>
 different variable pairs which serves as a comparison tool while
 exploring association in a dataset and assist in identifying unusual
 variable pairs. These multiple measures can be displayed in a
-scatterplot matrix similar to what <span class="citation" data-cites="tukey1985computer">Tukey and Tukey (<a href="#ref-tukey1985computer" role="doc-biblioref">1985</a>)</span>.
-They suggested that scatterplot matrix of the scagnostics measures,
-which are measures summarizing a scatterplot, can be used to identify
-unusual scatterplots or variable pairs. <span class="citation" data-cites="wilkinson2005graph">Wilkinson et al. (<a href="#ref-wilkinson2005graph" role="doc-biblioref">2005</a>)</span>
+scatterplot matrix similar to what <span class="citation" data-cites="tukey1985computer">Tukey and Tukey (<a href="#ref-tukey1985computer" role="doc-biblioref">1985</a>)</span>
+proposed. They suggested that scatterplot matrix of the scagnostics
+measures, which are measures summarizing a scatterplot, can be used to
+identify unusual scatterplots or variable pairs. <span class="citation" data-cites="wilkinson2005graph">Wilkinson et al. (<a href="#ref-wilkinson2005graph" role="doc-biblioref">2005</a>)</span>
 used this idea with their graph-theoretic scagnostic measures to
-highlight unusual scatterplot. Similarly, <span class="citation" data-cites="kuhn2013applied">Kuhn et al. (<a href="#ref-kuhn2013applied" role="doc-biblioref">2013</a>)</span> have used this idea in a
+highlight unusual scatterplots. Similarly, <span class="citation" data-cites="kuhn2013applied">Kuhn et al. (<a href="#ref-kuhn2013applied" role="doc-biblioref">2013</a>)</span> have used this idea in a
 predictive modeling context. They have produced a scatterplot matrix of
 the measures between the response and continuous predictors such as
 Pearson’s correlation coefficient, pseudo-<span class="math inline">\(R^2\)</span> from the locally weighted regression
@@ -3287,7 +3287,20 @@ different variable pairs. In this paper, we propose different
 visualization techniques to compare multiple association measures for
 all the variable pairs in a dataset which can assist a user in finding
 interesting patterns.</p>
-<h1 id="section-3-corvis-calculating-association">Section 3: corVis:
+<h1 id="section-3-introducing-corvis">Section 3: Introducing corVis</h1>
+<p><a href="https://cran.r-project.org/package=corVis">corVis</a> is an
+R package which calculates measures of association for every variable
+pair in a dataset and helps in visualising these associations in
+different ways. The package can also calculate and visualise the
+pairwise association measures conditionally at different levels of a
+grouping variable. The package also focuses on the new visualisation
+techniques such as display with multiple measures for the calculated
+association and conditional association measures for every variable pair
+in the dataset. Efficient seriation techniques have been included to
+order and highlight interesting relationships. These ordered association
+and conditional association displays can help find interesting patterns
+in the dataset.</p>
+<h1 id="section-4-corvis-calculating-association">Section 4: corVis:
 Calculating Association</h1>
 <p>This section provides an implementation for the calculation of
 association measures in our package <a href="https://cran.r-project.org/package=corVis">corVis</a>. The package
@@ -3869,7 +3882,7 @@ function multiple times and then merging the multiple outputs.For
 calculating multiple measures for a specific variable type, one can use
 <code>update_assoc</code> with <code>calc_assoc_by</code> and then can
 merge these multiple tibble outputs.</p>
-<h1 id="section-4-corvis-visualising-association">Section 4: corVis:
+<h1 id="section-5-corvis-visualising-association">Section 5: corVis:
 Visualising Association</h1>
 <p>We propose novel visualisations to display association for every
 variable pair in a dataset in a single plot and show multiple bivariate

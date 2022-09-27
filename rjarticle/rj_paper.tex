@@ -171,15 +171,15 @@ correlation. A user can update variables of interest and can create
 tours of the correlation space between different projections of the data
 using this tool.
 
-\CRANpkg{correlationfunnel} assists with the feature selection step by
-looking at the relationship of predictors to a response (or a target).
-It converts numeric predictors into factors, applies one-hot encoding to
-all the factors and then calculates and visualise the Pearson's
-correlation coefficient among the response and the predictors. We
-believe that using different association measures is a better approach
-than using one-hot encoding for exploring association among all the
-variables, as the encoding increases the dimensions very quickly and it
-is not easy to assess the overall association.
+The R package \CRANpkg{correlationfunnel} assists with the feature
+selection step by looking at the relationship of predictors to a
+response (or a target). It converts numeric predictors into factors,
+applies one-hot encoding to all the factors and then calculates and
+visualise the Pearson's correlation coefficient among the response and
+the predictors. We believe that using different association measures is
+a better approach than using one-hot encoding for exploring association
+among all the variables, as the encoding increases the dimensions very
+quickly and it is not easy to assess the overall association.
 
 \begin{Schunk}
 \begin{table}
@@ -233,11 +233,11 @@ We use multiple association measures in a single display for different
 variable pairs which serves as a comparison tool while exploring
 association in a dataset and assist in identifying unusual variable
 pairs. These multiple measures can be displayed in a scatterplot matrix
-similar to what \citet{tukey1985computer}. They suggested that
+similar to what \citet{tukey1985computer} proposed. They suggested that
 scatterplot matrix of the scagnostics measures, which are measures
 summarizing a scatterplot, can be used to identify unusual scatterplots
 or variable pairs. \citet{wilkinson2005graph} used this idea with their
-graph-theoretic scagnostic measures to highlight unusual scatterplot.
+graph-theoretic scagnostic measures to highlight unusual scatterplots.
 Similarly, \citet{kuhn2013applied} have used this idea in a predictive
 modeling context. They have produced a scatterplot matrix of the
 measures between the response and continuous predictors such as
@@ -250,9 +250,25 @@ paper, we propose different visualization techniques to compare multiple
 association measures for all the variable pairs in a dataset which can
 assist a user in finding interesting patterns.
 
-\hypertarget{section-3-corvis-calculating-association}{%
-\section{Section 3: corVis: Calculating
-Association}\label{section-3-corvis-calculating-association}}
+\hypertarget{section-3-introducing-corvis}{%
+\section{Section 3: Introducing
+corVis}\label{section-3-introducing-corvis}}
+
+\CRANpkg{corVis} is an R package which calculates measures of
+association for every variable pair in a dataset and helps in
+visualising these associations in different ways. The package can also
+calculate and visualise the pairwise association measures conditionally
+at different levels of a grouping variable. The package also focuses on
+the new visualisation techniques such as display with multiple measures
+for the calculated association and conditional association measures for
+every variable pair in the dataset. Efficient seriation techniques have
+been included to order and highlight interesting relationships. These
+ordered association and conditional association displays can help find
+interesting patterns in the dataset.
+
+\hypertarget{section-4-corvis-calculating-association}{%
+\section{Section 4: corVis: Calculating
+Association}\label{section-4-corvis-calculating-association}}
 
 This section provides an implementation for the calculation of
 association measures in our package \CRANpkg{corVis}. The package
@@ -549,9 +565,9 @@ measures for a specific variable type, one can use
 \texttt{update\_assoc} with \texttt{calc\_assoc\_by} and then can merge
 these multiple tibble outputs.
 
-\hypertarget{section-4-corvis-visualising-association}{%
-\section{Section 4: corVis: Visualising
-Association}\label{section-4-corvis-visualising-association}}
+\hypertarget{section-5-corvis-visualising-association}{%
+\section{Section 5: corVis: Visualising
+Association}\label{section-5-corvis-visualising-association}}
 
 We propose novel visualisations to display association for every
 variable pair in a dataset in a single plot and show multiple bivariate
