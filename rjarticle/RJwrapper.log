@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.21)  26 SEP 2022 17:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.21)  27 SEP 2022 11:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -54,10 +54,12 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+\stockwidth=\dimen141
+\stockheight=\dimen142
 ))
-\Gin@req@height=\dimen141
-\Gin@req@width=\dimen142
+\Gin@req@height=\dimen143
+\Gin@req@width=\dimen144
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
@@ -66,16 +68,16 @@ Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
 \pgfkeys@tmptoks=\toks22
 ))
-\pgf@x=\dimen143
-\pgf@y=\dimen144
-\pgf@xa=\dimen145
-\pgf@ya=\dimen146
-\pgf@xb=\dimen147
-\pgf@yb=\dimen148
-\pgf@xc=\dimen149
-\pgf@yc=\dimen150
-\pgf@xd=\dimen151
-\pgf@yd=\dimen152
+\pgf@x=\dimen145
+\pgf@y=\dimen146
+\pgf@xa=\dimen147
+\pgf@ya=\dimen148
+\pgf@xb=\dimen149
+\pgf@yb=\dimen150
+\pgf@xc=\dimen151
+\pgf@yc=\dimen152
+\pgf@xd=\dimen153
+\pgf@yd=\dimen154
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
 \c@pgf@counta=\count194
@@ -119,7 +121,7 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen153
+\pgfmath@dimen=\dimen155
 \pgfmath@count=\count267
 \pgfmath@box=\box52
 \pgfmath@toks=\toks26
@@ -129,28 +131,28 @@ Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
 \c@pgfmathroundto@lastzeros=\count268
 )) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@picminx=\dimen154
-\pgf@picmaxx=\dimen155
-\pgf@picminy=\dimen156
-\pgf@picmaxy=\dimen157
-\pgf@pathminx=\dimen158
-\pgf@pathmaxx=\dimen159
-\pgf@pathminy=\dimen160
-\pgf@pathmaxy=\dimen161
-\pgf@xx=\dimen162
-\pgf@xy=\dimen163
-\pgf@yx=\dimen164
-\pgf@yy=\dimen165
-\pgf@zx=\dimen166
-\pgf@zy=\dimen167
+\pgf@picminx=\dimen156
+\pgf@picmaxx=\dimen157
+\pgf@picminy=\dimen158
+\pgf@picmaxy=\dimen159
+\pgf@pathminx=\dimen160
+\pgf@pathmaxx=\dimen161
+\pgf@pathminy=\dimen162
+\pgf@pathmaxy=\dimen163
+\pgf@xx=\dimen164
+\pgf@xy=\dimen165
+\pgf@yx=\dimen166
+\pgf@yy=\dimen167
+\pgf@zx=\dimen168
+\pgf@zy=\dimen169
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@path@lastx=\dimen168
-\pgf@path@lasty=\dimen169
+\pgf@path@lastx=\dimen170
+\pgf@path@lasty=\dimen171
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@shorten@end@additional=\dimen170
-\pgf@shorten@start@additional=\dimen171
+\pgf@shorten@end@additional=\dimen172
+\pgf@shorten@start@additional=\dimen173
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfpic=\box53
@@ -159,12 +161,12 @@ File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@picture@serial@count=\count269
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgflinewidth=\dimen172
+\pgflinewidth=\dimen174
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@pt@x=\dimen173
-\pgf@pt@y=\dimen174
-\pgf@pt@temp=\dimen175
+\pgf@pt@x=\dimen175
+\pgf@pt@y=\dimen176
+\pgf@pt@temp=\dimen177
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
@@ -173,10 +175,10 @@ File: pgfcoreobjects.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 File: pgfcorepathprocessing.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfarrowsep=\dimen176
+\pgfarrowsep=\dimen178
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@max=\dimen177
+\pgf@max=\dimen179
 \pgf@sys@shading@range@num=\count270
 \pgf@shadingcount=\count271
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
@@ -199,15 +201,15 @@ File: pgfmoduleshapes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 File: pgfmoduleplot.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@nodesepstart=\dimen178
-\pgf@nodesepend=\dimen179
+\pgf@nodesepstart=\dimen180
+\pgf@nodesepend=\dimen181
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2021/05/15 v3.1.9a (3.1.9a)
 )) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen180
-\pgffor@skip=\dimen181
+\pgffor@iter=\dimen182
+\pgffor@skip=\dimen183
 \pgffor@stack=\toks29
 \pgffor@toks=\toks30
 )) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
@@ -215,16 +217,16 @@ Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@plot@mark@count=\count272
-\pgfplotmarksize=\dimen182
+\pgfplotmarksize=\dimen184
 )
-\tikz@lastx=\dimen183
-\tikz@lasty=\dimen184
-\tikz@lastxsaved=\dimen185
-\tikz@lastysaved=\dimen186
-\tikz@lastmovetox=\dimen187
-\tikz@lastmovetoy=\dimen188
-\tikzleveldistance=\dimen189
-\tikzsiblingdistance=\dimen190
+\tikz@lastx=\dimen185
+\tikz@lasty=\dimen186
+\tikz@lastxsaved=\dimen187
+\tikz@lastysaved=\dimen188
+\tikz@lastmovetox=\dimen189
+\tikz@lastmovetoy=\dimen190
+\tikzleveldistance=\dimen191
+\tikzsiblingdistance=\dimen192
 \tikz@figbox=\box58
 \tikz@figbox@bg=\box59
 \tikz@tempbox=\box60
@@ -252,14 +254,14 @@ Package: iftex 2022/02/03 v1.0f TeX engine tests
 \Gm@cnth=\count281
 \Gm@cntv=\count282
 \c@Gm@tempcnt=\count283
-\Gm@bindingoffset=\dimen191
-\Gm@wd@mp=\dimen192
-\Gm@odd@mp=\dimen193
-\Gm@even@mp=\dimen194
-\Gm@layoutwidth=\dimen195
-\Gm@layoutheight=\dimen196
-\Gm@layouthoffset=\dimen197
-\Gm@layoutvoffset=\dimen198
+\Gm@bindingoffset=\dimen193
+\Gm@wd@mp=\dimen194
+\Gm@odd@mp=\dimen195
+\Gm@even@mp=\dimen196
+\Gm@layoutwidth=\dimen197
+\Gm@layoutheight=\dimen198
+\Gm@layouthoffset=\dimen199
+\Gm@layoutvoffset=\dimen256
 \Gm@dimlist=\toks31
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2022/05/18 v4.0.3 Extensive control of page headers and footers
@@ -285,7 +287,7 @@ LaTeX Info: Redefining \noprotrusionifhmode on input line 1045.
 LaTeX Info: Redefining \leftprotrusion on input line 1046.
 LaTeX Info: Redefining \rightprotrusion on input line 1056.
 LaTeX Info: Redefining \textls on input line 1234.
-\MT@outer@kern=\dimen199
+\MT@outer@kern=\dimen257
 LaTeX Info: Redefining \textmicrotypecontext on input line 1858.
 \MT@listname@count=\count286
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
@@ -327,7 +329,7 @@ File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2022-06-20 v7.00s Hypertext links for LaTeX
+Package: hyperref 2022-09-22 v7.00t Hypertext links for LaTeX
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
@@ -361,11 +363,11 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
 \c@section@level=\count289
 )
-\@linkdim=\dimen256
+\@linkdim=\dimen258
 \Hy@linkcounter=\count290
 \Hy@pagecounter=\count291
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2022-06-20 v7.00s Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2022-09-22 v7.00t Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -375,7 +377,7 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count292
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2022-06-20 v7.00s Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2022-09-22 v7.00t Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
@@ -385,7 +387,7 @@ Package hyperref Info: Hyper index ON on input line 4170.
 Package hyperref Info: Plain pages OFF on input line 4177.
 Package hyperref Info: Backreferencing ON on input line 4180.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4408.
+Package hyperref Info: Bookmarks ON on input line 4410.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/hyperref/backref.sty
 Package: backref 2021/02/04 v1.41 Bibliographical back referencing
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
@@ -401,21 +403,21 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 ))
 \c@Hy@tempcnt=\count293
-LaTeX Info: Redefining \url on input line 4746.
-\XeTeXLinkMargin=\dimen257
+LaTeX Info: Redefining \url on input line 4748.
+\XeTeXLinkMargin=\dimen259
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 )
 \Fld@menulength=\count294
-\Field@Width=\dimen258
-\Fld@charsize=\dimen259
-Package hyperref Info: Hyper figures OFF on input line 6024.
-Package hyperref Info: Link nesting OFF on input line 6029.
-Package hyperref Info: Hyper index ON on input line 6032.
-Package hyperref Info: backreferencing ON on input line 6037.
-Package hyperref Info: Link coloring OFF on input line 6044.
-Package hyperref Info: Link coloring with OCG OFF on input line 6049.
-Package hyperref Info: PDF/A mode OFF on input line 6054.
+\Field@Width=\dimen260
+\Fld@charsize=\dimen261
+Package hyperref Info: Hyper figures OFF on input line 6027.
+Package hyperref Info: Link nesting OFF on input line 6032.
+Package hyperref Info: Hyper index ON on input line 6035.
+Package hyperref Info: backreferencing ON on input line 6040.
+Package hyperref Info: Link coloring OFF on input line 6047.
+Package hyperref Info: Link coloring with OCG OFF on input line 6052.
+Package hyperref Info: PDF/A mode OFF on input line 6057.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
@@ -426,7 +428,7 @@ package with kernel methods
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2022-06-20 v7.00s Hyperref driver for pdfTeX
+File: hpdftex.def 2022-09-22 v7.00t Hyperref driver for pdfTeX
 \Fld@listcount=\count298
 \c@bookmark@seq@number=\count299
 \Hy@SectionHShift=\skip59
@@ -439,15 +441,15 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \ttl@box=\box63
 \beforetitleunit=\skip60
 \aftertitleunit=\skip61
-\ttl@plus=\dimen260
-\ttl@minus=\dimen261
+\ttl@plus=\dimen262
+\ttl@minus=\dimen263
 \ttl@toksa=\toks35
-\titlewidth=\dimen262
-\titlewidthlast=\dimen263
-\titlewidthfirst=\dimen264
+\titlewidth=\dimen264
+\titlewidthlast=\dimen265
+\titlewidthfirst=\dimen266
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/titlesec/titletoc.sty
 Package: titletoc 2021/07/05 v2.14 TOC entries
-\ttl@leftsep=\dimen265
+\ttl@leftsep=\dimen267
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
@@ -478,14 +480,14 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 Package: caption 2022/03/01 v3.6b Customizing captions (AR)
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
-\caption@tempdima=\dimen266
-\captionmargin=\dimen267
-\caption@leftmargin=\dimen268
-\caption@rightmargin=\dimen269
-\caption@width=\dimen270
-\caption@indent=\dimen271
-\caption@parindent=\dimen272
-\caption@hangindent=\dimen273
+\caption@tempdima=\dimen268
+\captionmargin=\dimen269
+\caption@leftmargin=\dimen270
+\caption@rightmargin=\dimen271
+\caption@width=\dimen272
+\caption@indent=\dimen273
+\caption@parindent=\dimen274
+\caption@hangindent=\dimen275
 Package caption Info: Standard document class detected.
 )
 \c@caption@flags=\count304
@@ -506,10 +508,10 @@ Package: amstext 2021/08/26 v2.01 AMS text
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks38
-\ex@=\dimen274
+\ex@=\dimen276
 )) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen275
+\pmbraise@=\dimen277
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 LaTeX Info: Redefining \operatorname on input line 43.
@@ -531,7 +533,7 @@ LaTeX Info: Redefining \big on input line 722.
 LaTeX Info: Redefining \Big on input line 723.
 LaTeX Info: Redefining \bigg on input line 724.
 LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen276
+\big@size=\dimen278
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \macc@depth=\count311
@@ -549,12 +551,12 @@ LaTeX Info: Redefining \Relbar on input line 971.
 \column@=\count316
 \maxfields@=\count317
 \andhelp@=\toks40
-\eqnshift@=\dimen277
-\alignsep@=\dimen278
-\tagshift@=\dimen279
-\tagwidth@=\dimen280
-\totwidth@=\dimen281
-\lineht@=\dimen282
+\eqnshift@=\dimen279
+\alignsep@=\dimen280
+\tagshift@=\dimen281
+\tagwidth@=\dimen282
+\totwidth@=\dimen283
+\lineht@=\dimen284
 \@envbody=\toks41
 \multlinegap=\skip65
 \multlinetaggap=\skip66
@@ -565,32 +567,32 @@ LaTeX Info: Redefining \] on input line 2954.
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2022/03/10 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen283
+\col@sep=\dimen285
 \ar@mcellbox=\box67
-\extrarowheight=\dimen284
+\extrarowheight=\dimen286
 \NC@list=\toks43
 \extratabsurround=\skip67
 \backup@length=\skip68
 \ar@cellbox=\box68
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen285
-\lightrulewidth=\dimen286
-\cmidrulewidth=\dimen287
-\belowrulesep=\dimen288
-\belowbottomsep=\dimen289
-\aboverulesep=\dimen290
-\abovetopsep=\dimen291
-\cmidrulesep=\dimen292
-\cmidrulekern=\dimen293
-\defaultaddspace=\dimen294
+\heavyrulewidth=\dimen287
+\lightrulewidth=\dimen288
+\cmidrulewidth=\dimen289
+\belowrulesep=\dimen290
+\belowbottomsep=\dimen291
+\aboverulesep=\dimen292
+\abovetopsep=\dimen293
+\cmidrulesep=\dimen294
+\cmidrulekern=\dimen295
+\defaultaddspace=\dimen296
 \@cmidla=\count318
 \@cmidlb=\count319
-\@aboverulesep=\dimen295
-\@belowrulesep=\dimen296
+\@aboverulesep=\dimen297
+\@belowrulesep=\dimen298
 \@thisruleclass=\count320
 \@lastruleclass=\count321
-\@thisrulewidth=\dimen297
+\@thisrulewidth=\dimen299
 ) (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-08-30 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count322
@@ -702,23 +704,23 @@ Package microtype Info: Loading generic protrusion settings for font family
 [1{/Users/amitchinwan/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 147.
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 147.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 147.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 147.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 147.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -727,119 +729,119 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 147.
+(Font)              scaled to size 10.42007pt on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 147.
+(Font)              scaled to size 7.91925pt on input line 189.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 147.
+(Font)              scaled to size 6.25204pt on input line 189.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 147.
+(Font)              scaled to size 10.42007pt on input line 189.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 147.
+(Font)              scaled to size 7.91925pt on input line 189.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 147.
+(Font)              scaled to size 6.25204pt on input line 189.
 
-Overfull \hbox (39.75659pt too wide) in paragraph at lines 147--162
+Overfull \hbox (39.75659pt too wide) in paragraph at lines 189--204
  [][] 
  []
 
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 196.
+(Font)              scaled to size 9.37807pt on input line 216.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 196.
+(Font)              scaled to size 7.29405pt on input line 216.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 196.
+(Font)              scaled to size 5.21004pt on input line 216.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 196.
+(Font)              scaled to size 9.37807pt on input line 216.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 196.
+(Font)              scaled to size 7.29405pt on input line 216.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 196.
-[2]
-Overfull \hbox (62.91692pt too wide) in paragraph at lines 265--287
+(Font)              scaled to size 5.21004pt on input line 216.
+[2] [3]
+Overfull \hbox (62.91692pt too wide) in paragraph at lines 289--311
  [][] 
  []
 
-[3]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 358.
+[4]
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 382.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
-) [4] [5]
-<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=164, 348.30125pt x 272.01625pt>
+) [5] [6]
+<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=171, 348.30125pt x 272.01625pt>
 File: rj_paper_files/figure-latex/assoc-heatmap-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/assoc-heatmap-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 563.
+Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 587.
 (pdftex.def)             Requested size: 348.3004pt x 272.01558pt.
-<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=166, 279.0425pt x 274.02374pt>
+<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=173, 279.0425pt x 274.02374pt>
 File: rj_paper_files/figure-latex/compare-matrix-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-matrix-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 585.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 609.
 (pdftex.def)             Requested size: 279.04181pt x 274.02307pt.
-<rj_paper_files/figure-latex/compare-linear-1.pdf, id=168, 284.06125pt x 275.0275pt>
+<rj_paper_files/figure-latex/compare-linear-1.pdf, id=175, 284.06125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/compare-linear-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-linear-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 602.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 626.
 (pdftex.def)             Requested size: 284.06053pt x 275.02682pt.
-[6] [7 <./rj_paper_files/figure-latex/assoc-heatmap-1.pdf> <./rj_paper_files/figure-latex/compare-matrix-1.pdf>]
-<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=198, 351.3125pt x 275.0275pt>
+[7 <./rj_paper_files/figure-latex/assoc-heatmap-1.pdf>] [8 <./rj_paper_files/figure-latex/compare-matrix-1.pdf> <./rj_paper_files/figure-latex/compare-linear-1.pdf>]
+<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=214, 351.3125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 638.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 662.
 (pdftex.def)             Requested size: 351.31163pt x 275.02682pt.
-<rj_paper_files/figure-latex/cond-assoc-sp-1.pdf, id=200, 351.3125pt x 275.0275pt>
+<rj_paper_files/figure-latex/cond-assoc-sp-1.pdf, id=216, 351.3125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-sp-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-sp-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-sp-1.pdf  used on input line 654.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-sp-1.pdf  used on input line 678.
 (pdftex.def)             Requested size: 351.31163pt x 275.02682pt.
-<rj_paper_files/figure-latex/cond-assoc-manual-1.pdf, id=202, 351.3125pt x 275.0275pt>
+<rj_paper_files/figure-latex/cond-assoc-manual-1.pdf, id=218, 351.3125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-manual-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-manual-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-manual-1.pdf  used on input line 672.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-manual-1.pdf  used on input line 696.
 (pdftex.def)             Requested size: 351.31163pt x 275.02682pt.
-<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=204, 284.06125pt x 346.29375pt>
+<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=220, 284.06125pt x 346.29375pt>
 File: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 691.
+Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 715.
 (pdftex.def)             Requested size: 284.06053pt x 346.2929pt.
 (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[8 <./rj_paper_files/figure-latex/compare-linear-1.pdf>] [9 <./rj_paper_files/figure-latex/cond-assoc-1.pdf> <./rj_paper_files/figure-latex/cond-assoc-sp-1.pdf>] [10 <./rj_paper_files/figure-latex/cond-assoc-manual-1.pdf> <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>])
+[9 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>] [10 <./rj_paper_files/figure-latex/cond-assoc-sp-1.pdf> <./rj_paper_files/figure-latex/cond-assoc-manual-1.pdf>] [11 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 709.
+(Font)              using `T1/zi4/m/n' instead on input line 733.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 719.
-) [11] (./RJwrapper.aux)
+(Font)              scaled to size 9.18004pt on input line 743.
+) [12] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 770229DD72A6792663FD79283B1A063F;3170.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: E36FE668C83DE453A0C8AE38590E03AF;1209.
+(rerunfilecheck)             Checksum: 729846FC0C0234FAF882FBF7E5B96831;1201.
  ) 
 Here is how much of TeX's memory you used:
- 26719 strings out of 477010
- 496518 string characters out of 5825922
- 837075 words of memory out of 5000000
- 47021 multiletter control sequences out of 15000+600000
- 515820 words of font info for 286 fonts, out of 8000000 for 9000
+ 26729 strings out of 477010
+ 496691 string characters out of 5825922
+ 837194 words of memory out of 5000000
+ 47027 multiletter control sequences out of 15000+600000
+ 515905 words of font info for 288 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 115i,11n,131p,1006b,823s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 115i,11n,131p,1006b,815s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (11 pages, 184031 bytes).
+Output written on RJwrapper.pdf (12 pages, 186106 bytes).
 PDF statistics:
- 342 PDF objects out of 1000 (max. 8388607)
- 291 compressed objects within 3 object streams
- 59 named destinations out of 1000 (max. 500000)
+ 349 PDF objects out of 1000 (max. 8388607)
+ 297 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
  63112 words of extra memory for PDF output out of 74296 (max. 10000000)
 
