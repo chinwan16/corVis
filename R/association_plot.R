@@ -70,8 +70,8 @@ pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default
 
   p <- ggplot2::ggplot(assoc) +
     #ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-                      #data=simpson[,1:2],
-                       #fill = 'red', alpha = 0.1) +
+    #data=simpson[,1:2],
+    #fill = 'red', alpha = 0.1) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
     ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),size=2.5)+
     ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
@@ -92,18 +92,14 @@ pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default
   if (isTRUE(group_var %in% names(assoc))){
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
-      if(group_var=="measure_type"){ # ch both sides of if mostly the same, this can be simplified
-        p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")
-      }else{p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge") +
-        ggplot2::labs(fill = by_var)}
+      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")+
+        {if(group_var=="measure_type") ggplot2::labs(fill = by_var)} # ch comments updated
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dashed")
   }
   else {
-    if (isTRUE(fillvar %in% names(assoc))) # ch both sides of if look the same
-      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]]))
-    else p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure), fill=.data$fillvar)
+    p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]])) #ch comments updated
   }
   suppressWarnings(print(p))
 }
