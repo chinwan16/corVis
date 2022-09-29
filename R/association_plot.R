@@ -93,7 +93,7 @@ pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
       p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")+
-        {if(group_var=="measure_type") ggplot2::labs(fill = by_var)} # ch comments updated
+        {if(group_var!="measure_type") ggplot2::labs(fill = by_var)} # ch comments updated
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dashed")
