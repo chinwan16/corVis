@@ -52,7 +52,9 @@ In this section we provide a brief review of  existing packages used for correla
 
 ## Section 2.1: Literature Review on Correlation Displays
 
-HISTORICAL REFS ADD HERE
+<!-- HISTORICAL REFS ADD HERE -->
+
+According to @hills1969looking, the first and sometimes only impression gained by looking at a large correlation matrix is its largeness. In order to explore a large correlation matrix @hills1969looking proposed a QQ plot of the entries of the correlation matrix. According to @murdoch1996graphical, they proposed a more effective display for exploring a large correlation matrix. @murdoch1996graphical replaced the entries in a correlation matrix by an ellipse where the parameters of ellipse were scaled to the correlation value. These displays are called as correlation matrix displays.
 
 The correlation matrix display is an important tool to explore association among variables in a multivariate analysis. The display was made popular by @friendly2002corrgrams who called them corrgrams, wherein he rendered the correlation values of $p$ numeric variables in a $p \times p$ matrix layout with shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The main goal of these displays is to render the correlation patterns in a dataset. 
 
@@ -63,7 +65,7 @@ The displays provided by each of the packages are listed, as are the correlation
  
  
 The package \CRANpkg{corrr} [@corrr2020] 
-organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the tidyverse(ref).
+organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse].
 In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges.
 
 
