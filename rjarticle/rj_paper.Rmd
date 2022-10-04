@@ -61,30 +61,32 @@ The correlation matrix display is an important tool to explore association among
 Table \@ref(tab:corrdisplay-packages) provides a list of  packages available in R which  either calculate correlations, visualise correlations or both. 
 The displays provided by each of the packages are listed, as are the correlations or associations calculated, in particular whether association measures are provided for factor variables or mixed numeric-factor pairs. We also summarise whether packages provide conditional displays of association, by which we mean displays for each of the levels of a categorical variable.
 
- The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the @friendly2002corrgrams paper. It serves as a visual exploratory tool for correlation matrices and includes various variable ordering methods which place highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation.
+The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the @friendly2002corrgrams paper. It serves as a visual exploratory tool for correlation matrices and includes various variable ordering methods which place highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation.
  
  
-The package \CRANpkg{corrr} [@corrr2020] 
-organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse].
-In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges.
+The package \CRANpkg{corrr} [@corrr2020] organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse]. In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges.
 
 
-CORRGRAPHER
+<!-- CORRGRAPHER -->
 
-The package \CRANpkg{linkspotter} [@linkspotter] offers a variety of association measures (list some) in addition to correlation, where the measure used depends on whether the  variables are both numerical, categorical or mixed. The results are visualised in a network plot, which may be packaged into an interactive shiny application.
+The package \CRANpkg{corrgrapher} [@corrgrapher] calculates a comparable correlation coefficient for numeric pairs, mixed pairs and categorical pairs of variables by using the $p$-values from Pearson's correlation test, Kruskal's test and Chi-squared test respectively. These coefficients are then plotted using a network plot where the nodes close to each other have high correlation magnitude, edge thickness encodes the absolute correlation value and edge color indicates the sign of correlation.
+
+The package \CRANpkg{linkspotter} [@linkspotter] offers a variety of association measures (list some) in addition to correlation, where the measure used depends on whether the  variables are both numerical, categorical or mixed. The results are visualized in a network plot, which may be packaged into an interactive shiny application.
 
 
 We include our own package corvis in the table, which has new features not available elsewhere, in particular simulaneous display of multiple association measures, and association displays stratified by levels of a grouping variable. This will be described further in the following section.
 
-ALL THIS STUFF ABOUT CORVIS SHOULD APPEAR IN THE SECTION ABOUT CORVIS.
+<!-- ALL THIS STUFF ABOUT CORVIS SHOULD APPEAR IN THE SECTION ABOUT CORVIS. -->
 
 <!-- It allows the user to select association measure for different variable types and then calculates and visualizes all of the variable pairs in a single plot. This helps an analyst to explore the associations among different variables in a single display. -->
 
 <!-- We introduce conditional association displays which are useful in uncovering conditional structure present in the data. Conditional displays (also called small multiple displays or trellis displays) are visualisations for the subsets of data produced by dividing the data by a partitioning variable and then plotting them. Popularised by @tufte1986thevisual and @becker1996thevisual, these displays are efficient for discovering interesting patterns in the data.  The package \CRANpkg{corVis} also provides a functionality to calculate and display conditional association in the dataset. A user calculates the conditional association by specifying a grouping variable and plot these conditional association measures using the displays provided in the package. -->
 
-There have been other extensions to correlation displays which are useful when dealing with high dimensional datasets. @buja2016visualization proposed Association Navigator which is an interactive visualization tool for large correlation matrices with upto 2000 variables.  The R package \CRANpkg{scorrplot} [@scorr] produces an interactive scatterplot for exploring pairwise correlations in a large dataset by projecting variables as points with respect to some user-selected variables on a scatterplot, driven by geometric interpretation of correlation. A user can update variables of interest and can create tours of the correlation space between different projections of the data using this tool. I DO NOT UNDERSTAND ANY OF THIS ABOUT SCORRPLOT. TRY AGAIN.
+There have been other extensions to correlation displays which are useful when dealing with high dimensional datasets. @buja2016visualization proposed Association Navigator which is an interactive visualization tool for large correlation matrices with upto 2000 variables.  The R package \CRANpkg{scorrplot} [@scorr] produces an interactive scatterplot for exploring pairwise correlations in a large dataset by projecting variables as points and encoding the correlations as space between these points. The package provides a functionality to update variable of interest which creates tour of the correlation space between different projections of the data. 
 
-REMOVE CORHEAT FROM TABLE
+<!-- I DO NOT UNDERSTAND ANY OF THIS ABOUT SCORRPLOT. TRY AGAIN. -->
+
+<!-- REMOVE CORHEAT FROM TABLE -->
 
 
 The R package \CRANpkg{correlationfunnel} offers a novel display which assists in feature selection in a setting with a single response and many predictor variables. All numeric variables including the response are binned. All (now categorical) variables in the resulting dataset are one-hot encoded and Pearson's correlation calculated with the response categories. The correlations are visualised in a dot-plot display, where predictors are ordered by maximum correlation magnitude. Correlations between one-hot encoded variables are challenging to interpret, especially as the number of levels increase.  In corVis we offer a similar dot-plot display, but showing multiple correlation or association measures, or alternatively measures stratified by a grouping variable.
@@ -93,15 +95,15 @@ The R package \CRANpkg{correlationfunnel} offers a novel display which assists i
 ```{r corrdisplay-packages,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Package <- c("coreheat","corrplot","corrr","corrgrapher","corrarray","linkspotter",  "correlation","corVis")
+Package <- c("corrplot","corrr","corrgrapher","linkspotter",  "correlation","corVis")
 
-Display <- c("heatmap","heatmap","heatmap/network","network","no display","network","heatmap/network","heatmap/matrix/linear")
+Display <- c("heatmap","heatmap/network","network","network","heatmap/network","heatmap/matrix/linear")
 
-MultipleMeasures <- c(" "," "," "," "," "," "," ","Yes")
+MultipleMeasures <- c(" "," "," "," "," ","Yes")
 
-ConditionalPlot <- c(" "," "," "," ","Yes"," "," ","Yes")
+ConditionalPlot <- c(" "," "," "," "," ","Yes")
 
-MixedVariables <- c(" "," "," "," "," ","Yes"," ","Yes")
+MixedVariables <- c(" "," "," ","Yes"," ","Yes")
 
 
 df <- data.frame(Package=Package,Display=Display,MultipleMeasures=MultipleMeasures,ConditionalPlot=ConditionalPlot,MixedVariables=MixedVariables)

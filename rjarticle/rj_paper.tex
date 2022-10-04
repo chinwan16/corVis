@@ -140,12 +140,19 @@ matrix displays, the package offers network displays where
 line-thickness encodes correlation magnitude, with a filtering option to
 discard low-correlation edges.
 
-CORRGRAPHER
+The package \CRANpkg{corrgrapher} \citep{corrgrapher} calculates a
+comparable correlation coefficient for numeric pairs, mixed pairs and
+categorical pairs of variables by using the \(p\)-values from Pearson's
+correlation test, Kruskal's test and Chi-squared test respectively.
+These coefficients are then plotted using a network plot where the nodes
+close to each other have high correlation magnitude, edge thickness
+encodes the absolute correlation value and edge color indicates the sign
+of correlation.
 
 The package \CRANpkg{linkspotter} \citep{linkspotter} offers a variety
 of association measures (list some) in addition to correlation, where
 the measure used depends on whether the variables are both numerical,
-categorical or mixed. The results are visualised in a network plot,
+categorical or mixed. The results are visualized in a network plot,
 which may be packaged into an interactive shiny application.
 
 We include our own package corvis in the table, which has new features
@@ -154,22 +161,16 @@ association measures, and association displays stratified by levels of a
 grouping variable. This will be described further in the following
 section.
 
-ALL THIS STUFF ABOUT CORVIS SHOULD APPEAR IN THE SECTION ABOUT CORVIS.
-
 There have been other extensions to correlation displays which are
 useful when dealing with high dimensional datasets.
 \citet{buja2016visualization} proposed Association Navigator which is an
 interactive visualization tool for large correlation matrices with upto
 2000 variables. The R package \CRANpkg{scorrplot} \citep{scorr} produces
 an interactive scatterplot for exploring pairwise correlations in a
-large dataset by projecting variables as points with respect to some
-user-selected variables on a scatterplot, driven by geometric
-interpretation of correlation. A user can update variables of interest
-and can create tours of the correlation space between different
-projections of the data using this tool. I DO NOT UNDERSTAND ANY OF THIS
-ABOUT SCORRPLOT. TRY AGAIN.
-
-REMOVE CORHEAT FROM TABLE
+large dataset by projecting variables as points and encoding the
+correlations as space between these points. The package provides a
+functionality to update variable of interest which creates tour of the
+correlation space between different projections of the data.
 
 The R package \CRANpkg{correlationfunnel} offers a novel display which
 assists in feature selection in a setting with a single response and
@@ -193,14 +194,12 @@ variable.
 \toprule
 Package & Display & MultipleMeasures & ConditionalPlot & MixedVariables\\
 \midrule
-coreheat & heatmap &  &  & \\
 corrplot & heatmap &  &  & \\
 corrr & heatmap/network &  &  & \\
 corrgrapher & network &  &  & \\
-corrarray & no display &  & Yes & \\
-\addlinespace
 linkspotter & network &  &  & Yes\\
 correlation & heatmap/network &  &  & \\
+\addlinespace
 corVis & heatmap/matrix/linear & Yes & Yes & Yes\\
 \bottomrule
 \end{tabular}

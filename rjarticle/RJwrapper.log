@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.21)  3 OCT 2022 22:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.21)  4 OCT 2022 08:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -747,71 +747,71 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 115.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 192.
+(Font)              scaled to size 10.42007pt on input line 193.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 192.
+(Font)              scaled to size 7.91925pt on input line 193.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 192.
+(Font)              scaled to size 6.25204pt on input line 193.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 192.
+(Font)              scaled to size 10.42007pt on input line 193.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 192.
+(Font)              scaled to size 7.91925pt on input line 193.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 192.
+(Font)              scaled to size 6.25204pt on input line 193.
 
-Overfull \hbox (39.75659pt too wide) in paragraph at lines 192--207
+Overfull \hbox (39.75659pt too wide) in paragraph at lines 193--206
  [][] 
  []
 
 [2] [3]
-Overfull \hbox (47.39687pt too wide) in paragraph at lines 338--360
+Overfull \hbox (47.39687pt too wide) in paragraph at lines 337--359
  [][] 
  []
 
 [4]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 422.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 421.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 ) [5] [6]
-Overfull \hbox (0.20865pt too wide) in paragraph at lines 622--637
+Overfull \hbox (0.20865pt too wide) in paragraph at lines 621--636
 []\T1/ppl/m/n/9 (-20) Figure [][]1[][] shows this dis-play for ev-ery vari-able pair in the \T1/zi4/m/n/9 penguins \T1/ppl/m/n/9 (-20) dataset from the \T1/zi4/m/n/9 palmerpenguins
  []
 
-<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=181, 348.30125pt x 272.01625pt>
+<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=185, 348.30125pt x 272.01625pt>
 File: rj_paper_files/figure-latex/assoc-heatmap-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/assoc-heatmap-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 641.
+Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 640.
 (pdftex.def)             Requested size: 348.3004pt x 272.01558pt.
-<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=183, 279.0425pt x 274.02374pt>
+<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=187, 279.0425pt x 274.02374pt>
 File: rj_paper_files/figure-latex/compare-matrix-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-matrix-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 663.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 662.
 (pdftex.def)             Requested size: 279.04181pt x 274.02307pt.
-<rj_paper_files/figure-latex/compare-linear-1.pdf, id=185, 284.06125pt x 275.0275pt>
+<rj_paper_files/figure-latex/compare-linear-1.pdf, id=189, 284.06125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/compare-linear-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-linear-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 680.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 679.
 (pdftex.def)             Requested size: 284.06053pt x 275.02682pt.
 [7] [8 <./rj_paper_files/figure-latex/assoc-heatmap-1.pdf> <./rj_paper_files/figure-latex/compare-matrix-1.pdf>]
-<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=217, 351.3125pt x 275.0275pt>
+<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=221, 351.3125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 716.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 715.
 (pdftex.def)             Requested size: 351.31163pt x 275.02682pt.
-<rj_paper_files/figure-latex/cond-assoc-sp-1.pdf, id=219, 351.3125pt x 275.0275pt>
+<rj_paper_files/figure-latex/cond-assoc-sp-1.pdf, id=223, 351.3125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-sp-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-sp-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-sp-1.pdf  used on input line 732.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-sp-1.pdf  used on input line 731.
 (pdftex.def)             Requested size: 351.31163pt x 275.02682pt.
-<rj_paper_files/figure-latex/cond-assoc-manual-1.pdf, id=221, 351.3125pt x 275.0275pt>
+<rj_paper_files/figure-latex/cond-assoc-manual-1.pdf, id=225, 351.3125pt x 275.0275pt>
 File: rj_paper_files/figure-latex/cond-assoc-manual-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-manual-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-manual-1.pdf  used on input line 750.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-manual-1.pdf  used on input line 749.
 (pdftex.def)             Requested size: 351.31163pt x 275.02682pt.
-<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=223, 284.06125pt x 346.29375pt>
+<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=227, 284.06125pt x 346.29375pt>
 File: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 769.
+Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 768.
 (pdftex.def)             Requested size: 284.06053pt x 346.2929pt.
 (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
@@ -820,10 +820,10 @@ Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  us
 [9 <./rj_paper_files/figure-latex/compare-linear-1.pdf>] [10 <./rj_paper_files/figure-latex/cond-assoc-1.pdf> <./rj_paper_files/figure-latex/cond-assoc-sp-1.pdf>] [11 <./rj_paper_files/figure-latex/cond-assoc-manual-1.pdf> <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 787.
+(Font)              using `T1/zi4/m/n' instead on input line 786.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 797.
+(Font)              scaled to size 9.18004pt on input line 796.
 ) [12] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -831,21 +831,21 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: C497962BB3E0D9EE01444E3CDDD8C936;3457.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: AECB913974F35E68177D4D7E80E6B337;1382.
+(rerunfilecheck)             Checksum: AEA87B29A3E3BBE0AF7B3D505DA599ED;1436.
  ) 
 Here is how much of TeX's memory you used:
- 26735 strings out of 477010
- 497002 string characters out of 5825922
- 836509 words of memory out of 5000000
- 47041 multiletter control sequences out of 15000+600000
- 515359 words of font info for 280 fonts, out of 8000000 for 9000
+ 26745 strings out of 477010
+ 497150 string characters out of 5825922
+ 836546 words of memory out of 5000000
+ 47047 multiletter control sequences out of 15000+600000
+ 515514 words of font info for 282 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  115i,11n,131p,1006b,823s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (12 pages, 189804 bytes).
+Output written on RJwrapper.pdf (12 pages, 190437 bytes).
 PDF statistics:
- 360 PDF objects out of 1000 (max. 8388607)
- 307 compressed objects within 4 object streams
- 64 named destinations out of 1000 (max. 500000)
+ 366 PDF objects out of 1000 (max. 8388607)
+ 313 compressed objects within 4 object streams
+ 65 named destinations out of 1000 (max. 500000)
  63120 words of extra memory for PDF output out of 74296 (max. 10000000)
 
