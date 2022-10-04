@@ -3061,14 +3061,13 @@ discard low-correlation edges.</p>
 <!-- CORRGRAPHER -->
 <p>The package <a href="https://cran.r-project.org/package=corrgrapher">corrgrapher</a>
 <span class="citation" data-cites="corrgrapher">(<a href="#ref-corrgrapher" role="doc-biblioref">Morgen and Biecek
-2020</a>)</span> calculates a comparable correlation coefficient for
-numeric pairs, mixed pairs and categorical pairs of variables by using
-the <span class="math inline">\(p\)</span>-values from Pearson’s
-correlation test, Kruskal’s test and Chi-squared test respectively.
-These coefficients are then plotted using a network plot where the nodes
-close to each other have high correlation magnitude, edge thickness
-encodes the absolute correlation value and edge color indicates the sign
-of correlation.</p>
+2020</a>)</span> uses a network plot for exploring correlations, where
+the nodes close to each other have high correlation magnitude, edge
+thickness encodes the absolute correlation value and edge color
+indicates the sign of correlation. The package also calculates a
+comparable correlation coefficient for numeric pairs, mixed pairs and
+categorical pairs of variables by using the <span class="math inline">\(p\)</span>-values from Pearson’s correlation test,
+Kruskal’s test and Chi-squared test respectively.</p>
 <p>The package <a href="https://cran.r-project.org/package=linkspotter">linkspotter</a>
 <span class="citation" data-cites="linkspotter">(<a href="#ref-linkspotter" role="doc-biblioref">Samba 2020</a>)</span>
 offers a variety of association measures (list some) in addition to
@@ -3238,16 +3237,32 @@ Spearman’s rank correlation coefficient are other popular measures which
 assess montonic relationship among two numeric variables and are in the
 range <span class="math inline">\([-1,1]\)</span>. As these measures are
 limited to linear or monotonic relationships, there’s a need to use
-association measures which can capture complex relationships (like
-periodic). The distance correlation coefficient <span class="citation" data-cites="szekely2007measuring">(<a href="#ref-szekely2007measuring" role="doc-biblioref">Székely et al. 2007</a>)</span> is one such measure
-which looks for the non-linear association between two numeric variables
-and summarizes it in <span class="math inline">\([0,1]\)</span>.
-Similarly, MIC <span class="citation" data-cites="reshef2011detecting">(<a href="#ref-reshef2011detecting" role="doc-biblioref">Reshef et al. 2011</a>)</span> is capable of
-summarizing non-linear as well as periodic relationships between numeric
-variables. In addition to association measures for numeric variables,
-association measures for ordinal or nominal or mixed variables will help
-an analyst in exploring a multivariate dataset. <span class="citation" data-cites="taha201673">Taha and Hadi (<a href="#ref-taha201673" role="doc-biblioref">2016</a>)</span> provides an overview of the
-association measures used for categorical or mixed data.</p>
+association measures which are able to capture complex relationships. In
+addition to association measures for numeric variables, association
+measures for ordinal, nominal and mixed variable pairs are useful in
+exploring a multivariate dataset.</p>
+<p>For a pair of numeric variables, various measures of association have
+been proposed in literature. The distance correlation coefficient <span class="citation" data-cites="szekely2007measuring">(<a href="#ref-szekely2007measuring" role="doc-biblioref">Székely et al.
+2007</a>)</span> is an association measure which looks for the
+non-linear association between two numeric variables and summarizes it
+in <span class="math inline">\([0,1]\)</span>. Similarly, MIC <span class="citation" data-cites="reshef2011detecting">(<a href="#ref-reshef2011detecting" role="doc-biblioref">Reshef et al.
+2011</a>)</span> is capable of summarizing non-linear as well as
+periodic relationships between numeric variables and is in range <span class="math inline">\([0,1]\)</span>.</p>
+<p><span class="citation" data-cites="agresti2010analysis">Agresti (<a href="#ref-agresti2010analysis" role="doc-biblioref">2010</a>)</span>
+provides an overview of the association measures which are used for
+exploring association between ordinal variables. Kendall’s tau-b <span class="citation" data-cites="kendall1945treatment">(<a href="#ref-kendall1945treatment" role="doc-biblioref">Kendall
+1945</a>)</span> is an association measure useful in summarizing the
+relationship between two ordinal variables in the range <span class="math inline">\([-1,1]\)</span>. It is a relatively stable measure
+with respect to the changes in categories of any variable. The
+polychoric correlation <span class="citation" data-cites="olsson1979maximum">(<a href="#ref-olsson1979maximum" role="doc-biblioref">Olsson 1979</a>)</span> measures the correlation
+for an assumed underlying bivariate normal distribution for a
+contingency table of two ordinal variables and summarized the
+association in <span class="math inline">\([-1,1]\)</span>.</p>
+<!-- For a pair of mixed variables, -->
+<!-- For a pair of nominal variables -->
+<p><span class="citation" data-cites="taha201673">Taha and Hadi (<a href="#ref-taha201673" role="doc-biblioref">2016</a>)</span> provides an
+overview of the association measures used for the nominal and mixed pair
+of variables.</p>
 <p>We use multiple association measures in a single display for
 different variable pairs which serves as a comparison tool while
 exploring association in a dataset and assist in identifying unusual
@@ -4024,6 +4039,10 @@ measure.
 <h2 class="unnumbered appendix" id="cran-task-views-implied-by-cited-packages">CRAN Task Views implied
 by cited packages</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-agresti2010analysis" class="csl-entry" role="doc-biblioentry">
+A. Agresti. <em>Analysis of ordinal categorical data.</em> John Wiley
+&amp; Sons, 2010.
+</div>
 <div id="ref-buja2016visualization" class="csl-entry" role="doc-biblioentry">
 A. Buja, A. M. Krieger and E. I. George. A visualization tool for mining
 large correlation tables: The association navigator. 2016.
@@ -4045,6 +4064,10 @@ analysis.</em> Springer Nature, 2019.
 M. Hills. On looking at large correlation matrices. <em>Biometrika</em>,
 56(2): 249–253, 1969.
 </div>
+<div id="ref-kendall1945treatment" class="csl-entry" role="doc-biblioentry">
+M. G. Kendall. The treatment of ties in ranking problems.
+<em>Biometrika</em>, 33(3): 239–251, 1945.
+</div>
 <div id="ref-corrr2020" class="csl-entry" role="doc-biblioentry">
 M. Kuhn, S. Jackson and J. Cimentada. <em>Corrr: Correlations in r.</em>
 2020. URL <a href="https://CRAN.R-project.org/package=corrr">https://CRAN.R-project.org/package=corrr</a>.
@@ -4062,6 +4085,10 @@ R package version 1.0.4.
 <div id="ref-murdoch1996graphical" class="csl-entry" role="doc-biblioentry">
 D. J. Murdoch and E. Chow. A graphical display of large correlation
 matrices. <em>The American Statistician</em>, 50(2): 178–180, 1996.
+</div>
+<div id="ref-olsson1979maximum" class="csl-entry" role="doc-biblioentry">
+U. Olsson. Maximum likelihood estimation of the polychoric correlation
+coefficient. <em>Psychometrika</em>, 44(4): 443–460, 1979.
 </div>
 <div id="ref-reshef2011detecting" class="csl-entry" role="doc-biblioentry">
 D. N. Reshef, Y. A. Reshef, H. K. Finucane, S. R. Grossman, G. McVean,

@@ -140,14 +140,14 @@ matrix displays, the package offers network displays where
 line-thickness encodes correlation magnitude, with a filtering option to
 discard low-correlation edges.
 
-The package \CRANpkg{corrgrapher} \citep{corrgrapher} calculates a
-comparable correlation coefficient for numeric pairs, mixed pairs and
-categorical pairs of variables by using the \(p\)-values from Pearson's
-correlation test, Kruskal's test and Chi-squared test respectively.
-These coefficients are then plotted using a network plot where the nodes
-close to each other have high correlation magnitude, edge thickness
-encodes the absolute correlation value and edge color indicates the sign
-of correlation.
+The package \CRANpkg{corrgrapher} \citep{corrgrapher} uses a network
+plot for exploring correlations, where the nodes close to each other
+have high correlation magnitude, edge thickness encodes the absolute
+correlation value and edge color indicates the sign of correlation. The
+package also calculates a comparable correlation coefficient for numeric
+pairs, mixed pairs and categorical pairs of variables by using the
+\(p\)-values from Pearson's correlation test, Kruskal's test and
+Chi-squared test respectively.
 
 The package \CRANpkg{linkspotter} \citep{linkspotter} offers a variety
 of association measures (list some) in addition to correlation, where
@@ -219,17 +219,32 @@ range \([-1,1]\). Kendall's or Spearman's rank correlation coefficient
 are other popular measures which assess montonic relationship among two
 numeric variables and are in the range \([-1,1]\). As these measures are
 limited to linear or monotonic relationships, there's a need to use
-association measures which can capture complex relationships (like
-periodic). The distance correlation coefficient
-\citep{szekely2007measuring} is one such measure which looks for the
-non-linear association between two numeric variables and summarizes it
-in \([0,1]\). Similarly, MIC \citep{reshef2011detecting} is capable of
-summarizing non-linear as well as periodic relationships between numeric
-variables. In addition to association measures for numeric variables,
-association measures for ordinal or nominal or mixed variables will help
-an analyst in exploring a multivariate dataset. \citet{taha201673}
-provides an overview of the association measures used for categorical or
-mixed data.
+association measures which are able to capture complex relationships. In
+addition to association measures for numeric variables, association
+measures for ordinal, nominal and mixed variable pairs are useful in
+exploring a multivariate dataset.
+
+For a pair of numeric variables, various measures of association have
+been proposed in literature. The distance correlation coefficient
+\citep{szekely2007measuring} is an association measure which looks for
+the non-linear association between two numeric variables and summarizes
+it in \([0,1]\). Similarly, MIC \citep{reshef2011detecting} is capable
+of summarizing non-linear as well as periodic relationships between
+numeric variables and is in range \([0,1]\).
+
+\citet{agresti2010analysis} provides an overview of the association
+measures which are used for exploring association between ordinal
+variables. Kendall's tau-b \citep{kendall1945treatment} is an
+association measure useful in summarizing the relationship between two
+ordinal variables in the range \([-1,1]\). It is a relatively stable
+measure with respect to the changes in categories of any variable. The
+polychoric correlation \citep{olsson1979maximum} measures the
+correlation for an assumed underlying bivariate normal distribution for
+a contingency table of two ordinal variables and summarized the
+association in \([-1,1]\).
+
+\citet{taha201673} provides an overview of the association measures used
+for the nominal and mixed pair of variables.
 
 We use multiple association measures in a single display for different
 variable pairs which serves as a comparison tool while exploring
