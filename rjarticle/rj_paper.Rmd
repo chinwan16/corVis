@@ -105,8 +105,15 @@ ConditionalPlot <- c(" "," "," "," "," ","Yes")
 
 MixedVariables <- c(" "," "," ","Yes"," ","Yes")
 
+CalculateCorrelation <- c(" ","Yes","Yes","Yes","Yes","Yes")
 
-df <- data.frame(Package=Package,Display=Display,MultipleMeasures=MultipleMeasures,ConditionalPlot=ConditionalPlot,MixedVariables=MixedVariables)
+
+df <- data.frame(Package=Package,
+                 Display=Display,
+                 CalculateCorrelation=CalculateCorrelation,
+                 MixedVariables=MixedVariables,
+                 MultipleMeasures=MultipleMeasures,
+                 ConditionalPlot=ConditionalPlot)
 
 kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with correlation or correlation displays with information on whether the plots display multiple measures, conditional display of measures and mixed variables in a single plot")
 #print(table_1)
@@ -120,18 +127,19 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with
 
 ## Section 2.2: Literature Review on Association Measures
 
-An association measure can be defined as a numerical summary quantifying the relationship between two or more variables. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables and is in the range $[-1,1]$. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess montonic relationship among two numeric variables and are in the range $[-1,1]$. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset.
+An association measure can be defined as a numerical summary quantifying the relationship between two or more variables. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables and is in the range $[-1,1]$. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess montonic relationship among two numeric variables and are in the range $[-1,1]$. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. @taha201673 provides an overview of the association measures used for the nominal and mixed pair of variables.
 
 For a pair of numeric variables, various measures of association have been proposed in literature. The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for the non-linear association between two numeric variables and summarizes it in $[0,1]$. Similarly, MIC [@reshef2011detecting] is capable of summarizing non-linear as well as periodic relationships between numeric variables and is in range $[0,1]$.
 
-@agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure with respect to the changes in categories of any variable. The polychoric correlation [@olsson1979maximum] measures the correlation for an assumed underlying bivariate normal distribution for a contingency table of two ordinal variables and summarized the association in $[-1,1]$.
-
-
-<!-- For a pair of mixed variables, -->
+@agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure with respect to the changes in categories of any variable. The polychoric correlation [@olsson1979maximum] measures the correlation for an assumed underlying bivariate normal distribution for a contingency table of two ordinal variables and summarizes the association in $[-1,1]$.
 
 <!-- For a pair of nominal variables -->
+The association measures for the case of nominal pair of variables should be invariant to the order in which the categories appear. Cramer's V [@cramer1999mathematical] uses the ${\chi}^2$ value from the Pearson's ${\chi}^2$ test for independence and is a useful measure to summarize the association between two nominal variables in $[0,1]$.  Another measure for nominal variable pair is the Uncertainty coefficient [@theil1970estimation] measuring the proportion of uncertainty in one variable which is explained by the other variable.
 
- @taha201673 provides an overview of the association measures used for the nominal and mixed pair of variables.
+<!-- For a pair of mixed variables -->
+
+The association measures available for mixed variable pairs are limited in the literature. @taha201673 proposes two association measures which are useful for nominal as well as mixed variable pairs. The canonical correlation measure is another measure useful in exploring association among mixed variables. The goal of the canonical correlation analysis is to maximize the association between the low-dimensional projections of two sets of variables [@hardle2019applied]. Each of these measures are are consistent with respect to the order of the categories of the nominal variable.
+
 
 We use multiple association measures in a single display for different variable pairs which serves as a comparison tool while exploring association in a dataset and assist in identifying unusual variable pairs. These multiple measures can be displayed in a scatterplot matrix similar to what @tukey1985computer proposed. They suggested that scatterplot matrix of the scagnostics measures, which are measures summarizing a scatterplot, can be used to identify unusual scatterplots or variable pairs. @wilkinson2005graph used this idea with their graph-theoretic scagnostic measures to highlight unusual scatterplots. Similarly, @kuhn2013applied have used this idea in a predictive modeling context. They have produced a scatterplot matrix of the measures between the response and continuous predictors such as Pearson's correlation coefficient, pseudo-$R^2$ from the locally weighted regression model, MIC and Spearman's rank correlation coefficient to explore the predictor importance during feature selection step. These displays show the importance of comparing multiple association measures at once for different variable pairs. In this paper, we propose different visualization techniques to compare multiple association measures for all the variable pairs in a dataset which can assist a user in finding interesting patterns.
 
@@ -150,7 +158,7 @@ This section describes the calculation of association measures in our package \C
 
 For numeric pairs of variables, this package provides a range of association measures. The popular correlation coefficients like Pearson's or Spearman's or Kendall's are calculated using `tbl_cor` function. The measures such as distance correlation or MIC which assess more complex relationship are calculated using `tbl_dcor` or `tbl_mine` respectively. The association measures  available in the package for the ordinal pairs of variables are polychoric correlation and Kendall's coefficients which are calculated using `tbl_polycor` or `tbl_tau` respectively. For nominal pairs of variables, the functions like `tbl_gkTau`, `tbl_gkLambda`, `tbl_gkGamma`, `tbl_uncertainty`, `tbl_chi`, `tbl_cancor` are used for exploring association among the variables. These measures are consistent with respect to the order of the nominal variable which some of the existing measures lack.
 
-The association measures available for mixed variable pairs are limited in the literature.The function `tbl_cancor` implemented in the package calculates canonical correlation for mixed pairs of variables and is useful in exploring association among mixed variables. The goal of the canonical correlation analysis is to maximize the association between the low-dimensional projections of two sets of variables [@hardle2019applied]. We calculate canonical correlation between a numeric variable and a nominal variable by first converting the nominal variable into dummy variables and then calculating the correlation between the continuous variable and set of dummy variables.
+The function `tbl_cancor` implemented in the package calculates canonical correlation for mixed pairs of variables. We calculate canonical correlation between a numeric variable and a nominal variable by first converting the nominal variable into dummy variables and then calculating the correlation between the continuous variable and set of dummy variables.
 
 ```{r association-measures,echo=FALSE}
 assocMethods <- tribble(

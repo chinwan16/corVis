@@ -190,17 +190,17 @@ variable.
 
 \caption{\label{tab:corrdisplay-packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots display multiple measures, conditional display of measures and mixed variables in a single plot}
 \centering
-\begin{tabular}[t]{lllll}
+\begin{tabular}[t]{llllll}
 \toprule
-Package & Display & MultipleMeasures & ConditionalPlot & MixedVariables\\
+Package & Display & CalculateCorrelation & MixedVariables & MultipleMeasures & ConditionalPlot\\
 \midrule
-corrplot & heatmap &  &  & \\
-corrr & heatmap/network &  &  & \\
-corrgrapher & network &  &  & \\
-linkspotter & network &  &  & Yes\\
-correlation & heatmap/network &  &  & \\
+corrplot & heatmap &  &  &  & \\
+corrr & heatmap/network & Yes &  &  & \\
+corrgrapher & network & Yes &  &  & \\
+linkspotter & network & Yes & Yes &  & \\
+correlation & heatmap/network & Yes &  &  & \\
 \addlinespace
-corVis & heatmap/matrix/linear & Yes & Yes & Yes\\
+corVis & heatmap/matrix/linear & Yes & Yes & Yes & Yes\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -222,7 +222,9 @@ limited to linear or monotonic relationships, there's a need to use
 association measures which are able to capture complex relationships. In
 addition to association measures for numeric variables, association
 measures for ordinal, nominal and mixed variable pairs are useful in
-exploring a multivariate dataset.
+exploring a multivariate dataset. \citet{taha201673} provides an
+overview of the association measures used for the nominal and mixed pair
+of variables.
 
 For a pair of numeric variables, various measures of association have
 been proposed in literature. The distance correlation coefficient
@@ -240,11 +242,27 @@ ordinal variables in the range \([-1,1]\). It is a relatively stable
 measure with respect to the changes in categories of any variable. The
 polychoric correlation \citep{olsson1979maximum} measures the
 correlation for an assumed underlying bivariate normal distribution for
-a contingency table of two ordinal variables and summarized the
+a contingency table of two ordinal variables and summarizes the
 association in \([-1,1]\).
 
-\citet{taha201673} provides an overview of the association measures used
-for the nominal and mixed pair of variables.
+The association measures for the case of nominal pair of variables
+should be invariant to the order in which the categories appear.
+Cramer's V \citep{cramer1999mathematical} uses the \({\chi}^2\) value
+from the Pearson's \({\chi}^2\) test for independence and is a useful
+measure to summarize the association between two nominal variables in
+\([0,1]\). Another measure for nominal variable pair is the Uncertainty
+coefficient \citep{theil1970estimation} measuring the proportion of
+uncertainty in one variable which is explained by the other variable.
+
+The association measures available for mixed variable pairs are limited
+in the literature. \citet{taha201673} proposes two association measures
+which are useful for nominal as well as mixed variable pairs. The
+canonical correlation measure is another measure useful in exploring
+association among mixed variables. The goal of the canonical correlation
+analysis is to maximize the association between the low-dimensional
+projections of two sets of variables \citep{hardle2019applied}. Each of
+these measures are are consistent with respect to the order of the
+categories of the nominal variable.
 
 We use multiple association measures in a single display for different
 variable pairs which serves as a comparison tool while exploring
@@ -273,22 +291,28 @@ corVis}\label{section-3-introducing-corvis}}
 
 \CRANpkg{corVis} is an R package which calculates measures of
 association for every variable pair in a dataset and helps in
-visualising these associations in different ways. The package can also
-calculate and visualise the pairwise association measures conditionally
-at different levels of a grouping variable. The package also focuses on
-the new visualisation techniques such as display with multiple measures
-for the calculated association and conditional association measures for
-every variable pair in the dataset. Efficient seriation techniques have
-been included to order and highlight interesting relationships. These
-ordered association and conditional association displays can help find
-interesting patterns in the dataset.
+visualising these associations in different ways. Most of the existing
+correlation displays are limited to numeric pairs of variables. This
+package extends these displays to every variable pair.
 
-Most of the existing correlation displays are limited to numeric pairs
-of variables. This package extends these displays to every variable
-pair. In addition to it, we introduce novel visualization methods for
-correlation or association analysis during EDA. These new displays help
-an analyst to quickly discover any unusual variable pair(s) and
-understand the conditional pattern present in the dataset.
+The package offers new visualisation technique such as display with
+multiple measures for the association for every variable pair in the
+dataset. We also introduce conditional association displays which are
+useful in uncovering conditional structure present in the data.
+Conditional displays (also called small multiple displays or trellis
+displays) are visualisations for the subsets of data produced by
+dividing the data by a partitioning variable and then plotting them.
+Popularised by \citet{tufte1986thevisual} and
+\citet{becker1996thevisual}, these displays are efficient for
+discovering differences among the groups in the data.
+
+Efficient seriation techniques have been included to order and highlight
+variables with high value for an association measure. These ordered
+association and conditional association displays can help find
+interesting patterns, such as Simpson's Paradox, in the dataset. These
+new displays also help an analyst to quickly discover any unusual
+variable pair(s) and understand the conditional pattern present in the
+dataset.
 
 \hypertarget{section-4-corvis-calculating-association}{%
 \section{Section 4: corVis: Calculating
@@ -333,16 +357,12 @@ used for exploring association among the variables. These measures are
 consistent with respect to the order of the nominal variable which some
 of the existing measures lack.
 
-The association measures available for mixed variable pairs are limited
-in the literature.The function \texttt{tbl\_cancor} implemented in the
-package calculates canonical correlation for mixed pairs of variables
-and is useful in exploring association among mixed variables. The goal
-of the canonical correlation analysis is to maximize the association
-between the low-dimensional projections of two sets of variables
-\citep{hardle2019applied}. We calculate canonical correlation between a
-numeric variable and a nominal variable by first converting the nominal
-variable into dummy variables and then calculating the correlation
-between the continuous variable and set of dummy variables.
+The function \texttt{tbl\_cancor} implemented in the package calculates
+canonical correlation for mixed pairs of variables. We calculate
+canonical correlation between a numeric variable and a nominal variable
+by first converting the nominal variable into dummy variables and then
+calculating the correlation between the continuous variable and set of
+dummy variables.
 
 \begin{Schunk}
 \begin{table}
