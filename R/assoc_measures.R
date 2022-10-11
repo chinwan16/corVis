@@ -381,3 +381,23 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
   a
 }
 
+
+#' Goodman Kruskal's Tau
+#'
+#' Calculates Goodman Kruskal's Tau coefficient for every variable pair in a dataset.
+#'
+#' @param d dataframe
+#' @param handle.na If TRUE uses pairwise complete observations.
+#' @param ... other arguments
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' tbl_gkTau(iris)
+
+tbl_gkTau <- function(d,handle.na=TRUE,...){
+  a <- assoc_tibble(d, measure_type="gkTau")
+  a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalTau(d[[x]],d[[y]],...), a$x,a$y)
+  a
+}

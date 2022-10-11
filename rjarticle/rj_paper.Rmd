@@ -149,7 +149,7 @@ We use multiple association measures in a single display for different variable 
 
 The package offers new visualisation technique such as display with multiple measures for the association for every variable pair in the dataset. We also introduce conditional association displays which are useful in uncovering conditional structure present in the data. Conditional displays (also called small multiple displays or trellis displays) are visualisations for the subsets of data produced by dividing the data by a partitioning variable and then plotting them. Popularised by @tufte1986thevisual and @becker1996thevisual, these displays are efficient for discovering differences among the groups in the data. 
 
-Efficient seriation techniques have been included to order and highlight variables with high value for an association measure. These ordered association and conditional association displays can help find interesting patterns, such as Simpson's Paradox, in the dataset. These new displays also help an analyst to quickly discover any unusual variable pair(s) and understand the conditional pattern present in the dataset.
+Efficient seriation techniques have been included to order and highlight variables with high value for an association measure. These ordered association and conditional association displays are useful in finding interesting patterns, such as Simpson's Paradox. These new displays also help an analyst to quickly discover any unusual variable pair(s) in the dataset.
 
 # Section 4: corVis: Calculating Association
 
@@ -169,8 +169,8 @@ assocMethods <- tribble(
   "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", TRUE, "[-1,1]",
   "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", TRUE, "[-1,1]",
   "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", FALSE, "[0,1]",
-  "tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
-  "tbl_gkGamma", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
+  #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
+  "tbl_gkGamma", "nominal", "nominal", "DescTools::GoodmanKruskalGamma", TRUE, "[0,1]",
   "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", TRUE, "[0,1]",
   "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", TRUE, "[0,1]",
   "tbl_cancor", "nominal", "nominal", "corVis", TRUE, "[0,1]",
@@ -283,9 +283,11 @@ The tibble output for `calc_assoc_by` has the similar structure as `calc_assoc` 
 
 # Section 5: corVis: Visualising Association
 
-We propose novel visualisations to display association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously to find out interesting patterns. Efficient seriation techniques have been included to order and highlight interesting relationships. These ordered association and conditional association displays can help find interesting patterns in the dataset. While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies lookup, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but lookup is more challenging. Variable pairs can be ordered by relevance (usually difference in measures of association or across the factor levels), and less relevant pairs can be omitted.
+We propose novel visualisations to display association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously to find out interesting patterns. Efficient seriation techniques have been included to order and highlight interesting relationships. These ordered association and conditional association displays help find interesting patterns in the dataset. While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies lookup, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but lookup is more challenging. Variable pairs are usually ordered by relevance (usually difference in measures of association or across the factor levels), and less relevant pairs can be omitted.
 
-Figure \@ref(fig:assoc-heatmap) shows this display for every variable pair in the `penguins` dataset from the `palmerpenguins` package. It shows a high positive Pearson's correlation among `flipper_length` and `body_mass`, `flipper_length` and `bill_length`, and `bill_length` and `bodymass`. There seems to be a strong negative Pearson's correlation between `flipper_length` and `bill_depth`, and `bill_depth` and `body_mass`. The plot also shows that there is a high canonical correlation between `species` and other variables except `year` and `sex`, and a high canonical correlation between `island` and `species`, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. The variables in the display are ordered using average linkage clustering method to find out highly associated variables quickly.
+## Association Matrix plot
+
+Figure \@ref(fig:assoc-heatmap) shows the display for every variable pair in the `penguins` dataset from the `palmerpenguins` package. It shows a high positive Pearson's correlation among `flipper_length` and `body_mass`, `flipper_length` and `bill_length`, and `bill_length` and `bodymass`. There seems to be a strong negative Pearson's correlation between `flipper_length` and `bill_depth`, and `bill_depth` and `body_mass`. The plot also shows that there is a high canonical correlation between `species` and other variables except `year` and `sex`, and a high canonical correlation between `island` and `species`, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. The variables in the display are ordered using average linkage clustering method to find out highly associated variables quickly.
 
 ```{r assoc-heatmap,fig.width=5, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs."}
 df <- penguins
@@ -293,6 +295,9 @@ names(df) <- c("species","island","bill_length","bill_depth","flipper_length","b
 assoc <- calc_assoc(df)
 association_heatmap(assoc)
 ```
+
+
+## Multiple Association Measures Plot
 
 We can also calculate multiple association measures for all the variable pairs in the dataset and compare them. This will help in finding out pairs of variables with a high difference among different measures and one can investigate these bivariate relationships in more detail. The `pairwise_summary_plot` function can be used to compare various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure \@ref(fig:compare-matrix) shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in `penguins` data.
 
@@ -319,7 +324,7 @@ pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi")
 
 ```
 
-## Visualising Conditional Association
+## Conditional Association Plot
 
 The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure \@ref(fig:cond-assoc) shows a conditional association plot for the `penguins` data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable `island`. The dashed line represents the overall association measure. The plot shows that there is a high value for normalised mutual information between bill_length_mm and species for the penguins which lived in `Biscoe` island compared to the penguins which lived in `Dream` island. It can also be seen that the cell corresponding to variable pair flipper_length_mm and bill_depth_mm has a high negative overall Pearson's correlation and for the penguins which lived in `Biscoe` island but positive  correlation for penguins which lived in `Dream` and `Torgersen` island. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
 
