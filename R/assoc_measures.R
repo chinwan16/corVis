@@ -401,3 +401,44 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
   a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalTau(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
+
+
+#' Goodman Kruskal's Gamma
+#'
+#' Calculates Goodman Kruskal's Gamma coefficient for every variable pair in a dataset.
+#'
+#' @param d dataframe
+#' @param handle.na If TRUE uses pairwise complete observations.
+#' @param ... other arguments
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' tbl_gkGamma(iris)
+
+tbl_gkGamma <- function(d,handle.na=TRUE,...){
+  a <- assoc_tibble(d, measure_type="gkGamma")
+  a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
+  a
+}
+
+#' Pearson's Contingency Coefficient
+#'
+#' Calculates Pearson's Contingency coefficient for every variable pair in a dataset.
+#'
+#' @param d dataframe
+#' @param handle.na If TRUE uses pairwise complete observations.
+#' @param ... other arguments
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' tbl_chi(iris)
+
+tbl_chi <- function(d,handle.na=TRUE,...){
+  a <- assoc_tibble(d, measure_type="chi")
+  a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
+  a
+}
