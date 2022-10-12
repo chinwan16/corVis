@@ -672,20 +672,55 @@ levels), and less relevant pairs can be omitted.
 \subsection{Association Matrix plot}\label{association-matrix-plot}}
 
 Figure \ref{fig:assoc-heatmap} shows the display for every variable pair
-in the \texttt{penguins} dataset from the \texttt{palmerpenguins}
-package. It shows a high positive Pearson's correlation among
+in the \texttt{penguins} dataset from the \CRANpkg{palmerpenguins}
+package. Table \ref{tab:penguins} provides a brief summary on the
+variables in this dataset.
+
+\begin{Schunk}
+\begin{table}
+
+\caption{\label{tab:penguins}Variable description of the **penguins** dataset}
+\centering
+\begin{tabular}[t]{ll}
+\toprule
+Variable & Description\\
+\midrule
+species & Penguin species (Adelie, Chinstrap or Gentoo)\\
+island & Islands in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen)\\
+bill\_length\_mm & Bill length of penguin (millimeters)\\
+bill\_depth\_mm & Bill length of penguin (millimeters)\\
+flipper\_length\_mm & Flipper length of penguin (millimeters)\\
+\addlinespace
+body\_mass\_g & Body mass of penguin (grams)\\
+sex & Sex of the penguin (female,male)\\
+year & Year of the study\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{Schunk}
+
+It shows a high positive Pearson's correlation among
 \texttt{flipper\_length} and \texttt{body\_mass},
 \texttt{flipper\_length} and \texttt{bill\_length}, and
 \texttt{bill\_length} and \texttt{bodymass}. There seems to be a strong
 negative Pearson's correlation between \texttt{flipper\_length} and
 \texttt{bill\_depth}, and \texttt{bill\_depth} and \texttt{body\_mass}.
-The plot also shows that there is a high canonical correlation between
-\texttt{species} and other variables except \texttt{year} and
-\texttt{sex}, and a high canonical correlation between \texttt{island}
-and \texttt{species}, which traditional correlation matrix display would
-omit as they are limited to numeric variable pairs only. The variables
-in the display are ordered using average linkage clustering method to
-find out highly associated variables quickly.
+
+The plot also shows that there is a low canonical correlation between
+\texttt{species} and \texttt{sex}, and \texttt{island} and \texttt{sex}
+of the penguins suggesting low association, which traditional
+correlation matrix display would omit as they are limited to numeric
+variable pairs only. There is a high canonical correlation between
+\texttt{island} and \texttt{species} suggesting a stronger association
+among these two variables.
+
+The high canonical correlation between \texttt{bill\_length} and
+\texttt{species}, \texttt{body\_mass} and \texttt{species}, and
+\texttt{flipper\_length} and \texttt{species} suggests that the body
+measurements of a penguin depends on their \texttt{species}. The
+variables in the display are ordered using average linkage clustering
+method to find out highly associated variables quickly.
 
 \begin{Schunk}
 \begin{figure}

@@ -336,9 +336,43 @@ The tibble output for `calc_assoc_by` has the similar structure as `calc_assoc` 
 
 We propose novel visualisations to display association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously to find out interesting patterns. Efficient seriation techniques have been included to order and highlight interesting relationships. These ordered association and conditional association displays help find interesting patterns in the dataset. While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies lookup, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but lookup is more challenging. Variable pairs are usually ordered by relevance (usually difference in measures of association or across the factor levels), and less relevant pairs can be omitted.
 
+
+
 ## Association Matrix plot
 
-Figure \@ref(fig:assoc-heatmap) shows the display for every variable pair in the `penguins` dataset from the `palmerpenguins` package. It shows a high positive Pearson's correlation among `flipper_length` and `body_mass`, `flipper_length` and `bill_length`, and `bill_length` and `bodymass`. There seems to be a strong negative Pearson's correlation between `flipper_length` and `bill_depth`, and `bill_depth` and `body_mass`. The plot also shows that there is a high canonical correlation between `species` and other variables except `year` and `sex`, and a high canonical correlation between `island` and `species`, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. The variables in the display are ordered using average linkage clustering method to find out highly associated variables quickly.
+Figure \@ref(fig:assoc-heatmap) shows the display for every variable pair in the `penguins` dataset from the \CRANpkg{palmerpenguins} package. Table \@ref(tab:penguins) provides a brief summary on the variables in this dataset. 
+
+```{r penguins,warning=FALSE,message=FALSE,echo=FALSE }
+library(kableExtra)
+
+Variable <- c("species","island","bill_length_mm","bill_depth_mm","flipper_length_mm","body_mass_g","sex","year")
+
+Description <- c("Penguin species (Adelie, Chinstrap or Gentoo)",
+                 "Islands in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen)",
+                 "Bill length of penguin (millimeters)",
+                 "Bill length of penguin (millimeters)",
+                 "Flipper length of penguin (millimeters)",
+                 "Body mass of penguin (grams)",
+                 "Sex of the penguin (female,male)",
+                 "Year of the study")
+
+df <- data.frame(Variable=Variable,
+                 Description=Description)
+
+kableExtra::kbl(df, booktabs = T, caption = "Variable description of the **penguins** dataset")
+#print(table_1)
+#df %>%
+  #kbl() %>%
+  #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+
+
+
+It shows a high positive Pearson's correlation among `flipper_length` and `body_mass`, `flipper_length` and `bill_length`, and `bill_length` and `bodymass`. There seems to be a strong negative Pearson's correlation between `flipper_length` and `bill_depth`, and `bill_depth` and `body_mass`. 
+
+The plot also shows that there is a low canonical correlation between `species` and `sex`, and `island` and `sex` of the penguins suggesting low association, which traditional correlation matrix display would omit as they are limited to numeric variable pairs only. There is a high canonical correlation between `island` and `species` suggesting a stronger association among these two variables. 
+
+The high canonical correlation between `bill_length` and `species`, `body_mass` and `species`, and `flipper_length` and `species` suggests that the body measurements  of a penguin depends on their `species`. The variables in the display are ordered using average linkage clustering method to find out highly associated variables quickly.
 
 ```{r assoc-heatmap,fig.width=5, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs."}
 df <- penguins
