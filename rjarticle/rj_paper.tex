@@ -98,76 +98,66 @@ correlation displays and association measure calculation.
 \subsection{Section 2.1: Literature Review on Correlation
 Displays}\label{section-2.1-literature-review-on-correlation-displays}}
 
-According to \citet{hills1969looking}, the first and sometimes only
+According to \citet{hills1969looking}, ``the first and sometimes only
 impression gained by looking at a large correlation matrix is its
-largeness. In order to explore a large correlation matrix
-\citet{hills1969looking} proposed a QQ plot of the entries of the
-correlation matrix. According to \citet{murdoch1996graphical}, they
-proposed a more effective display for exploring a large correlation
-matrix. \citet{murdoch1996graphical} replaced the entries in a
-correlation matrix by an ellipse where the parameters of ellipse were
-scaled to the correlation value. These displays are called as
-correlation matrix displays.
+largeness''. To overcome this, \citet{murdoch1996graphical} proposed a
+display for large correlation matrices which uses a matrix layout of
+ellipses where the parameters of the ellipses are scaled to the
+correlation values. \citet{friendly2002corrgrams} expanded on this idea
+by rendering correlation values as shaded squares, bars, ellipses, or
+circular `pac-man' symbols. The variables in the matrix displays were
+optionally ordered using the angular ordering of the first two eigen
+vectors of the correlation matrix. The ordering places highly-correlated
+pairs of variables nearby, making it easier to quickly identify groups
+of variables with high mutual correlation.
 
-The correlation matrix display is an important tool to explore
-association among variables in a multivariate analysis. The display was
-made popular by \citet{friendly2002corrgrams} who called them corrgrams,
-wherein he rendered the correlation values of \(p\) numeric variables in
-a \(p \times p\) matrix layout with shaded squares, bars, ellipses, or
-circular `pac-man' symbols. The main goal of these displays is to render
-the correlation patterns in a dataset.
-
-Table \ref{tab:corrdisplay-packages} provides a list of packages
-available in R which either calculate correlations, visualise
-correlations or both. The displays provided by each of the packages are
-listed, as are the correlations or associations calculated, in
-particular whether association measures are provided for factor
-variables or mixed numeric-factor pairs. We also summarise whether
-packages provide conditional displays of association, by which we mean
-displays for each of the levels of a categorical variable.
+Nowadays, there are many R packages devoted to correlation
+visualisation. Table \ref{tab:corrdisplay-packages} provides a summary,
+listing the displays offered, and whether these extend to factor
+variables or mixed numeric-factor pairs.
 
 The R package \CRANpkg{corrplot} \citep{corrplot2021} provides an
-implementation of the \citet{friendly2002corrgrams} paper. It serves as
-a visual exploratory tool for correlation matrices and includes various
-variable ordering methods which place highly-correlated pairs of
-variables nearby, making it easier to quickly identify groups of
-variables with high mutual correlation.
-
-The package \CRANpkg{corrr} \citep{corrr2020} organises correlations as
-tidy data, so leveraging the data manipulation and visualisation tools
-of the \CRANpkg{tidyverse} \citep{tidyverse}. In addition to various
-matrix displays, the package offers network displays where
-line-thickness encodes correlation magnitude, with a filtering option to
-discard low-correlation edges.
+implementation of the methods in \citet{friendly2002corrgrams}. The
+package \CRANpkg{corrr} \citep{corrr2020} organises correlations as tidy
+data, so leveraging the data manipulation and visualisation tools of the
+\CRANpkg{tidyverse} \citep{tidyverse}. In addition to various matrix
+displays, the package offers network displays where line-thickness
+encodes correlation magnitude, with a filtering option to discard
+low-correlation edges.
 
 The package \CRANpkg{corrgrapher} \citep{corrgrapher} uses a network
 plot for exploring correlations, where the nodes close to each other
 have high correlation magnitude, edge thickness encodes the absolute
 correlation value and edge color indicates the sign of correlation. The
-package also calculates a comparable correlation coefficient for numeric
-pairs, mixed pairs and categorical pairs of variables by using the
-\(p\)-values from Pearson's correlation test, Kruskal's test and
-Chi-squared test respectively.
+package also handles mixed type variables by using association measures
+obtained as transformations of \(p\)-values obtained from Pearson's
+correlation test in the case of two numeric variables, Kruskal's test
+for numerical and factor variables, and a chi-squared test for two
+categorical variables.
 
 The package \CRANpkg{linkspotter} \citep{linkspotter} offers a variety
-of association measures (list some) in addition to correlation, where
-the measure used depends on whether the variables are both numerical,
-categorical or mixed. The results are visualized in a network plot,
-which may be packaged into an interactive shiny application.
+of association measures (distance correlation, MIC, maximum normalized
+mutual information) in addition to correlation, where the measure used
+depends on whether the variables are both numerical, categorical or
+mixed. The results are visualized in a network plot, which may be
+packaged into an interactive shiny application.
 
-We include our own package corvis in the table, which has new features
-not available elsewhere, in particular simulaneous display of multiple
-association measures, and association displays stratified by levels of a
-grouping variable. This will be described further in the following
-section.
+Our own package \CRANpkg{corVis} offers a variety of displays, and has
+new features not available elsewhere, in particular simultaneous display
+of multiple association measures, and association displays stratified by
+levels of a grouping variable. This will be described in the following
+sections.
 
 There have been other extensions to correlation displays which are
 useful when dealing with high dimensional datasets.
-\citet{buja2016visualization} proposed Association Navigator which is an
-interactive visualization tool for large correlation matrices with upto
-2000 variables. The R package \CRANpkg{scorrplot} \citep{scorr} produces
-an interactive scatterplot for exploring pairwise correlations in a
-large dataset by projecting variables as points and encoding the
+\citet{hills1969looking} proposed a QQ plot of the \(z\)-transform of
+the entries of the correlation matrix to discover correlation
+coefficients too large to come from a normal distribution with mean
+zero. \citet{buja2016visualization} proposed Association Navigator which
+is an interactive visualization tool for large correlation matrices with
+upto 2000 variables. The R package \CRANpkg{scorrplot} \citep{scorr}
+produces an interactive scatterplot for exploring pairwise correlations
+in a large dataset by projecting variables as points and encoding the
 correlations as space between these points. The package provides a
 functionality to update variable of interest which creates tour of the
 correlation space between different projections of the data.
@@ -222,9 +212,8 @@ limited to linear or monotonic relationships, there's a need to use
 association measures which are able to capture complex relationships. In
 addition to association measures for numeric variables, association
 measures for ordinal, nominal and mixed variable pairs are useful in
-exploring a multivariate dataset. \citet{taha201673} provides an
-overview of the association measures used for the nominal and mixed pair
-of variables.
+exploring a multivariate dataset. We now give an overview of available
+association measures.
 
 For a pair of numeric variables, various measures of association have
 been proposed in literature. The distance correlation coefficient
@@ -239,30 +228,38 @@ measures which are used for exploring association between ordinal
 variables. Kendall's tau-b \citep{kendall1945treatment} is an
 association measure useful in summarizing the relationship between two
 ordinal variables in the range \([-1,1]\). It is a relatively stable
-measure with respect to the changes in categories of any variable. The
+measure with respect to the changes in categories of any variable
+i.e.~if two categories are merged to make a single category. The
 polychoric correlation \citep{olsson1979maximum} measures the
-correlation for an assumed underlying bivariate normal distribution for
-a contingency table of two ordinal variables and summarizes the
-association in \([-1,1]\).
+correlation between two ordinal variables by assuming two normally
+distributed latent variables for a contingency table of two ordinal
+variables and summarizes the association in \([-1,1]\).
 
 The association measures for the case of nominal pair of variables
 should be invariant to the order in which the categories appear.
-Cramer's V \citep{cramer1999mathematical} uses the \({\chi}^2\) value
-from the Pearson's \({\chi}^2\) test for independence and is a useful
-measure to summarize the association between two nominal variables in
-\([0,1]\). Another measure for nominal variable pair is the Uncertainty
-coefficient \citep{theil1970estimation} measuring the proportion of
-uncertainty in one variable which is explained by the other variable.
+Pearson's contingency coefficient uses the \({\chi}^2\) value from the
+Pearson's \({\chi}^2\) test for independence and is a useful measure to
+summarize the association between two nominal variables in \([0,1]\).
+Another measure for nominal variable pair is the Uncertainty coefficient
+\citep{theil1970estimation} measuring the proportion of uncertainty in
+one variable which is explained by the other variable.
 
-The association measures available for mixed variable pairs are limited
-in the literature. \citet{taha201673} proposes two association measures
-which are useful for nominal as well as mixed variable pairs. The
-canonical correlation measure is another measure useful in exploring
-association among mixed variables. The goal of the canonical correlation
-analysis is to maximize the association between the low-dimensional
-projections of two sets of variables \citep{hardle2019applied}. Each of
-these measures are are consistent with respect to the order of the
-categories of the nominal variable.
+The canonical correlation is a measure useful in exploring association
+among mixed variables. The goal of the canonical correlation analysis is
+to maximize the association between the low-dimensional projections of
+two sets of variables \citep{hardle2019applied}. Each of these measures
+are are consistent with respect to the order of the categories of the
+nominal variable.
+
+\hypertarget{section-3-introducing-corvis}{%
+\section{Section 3: Introducing
+corVis}\label{section-3-introducing-corvis}}
+
+\CRANpkg{corVis} is an R package which calculates measures of
+association for every variable pair in a dataset and helps in
+visualising these associations in different ways. Most of the existing
+correlation displays are limited to numeric pairs of variables. This
+package extends these displays to every variable pair.
 
 We use multiple association measures in a single display for different
 variable pairs which serves as a comparison tool while exploring
@@ -280,38 +277,22 @@ Pearson's correlation coefficient, pseudo-\(R^2\) from the locally
 weighted regression model, MIC and Spearman's rank correlation
 coefficient to explore the predictor importance during feature selection
 step. These displays show the importance of comparing multiple
-association measures at once for different variable pairs. In this
-paper, we propose different visualization techniques to compare multiple
-association measures for all the variable pairs in a dataset which can
-assist a user in finding interesting patterns.
+association measures at once for different variable pairs.
 
-\hypertarget{section-3-introducing-corvis}{%
-\section{Section 3: Introducing
-corVis}\label{section-3-introducing-corvis}}
-
-\CRANpkg{corVis} is an R package which calculates measures of
-association for every variable pair in a dataset and helps in
-visualising these associations in different ways. Most of the existing
-correlation displays are limited to numeric pairs of variables. This
-package extends these displays to every variable pair.
-
-The package offers new visualisation technique such as display with
-multiple measures for the association for every variable pair in the
-dataset. We also introduce conditional association displays which are
-useful in uncovering conditional structure present in the data.
-Conditional displays (also called small multiple displays or trellis
-displays) are visualisations for the subsets of data produced by
-dividing the data by a partitioning variable and then plotting them.
-Popularised by \citet{tufte1986thevisual} and
-\citet{becker1996thevisual}, these displays are efficient for
-discovering differences among the groups in the data.
+We also introduce conditional association displays which are useful in
+uncovering conditional structure present in the data. Conditional
+displays (also called small multiple displays or trellis displays) are
+visualisations for the subsets of data produced by dividing the data by
+a partitioning variable and then plotting them. Popularised by
+\citet{tufte1986thevisual} and \citet{becker1996thevisual}, these
+displays are efficient for discovering differences among the groups in
+the data.
 
 Efficient seriation techniques have been included to order and highlight
 variables with high value for an association measure. These ordered
-association and conditional association displays can help find
-interesting patterns, such as Simpson's Paradox, in the dataset. These
-new displays also help an analyst to quickly discover any unusual
-variable pair(s) and understand the conditional pattern present in the
+association and conditional association displays are useful in finding
+interesting patterns, such as Simpson's Paradox. These new displays also
+help an analyst to quickly discover any unusual variable pair(s) in the
 dataset.
 
 \hypertarget{section-4-corvis-calculating-association}{%
@@ -380,12 +361,11 @@ tbl\_polycor & ordinal & ordinal & polycor::polychor & TRUE & {}[-1,1]\\
 tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & TRUE & {}[-1,1]\\
 \addlinespace
 tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & FALSE & {}[0,1]\\
-tbl\_gkLambda & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & {}[0,1]\\
-tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalTau & TRUE & {}[0,1]\\
+tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalGamma & TRUE & {}[0,1]\\
 tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & TRUE & {}[0,1]\\
 tbl\_chi & nominal & nominal & DescTools::ContCoef & TRUE & {}[0,1]\\
-\addlinespace
 tbl\_cancor & nominal & nominal & corVis & TRUE & {}[0,1]\\
+\addlinespace
 tbl\_cancor & nominal & numerical & corVis & TRUE & {}[0,1]\\
 tbl\_nmi & any & any & corVis & TRUE & {}[0,1]\\
 tbl\_easy & any & any & correlation::correlation & TRUE & {}[-1,1]\\
@@ -644,17 +624,20 @@ variable pair in a dataset in a single plot and show multiple bivariate
 measures of association simultaneously to find out interesting patterns.
 Efficient seriation techniques have been included to order and highlight
 interesting relationships. These ordered association and conditional
-association displays can help find interesting patterns in the dataset.
+association displays help find interesting patterns in the dataset.
 While designing these displays we considered matrix-type, linear and
 network-based layouts. A matrix-type layout simplifies lookup, and
 different measures may be displayed on the upper and lower diagonal.
 Linear layouts are more space-efficient than matrix plots, but lookup is
-more challenging. Variable pairs can be ordered by relevance (usually
-difference in measures of association or across the factor levels), and
-less relevant pairs can be omitted.
+more challenging. Variable pairs are usually ordered by relevance
+(usually difference in measures of association or across the factor
+levels), and less relevant pairs can be omitted.
 
-Figure \ref{fig:assoc-heatmap} shows this display for every variable
-pair in the \texttt{penguins} dataset from the \texttt{palmerpenguins}
+\hypertarget{association-matrix-plot}{%
+\subsection{Association Matrix plot}\label{association-matrix-plot}}
+
+Figure \ref{fig:assoc-heatmap} shows the display for every variable pair
+in the \texttt{penguins} dataset from the \texttt{palmerpenguins}
 package. It shows a high positive Pearson's correlation among
 \texttt{flipper\_length} and \texttt{body\_mass},
 \texttt{flipper\_length} and \texttt{bill\_length}, and
@@ -679,6 +662,10 @@ find out highly associated variables quickly.
 \caption[Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs]{Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.}\label{fig:assoc-heatmap}
 \end{figure}
 \end{Schunk}
+
+\hypertarget{multiple-association-measures-plot}{%
+\subsection{Multiple Association Measures
+Plot}\label{multiple-association-measures-plot}}
 
 We can also calculate multiple association measures for all the variable
 pairs in the dataset and compare them. This will help in finding out
@@ -719,9 +706,9 @@ suitable when comparing high number of association measures.
 \end{figure}
 \end{Schunk}
 
-\hypertarget{visualising-conditional-association}{%
-\subsection{Visualising Conditional
-Association}\label{visualising-conditional-association}}
+\hypertarget{conditional-association-plot}{%
+\subsection{Conditional Association
+Plot}\label{conditional-association-plot}}
 
 The package includes a function \texttt{calc\_assoc\_by} which
 calculates the pairwise association at different levels of a categorical
@@ -752,40 +739,6 @@ which can be taken into account during the modeling step.
 }
 
 \caption[Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs]{Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `island`. The dashed line in each cell represents overall value of the association measure.}\label{fig:cond-assoc}
-\end{figure}
-\end{Schunk}
-
-We also provide a functionality for highlighting interesting patterns
-like Simpson's paradox. Figure \ref{fig:cond-assoc-sp} shows the matrix
-plot with highlighted cells for the variable pairs where Simpson's
-paradox is present.
-
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/cond-assoc-sp-1} 
-
-}
-
-\caption[Conditional Association plot with examples of Simpson's paradox]{Conditional Association plot with examples of Simpson's paradox}\label{fig:cond-assoc-sp}
-\end{figure}
-\end{Schunk}
-
-The cells can also be highlighted on the basis of a score calculated by
-the user. This can be done by providing a dataframe with pairs of
-variables to highlight and a score for highlighting variable pairs. The
-cells with high score will have a thicker border compared to cells with
-low score. Figure \ref{fig:cond-assoc-manual} shows highlighted cells on
-the basis of a score provided for a subset of variable pairs.
-
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/cond-assoc-manual-1} 
-
-}
-
-\caption[Conditional Association plot with manual highlighting]{Conditional Association plot with manual highlighting}\label{fig:cond-assoc-manual}
 \end{figure}
 \end{Schunk}
 

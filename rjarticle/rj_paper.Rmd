@@ -54,27 +54,35 @@ In this section we provide a brief review of  existing packages used for correla
 
 <!-- HISTORICAL REFS ADD HERE -->
 
-According to @hills1969looking, the first and sometimes only impression gained by looking at a large correlation matrix is its largeness. In order to explore a large correlation matrix @hills1969looking proposed a QQ plot of the entries of the correlation matrix. According to @murdoch1996graphical, they proposed a more effective display for exploring a large correlation matrix. @murdoch1996graphical replaced the entries in a correlation matrix by an ellipse where the parameters of ellipse were scaled to the correlation value. These displays are called as correlation matrix displays.
+According to @hills1969looking, "the first and sometimes only impression gained by looking at a large correlation matrix is its largeness". To overcome this, @murdoch1996graphical proposed a  display for  large correlation matrices which uses a matrix layout of ellipses where the parameters of the ellipses  are  scaled to the correlation values. @friendly2002corrgrams  expanded on this idea by rendering correlation values as shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The variables in the matrix displays were optionally ordered using the angular ordering of the first two eigen vectors of the correlation matrix. The ordering places highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation.
 
-The correlation matrix display is an important tool to explore association among variables in a multivariate analysis. The display was made popular by @friendly2002corrgrams who called them corrgrams, wherein he rendered the correlation values of $p$ numeric variables in a $p \times p$ matrix layout with shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The main goal of these displays is to render the correlation patterns in a dataset. 
+<!-- In order to explore a large correlation matrix @hills1969looking proposed a QQ plot of the entries of the correlation matrix. According to @murdoch1996graphical, they proposed a more effective display for exploring a large correlation matrix. @murdoch1996graphical replaced the entries in a correlation matrix by an ellipse where the parameters of ellipse were scaled to the correlation value. These displays are called as correlation matrix displays. -->
 
-Table \@ref(tab:corrdisplay-packages) provides a list of  packages available in R which  either calculate correlations, visualise correlations or both. 
-The displays provided by each of the packages are listed, as are the correlations or associations calculated, in particular whether association measures are provided for factor variables or mixed numeric-factor pairs. We also summarise whether packages provide conditional displays of association, by which we mean displays for each of the levels of a categorical variable.
+<!-- The correlation matrix display is an important tool to explore association among variables in a multivariate analysis. The display was made popular by @friendly2002corrgrams who called them corrgrams, wherein he rendered the correlation values of $p$ numeric variables in a $p \times p$ matrix layout with shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The main goal of these displays is to render the correlation patterns in a dataset.  -->
 
-The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the @friendly2002corrgrams paper. It serves as a visual exploratory tool for correlation matrices and includes various variable ordering methods which place highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation.
- 
- 
-The package \CRANpkg{corrr} [@corrr2020] organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse]. In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges.
+Nowadays, there are many R  packages devoted to correlation visualisation. Table \@ref(tab:corrdisplay-packages) provides a summary, listing the displays offered, and whether these extend to factor variables or mixed numeric-factor pairs. 
+
+The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the methods in @friendly2002corrgrams. 
+ The package \CRANpkg{corrr} [@corrr2020] organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse]. In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges.
+
+<!-- Table \@ref(tab:corrdisplay-packages) provides a list of  packages available in R which  either calculate correlations, visualise correlations or both.  -->
+<!-- The displays provided by each of the packages are listed, as are the correlations or associations calculated, in particular whether association measures are provided for factor variables or mixed numeric-factor pairs. We also summarise whether packages provide conditional displays of association, by which we mean displays for each of the levels of a categorical variable. -->
+
+<!-- The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the @friendly2002corrgrams paper. It serves as a visual exploratory tool for correlation matrices and includes various variable ordering methods which place highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation. -->
+
+
+<!-- The package \CRANpkg{corrr} [@corrr2020] organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse]. In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges. -->
 
 
 <!-- CORRGRAPHER -->
 
-The package \CRANpkg{corrgrapher} [@corrgrapher] uses a network plot for exploring correlations, where the nodes close to each other have high correlation magnitude, edge thickness encodes the absolute correlation value and edge color indicates the sign of correlation. The package also calculates a comparable correlation coefficient for numeric pairs, mixed pairs and categorical pairs of variables by using the $p$-values from Pearson's correlation test, Kruskal's test and Chi-squared test respectively. 
+The package \CRANpkg{corrgrapher} [@corrgrapher] uses a network plot for exploring correlations, where the nodes close to each other have high correlation magnitude, edge thickness encodes the absolute correlation value and edge color indicates the sign of correlation. The package also handles mixed type variables by using association measures obtained as transformations of $p$-values obtained from
+Pearson's correlation test in the case of two numeric variables, Kruskal's test for numerical and factor variables, and a chi-squared test for two categorical variables. 
 
-The package \CRANpkg{linkspotter} [@linkspotter] offers a variety of association measures (list some) in addition to correlation, where the measure used depends on whether the  variables are both numerical, categorical or mixed. The results are visualized in a network plot, which may be packaged into an interactive shiny application.
+The package \CRANpkg{linkspotter} [@linkspotter] offers a variety of association measures (distance correlation, MIC, maximum normalized mutual information) in addition to correlation, where the measure used depends on whether the  variables are both numerical, categorical or mixed. The results are visualized in a network plot, which may be packaged into an interactive shiny application.
 
 
-We include our own package corvis in the table, which has new features not available elsewhere, in particular simulaneous display of multiple association measures, and association displays stratified by levels of a grouping variable. This will be described further in the following section.
+Our own package \CRANpkg{corVis} offers a variety of displays, and has new features not available elsewhere, in particular simultaneous display of multiple association measures, and association displays stratified by levels of a grouping variable. This will be described  in the following sections.
 
 <!-- ALL THIS STUFF ABOUT CORVIS SHOULD APPEAR IN THE SECTION ABOUT CORVIS. -->
 
@@ -82,7 +90,8 @@ We include our own package corvis in the table, which has new features not avail
 
 
 
-There have been other extensions to correlation displays which are useful when dealing with high dimensional datasets. @buja2016visualization proposed Association Navigator which is an interactive visualization tool for large correlation matrices with upto 2000 variables.  The R package \CRANpkg{scorrplot} [@scorr] produces an interactive scatterplot for exploring pairwise correlations in a large dataset by projecting variables as points and encoding the correlations as space between these points. The package provides a functionality to update variable of interest which creates tour of the correlation space between different projections of the data. 
+There have been other extensions to correlation displays which are useful when dealing with high dimensional datasets. 
+@hills1969looking proposed a QQ plot of the $z$-transform of the entries of the correlation matrix to discover correlation coefficients too large to come from a normal distribution with mean zero. @buja2016visualization proposed Association Navigator which is an interactive visualization tool for large correlation matrices with upto 2000 variables.  The R package \CRANpkg{scorrplot} [@scorr] produces an interactive scatterplot for exploring pairwise correlations in a large dataset by projecting variables as points and encoding the correlations as space between these points. The package provides a functionality to update variable of interest which creates tour of the correlation space between different projections of the data. 
 
 <!-- I DO NOT UNDERSTAND ANY OF THIS ABOUT SCORRPLOT. TRY AGAIN. -->
 
@@ -127,27 +136,29 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with
 
 ## Section 2.2: Literature Review on Association Measures
 
-An association measure can be defined as a numerical summary quantifying the relationship between two or more variables. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables and is in the range $[-1,1]$. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess montonic relationship among two numeric variables and are in the range $[-1,1]$. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. @taha201673 provides an overview of the association measures used for the nominal and mixed pair of variables.
+An association measure can be defined as a numerical summary quantifying the relationship between two or more variables. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables and is in the range $[-1,1]$. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess montonic relationship among two numeric variables and are in the range $[-1,1]$. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. We now give an overview of available association measures.
 
 For a pair of numeric variables, various measures of association have been proposed in literature. The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for the non-linear association between two numeric variables and summarizes it in $[0,1]$. Similarly, MIC [@reshef2011detecting] is capable of summarizing non-linear as well as periodic relationships between numeric variables and is in range $[0,1]$.
 
-@agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure with respect to the changes in categories of any variable. The polychoric correlation [@olsson1979maximum] measures the correlation for an assumed underlying bivariate normal distribution for a contingency table of two ordinal variables and summarizes the association in $[-1,1]$.
+@agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure with respect to the changes in categories of any variable i.e. if two categories are merged to make a single category. The polychoric correlation [@olsson1979maximum] measures the correlation between two ordinal variables  by assuming two normally distributed latent variables for a contingency table of two ordinal variables and summarizes the association in $[-1,1]$.
 
 <!-- For a pair of nominal variables -->
-The association measures for the case of nominal pair of variables should be invariant to the order in which the categories appear. Cramer's V [@cramer1999mathematical] uses the ${\chi}^2$ value from the Pearson's ${\chi}^2$ test for independence and is a useful measure to summarize the association between two nominal variables in $[0,1]$.  Another measure for nominal variable pair is the Uncertainty coefficient [@theil1970estimation] measuring the proportion of uncertainty in one variable which is explained by the other variable.
+The association measures for the case of nominal pair of variables should be invariant to the order in which the categories appear. Pearson's contingency coefficient uses the ${\chi}^2$ value from the Pearson's ${\chi}^2$ test for independence and is a useful measure to summarize the association between two nominal variables in $[0,1]$.  Another measure for nominal variable pair is the Uncertainty coefficient [@theil1970estimation] measuring the proportion of uncertainty in one variable which is explained by the other variable.
 
 <!-- For a pair of mixed variables -->
 
-The association measures available for mixed variable pairs are limited in the literature. @taha201673 proposes two association measures which are useful for nominal as well as mixed variable pairs. The canonical correlation measure is another measure useful in exploring association among mixed variables. The goal of the canonical correlation analysis is to maximize the association between the low-dimensional projections of two sets of variables [@hardle2019applied]. Each of these measures are are consistent with respect to the order of the categories of the nominal variable.
+The canonical correlation is a measure useful in exploring association among mixed variables. The goal of the canonical correlation analysis is to maximize the association between the low-dimensional projections of two sets of variables [@hardle2019applied]. Each of these measures are are consistent with respect to the order of the categories of the nominal variable.
 
 
-We use multiple association measures in a single display for different variable pairs which serves as a comparison tool while exploring association in a dataset and assist in identifying unusual variable pairs. These multiple measures can be displayed in a scatterplot matrix similar to what @tukey1985computer proposed. They suggested that scatterplot matrix of the scagnostics measures, which are measures summarizing a scatterplot, can be used to identify unusual scatterplots or variable pairs. @wilkinson2005graph used this idea with their graph-theoretic scagnostic measures to highlight unusual scatterplots. Similarly, @kuhn2013applied have used this idea in a predictive modeling context. They have produced a scatterplot matrix of the measures between the response and continuous predictors such as Pearson's correlation coefficient, pseudo-$R^2$ from the locally weighted regression model, MIC and Spearman's rank correlation coefficient to explore the predictor importance during feature selection step. These displays show the importance of comparing multiple association measures at once for different variable pairs. In this paper, we propose different visualization techniques to compare multiple association measures for all the variable pairs in a dataset which can assist a user in finding interesting patterns.
+
 
 # Section 3: Introducing corVis
 
 \CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair.
 
-The package offers new visualisation technique such as display with multiple measures for the association for every variable pair in the dataset. We also introduce conditional association displays which are useful in uncovering conditional structure present in the data. Conditional displays (also called small multiple displays or trellis displays) are visualisations for the subsets of data produced by dividing the data by a partitioning variable and then plotting them. Popularised by @tufte1986thevisual and @becker1996thevisual, these displays are efficient for discovering differences among the groups in the data. 
+We use multiple association measures in a single display for different variable pairs which serves as a comparison tool while exploring association in a dataset and assist in identifying unusual variable pairs. These multiple measures can be displayed in a scatterplot matrix similar to what @tukey1985computer proposed. They suggested that scatterplot matrix of the scagnostics measures, which are measures summarizing a scatterplot, can be used to identify unusual scatterplots or variable pairs. @wilkinson2005graph used this idea with their graph-theoretic scagnostic measures to highlight unusual scatterplots. Similarly, @kuhn2013applied have used this idea in a predictive modeling context. They have produced a scatterplot matrix of the measures between the response and continuous predictors such as Pearson's correlation coefficient, pseudo-$R^2$ from the locally weighted regression model, MIC and Spearman's rank correlation coefficient to explore the predictor importance during feature selection step. These displays show the importance of comparing multiple association measures at once for different variable pairs. 
+
+We also introduce conditional association displays which are useful in uncovering conditional structure present in the data. Conditional displays (also called small multiple displays or trellis displays) are visualisations for the subsets of data produced by dividing the data by a partitioning variable and then plotting them. Popularised by @tufte1986thevisual and @becker1996thevisual, these displays are efficient for discovering differences among the groups in the data. 
 
 Efficient seriation techniques have been included to order and highlight variables with high value for an association measure. These ordered association and conditional association displays are useful in finding interesting patterns, such as Simpson's Paradox. These new displays also help an analyst to quickly discover any unusual variable pair(s) in the dataset.
 
@@ -337,19 +348,19 @@ cond_assoc <- calc_assoc_by(df, by="island")
 pairwise_2d_plot(cond_assoc)
 ```
 
-We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure \@ref(fig:cond-assoc-sp) shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present.
+<!-- We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure \@ref(fig:cond-assoc-sp) shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present. -->
 
-```{r cond-assoc-sp,fig.width=5, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with examples of Simpson's paradox"}
-pairwise_2d_plot_sp_high(cond_assoc,highlight = "sp")
-```
+<!-- ```{r cond-assoc-sp,fig.width=5, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with examples of Simpson's paradox"} -->
+<!-- pairwise_2d_plot_sp_high(cond_assoc,highlight = "sp") -->
+<!-- ``` -->
 
-The cells can also be highlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score. Figure \@ref(fig:cond-assoc-manual) shows highlighted cells on the basis of a score provided for a subset of variable pairs.
+<!-- The cells can also be highlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score. Figure \@ref(fig:cond-assoc-manual) shows highlighted cells on the basis of a score provided for a subset of variable pairs. -->
 
-```{r cond-assoc-manual,fig.width=5, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with manual highlighting"}
-highlight <- data.frame(x=c("bill_depth","bill_length","body_mass"),
-                        y=rep("flipper_length",3),score=c(0.8,0.4,0.1))
-pairwise_2d_plot_sp_high(cond_assoc,highlight = highlight)
-```
+<!-- ```{r cond-assoc-manual,fig.width=5, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with manual highlighting"} -->
+<!-- highlight <- data.frame(x=c("bill_depth","bill_length","body_mass"), -->
+<!--                         y=rep("flipper_length",3),score=c(0.8,0.4,0.1)) -->
+<!-- pairwise_2d_plot_sp_high(cond_assoc,highlight = highlight) -->
+<!-- ``` -->
 
 We can also use linear layouts for displaying conditional association. Figure \@ref(fig:linear-cond-assoc) shows a funnel-like linear display for conditional association measures with all the variable pairs on the y-axis, the value of association measure on x-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
 
