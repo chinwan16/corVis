@@ -295,6 +295,41 @@ interesting patterns, such as Simpson's Paradox. These new displays also
 help an analyst to quickly discover any unusual variable pair(s) in the
 dataset.
 
+Table \ref{tab:function-corVis} provides a list of the functions
+available in the package which are useful for calulating association
+measures among variable pairs and visualising these associations using
+novel displays.
+
+\begin{Schunk}
+\begin{table}
+
+\caption{\label{tab:function-corVis}List of the available functions in **corVis** package with input arguments and outputs}
+\centering
+\begin{tabular}[t]{llll}
+\toprule
+Function & Usage & Input & Output\\
+\midrule
+`calc\_assoc` & Calculation & -  Dataframe,
+              -  Types of association measures,
+              -  NA handler & \\
+`calc\_assoc\_by` & Calculation & -  Dataframe,
+              -  Name of the grouping variable,
+              -  Types of association measures,
+              -  NA handler,
+              -  Include overall value or not & \\
+`association\_heatmap` & Visualization & -  Association measure dataframe for lower and upper triangle of the matrix display,
+              -  Variable order,
+              -  Limits of the scale & \\
+`pairwise\_2d\_plot` & Visualization &  & \\
+`pairwise\_1d\_compare` & Visualization &  & \\
+\addlinespace
+`pairwise\_1d\_plot` & Visualization &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{Schunk}
+
 \hypertarget{section-4-corvis-calculating-association}{%
 \section{Section 4: corVis: Calculating
 Association}\label{section-4-corvis-calculating-association}}

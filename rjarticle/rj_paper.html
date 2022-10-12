@@ -3332,6 +3332,119 @@ ordered association and conditional association displays are useful in
 finding interesting patterns, such as Simpson’s Paradox. These new
 displays also help an analyst to quickly discover any unusual variable
 pair(s) in the dataset.</p>
+<p>Table <a href="#tab:function-corVis">2</a> provides a list of the functions
+available in the package which are useful for calulating association
+measures among variable pairs and visualising these associations using
+novel displays.</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<caption>
+<span id="tab:function-corVis">Table 2: </span>List of the available functions in
+<strong>corVis</strong> package with input arguments and outputs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Function
+</th>
+<th style="text-align:left;">
+Usage
+</th>
+<th style="text-align:left;">
+Input
+</th>
+<th style="text-align:left;">
+Output
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<code>calc_assoc</code>
+</td>
+<td style="text-align:left;">
+Calculation
+</td>
+<td style="text-align:left;">
+<ul>
+<li>Dataframe, - Types of association measures, - NA handler
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>calc_assoc_by</code>
+</td>
+<td style="text-align:left;">
+Calculation
+</td>
+<td style="text-align:left;">
+<ul>
+<li>Dataframe, - Name of the grouping variable, - Types of association
+measures, - NA handler, - Include overall value or not
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>association_heatmap</code>
+</td>
+<td style="text-align:left;">
+Visualization
+</td>
+<td style="text-align:left;">
+<ul>
+<li>Association measure dataframe for lower and upper triangle of the
+matrix display, - Variable order, - Limits of the scale
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>pairwise_2d_plot</code>
+</td>
+<td style="text-align:left;">
+Visualization
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>pairwise_1d_compare</code>
+</td>
+<td style="text-align:left;">
+Visualization
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<code>pairwise_1d_plot</code>
+</td>
+<td style="text-align:left;">
+Visualization
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
 <h1 id="section-4-corvis-calculating-association">Section 4: corVis:
 Calculating Association</h1>
 <p>This section describes the calculation of association measures in our
@@ -3340,7 +3453,7 @@ The package provides a collection of various measures of association
 which quantifies the relationship between two variables. The association
 measures available in the package are not limited to numeric variables
 and are used with nominal, ordinal and mixed variable pairs as well.
-Table <a href="#tab:association-measures">2</a> lists different functions provided
+Table <a href="#tab:association-measures">3</a> lists different functions provided
 in the package to calculate measures of association. The
 <code>funName</code> represents the function name used to calculate
 measure(s) of associations in this package. The <code>typeX</code> and
@@ -3355,7 +3468,7 @@ regardless of the order of variables. The last column provides the range
 of values for these measures. The function <code>tbl_easy</code> can be
 used to calculate association measures available in the R package
 <code>correlation</code> which can use different variable types. The
-highlighted functions in <a href="#tab:association-measures">2</a> calculate the
+highlighted functions in <a href="#tab:association-measures">3</a> calculate the
 association measures which have been implemented in this package.</p>
 <p>For numeric pairs of variables, this package provides a range of
 association measures. The popular correlation coefficients like
@@ -3382,7 +3495,7 @@ set of dummy variables.</p>
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <caption>
-<span id="tab:association-measures">Table 2: </span>List of the functions available in the
+<span id="tab:association-measures">Table 3: </span>List of the functions available in the
 package for calculating different association measures along with the
 packages used for calculation.
 </caption>
@@ -3677,7 +3790,7 @@ association for a single type of variable pairs</h2>
 <p>We introduce a method which creates a tibble structure for the
 variable pairs in a dataset along with calculated association measure.
 The package contains various functions (shown in Table
-<a href="#tab:association-measures">2</a>) for different association measures in
+<a href="#tab:association-measures">3</a>) for different association measures in
 the form <code>tbl_*</code> to calculate them. For example, a user might
 be interested in calculating distance correlation for numeric pair of
 variables in a dataset. This can be done by using
@@ -3716,7 +3829,7 @@ mutual information for numeric, nominal and mixed pair of variables.</p>
 6 sex               species 0.0000854 nmi         </code></pre>
 </div>
 <p>The tibble output for the functions mentioned in Table
-<a href="#tab:association-measures">2</a> has the following structure:</p>
+<a href="#tab:association-measures">3</a> has the following structure:</p>
 <ul>
 <li><code>x</code> and <code>y</code> representing a pair of
 variables</li>

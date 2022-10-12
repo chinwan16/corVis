@@ -162,6 +162,46 @@ We also introduce conditional association displays which are useful in uncoverin
 
 Efficient seriation techniques have been included to order and highlight variables with high value for an association measure. These ordered association and conditional association displays are useful in finding interesting patterns, such as Simpson's Paradox. These new displays also help an analyst to quickly discover any unusual variable pair(s) in the dataset.
 
+Table \@ref(tab:function-corVis) provides a list of the functions available in the package which are useful for calulating association measures among variable pairs and visualising these associations using novel displays.
+
+```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
+library(kableExtra)
+
+Function <- c("`calc_assoc`","`calc_assoc_by`","`association_heatmap`","`pairwise_2d_plot`","`pairwise_1d_compare`","`pairwise_1d_plot`")
+
+Usage <- c("Calculation","Calculation","Visualization","Visualization","Visualization","Visualization")
+
+Input <- c("  -  Dataframe,
+              -  Types of association measures,
+              -  NA handler",
+           "  -  Dataframe,
+              -  Name of the grouping variable,
+              -  Types of association measures,
+              -  NA handler,
+              -  Include overall value or not",
+           "  -  Association measure dataframe for lower and upper triangle of the matrix display,
+              -  Variable order,
+              -  Limits of the scale",
+           "",
+           "",
+           "")
+
+Output <- c("","","","","","")
+
+
+df <- data.frame(Function=Function,
+                 Usage=Usage,
+                 Input=Input,
+                 Output=Output)
+
+kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in **corVis** package with input arguments and outputs")
+#print(table_1)
+#df %>%
+  #kbl() %>%
+  #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+
+
 # Section 4: corVis: Calculating Association
 
 This section describes the calculation of association measures in our package \CRANpkg{corVis}. The package  provides a collection of various measures of association which quantifies the relationship between two variables. The association measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. Table \@ref(tab:association-measures) lists different functions provided in the package to calculate measures of association. The `funName` represents the function name used to calculate measure(s) of associations in this package. The `typeX` and `typeY` columns provide the information on types of variables which can be used with the corresponding functions. The `X` or `Y` variable can be anyone out of numeric, nominal, ordinal or any. The `from` column corresponds to the package functions used to calculate the association measures by the function under `funName`. The `symmetric` column represents if the measure is symmetric i.e. if the value of measure is same regardless of the order of variables. The last column provides the range of values for these measures. The function `tbl_easy` can be used to calculate association measures available in the R package `correlation` which can use different variable types. The highlighted functions in \@ref(tab:association-measures) calculate the association measures which have been implemented in this package. 
