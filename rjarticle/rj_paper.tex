@@ -339,22 +339,23 @@ measures of association which quantifies the relationship between two
 variables. The association measures available in the package are not
 limited to numeric variables and are used with nominal, ordinal and
 mixed variable pairs as well. Table \ref{tab:association-measures} lists
-different functions provided in the package to calculate measures of
-association. The \texttt{funName} represents the function name used to
-calculate measure(s) of associations in this package. The \texttt{typeX}
-and \texttt{typeY} columns provide the information on types of variables
-which can be used with the corresponding functions. The \texttt{X} or
-\texttt{Y} variable can be anyone out of numeric, nominal, ordinal or
-any. The \texttt{from} column corresponds to the package functions used
-to calculate the association measures by the function under
-\texttt{funName}. The \texttt{symmetric} column represents if the
-measure is symmetric i.e.~if the value of measure is same regardless of
-the order of variables. The last column provides the range of values for
-these measures. The function \texttt{tbl\_easy} can be used to calculate
-association measures available in the R package \texttt{correlation}
-which can use different variable types. The highlighted functions in
-\ref{tab:association-measures} calculate the association measures which
-have been implemented in this package.
+different functions provided in the package to calculate varoius
+measures of association. The \texttt{funName} column represents the
+function name used to calculate measure(s) of associations in this
+package. The \texttt{typeX} and \texttt{typeY} columns provide the
+information on types of variables which can be used with the
+corresponding functions. The \texttt{X} or \texttt{Y} variable is one of
+the numeric, nominal, ordinal or any type. The \texttt{from} column
+corresponds to the package functions used to calculate the association
+measures by the function under \texttt{funName}. The \texttt{symmetric}
+column represents if the measure is symmetric i.e.~if the value of
+measure is same regardless of the order of variables. The last column
+provides the range of values for these measures. The function
+\texttt{tbl\_easy} calculates association measures available in the R
+package \CRANpkg{correlation} and is suitable for different variable
+types. The functions in Table \ref{tab:association-measures} with
+\texttt{corVis} entries under \texttt{from} column calculate the
+association measures which have been implemented in this package.
 
 For numeric pairs of variables, this package provides a range of
 association measures. The popular correlation coefficients like
@@ -377,6 +378,13 @@ assigned scored to find the maximal correlation. For two numeric
 variables this measure is identical to absolute correlation, for two
 factors the correlation is identical to that obtained from
 correspondence analysis.
+
+The functions listed in \ref{tab:association-measures} for calculating
+association measures provide a functionality for handling missing value
+or \texttt{NA} in the dataset. Each of these functions either have a
+\texttt{handle.na} argument or have package functions which
+automatically uses pairwise complete observations for taking care of
+missing values present in the data.
 
 \begin{Schunk}
 \begin{table}
@@ -416,47 +424,56 @@ We introduce a method which creates a tibble structure for the variable
 pairs in a dataset along with calculated association measure. The
 package contains various functions (shown in Table
 \ref{tab:association-measures}) for different association measures in
-the form \texttt{tbl\_*} to calculate them. For example, a user might be
+the form \texttt{tbl\_*} to calculate them. For example, someone
 interested in calculating distance correlation for numeric pair of
-variables in a dataset. This can be done by using \texttt{tbl\_dcor}.
+variables in a dataset is done by using \texttt{tbl\_dcor}.
 
 \begin{Schunk}
 \begin{Sinput}
 df <- penguins
 distance <- tbl_dcor(df)
-head(distance)
+distance
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 6 x 4
-#>   x                 y              measure measure_type
-#>   <chr>             <chr>            <dbl> <chr>       
-#> 1 bill_depth_mm     bill_length_mm  0.387  dcor        
-#> 2 flipper_length_mm bill_length_mm  0.666  dcor        
-#> 3 body_mass_g       bill_length_mm  0.587  dcor        
-#> 4 year              bill_length_mm  0.0784 dcor        
-#> 5 flipper_length_mm bill_depth_mm   0.704  dcor        
-#> 6 body_mass_g       bill_depth_mm   0.614  dcor
+#> # A tibble: 10 x 4
+#>    x                 y                 measure measure_type
+#>    <chr>             <chr>               <dbl> <chr>       
+#>  1 bill_depth_mm     bill_length_mm     0.387  dcor        
+#>  2 flipper_length_mm bill_length_mm     0.666  dcor        
+#>  3 body_mass_g       bill_length_mm     0.587  dcor        
+#>  4 year              bill_length_mm     0.0784 dcor        
+#>  5 flipper_length_mm bill_depth_mm      0.704  dcor        
+#>  6 body_mass_g       bill_depth_mm      0.614  dcor        
+#>  7 year              bill_depth_mm      0.112  dcor        
+#>  8 body_mass_g       flipper_length_mm  0.867  dcor        
+#>  9 year              flipper_length_mm  0.164  dcor        
+#> 10 year              body_mass_g        0.0791 dcor
 \end{Soutput}
 \end{Schunk}
 
-Similarly, one can use \texttt{tbl\_nmi} to calculate normalised mutual
+Similarly, \texttt{tbl\_nmi} is used to calculate normalised mutual
 information for numeric, nominal and mixed pair of variables.
 
 \begin{Schunk}
 \begin{Sinput}
 nmi <- tbl_nmi(df)
-head(nmi)
+nmi
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 6 x 4
-#>   x                 y         measure measure_type
-#>   <chr>             <chr>       <dbl> <chr>       
-#> 1 island            species 0.507     nmi         
-#> 2 bill_length_mm    species 0.353     nmi         
-#> 3 bill_depth_mm     species 0.315     nmi         
-#> 4 flipper_length_mm species 0.343     nmi         
-#> 5 body_mass_g       species 0.300     nmi         
-#> 6 sex               species 0.0000854 nmi
+#> # A tibble: 28 x 4
+#>    x                 y         measure measure_type
+#>    <chr>             <chr>       <dbl> <chr>       
+#>  1 island            species 0.507     nmi         
+#>  2 bill_length_mm    species 0.353     nmi         
+#>  3 bill_depth_mm     species 0.315     nmi         
+#>  4 flipper_length_mm species 0.343     nmi         
+#>  5 body_mass_g       species 0.300     nmi         
+#>  6 sex               species 0.0000854 nmi         
+#>  7 year              species 0.00441   nmi         
+#>  8 bill_length_mm    island  0.248     nmi         
+#>  9 bill_depth_mm     island  0.230     nmi         
+#> 10 flipper_length_mm island  0.217     nmi         
+#> # ... with 18 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -475,20 +492,20 @@ The tibble output for the functions mentioned in Table
   for \texttt{x} and \texttt{y} pair.
 \end{itemize}
 
-The variable pairs in the output are unique pairs and a subset of all
-the variable pairs of a dataset where \texttt{x} \(\neq\) \texttt{y}. As
-explained earlier, the \texttt{measure\_type} represents the association
-measure calculated for a specific type of variable pair
-
 \hypertarget{calculating-association-measures-for-whole-dataset}{%
 \subsection{Calculating association measures for whole
 dataset}\label{calculating-association-measures-for-whole-dataset}}
 
-\texttt{calc\_assoc} can be used to calculate association measures for
-all the variable pairs in the dataset at once in a tibble structure. In
-addition to tibble structure, the output also has \texttt{pairwise} and
-\texttt{data.frame} class which are important class attributes for
-producing visual summaries in this package.
+\texttt{calc\_assoc} is used to calculate association measures for all
+the variable pairs in the dataset at once in a tibble structure. The
+variable pairs in the output are unique pairs and a subset of all the
+pairs of variables in a dataset where \texttt{x} \(\neq\) \texttt{y}.
+Because of the tidy structure of the output, the data manipulation and
+visualisation tools of \CRANpkg{tidyverse} \citep{tidyverse} are
+applicable to and are useful for further exploration of pairwise
+associations. In addition to tibble structure, the output also has
+\texttt{pairwise} and \texttt{data.frame} class which are important
+class attributes for producing visual summaries in this package.
 
 The function \texttt{calc\_assoc} has a \texttt{types} argument which is
 basically a tibble of the association measure to be calculated for
@@ -514,15 +531,23 @@ default_measures
 \end{Soutput}
 \begin{Sinput}
 penguin_assoc <- calc_assoc(df,types = default_assoc())
-glimpse(penguin_assoc)
+penguin_assoc
 \end{Sinput}
 \begin{Soutput}
-#> Rows: 28
-#> Columns: 4
-#> $ x            <chr> "island", "bill_length_mm", "bill_depth_mm", "flipper_len~
-#> $ y            <chr> "species", "species", "species", "species", "species", "s~
-#> $ measure      <dbl> 0.81328762, 0.84131393, 0.82447508, 0.88217284, 0.8183348~
-#> $ measure_type <chr> "cancor", "cancor", "cancor", "cancor", "cancor", "cancor~
+#> # A tibble: 28 x 4
+#>    x                 y       measure measure_type
+#>    <chr>             <chr>     <dbl> <chr>       
+#>  1 island            species  0.813  cancor      
+#>  2 bill_length_mm    species  0.841  cancor      
+#>  3 bill_depth_mm     species  0.824  cancor      
+#>  4 flipper_length_mm species  0.882  cancor      
+#>  5 body_mass_g       species  0.818  cancor      
+#>  6 sex               species  0.0121 cancor      
+#>  7 year              species  0.0511 cancor      
+#>  8 bill_length_mm    island   0.392  cancor      
+#>  9 bill_depth_mm     island   0.632  cancor      
+#> 10 flipper_length_mm island   0.613  cancor      
+#> # ... with 18 more rows
 \end{Soutput}
 \begin{Sinput}
 class(penguin_assoc)
@@ -532,10 +557,15 @@ class(penguin_assoc)
 \end{Soutput}
 \end{Schunk}
 
-An analyst can update these measures using the \texttt{update\_assoc}
-function where one can specify a \texttt{tbl\_*} function to calculate
-association measure depending on the variable pair in the dataset and a
-method if it calculates more than one measure.
+The default tibble of measures is updated using the
+\texttt{update\_assoc} function which has arguments for updating the
+\texttt{tbl\_*} functions to calculate association measures depending on
+the type variable pair in the dataset and a method for \texttt{tbl\_*}
+functions which calculates more than one measure. The
+\texttt{update\_assoc} function has an argument \texttt{default} which
+has the \texttt{default\_assoc()} tibble as its default value and is
+useful when \texttt{tbl\_*} functions need to be updated for a few types
+of variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -557,6 +587,13 @@ updated_assoc
 \end{Soutput}
 \end{Schunk}
 
+\texttt{calc\_assoc} also has a \texttt{handle.na} argument for handling
+the \texttt{NA} or missing values which is fed into the \texttt{tbl\_*}
+functions used with the \texttt{types} argument for different types of
+variable pairs. The default value is set to \texttt{TRUE} for using
+pairwise complete observations for calculating a measure of association
+between two variables.
+
 If a user is interested in calculating multiple association measures for
 a type of variable pair, it can be done by using the
 \texttt{calc\_assoc} and \texttt{update\_assoc} together for calculating
@@ -565,18 +602,23 @@ different association measures and then merging the output tibbles.
 \begin{Schunk}
 \begin{Sinput}
 updated_penguin_assoc <- calc_assoc(df, types = updated_assoc)
-head(updated_penguin_assoc)
+updated_penguin_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 6 x 4
-#>   x                 y         measure measure_type
-#>   <chr>             <chr>       <dbl> <chr>       
-#> 1 island            species 0.507     nmi         
-#> 2 bill_length_mm    species 0.841     cancor      
-#> 3 bill_depth_mm     species 0.824     cancor      
-#> 4 flipper_length_mm species 0.882     cancor      
-#> 5 body_mass_g       species 0.818     cancor      
-#> 6 sex               species 0.0000854 nmi
+#> # A tibble: 28 x 4
+#>    x                 y         measure measure_type
+#>    <chr>             <chr>       <dbl> <chr>       
+#>  1 island            species 0.507     nmi         
+#>  2 bill_length_mm    species 0.841     cancor      
+#>  3 bill_depth_mm     species 0.824     cancor      
+#>  4 flipper_length_mm species 0.882     cancor      
+#>  5 body_mass_g       species 0.818     cancor      
+#>  6 sex               species 0.0000854 nmi         
+#>  7 year              species 0.0511    cancor      
+#>  8 bill_length_mm    island  0.392     cancor      
+#>  9 bill_depth_mm     island  0.632     cancor      
+#> 10 flipper_length_mm island  0.613     cancor      
+#> # ... with 18 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -584,50 +626,41 @@ head(updated_penguin_assoc)
 \subsection{Calculating conditional
 association}\label{calculating-conditional-association}}
 
-\texttt{calc\_assoc\_by} is used to calculate association measures for
+\texttt{calc\_assoc} is also used to calculate association measures for
 all the variable pairs at different levels of a categorical variable.
 This helps in exploring the conditional associations and find out the
-differences between the groups of the conditioning variable. The output
-of this function is a tibble structure with \texttt{pairwise} and
-\texttt{data.frame} as additional class attributes. The
-\texttt{calc\_assoc\_by} function has a \texttt{by} argument which is
-used for the grouping variable and it needs to be categorical.
+differences between the groups of the conditioning variable. The
+function has a \texttt{by} argument which is used as the grouping
+variable and needs to be categorical.
 
 \begin{Schunk}
 \begin{Sinput}
 penguin_assoc_by <- calc_assoc_by(df,by = "sex")
-\end{Sinput}
-\end{Schunk}
-
-The \texttt{calc\_assoc\_by} function also has a \texttt{types} argument
-which can be updated similarly to \texttt{calc\_assoc}.
-
-\begin{Schunk}
-\begin{Sinput}
-updated_assoc <- update_assoc(num_pair = "tbl_cor",
-                              num_pair_argList = "spearman",
-                              mixed_pair = "tbl_cancor",
-                              other_pair = "tbl_nmi")
-updated_penguin_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc)
-head(updated_penguin_assoc_by)
+penguin_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 6 x 5
-#>   x                 y       measure measure_type by    
-#>   <chr>             <chr>     <dbl> <chr>        <fct> 
-#> 1 island            species  0.502  nmi          female
-#> 2 bill_length_mm    species  0.885  cancor       female
-#> 3 bill_depth_mm     species  0.900  cancor       female
-#> 4 flipper_length_mm species  0.914  cancor       female
-#> 5 body_mass_g       species  0.911  cancor       female
-#> 6 year              species  0.0457 cancor       female
+#> # A tibble: 84 x 5
+#>    x                 y       measure measure_type by    
+#>    <chr>             <chr>     <dbl> <chr>        <fct> 
+#>  1 island            species  0.809  cancor       female
+#>  2 bill_length_mm    species  0.885  cancor       female
+#>  3 bill_depth_mm     species  0.900  cancor       female
+#>  4 flipper_length_mm species  0.914  cancor       female
+#>  5 body_mass_g       species  0.911  cancor       female
+#>  6 year              species  0.0457 cancor       female
+#>  7 bill_length_mm    island   0.395  cancor       female
+#>  8 bill_depth_mm     island   0.669  cancor       female
+#>  9 flipper_length_mm island   0.649  cancor       female
+#> 10 body_mass_g       island   0.668  cancor       female
+#> # ... with 74 more rows
 \end{Soutput}
 \end{Schunk}
 
-By default, the function calculates the association measures for all the
-variable pairs at different levels of the grouping variable and the
-pairwise association measures for the ungrouped data (\texttt{overall}).
-This behavior can be changed by setting \texttt{include.overall} to
+By default, the function \texttt{calc\_assoc} calculates the association
+measures for all the variable pairs at different levels of the grouping
+variable and the pairwise association measures for the ungrouped data
+(\texttt{overall}) when used with the \texttt{by} argument. This
+behavior can be changed by setting \texttt{include.overall} argument to
 \texttt{FALSE}.
 
 \begin{Schunk}
@@ -636,38 +669,58 @@ penguin_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
 \end{Sinput}
 \end{Schunk}
 
-The tibble output for \texttt{calc\_assoc\_by} has the similar structure
-as \texttt{calc\_assoc} with an additional \texttt{by} column
-representing the levels of the categorical variable used in the
-function. The \texttt{x} and \texttt{y} variables in the output are
-repeated for every level of \texttt{by} variable. In order to have
-multiple \texttt{by} variables, the function \texttt{calc\_assoc\_by} is
-used multiple times with a different \texttt{by} variable each time and
-then the multiple outputs are binded row wise. For calculating multiple
+The tibble output in the conditional setting has a similar structure as
+\texttt{calc\_assoc} used with no \texttt{by} argument. When used with
+the \texttt{by} argument, an additional \texttt{by} column representing
+the levels of the categorical variable is added in the tibble output.
+The \texttt{x} and \texttt{y} variables in the output are repeated for
+every level of \texttt{by} variable. In order to have multiple
+\texttt{by} variables, the function \texttt{calc\_assoc} is used
+multiple times with a different \texttt{by} variable each time and then
+the multiple outputs are binded row wise. For calculating multiple
 measures for a specific variable type, one can use
-\texttt{update\_assoc} with \texttt{calc\_assoc\_by} and then can merge
+\texttt{update\_assoc} with \texttt{calc\_assoc} and then can merge
 these multiple tibble outputs.
 
 \hypertarget{section-5-corvis-visualising-association}{%
 \section{Section 5: corVis: Visualising
 Association}\label{section-5-corvis-visualising-association}}
 
-We propose novel visualisations to display association for every
-variable pair in a dataset in a single plot and show multiple bivariate
-measures of association simultaneously to find out interesting patterns.
-Efficient seriation techniques have been included to order and highlight
-interesting relationships. These ordered association and conditional
-association displays help find interesting patterns in the dataset.
+We propose novel visualisations to display association and conditional
+association for every variable pair in a dataset in a single plot and
+show multiple bivariate measures of association simultaneously to find
+out interesting patterns. Efficient seriation techniques have also been
+included to order and highlight interesting relationships. These ordered
+association and conditional association displays help find interesting
+patterns in the dataset.
+
 While designing these displays we considered matrix-type, linear and
-network-based layouts. A matrix-type layout simplifies lookup, and
-different measures may be displayed on the upper and lower diagonal.
-Linear layouts are more space-efficient than matrix plots, but lookup is
-more challenging. Variable pairs are usually ordered by relevance
-(usually difference in measures of association or across the factor
-levels), and less relevant pairs can be omitted.
+network-based layouts. A matrix-type layout simplifies the effort in
+finding variables, and different measures may be displayed on the upper
+and lower diagonal. Linear layouts are more space-efficient than matrix
+plots, but looking for variables is more challenging. Variable pairs are
+usually ordered in the linear layouts by relevance (usually difference
+in measures of association or across the factor levels) ,and it is
+easier to omit less relevant pairs.
 
 \hypertarget{association-matrix-plot}{%
 \subsection{Association Matrix plot}\label{association-matrix-plot}}
+
+The function \texttt{association\_heatmap} is used to display a matrix
+layout with association for variable pairs in the dataset. The display
+is similar to existing correlation matrix plots but with every variable
+pair in the dataset. This function \texttt{association\_heatmap} takes
+the calculated measures of association by \texttt{calc\_assoc} function
+as input and outputs a matrix display by rendering the magnitude of
+association measures with a color. The function has \texttt{lassoc} and
+\texttt{uassoc} arguments for a tibble of association measures for the
+lower triangle and the upper triangle of the matrix display
+respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
+and uses the same tibble input as used by \texttt{lassoc} if not
+changed. The argument \texttt{var\_order} is used for ordering or
+seriating the matrix display such that highly-associated variables are
+placed nearby and are easier to identify. The function also has a
+\texttt{limits} argument specifying the limit of the scale.
 
 Figure \ref{fig:assoc-heatmap} shows the display for every variable pair
 in the \texttt{penguins} dataset from the \CRANpkg{palmerpenguins}
@@ -741,6 +794,22 @@ pairs of variables with a high difference among different measures or
 any unusual variable pairs and one can investigate these bivariate
 relationships in more detail.
 
+The function \texttt{pairwise\_2d\_plot} is used to display a matrix
+layout with association for variable pairs in the dataset. The display
+is similar to existing correlation matrix plots but with every variable
+pair in the dataset. This function \texttt{association\_heatmap} takes
+the calculated measures of association by \texttt{calc\_assoc} function
+as input and outputs a matrix display by rendering the magnitude of
+association measures with a color. The function has \texttt{lassoc} and
+\texttt{uassoc} arguments for a tibble of association measures for the
+lower triangle and the upper triangle of the matrix display
+respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
+and uses the same tibble input as used by \texttt{lassoc} if not
+changed. The argument \texttt{var\_order} is used for ordering or
+seriating the matrix display such that highly-associated variables are
+placed nearby and are easier to identify. The function also has a
+\texttt{limits} argument specifying the limit of the scale.
+
 The \texttt{pairwise\_2d\_plot} function can be used to compare various
 measures using the matrix layout. It plots multiple measures among the
 variable pairs as bars, where each bar represents one measure of
@@ -765,6 +834,22 @@ dataset.
 \end{figure}
 \end{Schunk}
 
+The function \texttt{association\_heatmap} is used to display a matrix
+layout with association for variable pairs in the dataset. The display
+is similar to existing correlation matrix plots but with every variable
+pair in the dataset. This function \texttt{association\_heatmap} takes
+the calculated measures of association by \texttt{calc\_assoc} function
+as input and outputs a matrix display by rendering the magnitude of
+association measures with a color. The function has \texttt{lassoc} and
+\texttt{uassoc} arguments for a tibble of association measures for the
+lower triangle and the upper triangle of the matrix display
+respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
+and uses the same tibble input as used by \texttt{lassoc} if not
+changed. The argument \texttt{var\_order} is used for ordering or
+seriating the matrix display such that highly-associated variables are
+placed nearby and are easier to identify. The function also has a
+\texttt{limits} argument specifying the limit of the scale.
+
 In addition to matrix layout, we can also use linear layouts for
 comparing multiple measures. Figure \ref{fig:compare-linear} shows a
 linear layout comparing multiple association measures for all the
@@ -785,6 +870,22 @@ suitable when comparing high number of association measures.
 \hypertarget{conditional-association-plot}{%
 \subsection{Conditional Association
 Plot}\label{conditional-association-plot}}
+
+The function \texttt{association\_heatmap} is used to display a matrix
+layout with association for variable pairs in the dataset. The display
+is similar to existing correlation matrix plots but with every variable
+pair in the dataset. This function \texttt{association\_heatmap} takes
+the calculated measures of association by \texttt{calc\_assoc} function
+as input and outputs a matrix display by rendering the magnitude of
+association measures with a color. The function has \texttt{lassoc} and
+\texttt{uassoc} arguments for a tibble of association measures for the
+lower triangle and the upper triangle of the matrix display
+respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
+and uses the same tibble input as used by \texttt{lassoc} if not
+changed. The argument \texttt{var\_order} is used for ordering or
+seriating the matrix display such that highly-associated variables are
+placed nearby and are easier to identify. The function also has a
+\texttt{limits} argument specifying the limit of the scale.
 
 The package includes a function \texttt{calc\_assoc\_by} which
 calculates the pairwise association at different levels of a categorical

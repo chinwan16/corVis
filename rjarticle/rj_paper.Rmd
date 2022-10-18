@@ -252,14 +252,14 @@ We introduce a method which creates a tibble structure for the variable pairs in
 ```{r,echo=TRUE}
 df <- penguins
 distance <- tbl_dcor(df)
-head(distance)
+distance
 ```
 
 Similarly, `tbl_nmi` is used to calculate normalised mutual information for numeric, nominal and mixed pair of variables.
 
 ```{r,echo=TRUE}
 nmi <- tbl_nmi(df)
-head(nmi)
+nmi
 ```
 
 
@@ -280,7 +280,7 @@ default_measures <- default_assoc()
 default_measures
 
 penguin_assoc <- calc_assoc(df,types = default_assoc())
-glimpse(penguin_assoc)
+penguin_assoc
 class(penguin_assoc)
 ```
 
@@ -307,7 +307,7 @@ If a user is interested in calculating multiple association measures for a type 
 ```{r,echo=TRUE}
 
 updated_penguin_assoc <- calc_assoc(df, types = updated_assoc)
-head(updated_penguin_assoc)
+updated_penguin_assoc
 
 ```
 
@@ -319,6 +319,7 @@ head(updated_penguin_assoc)
 
 ```{r,echo=TRUE}
 penguin_assoc_by <- calc_assoc_by(df,by = "sex")
+penguin_assoc_by
 ```
 
 <!-- The `calc_assoc_by` function also has a `types` argument which can be updated similarly to `calc_assoc`.  -->
@@ -338,17 +339,21 @@ By default, the function `calc_assoc` calculates the association measures for al
 penguin_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
 ```
 
-The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added in the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc_by` and then can merge these multiple tibble outputs.
+The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added in the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc` and then can merge these multiple tibble outputs.
 
 
 
 # Section 5: corVis: Visualising Association
 
-We propose novel visualisations to display association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously to find out interesting patterns. Efficient seriation techniques have been included to order and highlight interesting relationships. These ordered association and conditional association displays help find interesting patterns in the dataset. While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies lookup, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but lookup is more challenging. Variable pairs are usually ordered by relevance (usually difference in measures of association or across the factor levels), and less relevant pairs can be omitted.
+We propose novel visualisations to display association and conditional association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously to find out interesting patterns. Efficient seriation techniques have also been included to order and highlight interesting relationships. These ordered association and conditional association displays help find interesting patterns in the dataset. 
+
+While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies the effort in finding variables, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but looking for variables is more challenging. Variable pairs are usually ordered in the linear layouts by relevance (usually difference in measures of association or across the factor levels) ,and it is easier to omit less relevant pairs.
 
 
 
 ## Association Matrix plot
+
+The function `association_heatmap` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. The function also has a `limits` argument specifying the limit of the scale. 
 
 Figure \@ref(fig:assoc-heatmap) shows the display for every variable pair in the `penguins` dataset from the \CRANpkg{palmerpenguins} package. Table \@ref(tab:penguins) provides a brief summary on the variables in this dataset. 
 
@@ -394,6 +399,8 @@ association_heatmap(assoc)
 
 We can also calculate multiple association measures for all the variable pairs in the dataset and compare them. This will help in finding out pairs of variables with a high difference among different measures or any unusual variable pairs and one can investigate these bivariate relationships in more detail. 
 
+The function `pairwise_2d_plot` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. The function also has a `limits` argument specifying the limit of the scale. 
+
 The `pairwise_2d_plot` function can be used to compare various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure \@ref(fig:compare-matrix) shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in `penguins` data. The plot shows that the value for both the correlation coefficients are very high for `bill_length` and `flipper_length`, `bill_length` and `body_mass`, and `flipper_length` and `body_mass` suggesting a strong linear and montonic relationship among these variable pairs in the dataset.
 
 ```{r compare-matrix, fig.width=4, fig.height=4, fig.align='center',fig.cap="Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations."}
@@ -410,6 +417,8 @@ compare <- rbind(pearson,spearman)
 pairwise_2d_plot(compare, group_var = "measure_type")
 ```
 
+The function `association_heatmap` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. The function also has a `limits` argument specifying the limit of the scale. 
+
 In addition to matrix layout, we can also use linear layouts for comparing multiple measures. Figure \@ref(fig:compare-linear) shows a linear layout comparing multiple association measures for all the variable pairs in the penguins data.  Linear layouts seems to be more suitable when comparing high number of association measures.
 
 ```{r compare-linear,fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair."}
@@ -420,6 +429,8 @@ pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi")
 ```
 
 ## Conditional Association Plot
+
+The function `association_heatmap` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. The function also has a `limits` argument specifying the limit of the scale. 
 
 The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure \@ref(fig:cond-assoc) shows a conditional association plot for the `penguins` data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable `island`. The dashed line represents the overall association measure. The plot shows that there is a high value for normalised mutual information between bill_length_mm and species for the penguins which lived in `Biscoe` island compared to the penguins which lived in `Dream` island. It can also be seen that the cell corresponding to variable pair flipper_length_mm and bill_depth_mm has a high negative overall Pearson's correlation and for the penguins which lived in `Biscoe` island but positive  correlation for penguins which lived in `Dream` and `Torgersen` island. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
 
