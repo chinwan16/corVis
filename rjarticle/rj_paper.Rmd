@@ -158,36 +158,38 @@ Table \@ref(tab:function-corVis) provides a list of the functions available in t
 ```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Function <- c(rep("calc_assoc",5),rep("association_heatmap",3),rep("pairwise_2d_plot",5),rep("pairwise_1d_compare",4),rep("pairwise_1d_plot",5))
+Function <- c("calc_assoc",rep("",4),"association_heatmap",rep("",2),"pairwise_2d_plot",rep("",4),"pairwise_1d_compare",rep("",3),"pairwise_1d_plot",rep("",4))
 
-Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",4),rep("Visualization",5),rep("Visualization",5))
+Usage <- c("Calculation",rep("",4),"Visualization",rep("",2),"Visualization",rep("",4),"Visualization",rep("",3),"Visualization",rep("",4))
 
-Input <- c("- Dataframe",
-           "- Types of association measures",
-           "- NA handler",
-           "- Name of the grouping variable",
-           "- Include overall value or not",
+#Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",5),rep("Visualization",4),rep("Visualization",5))
+
+Input <- c("Dataframe",
+           "Types of association measures",
+           "NA handler",
+           "Name of the grouping variable",
+           "Include overall value or not",
            
-           "- Measures dataframe for lower/upper triangle",
-           "- Variable order",
-           "- Limits of the scale",
+           "Measures dataframe for lower/upper triangle",
+           "Variable order",
+           "Limits of the scale",
            
-           "- Measures dataframe for lower/upper triangle",
-           "- Name of the grouping variable",
-           "- fill variable",
-           "- Variable order",
-           "- Limits of the scale",
+           "Measures dataframe for lower/upper triangle",
+           "Name of the grouping variable",
+           "fill variable",
+           "Variable order",
+           "Limits of the scale",
            
-           "- Dataframe",
-           "- Measures for the display",
-           "- Variable order",
-           "- Limits of the scale",
+           "Dataframe",
+           "Measures for the display",
+           "Variable order",
+           "Limits of the scale",
            
-           "- Measures dataframe",
-           "- Name of the grouping variable for display",
-           "- fill variable",
-           "- Variable order",
-           "- Limits of the scale")
+           "Measures dataframe",
+           "Name of the grouping variable for display",
+           "fill variable",
+           "Variable order",
+           "Limits of the scale")
 
 
 df <- data.frame(Function=Function,
@@ -195,8 +197,10 @@ df <- data.frame(Function=Function,
                  Input=Input)
 
 kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in corVis package with input arguments and outputs") %>%
-  column_spec(1, bold=T) %>%
-  collapse_rows(columns = 1:2)
+  kableExtra::column_spec(1, bold=T)
+
+
+  #kableExtra::collapse_rows(columns = 1:2)
 
 #print(table_1)
 #df %>%
