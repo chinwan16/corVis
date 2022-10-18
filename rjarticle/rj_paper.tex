@@ -180,17 +180,17 @@ variable.
 
 \caption{\label{tab:corrdisplay-packages}List of the R packages dealing with correlation or correlation displays with information on whether the plots display multiple measures, conditional display of measures and mixed variables in a single plot}
 \centering
-\begin{tabular}[t]{llllll}
+\begin{tabular}[t]{lll}
 \toprule
-Package & Display & CalculateCorrelation & MixedVariables & MultipleMeasures & ConditionalPlot\\
+Package & Display & MixedVariables\\
 \midrule
-corrplot & heatmap &  &  &  & \\
-corrr & heatmap/network & Yes &  &  & \\
-corrgrapher & network & Yes &  &  & \\
-linkspotter & network & Yes & Yes &  & \\
-correlation & heatmap/network & Yes &  &  & \\
+corrplot & heatmap & \\
+corrr & heatmap/network & \\
+corrgrapher & network & \\
+linkspotter & network & Yes\\
+correlation & heatmap/network & \\
 \addlinespace
-corVis & heatmap/matrix/linear & Yes & Yes & Yes & Yes\\
+corVis & heatmap/matrix/linear & Yes\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -228,12 +228,12 @@ measures which are used for exploring association between ordinal
 variables. Kendall's tau-b \citep{kendall1945treatment} is an
 association measure useful in summarizing the relationship between two
 ordinal variables in the range \([-1,1]\). It is a relatively stable
-measure with respect to the changes in categories of any variable
-i.e.~if two categories are merged to make a single category. The
-polychoric correlation \citep{olsson1979maximum} measures the
-correlation between two ordinal variables by assuming two normally
-distributed latent variables for a contingency table of two ordinal
-variables and summarizes the association in \([-1,1]\).
+measure than Goodman and Kruskal's gamma with respect to the changes in
+categories of any variable i.e.~if two categories are merged to make a
+single category. The polychoric correlation \citep{olsson1979maximum}
+measures the correlation between two ordinal variables by assuming two
+normally distributed latent variables for a contingency table of two
+ordinal variables and summarizes the association in \([-1,1]\).
 
 The association measures for the case of nominal pair of variables
 should be invariant to the order in which the categories appear.
@@ -261,32 +261,16 @@ visualising these associations in different ways. Most of the existing
 correlation displays are limited to numeric pairs of variables. This
 package extends these displays to every variable pair.
 
-We use multiple association measures in a single display for different
-variable pairs which serves as a comparison tool while exploring
-association in a dataset and assist in identifying unusual variable
-pairs. These multiple measures can be displayed in a scatterplot matrix
-similar to what \citet{tukey1985computer} proposed. They suggested that
-scatterplot matrix of the scagnostics measures, which are measures
-summarizing a scatterplot, can be used to identify unusual scatterplots
-or variable pairs. \citet{wilkinson2005graph} used this idea with their
-graph-theoretic scagnostic measures to highlight unusual scatterplots.
-Similarly, \citet{kuhn2013applied} have used this idea in a predictive
-modeling context. They have produced a scatterplot matrix of the
-measures between the response and continuous predictors such as
-Pearson's correlation coefficient, pseudo-\(R^2\) from the locally
-weighted regression model, MIC and Spearman's rank correlation
-coefficient to explore the predictor importance during feature selection
-step. These displays show the importance of comparing multiple
-association measures at once for different variable pairs.
-
-We also introduce conditional association displays which are useful in
-uncovering conditional structure present in the data. Conditional
-displays (also called small multiple displays or trellis displays) are
-visualisations for the subsets of data produced by dividing the data by
-a partitioning variable and then plotting them. Popularised by
-\citet{tufte1986thevisual} and \citet{becker1996thevisual}, these
-displays are efficient for discovering differences among the groups in
-the data.
+The package offers new visualisation technique such as display with
+multiple measures for the association for every variable pair in the
+dataset. We also introduce conditional association displays which are
+useful in uncovering conditional structure present in the data.
+Conditional displays (also called small multiple displays or trellis
+displays) are visualisations for the subsets of data produced by
+dividing the data by a partitioning variable and then plotting them.
+Popularised by \citet{tufte1986thevisual} and
+\citet{becker1996thevisual}, these displays are efficient for
+discovering differences among the groups in the data.
 
 Efficient seriation techniques have been included to order and highlight
 variables with high value for an association measure. These ordered
@@ -296,34 +280,69 @@ help an analyst to quickly discover any unusual variable pair(s) in the
 dataset.
 
 Table \ref{tab:function-corVis} provides a list of the functions
-available in the package which are useful for calulating association
+available in the package which are useful for calculating association
 measures among variable pairs and visualising these associations using
-novel displays.
+novel displays. The function \texttt{calc\_assoc} calculates the
+association measures for variable pairs in a dataset and is described in
+detail in Section 4. The remaining functions in table
+\ref{tab:function-corVis} are useful for displaying pairwise association
+and their usage has been illustrated in Section 5.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:function-corVis}List of the available functions in **corVis** package with input arguments and outputs}
+\caption{\label{tab:function-corVis}List of the available functions in corVis package with input arguments and outputs}
 \centering
-\begin{tabular}[t]{llll}
+\begin{tabular}[t]{>{}lll}
 \toprule
-Function & Usage & Input & Output\\
+Function & Usage & Input\\
 \midrule
-`calc\_assoc` & Calculation & -  Dataframe,
-              -  Types of association measures,
-              -  NA handler & \\
-`calc\_assoc\_by` & Calculation & -  Dataframe,
-              -  Name of the grouping variable,
-              -  Types of association measures,
-              -  NA handler,
-              -  Include overall value or not & \\
-`association\_heatmap` & Visualization & -  Association measure dataframe for lower and upper triangle of the matrix display,
-              -  Variable order,
-              -  Limits of the scale & \\
-`pairwise\_2d\_plot` & Visualization &  & \\
-`pairwise\_1d\_compare` & Visualization &  & \\
-\addlinespace
-`pairwise\_1d\_plot` & Visualization &  & \\
+ &  & - Dataframe\\
+\cmidrule{3-3}
+ &  & - Types of association measures\\
+\cmidrule{3-3}
+ &  & - NA handler\\
+\cmidrule{3-3}
+ &  & - Name of the grouping variable\\
+\cmidrule{3-3}
+\multirow{-5}{*}{\raggedright\arraybackslash \textbf{calc\_assoc}} & \multirow{-5}{*}{\raggedright\arraybackslash Calculation} & - Include overall value or not\\
+\cmidrule{1-3}
+ &  & - Measures dataframe for lower/upper triangle\\
+\cmidrule{3-3}
+ &  & - Variable order\\
+\cmidrule{3-3}
+\multirow{-3}{*}{\raggedright\arraybackslash \textbf{association\_heatmap}} &  & - Limits of the scale\\
+\cmidrule{1-1}
+\cmidrule{3-3}
+ &  & - Measures dataframe for lower/upper triangle\\
+\cmidrule{3-3}
+ &  & - Name of the grouping variable\\
+\cmidrule{3-3}
+ &  & - fill variable\\
+\cmidrule{3-3}
+ &  & - Variable order\\
+\cmidrule{3-3}
+\multirow{-5}{*}{\raggedright\arraybackslash \textbf{pairwise\_2d\_plot}} &  & - Limits of the scale\\
+\cmidrule{1-1}
+\cmidrule{3-3}
+ &  & - Dataframe\\
+\cmidrule{3-3}
+ &  & - Measures for the display\\
+\cmidrule{3-3}
+ &  & - Variable order\\
+\cmidrule{3-3}
+\multirow{-4}{*}{\raggedright\arraybackslash \textbf{pairwise\_1d\_compare}} &  & - Limits of the scale\\
+\cmidrule{1-1}
+\cmidrule{3-3}
+ &  & - Measures dataframe\\
+\cmidrule{3-3}
+ &  & - Name of the grouping variable for display\\
+\cmidrule{3-3}
+ &  & - fill variable\\
+\cmidrule{3-3}
+ &  & - Variable order\\
+\cmidrule{3-3}
+\multirow{-5}{*}{\raggedright\arraybackslash \textbf{pairwise\_1d\_plot}} & \multirow{-17}{*}{\raggedright\arraybackslash Visualization} & - Limits of the scale\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -367,18 +386,17 @@ measures available in the package for the ordinal pairs of variables are
 polychoric correlation and Kendall's coefficients which are calculated
 using \texttt{tbl\_polycor} or \texttt{tbl\_tau} respectively. For
 nominal pairs of variables, the functions like \texttt{tbl\_gkTau},
-\texttt{tbl\_gkLambda}, \texttt{tbl\_gkGamma},
-\texttt{tbl\_uncertainty}, \texttt{tbl\_chi}, \texttt{tbl\_cancor} are
-used for exploring association among the variables. These measures are
-consistent with respect to the order of the nominal variable which some
-of the existing measures lack.
+\texttt{tbl\_gkGamma}, \texttt{tbl\_uncertainty}, \texttt{tbl\_chi},
+\texttt{tbl\_cancor} are used for exploring association among the
+variables.
 
-The function \texttt{tbl\_cancor} implemented in the package calculates
-canonical correlation for mixed pairs of variables. We calculate
-canonical correlation between a numeric variable and a nominal variable
-by first converting the nominal variable into dummy variables and then
-calculating the correlation between the continuous variable and set of
-dummy variables.
+The function \texttt{tbl\_cancor} calculates a measure of association
+based on canonical correlations for mixed pairs of variables. Nominal
+variables are converted into sets of dummy variables, which are then
+assigned scored to find the maximal correlation. For two numeric
+variables this measure is identical to absolute correlation, for two
+factors the correlation is identical to that obtained from
+correspondence analysis.
 
 \begin{Schunk}
 \begin{table}
@@ -679,7 +697,7 @@ variables in this dataset.
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:penguins}Variable description of the **penguins** dataset}
+\caption{\label{tab:penguins}Variable description of the penguins dataset}
 \centering
 \begin{tabular}[t]{ll}
 \toprule
@@ -739,14 +757,22 @@ Plot}\label{multiple-association-measures-plot}}
 
 We can also calculate multiple association measures for all the variable
 pairs in the dataset and compare them. This will help in finding out
-pairs of variables with a high difference among different measures and
-one can investigate these bivariate relationships in more detail. The
-\texttt{pairwise\_summary\_plot} function can be used to compare various
+pairs of variables with a high difference among different measures or
+any unusual variable pairs and one can investigate these bivariate
+relationships in more detail.
+
+The \texttt{pairwise\_2d\_plot} function can be used to compare various
 measures using the matrix layout. It plots multiple measures among the
 variable pairs as bars, where each bar represents one measure of
 association. Figure \ref{fig:compare-matrix} shows a matrix layout
 comparing Pearson's and Spearman's correlation coefficient for the
-numeric variable pairs in \texttt{penguins} data.
+numeric variable pairs in \texttt{penguins} data. The plot shows that
+the value for both the correlation coefficients are very high for
+\texttt{bill\_length} and \texttt{flipper\_length},
+\texttt{bill\_length} and \texttt{body\_mass}, and
+\texttt{flipper\_length} and \texttt{body\_mass} suggesting a strong
+linear and montonic relationship among these variable pairs in the
+dataset.
 
 \begin{Schunk}
 \begin{figure}
@@ -830,6 +856,27 @@ variables and number of levels of grouping variable are high.
 \caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear-cond-assoc}
 \end{figure}
 \end{Schunk}
+
+\hypertarget{section-5-discussion}{%
+\section{Section 5: Discussion}\label{section-5-discussion}}
+
+We use multiple association measures in a single display for different
+variable pairs which serves as a comparison tool while exploring
+association in a dataset and assist in identifying unusual variable
+pairs. These multiple measures can be displayed in a scatterplot matrix
+similar to what \citet{tukey1985computer} proposed. They suggested that
+scatterplot matrix of the scagnostics measures, which are measures
+summarizing a scatterplot, can be used to identify unusual scatterplots
+or variable pairs. \citet{wilkinson2005graph} used this idea with their
+graph-theoretic scagnostic measures to highlight unusual scatterplots.
+Similarly, \citet{kuhn2013applied} have used this idea in a predictive
+modeling context. They have produced a scatterplot matrix of the
+measures between the response and continuous predictors such as
+Pearson's correlation coefficient, pseudo-\(R^2\) from the locally
+weighted regression model, MIC and Spearman's rank correlation
+coefficient to explore the predictor importance during feature selection
+step. These displays show the importance of comparing multiple
+association measures at once for different variable pairs.
 
 \bibliography{RJreferences.bib}
 

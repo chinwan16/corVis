@@ -108,21 +108,14 @@ Package <- c("corrplot","corrr","corrgrapher","linkspotter",  "correlation","cor
 
 Display <- c("heatmap","heatmap/network","network","network","heatmap/network","heatmap/matrix/linear")
 
-MultipleMeasures <- c(" "," "," "," "," ","Yes")
-
-ConditionalPlot <- c(" "," "," "," "," ","Yes")
 
 MixedVariables <- c(" "," "," ","Yes"," ","Yes")
 
-CalculateCorrelation <- c(" ","Yes","Yes","Yes","Yes","Yes")
 
 
 df <- data.frame(Package=Package,
                  Display=Display,
-                 CalculateCorrelation=CalculateCorrelation,
-                 MixedVariables=MixedVariables,
-                 MultipleMeasures=MultipleMeasures,
-                 ConditionalPlot=ConditionalPlot)
+                 MixedVariables=MixedVariables)
 
 kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with correlation or correlation displays with information on whether the plots display multiple measures, conditional display of measures and mixed variables in a single plot")
 #print(table_1)
@@ -140,7 +133,7 @@ An association measure can be defined as a numerical summary quantifying the rel
 
 For a pair of numeric variables, various measures of association have been proposed in literature. The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for the non-linear association between two numeric variables and summarizes it in $[0,1]$. Similarly, MIC [@reshef2011detecting] is capable of summarizing non-linear as well as periodic relationships between numeric variables and is in range $[0,1]$.
 
-@agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure with respect to the changes in categories of any variable i.e. if two categories are merged to make a single category. The polychoric correlation [@olsson1979maximum] measures the correlation between two ordinal variables  by assuming two normally distributed latent variables for a contingency table of two ordinal variables and summarizes the association in $[-1,1]$.
+@agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure than Goodman and Kruskal's gamma with respect to the changes in categories of any variable i.e. if two categories are merged to make a single category. The polychoric correlation [@olsson1979maximum] measures the correlation between two ordinal variables  by assuming two normally distributed latent variables for a contingency table of two ordinal variables and summarizes the association in $[-1,1]$.
 
 <!-- For a pair of nominal variables -->
 The association measures for the case of nominal pair of variables should be invariant to the order in which the categories appear. Pearson's contingency coefficient uses the ${\chi}^2$ value from the Pearson's ${\chi}^2$ test for independence and is a useful measure to summarize the association between two nominal variables in $[0,1]$.  Another measure for nominal variable pair is the Uncertainty coefficient [@theil1970estimation] measuring the proportion of uncertainty in one variable which is explained by the other variable.
@@ -156,45 +149,55 @@ The canonical correlation is a measure useful in exploring association among mix
 
 \CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair.
 
-We use multiple association measures in a single display for different variable pairs which serves as a comparison tool while exploring association in a dataset and assist in identifying unusual variable pairs. These multiple measures can be displayed in a scatterplot matrix similar to what @tukey1985computer proposed. They suggested that scatterplot matrix of the scagnostics measures, which are measures summarizing a scatterplot, can be used to identify unusual scatterplots or variable pairs. @wilkinson2005graph used this idea with their graph-theoretic scagnostic measures to highlight unusual scatterplots. Similarly, @kuhn2013applied have used this idea in a predictive modeling context. They have produced a scatterplot matrix of the measures between the response and continuous predictors such as Pearson's correlation coefficient, pseudo-$R^2$ from the locally weighted regression model, MIC and Spearman's rank correlation coefficient to explore the predictor importance during feature selection step. These displays show the importance of comparing multiple association measures at once for different variable pairs. 
-
-We also introduce conditional association displays which are useful in uncovering conditional structure present in the data. Conditional displays (also called small multiple displays or trellis displays) are visualisations for the subsets of data produced by dividing the data by a partitioning variable and then plotting them. Popularised by @tufte1986thevisual and @becker1996thevisual, these displays are efficient for discovering differences among the groups in the data. 
+The package offers new visualisation technique such as display with multiple measures for the association for every variable pair in the dataset. We also introduce conditional association displays which are useful in uncovering conditional structure present in the data. Conditional displays (also called small multiple displays or trellis displays) are visualisations for the subsets of data produced by dividing the data by a partitioning variable and then plotting them. Popularised by @tufte1986thevisual and @becker1996thevisual, these displays are efficient for discovering differences among the groups in the data.
 
 Efficient seriation techniques have been included to order and highlight variables with high value for an association measure. These ordered association and conditional association displays are useful in finding interesting patterns, such as Simpson's Paradox. These new displays also help an analyst to quickly discover any unusual variable pair(s) in the dataset.
 
-Table \@ref(tab:function-corVis) provides a list of the functions available in the package which are useful for calulating association measures among variable pairs and visualising these associations using novel displays.
+Table \@ref(tab:function-corVis) provides a list of the functions available in the package which are useful for calculating association measures among variable pairs and visualising these associations using novel displays. The function `calc_assoc` calculates the association measures for variable pairs in a dataset and is described in detail in Section 4. The remaining functions in table \@ref(tab:function-corVis) are useful for displaying pairwise association and their usage has been illustrated in Section 5.
 
 ```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Function <- c("`calc_assoc`","`calc_assoc_by`","`association_heatmap`","`pairwise_2d_plot`","`pairwise_1d_compare`","`pairwise_1d_plot`")
+Function <- c(rep("calc_assoc",5),rep("association_heatmap",3),rep("pairwise_2d_plot",5),rep("pairwise_1d_compare",4),rep("pairwise_1d_plot",5))
 
-Usage <- c("Calculation","Calculation","Visualization","Visualization","Visualization","Visualization")
+Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",4),rep("Visualization",5),rep("Visualization",5))
 
-Input <- c("  -  Dataframe,
-              -  Types of association measures,
-              -  NA handler",
-           "  -  Dataframe,
-              -  Name of the grouping variable,
-              -  Types of association measures,
-              -  NA handler,
-              -  Include overall value or not",
-           "  -  Association measure dataframe for lower and upper triangle of the matrix display,
-              -  Variable order,
-              -  Limits of the scale",
-           "",
-           "",
-           "")
-
-Output <- c("","","","","","")
+Input <- c("- Dataframe",
+           "- Types of association measures",
+           "- NA handler",
+           "- Name of the grouping variable",
+           "- Include overall value or not",
+           
+           "- Measures dataframe for lower/upper triangle",
+           "- Variable order",
+           "- Limits of the scale",
+           
+           "- Measures dataframe for lower/upper triangle",
+           "- Name of the grouping variable",
+           "- fill variable",
+           "- Variable order",
+           "- Limits of the scale",
+           
+           "- Dataframe",
+           "- Measures for the display",
+           "- Variable order",
+           "- Limits of the scale",
+           
+           "- Measures dataframe",
+           "- Name of the grouping variable for display",
+           "- fill variable",
+           "- Variable order",
+           "- Limits of the scale")
 
 
 df <- data.frame(Function=Function,
                  Usage=Usage,
-                 Input=Input,
-                 Output=Output)
+                 Input=Input)
 
-kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in **corVis** package with input arguments and outputs")
+kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in corVis package with input arguments and outputs") %>%
+  column_spec(1, bold=T) %>%
+  collapse_rows(columns = 1:2)
+
 #print(table_1)
 #df %>%
   #kbl() %>%
@@ -207,7 +210,9 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in 
 This section describes the calculation of association measures in our package \CRANpkg{corVis}. The package  provides a collection of various measures of association which quantifies the relationship between two variables. The association measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. Table \@ref(tab:association-measures) lists different functions provided in the package to calculate measures of association. The `funName` represents the function name used to calculate measure(s) of associations in this package. The `typeX` and `typeY` columns provide the information on types of variables which can be used with the corresponding functions. The `X` or `Y` variable can be anyone out of numeric, nominal, ordinal or any. The `from` column corresponds to the package functions used to calculate the association measures by the function under `funName`. The `symmetric` column represents if the measure is symmetric i.e. if the value of measure is same regardless of the order of variables. The last column provides the range of values for these measures. The function `tbl_easy` can be used to calculate association measures available in the R package `correlation` which can use different variable types. The highlighted functions in \@ref(tab:association-measures) calculate the association measures which have been implemented in this package. 
 
 
-For numeric pairs of variables, this package provides a range of association measures. The popular correlation coefficients like Pearson's or Spearman's or Kendall's are calculated using `tbl_cor` function. The measures such as distance correlation or MIC which assess more complex relationship are calculated using `tbl_dcor` or `tbl_mine` respectively. The association measures  available in the package for the ordinal pairs of variables are polychoric correlation and Kendall's coefficients which are calculated using `tbl_polycor` or `tbl_tau` respectively. For nominal pairs of variables, the functions like `tbl_gkTau`, `tbl_gkLambda`, `tbl_gkGamma`, `tbl_uncertainty`, `tbl_chi`, `tbl_cancor` are used for exploring association among the variables. These measures are consistent with respect to the order of the nominal variable which some of the existing measures lack.
+For numeric pairs of variables, this package provides a range of association measures. The popular correlation coefficients like Pearson's or Spearman's or Kendall's are calculated using `tbl_cor` function. The measures such as distance correlation or MIC which assess more complex relationship are calculated using `tbl_dcor` or `tbl_mine` respectively. The association measures  available in the package for the ordinal pairs of variables are polychoric correlation and Kendall's coefficients which are calculated using `tbl_polycor` or `tbl_tau` respectively. For nominal pairs of variables, the functions like `tbl_gkTau`, `tbl_gkGamma`, `tbl_uncertainty`, `tbl_chi`, `tbl_cancor` are used for exploring association among the variables. 
+
+<!-- These measures are consistent with respect to the order of the levels of nominal variable which some of the existing measures lack. -->
 
 The function `tbl_cancor` calculates a measure of association based on canonical correlations for mixed pairs of variables. Nominal variables are converted into  sets of dummy variables, which are then assigned scored to find the maximal correlation. For two numeric variables this measure is identical to absolute correlation, for two factors the correlation is identical to that obtained from correspondence analysis.
 
@@ -359,14 +364,12 @@ Description <- c("Penguin species (Adelie, Chinstrap or Gentoo)",
 df <- data.frame(Variable=Variable,
                  Description=Description)
 
-kableExtra::kbl(df, booktabs = T, caption = "Variable description of the **penguins** dataset")
+kableExtra::kbl(df, booktabs = T, caption = "Variable description of the penguins dataset")
 #print(table_1)
 #df %>%
   #kbl() %>%
   #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
-
-
 
 It shows a high positive Pearson's correlation among `flipper_length` and `body_mass`, `flipper_length` and `bill_length`, and `bill_length` and `bodymass`. There seems to be a strong negative Pearson's correlation between `flipper_length` and `bill_depth`, and `bill_depth` and `body_mass`. 
 
@@ -447,3 +450,5 @@ pairwise_1d_plot(cond_assoc)
 
 # Section 5: Discussion
 
+
+We use multiple association measures in a single display for different variable pairs which serves as a comparison tool while exploring association in a dataset and assist in identifying unusual variable pairs. These multiple measures can be displayed in a scatterplot matrix similar to what @tukey1985computer proposed. They suggested that scatterplot matrix of the scagnostics measures, which are measures summarizing a scatterplot, can be used to identify unusual scatterplots or variable pairs. @wilkinson2005graph used this idea with their graph-theoretic scagnostic measures to highlight unusual scatterplots. Similarly, @kuhn2013applied have used this idea in a predictive modeling context. They have produced a scatterplot matrix of the measures between the response and continuous predictors such as Pearson's correlation coefficient, pseudo-$R^2$ from the locally weighted regression model, MIC and Spearman's rank correlation coefficient to explore the predictor importance during feature selection step. These displays show the importance of comparing multiple association measures at once for different variable pairs. 
