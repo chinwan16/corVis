@@ -211,14 +211,16 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in 
 
 # Section 4: corVis: Calculating Association
 
-This section describes the calculation of association measures in our package \CRANpkg{corVis}. The package  provides a collection of various measures of association which quantifies the relationship between two variables. The association measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. Table \@ref(tab:association-measures) lists different functions provided in the package to calculate measures of association. The `funName` represents the function name used to calculate measure(s) of associations in this package. The `typeX` and `typeY` columns provide the information on types of variables which can be used with the corresponding functions. The `X` or `Y` variable can be anyone out of numeric, nominal, ordinal or any. The `from` column corresponds to the package functions used to calculate the association measures by the function under `funName`. The `symmetric` column represents if the measure is symmetric i.e. if the value of measure is same regardless of the order of variables. The last column provides the range of values for these measures. The function `tbl_easy` can be used to calculate association measures available in the R package `correlation` which can use different variable types. The highlighted functions in \@ref(tab:association-measures) calculate the association measures which have been implemented in this package. 
+This section describes the calculation of association measures in our package \CRANpkg{corVis}. The package  provides a collection of various measures of association which quantifies the relationship between two variables. The association measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. Table \@ref(tab:association-measures) lists different functions provided in the package to calculate varoius measures of association. The `funName` column represents the function name used to calculate measure(s) of associations in this package. The `typeX` and `typeY` columns provide the information on types of variables which can be used with the corresponding functions. The `X` or `Y` variable is one of the numeric, nominal, ordinal or any type. The `from` column corresponds to the package functions used to calculate the association measures by the function under `funName`. The `symmetric` column represents if the measure is symmetric i.e. if the value of measure is same regardless of the order of variables. The last column provides the range of values for these measures. The function `tbl_easy` calculates association measures available in the R package \CRANpkg{correlation} and is suitable for different variable types. The functions in Table \@ref(tab:association-measures) with `corVis` entries under `from` column calculate the association measures which have been implemented in this package. 
 
 
 For numeric pairs of variables, this package provides a range of association measures. The popular correlation coefficients like Pearson's or Spearman's or Kendall's are calculated using `tbl_cor` function. The measures such as distance correlation or MIC which assess more complex relationship are calculated using `tbl_dcor` or `tbl_mine` respectively. The association measures  available in the package for the ordinal pairs of variables are polychoric correlation and Kendall's coefficients which are calculated using `tbl_polycor` or `tbl_tau` respectively. For nominal pairs of variables, the functions like `tbl_gkTau`, `tbl_gkGamma`, `tbl_uncertainty`, `tbl_chi`, `tbl_cancor` are used for exploring association among the variables. 
 
 <!-- These measures are consistent with respect to the order of the levels of nominal variable which some of the existing measures lack. -->
 
-The function `tbl_cancor` calculates a measure of association based on canonical correlations for mixed pairs of variables. Nominal variables are converted into  sets of dummy variables, which are then assigned scored to find the maximal correlation. For two numeric variables this measure is identical to absolute correlation, for two factors the correlation is identical to that obtained from correspondence analysis.
+The function `tbl_cancor` calculates a measure of association based on canonical correlations for mixed pairs of variables. Nominal variables are converted into sets of dummy variables, which are then assigned scored to find the maximal correlation. For two numeric variables this measure is identical to absolute correlation, for two factors the correlation is identical to that obtained from correspondence analysis.
+
+The functions listed in \@ref(tab:association-measures) for calculating association measures provide a functionality for handling missing value or `NA` in the dataset. Each of these functions either have a `handle.na` argument or have package functions which automatically uses pairwise complete observations for taking care of missing values present in the data. 
 
 ```{r association-measures,echo=FALSE}
 assocMethods <- tribble(
@@ -245,7 +247,7 @@ kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions avail
 
 ## Calculating association for a single type of variable pairs
 
-We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table \@ref(tab:association-measures)) for different association measures in the form `tbl_*` to calculate them. For example, a user might be interested in calculating distance correlation for numeric pair of variables in a dataset. This can be done by using `tbl_dcor`.
+We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table \@ref(tab:association-measures)) for different association measures in the form `tbl_*` to calculate them. For example, someone interested in calculating distance correlation for numeric pair of variables in a dataset is done by using `tbl_dcor`.
 
 ```{r,echo=TRUE}
 df <- penguins
@@ -253,7 +255,7 @@ distance <- tbl_dcor(df)
 head(distance)
 ```
 
-Similarly, one can use `tbl_nmi` to calculate normalised mutual information for numeric, nominal and mixed pair of variables.
+Similarly, `tbl_nmi` is used to calculate normalised mutual information for numeric, nominal and mixed pair of variables.
 
 ```{r,echo=TRUE}
 nmi <- tbl_nmi(df)
@@ -267,11 +269,9 @@ The tibble output for the functions mentioned in Table \@ref(tab:association-mea
   - `measure` representing the calculated value for association measure
   - `measure_type` representing the association measure calculated for `x` and `y` pair.
 
-The variable pairs in the output are unique pairs and a subset of all the variable pairs of a dataset where `x` $\neq$ `y`. As explained earlier, the `measure_type` represents the association measure calculated for a specific type of variable pair
-
 ## Calculating association measures for whole dataset
 
-`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. In addition to tibble structure, the output also has `pairwise` and `data.frame` class which are important class attributes for producing visual summaries in this package.
+`calc_assoc` is used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. The variable pairs in the output are unique pairs and a subset of all the pairs of variables in a dataset where `x` $\neq$ `y`. Because of the tidy structure of the output, the data manipulation and visualisation tools of \CRANpkg{tidyverse} [@tidyverse] are applicable to and are useful for further exploration of pairwise associations. In addition to tibble structure, the output also has `pairwise` and `data.frame` class which are important class attributes for producing visual summaries in this package.
 
 The function `calc_assoc` has a `types` argument which is basically a tibble of the association measure to be calculated for different variable pairs. The default tibble of measures is `default_assoc()` which calculates Pearson's correlation if both the variables are numeric, Kendall's tau-b if both the variables are ordinal, canonical correlation if one is factor and other is numeric and canonical correlation for the rest of the variable pairs.
 
@@ -285,8 +285,8 @@ class(penguin_assoc)
 ```
 
 
+The default tibble of measures is updated using the `update_assoc` function which has arguments for updating the `tbl_*` functions to calculate association measures depending on the type variable pair in the dataset and a method for `tbl_*` functions which calculates more than one measure. The `update_assoc` function has an argument `default` which has the `default_assoc()` tibble as its default value and is useful when `tbl_*` functions need to be updated for a few types of variable pairs. 
 
-An analyst can update these measures using the `update_assoc` function where one can specify a `tbl_*` function to calculate association measure depending on the variable pair in the dataset and a method if it calculates more than one measure.
 
 ```{r,echo=TRUE}
 updated_assoc <- update_assoc(default=default_assoc(),
@@ -297,13 +297,14 @@ updated_assoc <- update_assoc(default=default_assoc(),
 updated_assoc
 
 ```
-  
+
+`calc_assoc` also has a `handle.na` argument for handling the `NA` or missing values which is fed into the `tbl_*` functions used with the `types` argument for different types of variable pairs. The default value is set to `TRUE` for using pairwise complete observations for calculating a measure of association between two variables.
+
+
+
 If a user is interested in calculating multiple association measures for a type of variable pair, it can be done by using the `calc_assoc` and `update_assoc` together for calculating different association measures and then merging the output tibbles.
 
-
 ```{r,echo=TRUE}
-
-
 
 updated_penguin_assoc <- calc_assoc(df, types = updated_assoc)
 head(updated_penguin_assoc)
@@ -314,30 +315,30 @@ head(updated_penguin_assoc)
 
 ## Calculating conditional association
 
-`calc_assoc_by` is used to calculate association measures for all the variable pairs at different levels of a categorical variable. This helps in exploring the conditional associations and find out the differences between the groups of the conditioning variable. The output of this function is a tibble structure with `pairwise` and `data.frame` as additional class attributes. The `calc_assoc_by` function has a `by` argument which is used for the grouping variable and it needs to be categorical.
+`calc_assoc` is also used to calculate association measures for all the variable pairs at different levels of a categorical variable. This helps in exploring the conditional associations and find out the differences between the groups of the conditioning variable. The function has a `by` argument which is used as the grouping variable and needs to be categorical.
 
 ```{r,echo=TRUE}
 penguin_assoc_by <- calc_assoc_by(df,by = "sex")
 ```
 
-The `calc_assoc_by` function also has a `types` argument which can be updated similarly to `calc_assoc`. 
+<!-- The `calc_assoc_by` function also has a `types` argument which can be updated similarly to `calc_assoc`.  -->
 
-```{r,echo=TRUE}
-updated_assoc <- update_assoc(num_pair = "tbl_cor",
-                              num_pair_argList = "spearman",
-                              mixed_pair = "tbl_cancor",
-                              other_pair = "tbl_nmi")
-updated_penguin_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc)
-head(updated_penguin_assoc_by)
-```
+<!-- ```{r,echo=TRUE} -->
+<!-- updated_assoc <- update_assoc(num_pair = "tbl_cor", -->
+<!--                               num_pair_argList = "spearman", -->
+<!--                               mixed_pair = "tbl_cancor", -->
+<!--                               other_pair = "tbl_nmi") -->
+<!-- updated_penguin_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc) -->
+<!-- head(updated_penguin_assoc_by) -->
+<!-- ``` -->
 
-By default, the function calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (`overall`). This behavior can be changed by setting `include.overall` to `FALSE`.
+By default, the function `calc_assoc` calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (`overall`) when used with the `by` argument. This behavior can be changed by setting `include.overall` argument to `FALSE`.
 
 ```{r,echo=TRUE}
 penguin_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
 ```
 
-The tibble output for `calc_assoc_by` has the similar structure as `calc_assoc` with an additional `by` column representing the levels of the categorical variable used in the function. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc_by` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc_by` and then can merge these multiple tibble outputs.
+The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added in the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc_by` and then can merge these multiple tibble outputs.
 
 
 
