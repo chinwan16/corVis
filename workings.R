@@ -1,0 +1,83 @@
+
+
+#### merging calc_assoc and calc_assoc_by
+calc_assoc_new <- function(d, types=default_assoc(),handle.na=TRUE,by=NULL,include.overall=TRUE){
+  UseMethod("calc_assoc_new", by)
+}
+
+
+
+calc_assoc_new.NULL  <- function(d, types=default_assoc(),handle.na=TRUE){
+  types1 <- types
+  names(types1) <- names(types)[c(1,3,2,4)]
+  types <- rbind(types,types1)
+
+
+  vartypes <- sapply(names(d), function(u)
+    if (is.numeric(d[[u]])) "numeric"
+    else if (is.ordered(d[[u]])) "ordered"
+    else if (is.factor(d[[u]])) "factor"
+    else "other")
+
+  lookup <- function(xtype,ytype){
+    entry <-dplyr::filter(types, .data$typeX==xtype, .data$typeY==ytype)
+    if (nrow(entry)==0) entry <-dplyr::filter(types, .data$typeX=="other", .data$typeY=="other")
+    list(funName = get(entry$funName[1]), argList = entry$argList[[1]])
+  }
+  utypes <- unique(vartypes)
+
+  measures <- vector("list", length(utypes))
+  for (i in seq(along=utypes)){
+    entry <- lookup(utypes[i], utypes[i])
+    dsub <- d[vartypes==utypes[i]]
+    if (ncol(dsub)>1)
+      measures[[i]] <- do.call(entry$funName, c(list(dsub, handle.na=handle.na), entry$argList))
+  }
+
+  pcor <- assoc_tibble(d)
+  class(pcor) <- class(pcor)[-1]
+
+  for (m in measures){
+    if (!is.null(m)){
+      m <- sym_assoc(m)
+      class(m) <- class(pcor)[-1]
+      w <- match(paste(m$x,m$y), paste( pcor$x, pcor$y))
+      m <- m[!is.na(w),]
+      pcor <- dplyr::rows_patch(pcor, m, by = c("x","y"))
+    }
+  }
+
+  if (any(is.na(pcor$measure))){
+    for (i in 1:nrow(pcor))
+      if (is.na(pcor$measure[i])){
+        entry <- lookup(vartypes[pcor$x[i]],vartypes[pcor$y[i]])
+        dsub <- d[, c(pcor$x[i], pcor$y[i])]
+        m <- do.call(entry$funName, c(list(dsub, handle.na=handle.na), entry$argList))
+        pcor$measure[i] <- m$measure[1]
+        pcor$measure_type[i] <- m$measure_type[1]
+      }
+  }
+  class(pcor)<-append("pairwise", class(pcor))
+  pcor
+}
+
+
+calc_assoc_new.character <- function(d, by,types=default_assoc(),handle.na=TRUE,include.overall=TRUE){
+  if (!(by %in% names(d))) stop("by variable not present in data")
+  result <- d %>%
+    dplyr::rename(by=by) %>%
+    dplyr::group_by(by) %>%
+    dplyr::group_modify(function(x,y) calc_assoc_new(x, types=types,handle.na=handle.na)) %>%
+    dplyr::ungroup() %>%
+    dplyr::relocate(by, .after=.data$measure_type)
+  if (include.overall){
+    overall <- d %>%
+      dplyr::select(-dplyr::all_of(by)) %>%
+      calc_assoc(types=types,handle.na=handle.na) %>%
+      dplyr::mutate(by = "overall")
+    result <- rbind(result, overall)
+  }
+  class(result)<-append("pairwise", class(result))
+  attr(result,"by_var") <- by
+  result
+}
