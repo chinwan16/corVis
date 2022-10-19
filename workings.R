@@ -112,3 +112,22 @@ association_measures <- function (d,handle.na=T){
 
 #association_measures(iris)
 
+
+##### Asymmetric association measures
+
+# tbl_gkTau
+
+# tbl_uncertainty : calculates symmetric measure by default
+tbl_uncertainty_new <- function(d,handle.na=TRUE,...){
+  a <- assoc_tibble(d, measure_type="uncertainty")
+  a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
+  a
+}
+
+UncertCoef(penguins$species,penguins$island,direction = "symmetric")
+UncertCoef(penguins$species,penguins$island,direction = "row")
+UncertCoef(penguins$species,penguins$island,direction = "column")
+(UncertCoef(penguins$species,penguins$island,direction = "row") +
+    UncertCoef(penguins$species,penguins$island,direction = "column"))/2
+
+# tbl_tau : Kendall's tau-a is not symmetric
