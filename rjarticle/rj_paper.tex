@@ -264,12 +264,10 @@ package extends these displays to every variable pair.
 The package offers new visualisation technique such as display with
 multiple measures for the association for every variable pair in the
 dataset. We also introduce conditional association displays which are
-useful in uncovering conditional structure present in the data.
-Conditional displays (also called small multiple displays or trellis
-displays) are visualisations for the subsets of data produced by
-dividing the data by a partitioning variable and then plotting them.
-Popularised by \citet{tufte1986thevisual} and
-\citet{becker1996thevisual}, these displays are efficient for
+useful in uncovering conditional structure present in the data and are
+produced by splitting the data by a partitioning variable, calculating
+association for the variable pairs at every level of partitioning
+variable and then plotting them. These displays are efficient for
 discovering differences among the groups in the data.
 
 Efficient seriation techniques have been included to order and highlight
@@ -405,9 +403,8 @@ tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & FALSE & {}[0,1]\
 tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalGamma & TRUE & {}[0,1]\\
 tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & TRUE & {}[0,1]\\
 tbl\_chi & nominal & nominal & DescTools::ContCoef & TRUE & {}[0,1]\\
-tbl\_cancor & nominal & nominal & corVis & TRUE & {}[0,1]\\
+tbl\_cancor & nominal/numerical & nominal/numerical & corVis & TRUE & {}[0,1]\\
 \addlinespace
-tbl\_cancor & nominal & numerical & corVis & TRUE & {}[0,1]\\
 tbl\_nmi & any & any & corVis & TRUE & {}[0,1]\\
 tbl\_easy & any & any & correlation::correlation & TRUE & {}[-1,1]\\
 \bottomrule
@@ -703,6 +700,34 @@ usually ordered in the linear layouts by relevance (usually difference
 in measures of association or across the factor levels) ,and it is
 easier to omit less relevant pairs.
 
+The \texttt{penguins} dataset from the \CRANpkg{palmerpenguins} package
+has been used to provide illustrative examples. Table \ref{tab:penguins}
+provides a brief description of the variables in this dataset.
+
+\begin{Schunk}
+\begin{table}
+
+\caption{\label{tab:penguins}Variable description of the penguins dataset along with the types of variables}
+\centering
+\begin{tabular}[t]{lll}
+\toprule
+Variable & Description & VariableType\\
+\midrule
+species & Penguin species (Adelie, Chinstrap or Gentoo) & nominal\\
+island & Islands in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen) & nominal\\
+bill\_length\_mm & Bill length of penguin (millimeters) & numerical\\
+bill\_depth\_mm & Bill length of penguin (millimeters) & numerical\\
+flipper\_length\_mm & Flipper length of penguin (millimeters) & numerical\\
+\addlinespace
+body\_mass\_g & Body mass of penguin (grams) & numerical\\
+sex & Sex of the penguin (female,male) & nominal\\
+year & Year of the study & numerical\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{Schunk}
+
 \hypertarget{association-matrix-plot}{%
 \subsection{Association Matrix plot}\label{association-matrix-plot}}
 
@@ -720,35 +745,26 @@ and uses the same tibble input as used by \texttt{lassoc} if not
 changed. The argument \texttt{var\_order} is used for ordering or
 seriating the matrix display such that highly-associated variables are
 placed nearby and are easier to identify. The function also has a
-\texttt{limits} argument specifying the limit of the scale.
+\texttt{limits} argument specifying the limit of the color scale.
 
-Figure \ref{fig:assoc-heatmap} shows the display for every variable pair
-in the \texttt{penguins} dataset from the \CRANpkg{palmerpenguins}
-package. Table \ref{tab:penguins} provides a brief summary on the
-variables in this dataset.
+Figure \ref{fig:assoc-heatmap} shows an example of the association
+matrix display for every variable pair in the \texttt{penguins} dataset.
+The cells along the diagonal of the matrix display show the variables
+present in the dataset. Every off diagonal cell is colored using a
+divergent color scale with limits \([-1,1]\) representing the value of
+association measure between two variables. The plot shows Pearson's
+correlation for the numeric pair of variables and canonical correlation
+for mixed and nominal variable pairs.
 
 \begin{Schunk}
-\begin{table}
+\begin{figure}
 
-\caption{\label{tab:penguins}Variable description of the penguins dataset}
-\centering
-\begin{tabular}[t]{ll}
-\toprule
-Variable & Description\\
-\midrule
-species & Penguin species (Adelie, Chinstrap or Gentoo)\\
-island & Islands in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen)\\
-bill\_length\_mm & Bill length of penguin (millimeters)\\
-bill\_depth\_mm & Bill length of penguin (millimeters)\\
-flipper\_length\_mm & Flipper length of penguin (millimeters)\\
-\addlinespace
-body\_mass\_g & Body mass of penguin (grams)\\
-sex & Sex of the penguin (female,male)\\
-year & Year of the study\\
-\bottomrule
-\end{tabular}
-\end{table}
+{\centering \includegraphics{rj_paper_files/figure-latex/assoc-heatmap-1} 
 
+}
+
+\caption[Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs]{Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.}\label{fig:assoc-heatmap}
+\end{figure}
 \end{Schunk}
 
 It shows a high positive Pearson's correlation among
@@ -773,88 +789,38 @@ measurements of a penguin depends on their \texttt{species}. The
 variables in the display are ordered using average linkage clustering
 method to find out highly associated variables quickly.
 
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/assoc-heatmap-1} 
-
-}
-
-\caption[Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs]{Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.}\label{fig:assoc-heatmap}
-\end{figure}
-\end{Schunk}
-
 \hypertarget{multiple-association-measures-plot}{%
 \subsection{Multiple Association Measures
 Plot}\label{multiple-association-measures-plot}}
 
-We can also calculate multiple association measures for all the variable
-pairs in the dataset and compare them. This will help in finding out
-pairs of variables with a high difference among different measures or
-any unusual variable pairs and one can investigate these bivariate
-relationships in more detail.
+We also calculate multiple association measures for all the variable
+pairs in the dataset and compare them. This helps in identifying pairs
+of variables with a high difference among different measures or any
+unusual variable pairs which should be investigated further in more
+detail.
 
-The function \texttt{pairwise\_2d\_plot} is used to display a matrix
-layout with association for variable pairs in the dataset. The display
-is similar to existing correlation matrix plots but with every variable
-pair in the dataset. This function \texttt{association\_heatmap} takes
-the calculated measures of association by \texttt{calc\_assoc} function
-as input and outputs a matrix display by rendering the magnitude of
-association measures with a color. The function has \texttt{lassoc} and
-\texttt{uassoc} arguments for a tibble of association measures for the
-lower triangle and the upper triangle of the matrix display
-respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
-and uses the same tibble input as used by \texttt{lassoc} if not
-changed. The argument \texttt{var\_order} is used for ordering or
-seriating the matrix display such that highly-associated variables are
-placed nearby and are easier to identify. The function also has a
-\texttt{limits} argument specifying the limit of the scale.
+The function \texttt{pairwise\_1d\_compare} is used to display a linear
+layout for comparing multiple association measures calculated for
+variable pairs in the dataset. \texttt{pairwise\_1d\_compare} takes a
+dataset and a set of association measures as input and outputs a heatmap
+display by plotting all the variable pairs in the dataset on the Y-axis
+and the association measures on the X-axis and encoding the magnitude of
+association measures with a color.
 
-The \texttt{pairwise\_2d\_plot} function can be used to compare various
-measures using the matrix layout. It plots multiple measures among the
-variable pairs as bars, where each bar represents one measure of
-association. Figure \ref{fig:compare-matrix} shows a matrix layout
-comparing Pearson's and Spearman's correlation coefficient for the
-numeric variable pairs in \texttt{penguins} data. The plot shows that
-the value for both the correlation coefficients are very high for
-\texttt{bill\_length} and \texttt{flipper\_length},
-\texttt{bill\_length} and \texttt{body\_mass}, and
-\texttt{flipper\_length} and \texttt{body\_mass} suggesting a strong
-linear and montonic relationship among these variable pairs in the
-dataset.
+The \texttt{df} argument of the function \texttt{pairwise\_1d\_compare}
+is used for a dataset. The \texttt{measures} argument is for the
+multiple association measures to be calculated for pairs of variables of
+\texttt{df}. The default measures calculated by the function are
+Pearson's, Spearman's and Kendall's correlation coefficient, canconical
+correlation and normalized mutual information. The function also come up
+with a \texttt{var\_order} argument which is set to \texttt{max\_diff}
+by default and orders the variable pairs on the basis of maximum
+difference among the magnitude of measures.
 
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/compare-matrix-1} 
-
-}
-
-\caption[Matrix display comparing Pearson's and Spearman's correlation coefficient]{Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations.}\label{fig:compare-matrix}
-\end{figure}
-\end{Schunk}
-
-The function \texttt{association\_heatmap} is used to display a matrix
-layout with association for variable pairs in the dataset. The display
-is similar to existing correlation matrix plots but with every variable
-pair in the dataset. This function \texttt{association\_heatmap} takes
-the calculated measures of association by \texttt{calc\_assoc} function
-as input and outputs a matrix display by rendering the magnitude of
-association measures with a color. The function has \texttt{lassoc} and
-\texttt{uassoc} arguments for a tibble of association measures for the
-lower triangle and the upper triangle of the matrix display
-respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
-and uses the same tibble input as used by \texttt{lassoc} if not
-changed. The argument \texttt{var\_order} is used for ordering or
-seriating the matrix display such that highly-associated variables are
-placed nearby and are easier to identify. The function also has a
-\texttt{limits} argument specifying the limit of the scale.
-
-In addition to matrix layout, we can also use linear layouts for
-comparing multiple measures. Figure \ref{fig:compare-linear} shows a
-linear layout comparing multiple association measures for all the
-variable pairs in the penguins data. Linear layouts seems to be more
-suitable when comparing high number of association measures.
+Figure \ref{fig:compare-linear} shows a linear layout comparing multiple
+association measures for all the variable pairs in the penguins data.
+Linear layouts are more suitable when comparing high number of
+association measures.
 
 \begin{Schunk}
 \begin{figure}
@@ -871,27 +837,32 @@ suitable when comparing high number of association measures.
 \subsection{Conditional Association
 Plot}\label{conditional-association-plot}}
 
-The function \texttt{association\_heatmap} is used to display a matrix
-layout with association for variable pairs in the dataset. The display
-is similar to existing correlation matrix plots but with every variable
-pair in the dataset. This function \texttt{association\_heatmap} takes
-the calculated measures of association by \texttt{calc\_assoc} function
-as input and outputs a matrix display by rendering the magnitude of
-association measures with a color. The function has \texttt{lassoc} and
-\texttt{uassoc} arguments for a tibble of association measures for the
-lower triangle and the upper triangle of the matrix display
-respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
-and uses the same tibble input as used by \texttt{lassoc} if not
-changed. The argument \texttt{var\_order} is used for ordering or
-seriating the matrix display such that highly-associated variables are
-placed nearby and are easier to identify. The function also has a
-\texttt{limits} argument specifying the limit of the scale.
+The function \texttt{pairwise\_2d\_plot} is used to display a matrix
+layout of the conditional association for variable pairs in the dataset.
+The display is produced by splitting the data by a partitioning variable
+and calculating association for the variable pairs at each level of
+partitioning variable using \texttt{calc\_assoc} function with
+conditioning variable as the \texttt{by} argument. The calculated
+association measures are then displayed using bars in a matrix plot. The
+height and color of the bars are coded with the value of association
+measure and the level of the partitioning variable respectively. These
+displays are efficient for discovering variable pair with high
+differences among the levels of partitioning variable in the data.
 
-The package includes a function \texttt{calc\_assoc\_by} which
-calculates the pairwise association at different levels of a categorical
-conditioning variable. This helps in finding out interesting variable
-triples which can be explored further prior to modeling. Figure
-\ref{fig:cond-assoc} shows a conditional association plot for the
+The measures of association calculated for every variable pair at every
+level of conditioning serve as input to the \texttt{pairwise\_2d\_plot}
+function. The \texttt{lassoc} and \texttt{uassoc} arguments look for a
+tibble of association measures for the lower triangle and the upper
+triangle of the matrix display respectively. The \texttt{uassoc}
+argument is set to \texttt{NULL} by default and uses the same tibble
+input as used by \texttt{lassoc} if not updated. The argument
+\texttt{group\_var} is responsible for the grouping variable when
+plotting the bars. The default value \texttt{by} uses the conditioning
+variable and \texttt{measure\_type} is useful for displaying bars with
+height and color of the bars coded by the value of association measure
+and the type of association measure respectively.
+
+Figure \ref{fig:cond-assoc} shows a conditional association plot for the
 \texttt{penguins} data. Each cell corresponding to a variable pair shows
 three bars which correspond to the association measure (Pearson's
 correlation for numeric pair and Normalized mutual information for other
@@ -919,7 +890,36 @@ which can be taken into account during the modeling step.
 \end{figure}
 \end{Schunk}
 
-We can also use linear layouts for displaying conditional association.
+We also use linear layouts for displaying conditional association in the
+package. The function \texttt{pairwise\_1d\_plot} is used for displaying
+a linear layout of the conditional association for variable pairs in the
+dataset. The association measures are calculated for every variable pair
+at each level of partitioning variable using \texttt{calc\_assoc}
+function with conditioning variable as the \texttt{by} argument.
+
+The measures are then displayed using a dotplot where color of the dots
+are coded by the level of the partitioning variable and the variable
+pairs are ordered by absolute maximum value of association measure for
+each of the pair of variable. These displays are also efficient for
+discovering differences among the levels of partitioning variable in the
+data. With the linear layouts it is easier to omit less relevant pairs
+of variables by filtering the variables pairs having a higher value for
+association measures than a threshold.
+
+The measures of association calculated for every variable pair at every
+level of conditioning serve as input to the \texttt{pairwise\_1d\_plot}
+function. The \texttt{assoc} argument uses a tibble of association
+measures calculated using \texttt{calc\_assoc} function with a
+\texttt{by} variable. The argument \texttt{group\_var} is responsible
+for the grouping variable when plotting the dots. The default value
+\texttt{by} uses the conditioning variable and \texttt{measure\_type} is
+useful for displaying dots with color of the dots coded by the type of
+association measure. The \texttt{var\_order} argument is responsible for
+the ordering of variable pairs in the display. If set to
+\texttt{default} variable pairs are ordered alphabetically and are
+ordered by absolute maximum value of association measure for every
+variable pair when set to \texttt{max\_diff}.
+
 Figure \ref{fig:linear-cond-assoc} shows a funnel-like linear display
 for conditional association measures with all the variable pairs on the
 y-axis, the value of association measure on x-axis and color of the
@@ -935,6 +935,30 @@ variables and number of levels of grouping variable are high.
 }
 
 \caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear-cond-assoc}
+\end{figure}
+\end{Schunk}
+
+The \texttt{pairwise\_2d\_plot} function is also useful for comparing
+various measures using the matrix layout. It plots multiple measures
+among the variable pairs as bars, where each bar represents one measure
+of association. Figure \ref{fig:compare-matrix} shows a matrix layout
+comparing Pearson's and Spearman's correlation coefficient for the
+numeric variable pairs in \texttt{penguins} data. The plot shows that
+the value for both the correlation coefficients are very high for
+\texttt{bill\_length} and \texttt{flipper\_length},
+\texttt{bill\_length} and \texttt{body\_mass}, and
+\texttt{flipper\_length} and \texttt{body\_mass} suggesting a strong
+linear and montonic relationship among these variable pairs in the
+dataset.
+
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/compare-matrix-1} 
+
+}
+
+\caption[Matrix display comparing Pearson's and Spearman's correlation coefficient]{Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations.}\label{fig:compare-matrix}
 \end{figure}
 \end{Schunk}
 
