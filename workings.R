@@ -100,7 +100,7 @@ association_measures <- function (d,handle.na=T){
   polycor <- tbl_polycor(d,handle.na = handle.na)
   tau_b <- tbl_tau(d)
   uncertainty <- tbl_uncertainty(d,handle.na = handle.na)
-  gkTau <- tbl_gktau(d, handle.na = handle.na)
+  gkTau <- tbl_gkTau(d, handle.na = handle.na)
   gkGanmma <- tbl_gkGamma(d, handle.na = handle.na)
   chi <- tbl_chi(d, handle.na = handle.na)
 
@@ -110,5 +110,5 @@ association_measures <- function (d,handle.na=T){
   return(assoc)
 }
 
-
+#association_measures(iris)
 
