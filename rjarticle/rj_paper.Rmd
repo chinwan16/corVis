@@ -140,7 +140,7 @@ The association measures for the case of nominal pair of variables should be inv
 
 <!-- For a pair of mixed variables -->
 
-The canonical correlation is a measure useful in exploring association among mixed variables. The goal of the canonical correlation analysis is to maximize the association between the low-dimensional projections of two sets of variables [@hardle2019applied]. Each of these measures are are consistent with respect to the order of the categories of the nominal variable.
+<!-- The canonical correlation is a measure useful in exploring association among mixed variables. The goal of the canonical correlation analysis is to maximize the association between the low-dimensional projections of two sets of variables [@hardle2019applied]. Each of these measures are are consistent with respect to the order of the categories of the nominal variable. -->
 
 
 
@@ -225,20 +225,20 @@ The functions listed in \@ref(tab:association-measures) for calculating associat
 
 ```{r association-measures,echo=FALSE}
 assocMethods <- tribble(
-  ~funName, ~typeX, ~typeY,  ~from, ~symmetric, ~range,
-  "tbl_cor", "numerical", "numerical",  "stats::cor", TRUE, "[-1,1]",
-  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", TRUE, "[0,1]",
-  "tbl_mine", "numerical", "numerical", "minerva::mine",TRUE, "[0,1]",
-  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", TRUE, "[-1,1]",
-  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", TRUE, "[-1,1]",
-  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", TRUE, "[0,1]",
-  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", FALSE, "[0,1]",
+  ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
+  "tbl_cor", "numerical", "numerical",  "stats::cor", Y, "[-1,1]",
+  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", Y, "[0,1]",
+  "tbl_mine", "numerical", "numerical", "minerva::mine",Y, "[0,1]",
+  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", Y, "[-1,1]",
+  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", Y, "[-1,1]",
+  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", Y, "[0,1]",
+  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", F, "[0,1]",
   #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
-  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", TRUE, "[0,1]",
-  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", TRUE, "[0,1]",
-  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", TRUE, "[0,1]",
-  "tbl_nmi", "any", "any", "corVis", TRUE, "[0,1]",
-  "tbl_easy", "any", "any", "correlation::correlation", TRUE, "[-1,1]")
+  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", Y, "[0,1]",
+  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", Y, "[0,1]",
+  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", Y, "[0,1]",
+  "tbl_nmi", "any", "any", "corVis", Y, "[0,1]",
+  "tbl_easy", "any", "any", "correlation::correlation", Y, "[-1,1]")
 
 kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.")
 #kableExtra::kable_styling(kable_input,latex_options = "striped")
@@ -247,7 +247,7 @@ kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions avail
 
 ## Calculating association for a single type of variable pairs
 
-We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table \@ref(tab:association-measures)) for different association measures in the form `tbl_*` to calculate them. For example, someone interested in calculating distance correlation for numeric pair of variables in a dataset is done by using `tbl_dcor`.
+We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table \@ref(tab:association-measures)) for different association measures in the form `tbl_*` to calculate them. For example, someone interested in calculating distance correlation for numeric pair of variables in a dataset is done by using `tbl_dcor` .
 
 ```{r,echo=TRUE}
 df <- penguins
