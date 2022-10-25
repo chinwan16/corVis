@@ -244,13 +244,6 @@ Another measure for nominal variable pair is the Uncertainty coefficient
 \citep{theil1970estimation} measuring the proportion of uncertainty in
 one variable which is explained by the other variable.
 
-The canonical correlation is a measure useful in exploring association
-among mixed variables. The goal of the canonical correlation analysis is
-to maximize the association between the low-dimensional projections of
-two sets of variables \citep{hardle2019applied}. Each of these measures
-are are consistent with respect to the order of the categories of the
-nominal variable.
-
 \hypertarget{section-3-introducing-corvis}{%
 \section{Section 3: Introducing
 corVis}\label{section-3-introducing-corvis}}
@@ -391,22 +384,22 @@ missing values present in the data.
 \centering
 \begin{tabular}[t]{llllll}
 \toprule
-funName & typeX & typeY & from & symmetric & range\\
+Function & X & Y & from & symmetric & range\\
 \midrule
-tbl\_cor & numerical & numerical & stats::cor & TRUE & {}[-1,1]\\
-tbl\_dcor & numerical & numerical & energy::dcor2d & TRUE & {}[0,1]\\
-tbl\_mine & numerical & numerical & minerva::mine & TRUE & {}[0,1]\\
-tbl\_polycor & ordinal & ordinal & polycor::polychor & TRUE & {}[-1,1]\\
-tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & TRUE & {}[-1,1]\\
+tbl\_cor & numerical & numerical & stats::cor & Y & {}[-1,1]\\
+tbl\_dcor & numerical & numerical & energy::dcor2d & Y & {}[0,1]\\
+tbl\_mine & numerical & numerical & minerva::mine & Y & {}[0,1]\\
+tbl\_polycor & ordinal & ordinal & polycor::polychor & Y & {}[-1,1]\\
+tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & Y & {}[-1,1]\\
 \addlinespace
-tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & FALSE & {}[0,1]\\
-tbl\_gkGamma & nominal & nominal & DescTools::GoodmanKruskalGamma & TRUE & {}[0,1]\\
-tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & TRUE & {}[0,1]\\
-tbl\_chi & nominal & nominal & DescTools::ContCoef & TRUE & {}[0,1]\\
-tbl\_cancor & nominal/numerical & nominal/numerical & corVis & TRUE & {}[0,1]\\
+tbl\_gkGamma & ordinal & ordinal & DescTools::GoodmanKruskalGamma & Y & {}[0,1]\\
+tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & N & {}[0,1]\\
+tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & Y & {}[0,1]\\
+tbl\_chi & nominal & nominal & DescTools::ContCoef & Y & {}[0,1]\\
+tbl\_cancor & nominal/numerical & nominal/numerical & corVis & Y & {}[0,1]\\
 \addlinespace
-tbl\_nmi & any & any & corVis & TRUE & {}[0,1]\\
-tbl\_easy & any & any & correlation::correlation & TRUE & {}[-1,1]\\
+tbl\_nmi & any & any & corVis & Y & {}[0,1]\\
+tbl\_easy & any & any & correlation::correlation & Y & {}[-1,1]\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -423,54 +416,30 @@ package contains various functions (shown in Table
 \ref{tab:association-measures}) for different association measures in
 the form \texttt{tbl\_*} to calculate them. For example, someone
 interested in calculating distance correlation for numeric pair of
-variables in a dataset is done by using \texttt{tbl\_dcor}.
+variables in a dataset is done by using \texttt{tbl\_dcor} .
 
 \begin{Schunk}
 \begin{Sinput}
-df <- penguins
+ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
+df <- ckd
 distance <- tbl_dcor(df)
 distance
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 10 x 4
-#>    x                 y                 measure measure_type
-#>    <chr>             <chr>               <dbl> <chr>       
-#>  1 bill_depth_mm     bill_length_mm     0.387  dcor        
-#>  2 flipper_length_mm bill_length_mm     0.666  dcor        
-#>  3 body_mass_g       bill_length_mm     0.587  dcor        
-#>  4 year              bill_length_mm     0.0784 dcor        
-#>  5 flipper_length_mm bill_depth_mm      0.704  dcor        
-#>  6 body_mass_g       bill_depth_mm      0.614  dcor        
-#>  7 year              bill_depth_mm      0.112  dcor        
-#>  8 body_mass_g       flipper_length_mm  0.867  dcor        
-#>  9 year              flipper_length_mm  0.164  dcor        
-#> 10 year              body_mass_g        0.0791 dcor
-\end{Soutput}
-\end{Schunk}
-
-Similarly, \texttt{tbl\_nmi} is used to calculate normalised mutual
-information for numeric, nominal and mixed pair of variables.
-
-\begin{Schunk}
-\begin{Sinput}
-nmi <- tbl_nmi(df)
-nmi
-\end{Sinput}
-\begin{Soutput}
-#> # A tibble: 28 x 4
-#>    x                 y         measure measure_type
-#>    <chr>             <chr>       <dbl> <chr>       
-#>  1 island            species 0.507     nmi         
-#>  2 bill_length_mm    species 0.353     nmi         
-#>  3 bill_depth_mm     species 0.315     nmi         
-#>  4 flipper_length_mm species 0.343     nmi         
-#>  5 body_mass_g       species 0.300     nmi         
-#>  6 sex               species 0.0000854 nmi         
-#>  7 year              species 0.00441   nmi         
-#>  8 bill_length_mm    island  0.248     nmi         
-#>  9 bill_depth_mm     island  0.230     nmi         
-#> 10 flipper_length_mm island  0.217     nmi         
-#> # ... with 18 more rows
+#> # A tibble: 55 x 4
+#>    x     y     measure measure_type
+#>    <chr> <chr>   <dbl> <chr>       
+#>  1 bp    age     0.189 dcor        
+#>  2 bgr   age     0.303 dcor        
+#>  3 bu    age     0.249 dcor        
+#>  4 sc    age     0.242 dcor        
+#>  5 sod   age     0.154 dcor        
+#>  6 pot   age     0.119 dcor        
+#>  7 hemo  age     0.254 dcor        
+#>  8 pcv   age     0.296 dcor        
+#>  9 wbcc  age     0.173 dcor        
+#> 10 rbcc  age     0.307 dcor        
+#> # ... with 45 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -527,27 +496,27 @@ default_measures
 #> 4 tbl_cancor other   other   <NULL>
 \end{Soutput}
 \begin{Sinput}
-penguin_assoc <- calc_assoc(df,types = default_assoc())
-penguin_assoc
+ckd_assoc <- calc_assoc(df,types = default_assoc())
+ckd_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 28 x 4
-#>    x                 y       measure measure_type
-#>    <chr>             <chr>     <dbl> <chr>       
-#>  1 island            species  0.813  cancor      
-#>  2 bill_length_mm    species  0.841  cancor      
-#>  3 bill_depth_mm     species  0.824  cancor      
-#>  4 flipper_length_mm species  0.882  cancor      
-#>  5 body_mass_g       species  0.818  cancor      
-#>  6 sex               species  0.0121 cancor      
-#>  7 year              species  0.0511 cancor      
-#>  8 bill_length_mm    island   0.392  cancor      
-#>  9 bill_depth_mm     island   0.632  cancor      
-#> 10 flipper_length_mm island   0.613  cancor      
-#> # ... with 18 more rows
+#> # A tibble: 300 x 4
+#>    x     y     measure measure_type
+#>    <chr> <chr>   <dbl> <chr>       
+#>  1 bp    age    0.159  pearson     
+#>  2 sg    age    0.199  cancor      
+#>  3 al    age    0.235  cancor      
+#>  4 su    age    0.287  cancor      
+#>  5 rbc   age    0.0800 cancor      
+#>  6 pc    age    0.151  cancor      
+#>  7 pcc   age    0.158  cancor      
+#>  8 ba    age    0.0422 cancor      
+#>  9 bgr   age    0.245  pearson     
+#> 10 bu    age    0.197  pearson     
+#> # ... with 290 more rows
 \end{Soutput}
 \begin{Sinput}
-class(penguin_assoc)
+class(ckd_assoc)
 \end{Sinput}
 \begin{Soutput}
 #> [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"
@@ -598,24 +567,24 @@ different association measures and then merging the output tibbles.
 
 \begin{Schunk}
 \begin{Sinput}
-updated_penguin_assoc <- calc_assoc(df, types = updated_assoc)
-updated_penguin_assoc
+updated_ckd_assoc <- calc_assoc(df, types = updated_assoc)
+updated_ckd_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 28 x 4
-#>    x                 y         measure measure_type
-#>    <chr>             <chr>       <dbl> <chr>       
-#>  1 island            species 0.507     nmi         
-#>  2 bill_length_mm    species 0.841     cancor      
-#>  3 bill_depth_mm     species 0.824     cancor      
-#>  4 flipper_length_mm species 0.882     cancor      
-#>  5 body_mass_g       species 0.818     cancor      
-#>  6 sex               species 0.0000854 nmi         
-#>  7 year              species 0.0511    cancor      
-#>  8 bill_length_mm    island  0.392     cancor      
-#>  9 bill_depth_mm     island  0.632     cancor      
-#> 10 flipper_length_mm island  0.613     cancor      
-#> # ... with 18 more rows
+#> # A tibble: 300 x 4
+#>    x     y     measure measure_type
+#>    <chr> <chr>   <dbl> <chr>       
+#>  1 bp    age    0.123  spearman    
+#>  2 sg    age    0.199  cancor      
+#>  3 al    age    0.235  cancor      
+#>  4 su    age    0.287  cancor      
+#>  5 rbc   age    0.0800 cancor      
+#>  6 pc    age    0.151  cancor      
+#>  7 pcc   age    0.158  cancor      
+#>  8 ba    age    0.0422 cancor      
+#>  9 bgr   age    0.299  spearman    
+#> 10 bu    age    0.309  spearman    
+#> # ... with 290 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -632,24 +601,24 @@ variable and needs to be categorical.
 
 \begin{Schunk}
 \begin{Sinput}
-penguin_assoc_by <- calc_assoc_by(df,by = "sex")
-penguin_assoc_by
+ckd_assoc_by <- calc_assoc_by(df,by = "cad")
+ckd_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 84 x 5
-#>    x                 y       measure measure_type by    
-#>    <chr>             <chr>     <dbl> <chr>        <fct> 
-#>  1 island            species  0.809  cancor       female
-#>  2 bill_length_mm    species  0.885  cancor       female
-#>  3 bill_depth_mm     species  0.900  cancor       female
-#>  4 flipper_length_mm species  0.914  cancor       female
-#>  5 body_mass_g       species  0.911  cancor       female
-#>  6 year              species  0.0457 cancor       female
-#>  7 bill_length_mm    island   0.395  cancor       female
-#>  8 bill_depth_mm     island   0.669  cancor       female
-#>  9 flipper_length_mm island   0.649  cancor       female
-#> 10 body_mass_g       island   0.668  cancor       female
-#> # ... with 74 more rows
+#> # A tibble: 1,104 x 5
+#>    x     y     measure measure_type by   
+#>    <chr> <chr>   <dbl> <chr>        <fct>
+#>  1 bp    age    -0.307 pearson      yes  
+#>  2 sg    age     0.421 cancor       yes  
+#>  3 al    age     0.285 cancor       yes  
+#>  4 su    age     0.402 cancor       yes  
+#>  5 rbc   age     0.288 cancor       yes  
+#>  6 pc    age     0.239 cancor       yes  
+#>  7 pcc   age     0.238 cancor       yes  
+#>  8 ba    age     0.109 cancor       yes  
+#>  9 bgr   age     0.125 pearson      yes  
+#> 10 bu    age    -0.218 pearson      yes  
+#> # ... with 1,094 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -662,7 +631,7 @@ behavior can be changed by setting \texttt{include.overall} argument to
 
 \begin{Schunk}
 \begin{Sinput}
-penguin_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
+ckd_assoc_by <- calc_assoc_by(df,by = "cad",include.overall = FALSE)
 \end{Sinput}
 \end{Schunk}
 
@@ -700,28 +669,35 @@ usually ordered in the linear layouts by relevance (usually difference
 in measures of association or across the factor levels) ,and it is
 easier to omit less relevant pairs.
 
-The \texttt{penguins} dataset from the \CRANpkg{palmerpenguins} package
-has been used to provide illustrative examples. Table \ref{tab:penguins}
-provides a brief description of the variables in this dataset.
+The chrnonic kidney dataset providing information on early stage of
+Chronic Kidney Disease(CKD) from the \citep{Dua:2019} has been used to
+provide illustrative examples. Table \ref{tab:ckd} provides a brief
+description of set of variables from this dataset used for analysis.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:penguins}Variable description of the penguins dataset along with the types of variables}
+\caption{\label{tab:ckd}Variable description of the chronic kidney dataset along with the types of variables}
 \centering
 \begin{tabular}[t]{lll}
 \toprule
 Variable & Description & VariableType\\
 \midrule
-species & Penguin species (Adelie, Chinstrap or Gentoo) & nominal\\
-island & Islands in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen) & nominal\\
-bill\_length\_mm & Bill length of penguin (millimeters) & numerical\\
-bill\_depth\_mm & Bill length of penguin (millimeters) & numerical\\
-flipper\_length\_mm & Flipper length of penguin (millimeters) & numerical\\
+age & Age in years & numerical\\
+bp & Blood Pressure in mm/Hg & numerical\\
+bgr & Blood Glucose Random in mgs/dl & numerical\\
+bu & Blood Urea mgs/dl & numerical\\
+rbcc & Red Blood Cell Count in millions/cmm & numerical\\
 \addlinespace
-body\_mass\_g & Body mass of penguin (grams) & numerical\\
-sex & Sex of the penguin (female,male) & nominal\\
-year & Year of the study & numerical\\
+pcv & Packed  Cell Volume & numerical\\
+sod & Sodium in mEq/L & numerical\\
+sc & Serum Creatinine in mgs/dl & numerical\\
+al & Albumin (0,1,2,3,4,5) & ordinal\\
+su & Sugar (0,1,2,3,4,5) & ordinal\\
+\addlinespace
+htn & Hypertension (yes,no) & nominal\\
+dm & Diabetes Mellitus (yes,no) & nominal\\
+cad & Coronary Artery Disease (yes,no) & nominal\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -757,6 +733,16 @@ correlation for the numeric pair of variables and canonical correlation
 for mixed and nominal variable pairs.
 
 \begin{Schunk}
+\begin{Sinput}
+ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
+
+vars <- c("age","bp","bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
+df <- ckd[,vars]
+
+
+assoc <- calc_assoc(df)
+association_heatmap(assoc)
+\end{Sinput}
 \begin{figure}
 
 {\centering \includegraphics{rj_paper_files/figure-latex/assoc-heatmap-1} 
@@ -823,6 +809,9 @@ Linear layouts are more suitable when comparing high number of
 association measures.
 
 \begin{Schunk}
+\begin{Sinput}
+pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
+\end{Sinput}
 \begin{figure}
 
 {\centering \includegraphics{rj_paper_files/figure-latex/compare-linear-1} 
@@ -880,6 +869,14 @@ correlation for penguins which lived in \texttt{Dream} and
 which can be taken into account during the modeling step.
 
 \begin{Schunk}
+\begin{Sinput}
+updated_assoc <- update_assoc(num_pair = "tbl_cor",
+                              mixed_pair = "tbl_nmi",
+                              other_pair = "tbl_nmi")
+
+cond_assoc <- calc_assoc_by(df, by="cad")
+pairwise_2d_plot(cond_assoc)
+\end{Sinput}
 \begin{figure}
 
 {\centering \includegraphics{rj_paper_files/figure-latex/cond-assoc-1} 
@@ -928,6 +925,9 @@ layout becomes more useful over the matrix layout when the number of
 variables and number of levels of grouping variable are high.
 
 \begin{Schunk}
+\begin{Sinput}
+pairwise_1d_plot(cond_assoc)
+\end{Sinput}
 \begin{figure}
 
 {\centering \includegraphics{rj_paper_files/figure-latex/linear-cond-assoc-1} 
@@ -952,6 +952,18 @@ linear and montonic relationship among these variable pairs in the
 dataset.
 
 \begin{Schunk}
+\begin{Sinput}
+df_num <- select(df,where(is.numeric))
+pearson <- calc_assoc(df_num)
+
+spearman_assoc <- update_assoc(num_pair = "tbl_cor",
+                               num_pair_argList= "spearman",
+                               mixed_pair = "tbl_cancor",
+                               other_pair = "tbl_nmi")
+spearman <- calc_assoc(df_num, types=spearman_assoc)
+compare <- rbind(pearson,spearman)
+pairwise_2d_plot(compare, group_var = "measure_type")
+\end{Sinput}
 \begin{figure}
 
 {\centering \includegraphics{rj_paper_files/figure-latex/compare-matrix-1} 

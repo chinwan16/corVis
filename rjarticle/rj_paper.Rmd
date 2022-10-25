@@ -226,19 +226,19 @@ The functions listed in \@ref(tab:association-measures) for calculating associat
 ```{r association-measures,echo=FALSE}
 assocMethods <- tribble(
   ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
-  "tbl_cor", "numerical", "numerical",  "stats::cor", Y, "[-1,1]",
-  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", Y, "[0,1]",
-  "tbl_mine", "numerical", "numerical", "minerva::mine",Y, "[0,1]",
-  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", Y, "[-1,1]",
-  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", Y, "[-1,1]",
-  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", Y, "[0,1]",
-  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", F, "[0,1]",
+  "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
+  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
+  "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
+  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
+  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
+  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[0,1]",
+  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
   #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
-  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", Y, "[0,1]",
-  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", Y, "[0,1]",
-  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", Y, "[0,1]",
-  "tbl_nmi", "any", "any", "corVis", Y, "[0,1]",
-  "tbl_easy", "any", "any", "correlation::correlation", Y, "[-1,1]")
+  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
+  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
+  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
+  "tbl_nmi", "any", "any", "corVis", "Y", "[0,1]",
+  "tbl_easy", "any", "any", "correlation::correlation", "Y", "[-1,1]")
 
 kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.")
 #kableExtra::kable_styling(kable_input,latex_options = "striped")
@@ -250,16 +250,10 @@ kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions avail
 We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table \@ref(tab:association-measures)) for different association measures in the form `tbl_*` to calculate them. For example, someone interested in calculating distance correlation for numeric pair of variables in a dataset is done by using `tbl_dcor` .
 
 ```{r,echo=TRUE}
-df <- penguins
+ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
+df <- ckd
 distance <- tbl_dcor(df)
 distance
-```
-
-Similarly, `tbl_nmi` is used to calculate normalised mutual information for numeric, nominal and mixed pair of variables.
-
-```{r,echo=TRUE}
-nmi <- tbl_nmi(df)
-nmi
 ```
 
 
@@ -279,9 +273,9 @@ The function `calc_assoc` has a `types` argument which is basically a tibble of 
 default_measures <- default_assoc()
 default_measures
 
-penguin_assoc <- calc_assoc(df,types = default_assoc())
-penguin_assoc
-class(penguin_assoc)
+ckd_assoc <- calc_assoc(df,types = default_assoc())
+ckd_assoc
+class(ckd_assoc)
 ```
 
 
@@ -306,8 +300,8 @@ If a user is interested in calculating multiple association measures for a type 
 
 ```{r,echo=TRUE}
 
-updated_penguin_assoc <- calc_assoc(df, types = updated_assoc)
-updated_penguin_assoc
+updated_ckd_assoc <- calc_assoc(df, types = updated_assoc)
+updated_ckd_assoc
 
 ```
 
@@ -318,8 +312,8 @@ updated_penguin_assoc
 `calc_assoc` is also used to calculate association measures for all the variable pairs at different levels of a categorical variable. This helps in exploring the conditional associations and find out the differences between the groups of the conditioning variable. The function has a `by` argument which is used as the grouping variable and needs to be categorical.
 
 ```{r,echo=TRUE}
-penguin_assoc_by <- calc_assoc_by(df,by = "sex")
-penguin_assoc_by
+ckd_assoc_by <- calc_assoc_by(df,by = "cad")
+ckd_assoc_by
 ```
 
 <!-- The `calc_assoc_by` function also has a `types` argument which can be updated similarly to `calc_assoc`.  -->
@@ -336,7 +330,7 @@ penguin_assoc_by
 By default, the function `calc_assoc` calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (`overall`) when used with the `by` argument. This behavior can be changed by setting `include.overall` argument to `FALSE`.
 
 ```{r,echo=TRUE}
-penguin_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
+ckd_assoc_by <- calc_assoc_by(df,by = "cad",include.overall = FALSE)
 ```
 
 The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added in the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc` and then can merge these multiple tibble outputs.
@@ -349,29 +343,34 @@ We propose novel visualisations to display association and conditional associati
 
 While designing these displays we considered matrix-type, linear and network-based layouts. A matrix-type layout simplifies the effort in finding variables, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but looking for variables is more challenging. Variable pairs are usually ordered in the linear layouts by relevance (usually difference in measures of association or across the factor levels) ,and it is easier to omit less relevant pairs.
 
-The `penguins` dataset from the \CRANpkg{palmerpenguins} package has been used to provide illustrative examples. Table \@ref(tab:penguins) provides a brief description of the variables in this dataset.
+The chrnonic kidney dataset providing information on early stage of Chronic Kidney Disease(CKD) from the [@Dua:2019] has been used to provide illustrative examples. Table \@ref(tab:ckd) provides a brief description of set of variables from this dataset used for analysis.
 
-```{r penguins,warning=FALSE,message=FALSE,echo=FALSE }
+```{r ckd,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Variable <- c("species","island","bill_length_mm","bill_depth_mm","flipper_length_mm","body_mass_g","sex","year")
+Variable <- c("age","bp","bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
 
-Description <- c("Penguin species (Adelie, Chinstrap or Gentoo)",
-                 "Islands in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen)",
-                 "Bill length of penguin (millimeters)",
-                 "Bill length of penguin (millimeters)",
-                 "Flipper length of penguin (millimeters)",
-                 "Body mass of penguin (grams)",
-                 "Sex of the penguin (female,male)",
-                 "Year of the study")
+Description <- c("Age in years",
+                 "Blood Pressure in mm/Hg",
+                 "Blood Glucose Random in mgs/dl",
+                 "Blood Urea mgs/dl",
+                 "Red Blood Cell Count in millions/cmm",
+                 "Packed  Cell Volume",
+                 "Sodium in mEq/L",
+                 "Serum Creatinine in mgs/dl",
+                 "Albumin (0,1,2,3,4,5)",
+                 "Sugar (0,1,2,3,4,5)",
+                 "Hypertension (yes,no)",
+                 "Diabetes Mellitus (yes,no)",
+                 "Coronary Artery Disease (yes,no)")
 
-VariableType <- c("nominal","nominal","numerical","numerical","numerical","numerical","nominal","numerical")
+VariableType <- c("numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical","ordinal","ordinal","nominal","nominal","nominal")
 
 df <- data.frame(Variable=Variable,
                  Description=Description,
                  VariableType=VariableType)
 
-kableExtra::kbl(df, booktabs = T, caption = "Variable description of the penguins dataset along with the types of variables")
+kableExtra::kbl(df, booktabs = T, caption = "Variable description of the chronic kidney dataset along with the types of variables")
 #print(table_1)
 #df %>%
   #kbl() %>%
@@ -388,9 +387,13 @@ The function `association_heatmap` is used to display a matrix layout with assoc
 Figure \@ref(fig:assoc-heatmap) shows an example of the association matrix display for every variable pair in the `penguins` dataset. The cells along the diagonal of the matrix display show the variables present in the dataset. Every off diagonal cell is colored using a divergent color scale with limits $[-1,1]$ representing the value of association measure between two variables. The plot shows Pearson's correlation for the numeric pair of variables and canonical correlation for mixed and nominal variable pairs. 
 
 
-```{r assoc-heatmap,fig.width=5, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs."}
-df <- penguins
-names(df) <- c("species","island","bill_length","bill_depth","flipper_length","body_mass","sex","year")
+```{r assoc-heatmap,fig.width=5, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.",echo=TRUE}
+ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
+
+vars <- c("age","bp","bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
+df <- ckd[,vars]
+
+
 assoc <- calc_assoc(df)
 association_heatmap(assoc)
 ```
@@ -414,7 +417,7 @@ The `df` argument of the function `pairwise_1d_compare` is used for a dataset. T
 
 Figure \@ref(fig:compare-linear) shows a linear layout comparing multiple association measures for all the variable pairs in the penguins data.  Linear layouts are more suitable when comparing high number of association measures.
 
-```{r compare-linear,fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair."}
+```{r compare-linear,fig.width=4, fig.height=4, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair.",echo=TRUE}
 
 
 pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
@@ -429,12 +432,12 @@ The measures of association calculated for every variable pair at every level of
 
 Figure \@ref(fig:cond-assoc) shows a conditional association plot for the `penguins` data. Each cell corresponding to a variable pair shows three bars which correspond to the association measure (Pearson's correlation for numeric pair and Normalized mutual information for other combination of variables) calculated at the levels of conditioning variable `island`. The dashed line represents the overall association measure. The plot shows that there is a high value for normalised mutual information between bill_length_mm and species for the penguins which lived in `Biscoe` island compared to the penguins which lived in `Dream` island. It can also be seen that the cell corresponding to variable pair flipper_length_mm and bill_depth_mm has a high negative overall Pearson's correlation and for the penguins which lived in `Biscoe` island but positive  correlation for penguins which lived in `Dream` and `Torgersen` island. This is an instance of Simpson's paradox which can be taken into account during the modeling step.
 
-```{r cond-assoc,fig.width=5, fig.height=4, fig.align='center', fig.cap="Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `island`. The dashed line in each cell represents overall value of the association measure."}
+```{r cond-assoc,fig.width=5, fig.height=4, fig.align='center', fig.cap="Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `island`. The dashed line in each cell represents overall value of the association measure.",echo=TRUE}
 updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               mixed_pair = "tbl_nmi",
                               other_pair = "tbl_nmi")
 
-cond_assoc <- calc_assoc_by(df, by="island")
+cond_assoc <- calc_assoc_by(df, by="cad")
 pairwise_2d_plot(cond_assoc)
 ```
 
@@ -461,7 +464,7 @@ The measures of association calculated for every variable pair at every level of
 Figure \@ref(fig:linear-cond-assoc) shows a funnel-like linear display for conditional association measures with all the variable pairs on the y-axis, the value of association measure on x-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
 
 
-```{r linear-cond-assoc, fig.width=4, fig.height=5, fig.align='center', fig.cap="Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure."}
+```{r linear-cond-assoc, fig.width=4, fig.height=5, fig.align='center', fig.cap="Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.",echo=TRUE}
 
 pairwise_1d_plot(cond_assoc)
 ```
@@ -469,7 +472,7 @@ pairwise_1d_plot(cond_assoc)
 
 The `pairwise_2d_plot` function is also useful for comparing various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure \@ref(fig:compare-matrix) shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in `penguins` data. The plot shows that the value for both the correlation coefficients are very high for `bill_length` and `flipper_length`, `bill_length` and `body_mass`, and `flipper_length` and `body_mass` suggesting a strong linear and montonic relationship among these variable pairs in the dataset.
 
-```{r compare-matrix, fig.width=4, fig.height=4, fig.align='center',fig.cap="Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations."}
+```{r compare-matrix, fig.width=4, fig.height=4, fig.align='center',fig.cap="Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations.",echo=TRUE}
 
 df_num <- select(df,where(is.numeric))
 pearson <- calc_assoc(df_num)
