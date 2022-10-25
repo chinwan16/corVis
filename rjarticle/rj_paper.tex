@@ -273,47 +273,26 @@ dataset.
 Table \ref{tab:function-corVis} provides a list of the functions
 available in the package which are useful for calculating association
 measures among variable pairs and visualising these associations using
-novel displays. The function \texttt{calc\_assoc} calculates the
-association measures for variable pairs in a dataset and is described in
-detail in Section 4. The remaining functions in table
-\ref{tab:function-corVis} are useful for displaying pairwise association
-and their usage has been illustrated in Section 5.
+novel displays. Section 4 provides a detailed description on functions
+used for calcuating association measures in the package. Section 5
+illustrates the use of visualising functions in table
+\ref{tab:function-corVis} for displaying pairwise association and
+conditional association.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:function-corVis}List of the available functions in corVis package with input arguments and outputs}
+\caption{\label{tab:function-corVis}List of the available functions in corVis package}
 \centering
 \begin{tabular}[t]{>{}lll}
 \toprule
 Function & Usage & Input\\
 \midrule
-\textbf{calc\_assoc} & Calculation & Dataframe\\
-\textbf{} &  & Types of association measures\\
-\textbf{} &  & NA handler\\
-\textbf{} &  & Name of the grouping \vphantom{1} variable\\
-\textbf{} &  & Include overall value or not\\
-\addlinespace
-\textbf{association\_heatmap} & Visualization & Measures dataframe for lower/upper triangle\\
-\textbf{} &  & Variable \vphantom{3} order\\
-\textbf{} &  & Limits of the \vphantom{3} scale\\
-\textbf{pairwise\_2d\_plot} & Visualization & Measures dataframe for lower/upper triangle\\
-\textbf{} &  & Name of the grouping variable\\
-\addlinespace
-\textbf{} &  & fill \vphantom{1} variable\\
-\textbf{} &  & Variable \vphantom{2} order\\
-\textbf{} &  & Limits of the \vphantom{2} scale\\
-\textbf{pairwise\_1d\_compare} & Visualization & Dataframe\\
-\textbf{} &  & Measures for the display\\
-\addlinespace
-\textbf{} &  & Variable \vphantom{1} order\\
-\textbf{} &  & Limits of the \vphantom{1} scale\\
-\textbf{pairwise\_1d\_plot} & Visualization & Measures dataframe\\
-\textbf{} &  & Name of the grouping variable for display\\
-\textbf{} &  & fill variable\\
-\addlinespace
-\textbf{} &  & Variable order\\
-\textbf{} &  & Limits of the scale\\
+\textbf{calc\_assoc} & Calculation & Calculates association and conditional association\\
+\textbf{association\_heatmap} & Visualization & Plots association for every variable pair in a matrix layout\\
+\textbf{pairwise\_2d\_plot} & Visualization & Plots conditional association for every variable pair in a matrix layout\\
+\textbf{pairwise\_1d\_compare} & Visualization & Plots multiple association measures for every variable pair in linear layout\\
+\textbf{pairwise\_1d\_plot} & Visualization & Plots conditional association dotplot for every variable pair in a linear layout\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -325,42 +304,45 @@ Function & Usage & Input\\
 Association}\label{section-4-corvis-calculating-association}}
 
 This section describes the calculation of association measures in our
-package \CRANpkg{corVis}. The package provides a collection of various
-measures of association which quantifies the relationship between two
-variables. The association measures available in the package are not
-limited to numeric variables and are used with nominal, ordinal and
-mixed variable pairs as well. Table \ref{tab:association-measures} lists
-different functions provided in the package to calculate varoius
-measures of association. The \texttt{funName} column represents the
-function name used to calculate measure(s) of associations in this
-package. The \texttt{typeX} and \texttt{typeY} columns provide the
-information on types of variables which can be used with the
-corresponding functions. The \texttt{X} or \texttt{Y} variable is one of
-the numeric, nominal, ordinal or any type. The \texttt{from} column
-corresponds to the package functions used to calculate the association
-measures by the function under \texttt{funName}. The \texttt{symmetric}
-column represents if the measure is symmetric i.e.~if the value of
-measure is same regardless of the order of variables. The last column
-provides the range of values for these measures. The function
-\texttt{tbl\_easy} calculates association measures available in the R
-package \CRANpkg{correlation} and is suitable for different variable
-types. The functions in Table \ref{tab:association-measures} with
-\texttt{corVis} entries under \texttt{from} column calculate the
-association measures which have been implemented in this package.
+package \CRANpkg{corVis}. The package provides a standard interface for
+calculating a collection of various measures of association which
+quantifies the relationship between two variables. The association
+measures available in the package are not limited to numeric variables
+and are used with nominal, ordinal and mixed variable pairs as well. The
+package also provides a functionality for handling missing value or
+\texttt{NA} while calculating the association measures.
+
+Table \ref{tab:association-measures} lists different functions provided
+in the package to calculate varoius measures of association. The
+\texttt{Function} column represents the function name used to calculate
+measure(s) of associations in this package. The \texttt{typeX} and
+\texttt{typeY} columns provide the information on types of variables
+which can be used with the corresponding functions. The \texttt{X} or
+\texttt{Y} variable is one of the numeric, nominal, ordinal or any type.
+The \texttt{from} column corresponds to the package functions used to
+calculate the association measures by the function under
+\texttt{Function}. The \texttt{symmetric} column represents if the
+measure is symmetric i.e.~if the value of measure is same regardless of
+the order of variables. The last column provides the range of values for
+these measures. The function \texttt{tbl\_easy} calculates association
+measures available in the R package \CRANpkg{correlation} and is
+suitable for different variable types. The functions in Table
+\ref{tab:association-measures} with \texttt{corVis} entries under
+\texttt{from} column calculate the association measures which have been
+implemented in this package.
 
 For numeric pairs of variables, this package provides a range of
 association measures. The popular correlation coefficients like
 Pearson's or Spearman's or Kendall's are calculated using
 \texttt{tbl\_cor} function. The measures such as distance correlation or
-MIC which assess more complex relationship are calculated using
-\texttt{tbl\_dcor} or \texttt{tbl\_mine} respectively. The association
-measures available in the package for the ordinal pairs of variables are
-polychoric correlation and Kendall's coefficients which are calculated
-using \texttt{tbl\_polycor} or \texttt{tbl\_tau} respectively. For
-nominal pairs of variables, the functions like \texttt{tbl\_gkTau},
-\texttt{tbl\_gkGamma}, \texttt{tbl\_uncertainty}, \texttt{tbl\_chi},
-\texttt{tbl\_cancor} are used for exploring association among the
-variables.
+MIC are calculated using \texttt{tbl\_dcor} or \texttt{tbl\_mine}
+respectively. The association measures available in the package for the
+ordinal pairs of variables are polychoric correlation and Kendall's
+coefficients which are calculated using \texttt{tbl\_polycor} or
+\texttt{tbl\_tau} respectively. For nominal pairs of variables, the
+functions like \texttt{tbl\_gkTau}, \texttt{tbl\_gkGamma},
+\texttt{tbl\_uncertainty}, \texttt{tbl\_chi}, \texttt{tbl\_cancor} are
+used for exploring association among the variables.
 
 The function \texttt{tbl\_cancor} calculates a measure of association
 based on canonical correlations for mixed pairs of variables. Nominal
@@ -410,13 +392,13 @@ tbl\_easy & any & any & correlation::correlation & Y & {}[-1,1]\\
 \subsection{Calculating association for a single type of variable
 pairs}\label{calculating-association-for-a-single-type-of-variable-pairs}}
 
-We introduce a method which creates a tibble structure for the variable
+We have a function which creates a tibble structure for the variable
 pairs in a dataset along with calculated association measure. The
 package contains various functions (shown in Table
 \ref{tab:association-measures}) for different association measures in
-the form \texttt{tbl\_*} to calculate them. For example, someone
-interested in calculating distance correlation for numeric pair of
-variables in a dataset is done by using \texttt{tbl\_dcor} .
+the form \texttt{tbl\_*} to calculate them. For example, in order to
+calculate distance correlation for numeric pair of variables in a
+dataset, the function \texttt{tbl\_dcor} is used.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -601,23 +583,23 @@ variable and needs to be categorical.
 
 \begin{Schunk}
 \begin{Sinput}
-ckd_assoc_by <- calc_assoc_by(df,by = "cad")
+ckd_assoc_by <- calc_assoc_by(df,by = "htn")
 ckd_assoc_by
 \end{Sinput}
 \begin{Soutput}
 #> # A tibble: 1,104 x 5
-#>    x     y     measure measure_type by   
-#>    <chr> <chr>   <dbl> <chr>        <fct>
-#>  1 bp    age    -0.307 pearson      yes  
-#>  2 sg    age     0.421 cancor       yes  
-#>  3 al    age     0.285 cancor       yes  
-#>  4 su    age     0.402 cancor       yes  
-#>  5 rbc   age     0.288 cancor       yes  
-#>  6 pc    age     0.239 cancor       yes  
-#>  7 pcc   age     0.238 cancor       yes  
-#>  8 ba    age     0.109 cancor       yes  
-#>  9 bgr   age     0.125 pearson      yes  
-#> 10 bu    age    -0.218 pearson      yes  
+#>    x     y      measure measure_type by   
+#>    <chr> <chr>    <dbl> <chr>        <fct>
+#>  1 bp    age   -0.112   pearson      yes  
+#>  2 sg    age    0.0240  cancor       yes  
+#>  3 al    age    0.130   cancor       yes  
+#>  4 su    age    0.219   cancor       yes  
+#>  5 rbc   age    0.115   cancor       yes  
+#>  6 pc    age    0.101   cancor       yes  
+#>  7 pcc   age    0.0609  cancor       yes  
+#>  8 ba    age    0.00562 cancor       yes  
+#>  9 bgr   age    0.0303  pearson      yes  
+#> 10 bu    age   -0.135   pearson      yes  
 #> # ... with 1,094 more rows
 \end{Soutput}
 \end{Schunk}
@@ -652,25 +634,25 @@ these multiple tibble outputs.
 \section{Section 5: corVis: Visualising
 Association}\label{section-5-corvis-visualising-association}}
 
-We propose novel visualisations to display association and conditional
-association for every variable pair in a dataset in a single plot and
-show multiple bivariate measures of association simultaneously to find
-out interesting patterns. Efficient seriation techniques have also been
-included to order and highlight interesting relationships. These ordered
-association and conditional association displays help find interesting
-patterns in the dataset.
+This section provides a detailed description of the novel visualisation
+techniques proposed in the package \CRANpkg{corVis}. These methods
+display association and conditional association for every variable pair
+in a dataset in a single plot and show multiple bivariate measures of
+association simultaneously.
 
-While designing these displays we considered matrix-type, linear and
-network-based layouts. A matrix-type layout simplifies the effort in
-finding variables, and different measures may be displayed on the upper
-and lower diagonal. Linear layouts are more space-efficient than matrix
-plots, but looking for variables is more challenging. Variable pairs are
-usually ordered in the linear layouts by relevance (usually difference
-in measures of association or across the factor levels) ,and it is
-easier to omit less relevant pairs.
+While designing these displays we considered matrix, linear and
+network-based layouts. A matrix layout simplifies the effort in finding
+variables, and different measures may be displayed on the upper and
+lower diagonal. Linear layouts are more space-efficient than matrix
+plots, but looking for variables or variable pairs is more challenging.
+The variable pairs in both matrix and linear layouts are usually ordered
+by relevance (usually the association measure difference in measures of
+association or across the factor levels for conditional displays) so
+that pairs of variables having strong association, with high difference
+among groups or with any other pattern are esaily higlighted.
 
-The chrnonic kidney dataset providing information on early stage of
-Chronic Kidney Disease(CKD) from the \citep{Dua:2019} has been used to
+We use chronic kidney dataset providing information on early stage of
+Chronic Kidney Disease(CKD) patients from the \citep{Dua:2019} to
 provide illustrative examples. Table \ref{tab:ckd} provides a brief
 description of set of variables from this dataset used for analysis.
 
@@ -724,13 +706,13 @@ placed nearby and are easier to identify. The function also has a
 \texttt{limits} argument specifying the limit of the color scale.
 
 Figure \ref{fig:assoc-heatmap} shows an example of the association
-matrix display for every variable pair in the \texttt{penguins} dataset.
-The cells along the diagonal of the matrix display show the variables
-present in the dataset. Every off diagonal cell is colored using a
-divergent color scale with limits \([-1,1]\) representing the value of
-association measure between two variables. The plot shows Pearson's
-correlation for the numeric pair of variables and canonical correlation
-for mixed and nominal variable pairs.
+matrix display for every variable pair in the chronic kidney disease
+dataset. The cells along the diagonal of the matrix display show the
+variables present in the dataset. Every off diagonal cell is colored
+using a divergent color scale with limits \([-1,1]\) representing the
+value of association measure between two variables. The plot shows
+Pearson's correlation for the numeric pair of variables and canonical
+correlation for mixed and nominal variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -753,27 +735,46 @@ association_heatmap(assoc)
 \end{figure}
 \end{Schunk}
 
-It shows a high positive Pearson's correlation among
-\texttt{flipper\_length} and \texttt{body\_mass},
-\texttt{flipper\_length} and \texttt{bill\_length}, and
-\texttt{bill\_length} and \texttt{bodymass}. There seems to be a strong
-negative Pearson's correlation between \texttt{flipper\_length} and
-\texttt{bill\_depth}, and \texttt{bill\_depth} and \texttt{body\_mass}.
+For numeric pairs, Figure \ref{fig:assoc-heatmap} shows a high positive
+Pearson's correlation among \texttt{rbcc} and \texttt{pcv} and a high
+negative Pearson's correlation between \texttt{sc} and \texttt{sod}.
+Figure @ref(fig:numeric\_pairs) shows scatterplot for these two pairs of
+variables and is evident that these pairs seems to be linearly
+associated.
 
-The plot also shows that there is a low canonical correlation between
-\texttt{species} and \texttt{sex}, and \texttt{island} and \texttt{sex}
-of the penguins suggesting low association, which traditional
-correlation matrix display would omit as they are limited to numeric
-variable pairs only. There is a high canonical correlation between
-\texttt{island} and \texttt{species} suggesting a stronger association
-among these two variables.
+\begin{Schunk}
+\begin{figure}
 
-The high canonical correlation between \texttt{bill\_length} and
-\texttt{species}, \texttt{body\_mass} and \texttt{species}, and
-\texttt{flipper\_length} and \texttt{species} suggests that the body
-measurements of a penguin depends on their \texttt{species}. The
-variables in the display are ordered using average linkage clustering
-method to find out highly associated variables quickly.
+{\centering \includegraphics{rj_paper_files/figure-latex/numeric_pairs-1} 
+
+}
+
+\caption[Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric_pairs}
+\end{figure}
+\end{Schunk}
+
+Figure \ref{fig:assoc-heatmap} shows a high canonical correlation
+between \texttt{bgr} and \texttt{su}, \texttt{rbcc} and \texttt{htn},
+and, \texttt{pcv} and \texttt{al} which are mixed variable pairs in the
+dataset. These variable pairs are further looked into using boxplots.
+Figure @ref(fig:mixed\_pairs) shows boxplot for these variable pairs and
+is evident there is an association among these variable pairs.
+
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/mixed_pairs-1} 
+
+}
+
+\caption[Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation ]{Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . }\label{fig:mixed_pairs}
+\end{figure}
+\end{Schunk}
+
+For nominal variable pairs, Figure \ref{fig:assoc-heatmap} shows a high
+canonical correlation among \texttt{htn} and \texttt{al}, \texttt{htn}
+and \texttt{dm}, and, \texttt{dm} and \texttt{su}. These pairs of
+variables are further looked at by plotting proportional bar charts.
 
 \hypertarget{multiple-association-measures-plot}{%
 \subsection{Multiple Association Measures
@@ -804,8 +805,8 @@ by default and orders the variable pairs on the basis of maximum
 difference among the magnitude of measures.
 
 Figure \ref{fig:compare-linear} shows a linear layout comparing multiple
-association measures for all the variable pairs in the penguins data.
-Linear layouts are more suitable when comparing high number of
+association measures for all the variable pairs in the chronic kidney
+data. Linear layouts are more suitable when comparing high number of
 association measures.
 
 \begin{Schunk}
