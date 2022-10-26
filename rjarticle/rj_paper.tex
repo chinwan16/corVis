@@ -404,6 +404,9 @@ dataset, the function \texttt{tbl\_dcor} is used.
 \begin{Sinput}
 ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
 df <- ckd
+#df$al <- as.ordered(df$al)
+#df$su <- as.ordered(df$su)
+
 distance <- tbl_dcor(df)
 distance
 \end{Sinput}
@@ -613,8 +616,25 @@ behavior can be changed by setting \texttt{include.overall} argument to
 
 \begin{Schunk}
 \begin{Sinput}
-ckd_assoc_by <- calc_assoc_by(df,by = "cad",include.overall = FALSE)
+ckd_assoc_by <- calc_assoc_by(df,by = "htn",include.overall = FALSE)
+ckd_assoc_by
 \end{Sinput}
+\begin{Soutput}
+#> # A tibble: 828 x 5
+#>    x     y      measure measure_type by   
+#>    <chr> <chr>    <dbl> <chr>        <fct>
+#>  1 bp    age   -0.112   pearson      yes  
+#>  2 sg    age    0.0240  cancor       yes  
+#>  3 al    age    0.130   cancor       yes  
+#>  4 su    age    0.219   cancor       yes  
+#>  5 rbc   age    0.115   cancor       yes  
+#>  6 pc    age    0.101   cancor       yes  
+#>  7 pcc   age    0.0609  cancor       yes  
+#>  8 ba    age    0.00562 cancor       yes  
+#>  9 bgr   age    0.0303  pearson      yes  
+#> 10 bu    age   -0.135   pearson      yes  
+#> # ... with 818 more rows
+\end{Soutput}
 \end{Schunk}
 
 The tibble output in the conditional setting has a similar structure as
@@ -665,20 +685,18 @@ description of set of variables from this dataset used for analysis.
 \toprule
 Variable & Description & VariableType\\
 \midrule
-age & Age in years & numerical\\
-bp & Blood Pressure in mm/Hg & numerical\\
 bgr & Blood Glucose Random in mgs/dl & numerical\\
 bu & Blood Urea mgs/dl & numerical\\
 rbcc & Red Blood Cell Count in millions/cmm & numerical\\
-\addlinespace
 pcv & Packed  Cell Volume & numerical\\
 sod & Sodium in mEq/L & numerical\\
+\addlinespace
 sc & Serum Creatinine in mgs/dl & numerical\\
 al & Albumin (0,1,2,3,4,5) & ordinal\\
 su & Sugar (0,1,2,3,4,5) & ordinal\\
-\addlinespace
 htn & Hypertension (yes,no) & nominal\\
 dm & Diabetes Mellitus (yes,no) & nominal\\
+\addlinespace
 cad & Coronary Artery Disease (yes,no) & nominal\\
 \bottomrule
 \end{tabular}
@@ -702,8 +720,10 @@ respectively. The \texttt{uassoc} argument is \texttt{NULL} by default
 and uses the same tibble input as used by \texttt{lassoc} if not
 changed. The argument \texttt{var\_order} is used for ordering or
 seriating the matrix display such that highly-associated variables are
-placed nearby and are easier to identify. The function also has a
-\texttt{limits} argument specifying the limit of the color scale.
+placed nearby and are easier to identify. We use average linkage
+hierarchical clustering method as the default method for ordering the
+variables. The function also has a \texttt{limits} argument specifying
+the limit of the color scale.
 
 Figure \ref{fig:assoc-heatmap} shows an example of the association
 matrix display for every variable pair in the chronic kidney disease
@@ -718,9 +738,10 @@ correlation for mixed and nominal variable pairs.
 \begin{Sinput}
 ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
 
-vars <- c("age","bp","bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
+vars <- c("bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
 df <- ckd[,vars]
-
+#df$al <- as.ordered(df$al)
+#df$su <- as.ordered(df$su)
 
 assoc <- calc_assoc(df)
 association_heatmap(assoc)
@@ -774,17 +795,11 @@ is evident there is an association among these variable pairs.
 For nominal variable pairs, Figure \ref{fig:assoc-heatmap} shows a high
 canonical correlation among \texttt{htn} and \texttt{al}, \texttt{htn}
 and \texttt{dm}, and, \texttt{dm} and \texttt{su}. These pairs of
-variables are further looked at by plotting proportional bar charts.
+variables can be further looked at by plotting proportional bar charts.
 
 \hypertarget{multiple-association-measures-plot}{%
 \subsection{Multiple Association Measures
 Plot}\label{multiple-association-measures-plot}}
-
-We also calculate multiple association measures for all the variable
-pairs in the dataset and compare them. This helps in identifying pairs
-of variables with a high difference among different measures or any
-unusual variable pairs which should be investigated further in more
-detail.
 
 The function \texttt{pairwise\_1d\_compare} is used to display a linear
 layout for comparing multiple association measures calculated for
@@ -806,8 +821,13 @@ difference among the magnitude of measures.
 
 Figure \ref{fig:compare-linear} shows a linear layout comparing multiple
 association measures for all the variable pairs in the chronic kidney
-data. Linear layouts are more suitable when comparing high number of
-association measures.
+data. The plot shows that the variable pair sc and sod have a magnitude
+for Pearson's correlation and a magnitude for Spearman's rank
+correlation suggesting that the relationship among these variables might
+not be linear and should be looked at in more detail. For variable pairs
+sc and rbcc, and, sc and pcv, the Spearman's rank correlation has a high
+magnitude indicating a presence of monotonic relationship for these
+variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -822,6 +842,22 @@ pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi")
 \caption[Comparing multiple association measures using a linear layout]{Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair.}\label{fig:compare-linear}
 \end{figure}
 \end{Schunk}
+
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/comp_var_pairs-1} 
+
+}
+
+\caption[Scatterplots for numeric variable pairs with high difference among the magnitude of association measures]{Scatterplots for numeric variable pairs with high difference among the magnitude of association measures}\label{fig:comp_var_pairs}
+\end{figure}
+\end{Schunk}
+
+Figure @ref(fig:comp\_var\_pairs) shows scatterplots for the three
+variable pairs which are picked out from the multiple measures plot.
+These pairs have a high magnitude difference for Pearson's and
+Spearman's correlation.
 
 \hypertarget{conditional-association-plot}{%
 \subsection{Conditional Association
@@ -853,29 +889,20 @@ height and color of the bars coded by the value of association measure
 and the type of association measure respectively.
 
 Figure \ref{fig:cond-assoc} shows a conditional association plot for the
-\texttt{penguins} data. Each cell corresponding to a variable pair shows
-three bars which correspond to the association measure (Pearson's
-correlation for numeric pair and Normalized mutual information for other
-combination of variables) calculated at the levels of conditioning
-variable \texttt{island}. The dashed line represents the overall
-association measure. The plot shows that there is a high value for
-normalised mutual information between bill\_length\_mm and species for
-the penguins which lived in \texttt{Biscoe} island compared to the
-penguins which lived in \texttt{Dream} island. It can also be seen that
-the cell corresponding to variable pair flipper\_length\_mm and
-bill\_depth\_mm has a high negative overall Pearson's correlation and
-for the penguins which lived in \texttt{Biscoe} island but positive
-correlation for penguins which lived in \texttt{Dream} and
-\texttt{Torgersen} island. This is an instance of Simpson's paradox
-which can be taken into account during the modeling step.
+chronic kidney data. Each cell corresponding to a variable pair shows
+two bars which correspond to the association measure (Pearson's
+correlation for numeric pair, Kendall's tau-b for ordered pair and
+canonical correlation coefficient for other combination of variables)
+calculated at the levels of conditioning variable \texttt{htn}
+i.e.~whether the patient suffers from hypertension or not. The dashed
+line represents the overall association measure. The plot indicates that
+there is a high difference in the measure (Pearson's correlation) value
+for the variable pair sc and sod among the patients with and without
+hypertension.
 
 \begin{Schunk}
 \begin{Sinput}
-updated_assoc <- update_assoc(num_pair = "tbl_cor",
-                              mixed_pair = "tbl_nmi",
-                              other_pair = "tbl_nmi")
-
-cond_assoc <- calc_assoc_by(df, by="cad")
+cond_assoc <- calc_assoc_by(df, by="htn")
 pairwise_2d_plot(cond_assoc)
 \end{Sinput}
 \begin{figure}
@@ -884,7 +911,26 @@ pairwise_2d_plot(cond_assoc)
 
 }
 
-\caption[Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs]{Conditional Association plot for penguins data showing Pearson's correlation for numeric pairs and normalised mutual information for categorical or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `island`. The dashed line in each cell represents overall value of the association measure.}\label{fig:cond-assoc}
+\caption[Conditional Association plot for chronic kidney data showing Pearson's correlation for numeric pairs, Kendall's tau-b for ordered pair and canonical correlation for nominal or mixed pairs]{Conditional Association plot for chronic kidney data showing Pearson's correlation for numeric pairs, Kendall's tau-b for ordered pair and canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `htn`. The dashed line in each cell represents overall value of the association measure.}\label{fig:cond-assoc}
+\end{figure}
+\end{Schunk}
+
+Figure @ref(fig:high\_diff) shows the scatterplot for the variable pair
+sc and sod spllitted by the conditioning variable htn. The plot
+indicates that there might be a stronger linear relationship among sc
+and sod for the people having hypertension compared to patients without
+hypertension. It is possible to filter out more variable pairs from the
+conditional association plot having high difference for association
+measure among the groups and further investigate these pairs.
+
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/high_diff-1} 
+
+}
+
+\caption[Scatterplot for variable pair sc and sod splitted by a conditioning variable htn]{Scatterplot for variable pair sc and sod splitted by a conditioning variable htn.}\label{fig:high_diff}
 \end{figure}
 \end{Schunk}
 

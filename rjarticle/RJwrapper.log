@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.18)  25 OCT 2022 17:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.18)  26 OCT 2022 10:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,96 +769,115 @@ Overfull \hbox (152.06586pt too wide) in paragraph at lines 367--387
  []
 
 [4]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 434.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 437.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
-) [5] [6] [7]
-<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=215, 348.30125pt x 272.01625pt>
+) [5] [6] [7] [8]
+<rj_paper_files/figure-latex/assoc-heatmap-1.pdf, id=220, 348.30125pt x 272.01625pt>
 File: rj_paper_files/figure-latex/assoc-heatmap-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/assoc-heatmap-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 730.
+Package pdftex.def Info: rj_paper_files/figure-latex/assoc-heatmap-1.pdf  used on input line 751.
 (pdftex.def)             Requested size: 348.3004pt x 272.01558pt.
-<rj_paper_files/figure-latex/numeric_pairs-1.pdf, id=217, 423.5825pt x 351.3125pt>
+<rj_paper_files/figure-latex/numeric_pairs-1.pdf, id=222, 423.5825pt x 351.3125pt>
 File: rj_paper_files/figure-latex/numeric_pairs-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/numeric_pairs-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/numeric_pairs-1.pdf  used on input line 748.
+Package pdftex.def Info: rj_paper_files/figure-latex/numeric_pairs-1.pdf  used on input line 769.
 (pdftex.def)             Requested size: 423.58147pt x 351.31163pt.
 
-Overfull \hbox (25.24289pt too wide) in paragraph at lines 748--749
+Overfull \hbox (25.24289pt too wide) in paragraph at lines 769--770
  [][] 
  []
 
-<rj_paper_files/figure-latex/mixed_pairs-1.pdf, id=219, 423.5825pt x 349.305pt>
+<rj_paper_files/figure-latex/mixed_pairs-1.pdf, id=224, 423.5825pt x 349.305pt>
 File: rj_paper_files/figure-latex/mixed_pairs-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/mixed_pairs-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/mixed_pairs-1.pdf  used on input line 766.
+Package pdftex.def Info: rj_paper_files/figure-latex/mixed_pairs-1.pdf  used on input line 787.
 (pdftex.def)             Requested size: 423.58147pt x 349.30414pt.
 
-Overfull \hbox (25.24289pt too wide) in paragraph at lines 766--767
+Overfull \hbox (25.24289pt too wide) in paragraph at lines 787--788
  [][] 
  []
 
-[8] [9 <./rj_paper_files/figure-latex/assoc-heatmap-1.pdf> <./rj_paper_files/figure-latex/numeric_pairs-1.pdf>] [10 <./rj_paper_files/figure-latex/mixed_pairs-1.pdf>]
-<rj_paper_files/figure-latex/compare-linear-1.pdf, id=260, 279.0425pt x 456.70625pt>
+<rj_paper_files/figure-latex/compare-linear-1.pdf, id=227, 280.04625pt x 455.7025pt>
 File: rj_paper_files/figure-latex/compare-linear-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-linear-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 818.
-(pdftex.def)             Requested size: 279.04181pt x 456.70512pt.
-<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=262, 423.5825pt x 419.5675pt>
-File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 883.
-(pdftex.def)             Requested size: 423.58147pt x 419.56647pt.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-1.pdf  used on input line 838.
+(pdftex.def)             Requested size: 280.04555pt x 455.70137pt.
+[9 <./rj_paper_files/figure-latex/assoc-heatmap-1.pdf>] [10 <./rj_paper_files/figure-latex/numeric_pairs-1.pdf>] [11 <./rj_paper_files/figure-latex/mixed_pairs-1.pdf>]
+<rj_paper_files/figure-latex/comp_var_pairs-1.pdf, id=266, 421.575pt x 351.3125pt>
+File: rj_paper_files/figure-latex/comp_var_pairs-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/comp_var_pairs-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/comp_var_pairs-1.pdf  used on input line 849.
+(pdftex.def)             Requested size: 421.57396pt x 351.31163pt.
 
-Overfull \hbox (25.24289pt too wide) in paragraph at lines 883--884
+Overfull \hbox (23.23538pt too wide) in paragraph at lines 849--850
  [][] 
  []
 
-[11] [12 <./rj_paper_files/figure-latex/compare-linear-1.pdf>] [13 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>]
-<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=296, 278.03876pt x 347.2975pt>
+<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=268, 423.5825pt x 418.56375pt>
+File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/cond-assoc-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 910.
+(pdftex.def)             Requested size: 423.58147pt x 418.56271pt.
+
+Overfull \hbox (25.24289pt too wide) in paragraph at lines 910--911
+ [][] 
+ []
+
+<rj_paper_files/figure-latex/high_diff-1.pdf, id=269, 421.575pt x 349.305pt>
+File: rj_paper_files/figure-latex/high_diff-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/high_diff-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/high_diff-1.pdf  used on input line 929.
+(pdftex.def)             Requested size: 421.57396pt x 349.30414pt.
+
+Overfull \hbox (23.23538pt too wide) in paragraph at lines 929--930
+ [][] 
+ []
+
+<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=271, 279.0425pt x 346.29375pt>
 File: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 934.
-(pdftex.def)             Requested size: 278.03807pt x 347.29665pt.
-[14 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>]
-<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=311, 279.0425pt x 275.0275pt>
+Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 980.
+(pdftex.def)             Requested size: 279.04181pt x 346.2929pt.
+[12] [13 <./rj_paper_files/figure-latex/compare-linear-1.pdf>] [14 <./rj_paper_files/figure-latex/comp_var_pairs-1.pdf>] [15 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>] [16 <./rj_paper_files/figure-latex/high_diff-1.pdf>] [17 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>]
+<rj_paper_files/figure-latex/compare-matrix-1.pdf, id=340, 279.0425pt x 274.02374pt>
 File: rj_paper_files/figure-latex/compare-matrix-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-matrix-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 970.
-(pdftex.def)             Requested size: 279.04181pt x 275.02682pt.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-matrix-1.pdf  used on input line 1016.
+(pdftex.def)             Requested size: 279.04181pt x 274.02307pt.
 (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[15 <./rj_paper_files/figure-latex/compare-matrix-1.pdf>])
+[18 <./rj_paper_files/figure-latex/compare-matrix-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1009.
+(Font)              using `T1/zi4/m/n' instead on input line 1055.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1019.
-) [16] (./RJwrapper.aux)
+(Font)              scaled to size 9.18004pt on input line 1065.
+) [19] [20] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 2530F3C60EBD961C06E72A7C979E33C0;4013.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: DADBF354E28A567ADC3FE9BA192AFA68;1592.
+(rerunfilecheck)             Checksum: 73162620E040A55AD4888B8F2FBB912E;1592.
  ) 
 Here is how much of TeX's memory you used:
- 26791 strings out of 477006
- 497966 string characters out of 5825828
- 837220 words of memory out of 5000000
- 47075 multiletter control sequences out of 15000+600000
- 515612 words of font info for 287 fonts, out of 8000000 for 9000
+ 26814 strings out of 477006
+ 498920 string characters out of 5825828
+ 838497 words of memory out of 5000000
+ 47093 multiletter control sequences out of 15000+600000
+ 515527 words of font info for 285 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 115i,11n,131p,1006b,831s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 115i,11n,131p,1006b,821s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (16 pages, 245407 bytes).
+Output written on RJwrapper.pdf (20 pages, 297238 bytes).
 PDF statistics:
- 428 PDF objects out of 1000 (max. 8388607)
- 369 compressed objects within 4 object streams
- 80 named destinations out of 1000 (max. 500000)
- 63144 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 464 PDF objects out of 1000 (max. 8388607)
+ 395 compressed objects within 4 object streams
+ 86 named destinations out of 1000 (max. 500000)
+ 63154 words of extra memory for PDF output out of 74296 (max. 10000000)
 
