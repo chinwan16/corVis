@@ -248,27 +248,71 @@ one variable which is explained by the other variable.
 \section{Section 3: Introducing
 corVis}\label{section-3-introducing-corvis}}
 
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-1} 
+
+}
+
+\caption[Scatterplots for Anscombe's quartet]{Scatterplots for Anscombe's quartet}\label{fig:motivation1}
+\end{figure}
+\end{Schunk}
+
 \CRANpkg{corVis} is an R package which calculates measures of
 association for every variable pair in a dataset and helps in
 visualising these associations in different ways. Most of the existing
 correlation displays are limited to numeric pairs of variables. This
-package extends these displays to every variable pair.
+package extends these displays to every variable pair. The main goal of
+our work is to propose a displays for multiple association measures and
+conditional associations display which are useful for uncovering
+interesting patterns in the data.
 
-The package offers new visualisation technique such as display with
-multiple measures for the association for every variable pair in the
-dataset. We also introduce conditional association displays which are
-useful in uncovering conditional structure present in the data and are
-produced by splitting the data by a partitioning variable, calculating
-association for the variable pairs at every level of partitioning
-variable and then plotting them. These displays are efficient for
-discovering differences among the groups in the data.
+To motivate our work on multiple measures display, consider the
+scatterplots in Figure \ref{fig:motivation1} which show relationship
+between the four sets of data points in Anscombe's quartet
+\citep{anscombe1973graphs}.Pearson's correlation coefficient is the
+commonly used association measure for exploring relationships among
+numeric variables and comes out to be around 0.81 for each of these
+datasets. Figure \ref{fig:motivation1} shows the inability of Pearson's
+correlation to capture non-linear relationships such as set 2 and the
+influence of outliers on Pearson's correlation coefficient and its
+sensitivity, shown in set 3 and 4. This suggests that association
+measures such as distance correlation, MIC and other measures should be
+used along with Pearson's correlation for exploring relationship among
+numeric variables.
 
-Efficient seriation techniques have been included to order and highlight
-variables with high value for an association measure. These ordered
-association and conditional association displays are useful in finding
-interesting patterns, such as Simpson's Paradox. These new displays also
-help an analyst to quickly discover any unusual variable pair(s) in the
-dataset.
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation2-1} 
+
+}
+
+\caption[An example plot showing importance of conditional displays]{An example plot showing importance of conditional displays}\label{fig:motivation2}
+\end{figure}
+\end{Schunk}
+
+Consider Figure \ref{fig:motivation2} for the motivation behind
+conditional association displays. The plot on the left shows a positive
+linear association between \texttt{y} and \texttt{x} and has a positive
+Pearson's correlation of value 0.603. The plot on the right shows the
+disaggregated data by the \texttt{group} variable and it is clearly
+evident that for each group there is a negative linear relationship
+between \texttt{y} and \texttt{x}. This is an example of Simpson's
+paradox and is one of the patterns which are discoverable when
+conditional association displays are used.
+
+While designing these displays we considered matrix and linear layouts.
+A matrix layout simplifies the effort in finding variables, and
+different measures may be displayed on the upper and lower diagonal.
+Linear layouts are more space-efficient than matrix plots, but looking
+for variables or variable pairs is more challenging. The variable pairs
+in both matrix and linear layouts are usually ordered by relevance
+(usually the association measure difference in measures of association
+or across the factor levels for conditional displays) so that pairs of
+variables having strong association, with high difference among groups
+or with any other pattern are esaily higlighted.
 
 Table \ref{tab:function-corVis} provides a list of the functions
 available in the package which are useful for calculating association
@@ -660,17 +704,6 @@ display association and conditional association for every variable pair
 in a dataset in a single plot and show multiple bivariate measures of
 association simultaneously.
 
-While designing these displays we considered matrix, linear and
-network-based layouts. A matrix layout simplifies the effort in finding
-variables, and different measures may be displayed on the upper and
-lower diagonal. Linear layouts are more space-efficient than matrix
-plots, but looking for variables or variable pairs is more challenging.
-The variable pairs in both matrix and linear layouts are usually ordered
-by relevance (usually the association measure difference in measures of
-association or across the factor levels for conditional displays) so
-that pairs of variables having strong association, with high difference
-among groups or with any other pattern are esaily higlighted.
-
 We use chronic kidney dataset providing information on early stage of
 Chronic Kidney Disease(CKD) patients from the \citep{Dua:2019} to
 provide illustrative examples. Table \ref{tab:ckd} provides a brief
@@ -759,18 +792,18 @@ association_heatmap(assoc)
 For numeric pairs, Figure \ref{fig:assoc-heatmap} shows a high positive
 Pearson's correlation among \texttt{rbcc} and \texttt{pcv} and a high
 negative Pearson's correlation between \texttt{sc} and \texttt{sod}.
-Figure @ref(fig:numeric\_pairs) shows scatterplot for these two pairs of
+Figure \ref{fig:numeric-pairs} shows scatterplot for these two pairs of
 variables and is evident that these pairs seems to be linearly
 associated.
 
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/numeric_pairs-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/numeric-pairs-1} 
 
 }
 
-\caption[Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric_pairs}
+\caption[Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric-pairs}
 \end{figure}
 \end{Schunk}
 
@@ -784,11 +817,11 @@ is evident there is an association among these variable pairs.
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/mixed_pairs-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/mixed-pairs-1} 
 
 }
 
-\caption[Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation ]{Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . }\label{fig:mixed_pairs}
+\caption[Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation ]{Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . }\label{fig:mixed-pairs}
 \end{figure}
 \end{Schunk}
 
@@ -846,15 +879,15 @@ pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi")
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/comp_var_pairs-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/comp-var-pairs-1} 
 
 }
 
-\caption[Scatterplots for numeric variable pairs with high difference among the magnitude of association measures]{Scatterplots for numeric variable pairs with high difference among the magnitude of association measures}\label{fig:comp_var_pairs}
+\caption[Scatterplots for numeric variable pairs with high difference among the magnitude of association measures]{Scatterplots for numeric variable pairs with high difference among the magnitude of association measures}\label{fig:comp-var-pairs}
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:comp\_var\_pairs) shows scatterplots for the three
+Figure \ref{fig:comp-var-pairs} shows scatterplots for the three
 variable pairs which are picked out from the multiple measures plot.
 These pairs have a high magnitude difference for Pearson's and
 Spearman's correlation.
@@ -915,7 +948,7 @@ pairwise_2d_plot(cond_assoc)
 \end{figure}
 \end{Schunk}
 
-Figure @ref(fig:high\_diff) shows the scatterplot for the variable pair
+Figure \ref{fig:high-diff} shows the scatterplot for the variable pair
 sc and sod spllitted by the conditioning variable htn. The plot
 indicates that there might be a stronger linear relationship among sc
 and sod for the people having hypertension compared to patients without
@@ -926,11 +959,11 @@ measure among the groups and further investigate these pairs.
 \begin{Schunk}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/high_diff-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/high-diff-1} 
 
 }
 
-\caption[Scatterplot for variable pair sc and sod splitted by a conditioning variable htn]{Scatterplot for variable pair sc and sod splitted by a conditioning variable htn.}\label{fig:high_diff}
+\caption[Scatterplot for variable pair sc and sod splitted by a conditioning variable htn]{Scatterplot for variable pair sc and sod splitted by a conditioning variable htn.}\label{fig:high-diff}
 \end{figure}
 \end{Schunk}
 

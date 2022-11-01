@@ -148,12 +148,36 @@ The association measures for the case of nominal pair of variables should be inv
 
 # Section 3: Introducing corVis
 
-\CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair.
+```{r motivation1, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplots for Anscombe's quartet"}
 
-The package offers new visualisation technique such as display with multiple measures for the association for every variable pair in the dataset. We also introduce conditional association displays which are useful in uncovering conditional structure present in the data and are produced by splitting the data by a partitioning variable, calculating association for the variable pairs at every level of partitioning variable and then plotting them. These displays are efficient for discovering differences among the groups in the data.
+anscombe <- cassowaryr::anscombe_tidy
 
+p <- ggplot2::ggplot(data=anscombe) + ggplot2::geom_point(ggplot2::aes(x=x,y=y)) + facet_wrap(~set)
 
-Efficient seriation techniques have been included to order and highlight variables with high value for an association measure. These ordered association and conditional association displays are useful in finding interesting patterns, such as Simpson's Paradox. These new displays also help an analyst to quickly discover any unusual variable pair(s) in the dataset.
+p
+```
+
+\CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair. The main goal of our work is to propose a displays for multiple association measures and conditional associations display which are useful for uncovering interesting patterns in the data.
+
+To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show relationship between the four sets of data points in Anscombe's quartet [@anscombe1973graphs].Pearson's correlation coefficient is the commonly used association measure for exploring relationships among numeric variables and comes out to be around 0.81 for each of these datasets. Figure \@ref(fig:motivation1) shows the inability of Pearson's correlation to capture non-linear relationships such as set 2 and the influence of outliers on Pearson's correlation coefficient and its sensitivity, shown in set 3 and 4. This suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationship among numeric variables.
+
+```{r motivation2, fig.width=5, fig.height=4, fig.align='center', fig.cap = "An example plot showing importance of conditional displays"}
+
+a <- data.frame( x = rnorm(100), y = rnorm(100)) %>% mutate(y = y-x/2)
+b <- a %>% mutate(x=x+2) %>% mutate(y=y+2)
+c <- a %>% mutate(x=x+4) %>% mutate(y=y+4)
+data <- do.call(rbind, list(a,b,c))
+data <- data %>% mutate(group=rep(c("A", "B", "C"), each=100))
+
+p1 <- ggplot(data=data) + geom_point(aes(x=x,y=y))
+p2 <- ggplot(data=data) + geom_point(aes(x=x,y=y, color=group))
+
+gridExtra::grid.arrange(p1,p2,ncol=2)
+```
+
+Consider Figure \@ref(fig:motivation2) for the motivation behind conditional association displays. The plot on the left shows a positive linear association between `y` and `x` and has a positive Pearson's correlation of value 0.603. The plot on the right shows the disaggregated data by the `group` variable and it is clearly evident that for each group there is a negative linear relationship between `y` and `x`. This is an example of Simpson's paradox and is one of the patterns which are discoverable when conditional association displays are used.
+
+While designing these displays we considered matrix and linear layouts. A matrix layout simplifies the effort in finding variables, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but looking for variables or variable pairs is more challenging. The variable pairs in both matrix and linear layouts are usually ordered by relevance (usually the association measure difference in measures of association or across the factor levels for conditional displays) so that pairs of variables having strong association, with high difference among groups or with any other pattern are esaily higlighted.
 
 Table \@ref(tab:function-corVis) provides a list of the functions available in the package which are useful for calculating association measures among variable pairs and visualising these associations using novel displays. Section 4 provides a detailed description on functions used for calcuating association measures in the package. Section 5 illustrates the use of visualising functions in table \@ref(tab:function-corVis) for displaying pairwise association and conditional association.
 
@@ -332,8 +356,6 @@ The tibble output in the conditional setting has a similar structure as `calc_as
 
 This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display association and conditional association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously. 
 
-While designing these displays we considered matrix, linear and network-based layouts. A matrix layout simplifies the effort in finding variables, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but looking for variables or variable pairs is more challenging. The variable pairs in both matrix and linear layouts are usually ordered by relevance (usually the association measure difference in measures of association or across the factor levels for conditional displays) so that pairs of variables having strong association, with high difference among groups or with any other pattern are esaily higlighted.
-
 We use chronic kidney dataset providing information on early stage of Chronic Kidney Disease(CKD) patients from the [@Dua:2019] to provide illustrative examples. Table \@ref(tab:ckd) provides a brief description of set of variables from this dataset used for analysis.
 
 
@@ -391,9 +413,9 @@ association_heatmap(assoc)
 ```
 
 
-For numeric pairs, Figure \@ref(fig:assoc-heatmap) shows a high positive Pearson's correlation among `rbcc` and `pcv` and a high negative Pearson's correlation between `sc` and `sod`. Figure \@ref(fig:numeric_pairs) shows scatterplot for these two pairs of variables and is evident that these pairs seems to be linearly associated.
+For numeric pairs, Figure \@ref(fig:assoc-heatmap) shows a high positive Pearson's correlation among `rbcc` and `pcv` and a high negative Pearson's correlation between `sc` and `sod`. Figure \@ref(fig:numeric-pairs) shows scatterplot for these two pairs of variables and is evident that these pairs seems to be linearly associated.
 
-```{r numeric_pairs, fig.width=6, fig.height=5, fig.align='center', fig.cap = "Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively."}
+```{r numeric-pairs, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively."}
 
 p1 <- ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=rbcc,x=pcv))
 
@@ -406,7 +428,7 @@ gridExtra::grid.arrange(p1,p2,ncol=2)
 
 Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation between `bgr` and `su`, `rbcc` and `htn`, and, `pcv` and `al` which are mixed variable pairs in the dataset. These variable pairs are further looked into using boxplots. Figure \@ref(fig:mixed_pairs) shows boxplot for these variable pairs and is evident there is an association among these variable pairs.
 
-```{r mixed_pairs, fig.width=6, fig.height=5, fig.align='center', fig.cap = "Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . "}
+```{r mixed-pairs, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . "}
 
 p3 <- ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=bgr,x=su))
 
@@ -440,7 +462,7 @@ pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi")
 ```
 
 
-```{r comp_var_pairs, fig.width=6, fig.height=5, fig.align='center', fig.cap = "Scatterplots for numeric variable pairs with high difference among the magnitude of association measures"}
+```{r comp-var-pairs, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplots for numeric variable pairs with high difference among the magnitude of association measures"}
 
 
 p6 <- ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=sc,x=sod))
@@ -453,7 +475,7 @@ gridExtra::grid.arrange(p6,p7,p8,ncol=3)
 ```
 
 
-Figure \@ref(fig:comp_var_pairs) shows scatterplots for the three variable pairs which are picked out from the multiple measures plot. These pairs have a high magnitude difference for Pearson's and Spearman's correlation.
+Figure \@ref(fig:comp-var-pairs) shows scatterplots for the three variable pairs which are picked out from the multiple measures plot. These pairs have a high magnitude difference for Pearson's and Spearman's correlation.
 
 ## Conditional Association Plot
 
@@ -469,9 +491,9 @@ cond_assoc <- calc_assoc_by(df, by="htn")
 pairwise_2d_plot(cond_assoc)
 ```
 
-Figure \@ref(fig:high_diff) shows the scatterplot for the variable pair sc and sod spllitted by the conditioning variable htn. The plot indicates that there might be a stronger linear relationship among sc and sod for the people having hypertension compared to patients without hypertension. It is possible to filter out more variable pairs from the conditional association plot having high difference for association measure among the groups and further investigate these pairs.
+Figure \@ref(fig:high-diff) shows the scatterplot for the variable pair sc and sod spllitted by the conditioning variable htn. The plot indicates that there might be a stronger linear relationship among sc and sod for the people having hypertension compared to patients without hypertension. It is possible to filter out more variable pairs from the conditional association plot having high difference for association measure among the groups and further investigate these pairs.
 
-```{r high_diff, fig.width=6, fig.height=5, fig.align='center', fig.cap = "Scatterplot for variable pair sc and sod splitted by a conditioning variable htn."}
+```{r high-diff, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplot for variable pair sc and sod splitted by a conditioning variable htn."}
 
 ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=sc,x=sod)) + ggplot2::facet_wrap(~htn)
 ```
