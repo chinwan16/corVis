@@ -200,3 +200,39 @@ update_assoc <- function(default=default_assoc(),
   updated
 }
 
+#' Calculates all association measures in the package for a dataset
+#'
+#' Calculates all association measures for every variable pair in a dataset.
+#'
+#' @param d dataframe
+#'
+#' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' calc_assoc_all(iris)
+
+calc_assoc_all <- function (d,handle.na=T){
+
+  pearson <- tbl_cor(d,handle.na = handle.na)
+  spearman <- tbl_cor(d,handle.na = handle.na,"spearman")
+  kendall <- tbl_cor(d,handle.na = handle.na,"kendall")
+  cancor <- tbl_cancor(d,handle.na = handle.na)
+  nmi <- tbl_nmi(d,handle.na = handle.na)
+  dcor <- tbl_dcor(d,handle.na = handle.na)
+  mic <- tbl_mine(d,handle.na = handle.na)
+  polycor <- tbl_polycor(d,handle.na = handle.na)
+  tau_b <- tbl_tau(d)
+  uncertainty <- tbl_uncertainty(d,handle.na = handle.na)
+  gkTau <- tbl_gkTau(d, handle.na = handle.na)
+  gkGanmma <- tbl_gkGamma(d, handle.na = handle.na)
+  chi <- tbl_chi(d, handle.na = handle.na)
+
+  assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, polycor, tau_b,
+                 uncertainty, gkTau, gkGanmma, chi)
+
+  return(assoc)
+}
+
