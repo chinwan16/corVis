@@ -201,27 +201,32 @@ corVis & heatmap/matrix/linear & Yes\\
 \subsection{Section 2.2: Literature Review on Association
 Measures}\label{section-2.2-literature-review-on-association-measures}}
 
-An association measure can be defined as a numerical summary quantifying
-the relationship between two or more variables. For example, Pearson's
+An association measure is defined as a numerical summary quantifying the
+relationship between two or more variables. The measure is called
+symmetric if its value is invariant to the choice of independent or
+dependent variable during the calculation. For example, Pearson's
 correlation coefficient summarizes the strength and direction of the
-linear relationship present between two numeric variables and is in the
-range \([-1,1]\). Kendall's or Spearman's rank correlation coefficient
-are other popular measures which assess montonic relationship among two
-numeric variables and are in the range \([-1,1]\). As these measures are
-limited to linear or monotonic relationships, there's a need to use
-association measures which are able to capture complex relationships. In
-addition to association measures for numeric variables, association
-measures for ordinal, nominal and mixed variable pairs are useful in
-exploring a multivariate dataset. We now give an overview of available
-association measures.
+linear relationship present between two numeric variables in the range
+\([-1,1]\) and is symmetric. Kendall's or Spearman's rank correlation
+coefficient are other popular measures which assess monotonic
+relationship among two numeric variables in interval \([-1,1]\) and are
+symmetric measures. As these measures are limited to linear or monotonic
+relationships, there's a need to use association measures which are able
+to capture complex relationships. In addition to association measures
+for numeric variables, association measures for ordinal, nominal and
+mixed variable pairs are useful in exploring a multivariate dataset. We
+now give an overview of available association measures.
 
 For a pair of numeric variables, various measures of association have
 been proposed in literature. The distance correlation coefficient
 \citep{szekely2007measuring} is an association measure which looks for
 the non-linear association between two numeric variables and summarizes
 it in \([0,1]\). Similarly, MIC \citep{reshef2011detecting} is capable
-of summarizing non-linear as well as periodic relationships between
-numeric variables and is in range \([0,1]\).
+of summarizing different types of relationships, not just linear or
+monotonous, between numeric variables and is in range \([0,1]\).
+\citet{reshef2011detecting} used MIC and other related statistics to
+explore pairwise relationships in large data sets from major-league
+baseball, gene expression, global health, and the human gut microbiota.
 
 \citet{agresti2010analysis} provides an overview of the association
 measures which are used for exploring association between ordinal
