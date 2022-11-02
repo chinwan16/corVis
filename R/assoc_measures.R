@@ -187,7 +187,7 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
   # no NA handling
   a <- assoc_tibble(d, measure_type=paste0("EZ", method))
   ez <- correlation::correlation(d, method=method, ...)[,1:3]
-  ez <- correlation::correlation(d, method=method)[,1:3]
+  #ez <- correlation::correlation(d, method=method)[,1:3]
   class(ez) <- "data.frame"
   class(a) <- class(a)[-1]
   names(ez) <- c("y","x","measure")
@@ -441,4 +441,37 @@ tbl_chi <- function(d,handle.na=TRUE,...){
   a <- assoc_tibble(d, measure_type="chi")
   a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
+}
+
+
+#' Graph-theoretic scagnostics measures
+#'
+#' Calculates scagnostic measure for every variable pair in a dataset.
+#'
+#' @param d dataframe
+#' @param scagnostic a character string for the scagnostic to be calculated. One of "outlying",
+#' "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex",
+#' "skinny", "monotonic" or "splines"
+#' @param ... other arguments
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' tbl_scag(cassowaryr::pk[,2:5])
+
+tbl_scag <- function(d, scagnostic = "outlying",...){
+
+  d <- dplyr::select(d, where(is.numeric))
+  dscag <- cassowaryr::calc_scags_wide(d,scags = scagnostic) # handles NA automatically by taking complete cases
+  dscag <- pivot_longer(dscag,3,values_to = "measure",names_to = "measure_type")
+  names(dscag)[1:2] <- c("x","y")
+
+  a <- assoc_tibble(d)
+  class(a) <- class(a)[-1]
+
+  a<-dplyr::rows_patch(a,dscag,  by = c("x","y"))
+  class(a) <- append("pairwise",class(a))
+
+  return(a)
 }

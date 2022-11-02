@@ -131,3 +131,28 @@ UncertCoef(penguins$species,penguins$island,direction = "column")
     UncertCoef(penguins$species,penguins$island,direction = "column"))/2
 
 # tbl_tau : Kendall's tau-a is not symmetric
+
+
+
+
+
+##### Calculation of scagnostics measures
+
+tbl_scag_test <- function(d, scagnostic = "outlying",
+                     handle.na=TRUE,...){
+
+  d <- dplyr::select(d, where(is.numeric))
+  dscag <- cassowaryr::calc_scags_wide(d,scags = scagnostic) # handles NA automatically by taking complete cases
+  dscag <- pivot_longer(dscag,3,values_to = "measure",names_to = "measure_type")
+  names(dscag)[1:2] <- c("x","y")
+
+  a <- assoc_tibble(d)
+  class(a) <- class(a)[-1]
+
+  a<-dplyr::rows_patch(a,dscag,  by = c("x","y"))
+  class(a) <- append("pairwise",class(a))
+
+  return(a)
+}
+
+tbl_scag_test(pk[,2:5],scagnostic = "monotonic")
