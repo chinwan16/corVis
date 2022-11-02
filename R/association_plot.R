@@ -389,8 +389,7 @@ pairwise_1d_plot <- function(assoc, group_var = "by",fill="default",
 #'
 #' Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
 #'
-#' @param df A tibble with the calculated multiple association measures for every variable pair in the dataset.
-#' @param measures association measures to be calculated
+#' @param assoc A tibble with multiple association measures for every variable pair in the dataset.
 #' @param group_var a character string for the grouping variable. One of "by" (default) or "measure_type".
 #' @param var_order a character string for the ordering of the variables. Either  "max_diff"
 #' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
@@ -401,23 +400,8 @@ pairwise_1d_plot <- function(assoc, group_var = "by",fill="default",
 #' pairwise_1d_compare(iris)
 
 
-pairwise_1d_compare <- function(df,
-                                           measures=c("pearson",
-                                                      "spearman",
-                                                      "kendall",
-                                                      "cancor",
-                                                      "nmi")
-                                           , var_order = "max_diff",
+pairwise_1d_compare <- function(assoc, var_order = "max_diff",
                                            limits=c(-1,1), group_var=NULL){
-
-  #assoc$measure <- abs(assoc$measure)
-  pearson <- tbl_cor(df)
-  spearman <- tbl_cor(df,"spearman")
-  kendall <- tbl_cor(df,"kendall")
-  cancor <- tbl_cancor(df)
-  nmi <- tbl_nmi(df)
-
-  assoc <- rbind(pearson,spearman,kendall,cancor,nmi)
 
   assoc$var3 <- paste0(assoc$x,",",assoc$y)
 
