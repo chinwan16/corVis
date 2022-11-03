@@ -257,6 +257,7 @@ pairwise_2d_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",fill=
 #' @param lassoc A tibble with the calculated association measures for the lower triangle of the matrix plot.
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
 #'               If *NULL* (default) the matrix plot is symmetric.
+#' @param glyph A character string for the glyph to be used. Either "square" or "circle"
 #' @param var_order a character string for the ordering of the variables. Either "default" (default) or NA.
 #' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
 #'
@@ -266,7 +267,9 @@ pairwise_2d_plot_sp_high <- function(lassoc, uassoc=NULL, group_var = "by",fill=
 #' association_heatmap(calc_assoc(iris))
 
 
-association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limits=c(-1,1)){
+association_heatmap <- function(lassoc, uassoc=NULL, glyph = c("square","circle"), var_order = "default", limits=c(-1,1)){
+
+  glyph = match.arg(glyph)
 
   if (isTRUE(var_order == "default")){
     var_order <- order_assoc(lassoc, method=var_order)
@@ -296,8 +299,11 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
   assoc <- rbind(assoc, diag_df)
 
   p <- ggplot2::ggplot(assoc) +
+
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
-    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),size=2.5)+
+    ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text),size=3)+
+    ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+                       color="grey",alpha=0) +
     #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
     #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +
     ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
@@ -315,9 +321,23 @@ association_heatmap <- function(lassoc, uassoc=NULL, var_order = "default", limi
                    strip.background = ggplot2::element_blank(),
                    strip.text.y = ggplot2::element_blank(),
                    strip.text.x = ggplot2::element_blank(),
-                   axis.title.y = ggplot2::element_blank())
+                   axis.title.y = ggplot2::element_blank(),
+                   aspect.ratio = 1)
 
-  p <- p+ ggplot2::geom_rect(ggplot2::aes(xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf, fill=.data[["measure"]]),na.rm = TRUE)
+  if (glyph=="square"){
+    p <- p+
+      ggplot2::coord_cartesian(xlim = c(-0.5,0.5), ylim = c(-0.5,0.5)) +
+      ggplot2::geom_rect(ggplot2::aes(xmin = -sqrt(abs(.data[["measure"]]))/2,
+                                      xmax = sqrt(abs(.data[["measure"]]))/2,
+                                      ymin = -sqrt(abs(.data[["measure"]]))/2,
+                                      ymax = sqrt(abs(.data[["measure"]]))/2,
+                                      fill = .data[["measure"]]),na.rm = TRUE)
+  } else {
+    p <- p +
+      ggforce::geom_circle(ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]])/pi),
+                                        fill = .data[["measure"]]))
+  }
+
 
   suppressWarnings(print(p))
 }
