@@ -41,7 +41,7 @@ Correlation matrix display is a popular tool to visually explore correlations am
 
 The correlation displays are generally used with one of the Pearson's, Spearman's or Kendall's correlation coefficient and are therefore limited to quantitative variables. An analyst can use one-hot encoding of the qualitative variables in order to use these displays but will need to deal with the high dimensions as a result of the encoding. In addition to the dimensionality problem, it is not easy to assess the overall correlation when using the one-hot encoding.  The existing methods to quickly explore association among qualitative variables in a dataset include using proportions or counts with different graphical displays like boxplots or barplots. Using association measures for qualitative pairs similar to correlation for quantitative pairs will help in summarizing the relationship, which then can be displayed like the correlation displays. 
 
-Tukey and Tukey introduced scagnostics which are measures for scatterplots [@tukey1985computer]. Along with scagnostics, they proposed a scagnostics scatterplot matrix which is a visual display to explore and compare these measures for all the variable pairs in a dataset. By comparing multiple measures at once, the unusual variable pairs could be identified and looked at in more detail. In a similar manner, a display comparing association measures will help in finding interesting variable pairs. Many association measures have been proposed to summarize different types of relationships. The most commonly used measure is Pearson's correlation coefficient which captures any linear trend present between the variables. Other popular measures include Kendall's or Spearman's rank correlation coefficient which are non-parametric measures and looks for monotonic relationship. Distance correlation [@szekely2007measuring] is an important measure useful in exploring non-linear relationships. The information theory measure maximal information coefficient (MIC) [@reshef2011detecting] is capable of summarizing complex relationships. With effective displaying techniques, the multiple measures of association provide a comparison tool that assist an analyst to reveal structure present in the data.
+Tukey and Tukey [@tukey1985computer] introduced scagnostics which are measures for scatterplots. Along with scagnostics, they proposed a scagnostics scatterplot matrix which is a visual display to explore and compare these measures for all the variable pairs in a dataset. By comparing multiple measures at once, the unusual variable pairs could be identified and looked at in more detail. In a similar manner, a display comparing association measures will help in finding interesting variable pairs. Many association measures have been proposed to summarize different types of relationships. The most commonly used measure is Pearson's correlation coefficient which captures any linear trend present between the variables. Other popular measures include Kendall's or Spearman's rank correlation coefficient which are non-parametric measures and looks for monotonic relationship. Distance correlation [@szekely2007measuring] is an important measure useful in exploring non-linear relationships. The information theory measure maximal information coefficient (MIC) [@reshef2011detecting] is capable of summarizing complex relationships. With effective displaying techniques, the multiple measures of association provide a comparison tool that assist an analyst to reveal structure present in the data.
 
 Small multiples (or Trellis display) is a simple yet powerful approach to compare partitions of data and understand multidimensional datasets [@tufte1986thevisual]. The display is produced by splitting the data into groups by a conditioning variable and then plotting the data for each group. Such displays allow analysts to quickly infer about the impact of the conditioning variable. A similar idea applied to displays of association measures (correlation plot) will help uncover underlying patterns in the data. One such pattern is Simpson's paradox which can be detected by comparing Pearson's correlation for data at overall level versus individual levels of the conditioning variable.
 
@@ -149,18 +149,88 @@ The association measures for the case of nominal pair of variables should be inv
 
 # Section 3: Introducing corVis
 
-```{r motivation1, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplots for Anscombe's quartet"}
+```{r motivation1, fig.width=5, fig.height=6, fig.align='center', fig.cap = "Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC."}
 
-anscombe <- cassowaryr::anscombe_tidy
+library(ggplot2)
+library(mvtnorm)
+plot_fun <- function(xy, xlim = c(-4, 4), ylim = c(-4, 4), eps = 1e-15) {
+  data <- as.data.frame(xy)
+  pearson = round(cor(xy[,1], xy[,2]), 1)
+  distance = round(sqrt(energy::dcor2d(xy[,1],xy[,2])), 1)
+  MIC = round(minerva::mine(xy[,1],xy[,2])[[1]], 1)
+  if (sd(xy[,2]) < eps) title = "" # corr. coeff. is undefined
+  ggplot(data=data) + 
+    geom_point(aes(x=data[,1],y=data[,2]),size=0.5) + 
+    coord_cartesian(xlim=xlim,ylim=ylim) +
+    theme(axis.text.x = ggplot2::element_blank(),
+          axis.text.y = ggplot2::element_blank(),
+          panel.grid.major = ggplot2::element_blank(),
+          panel.grid.minor = ggplot2::element_blank(),
+          axis.ticks.x = ggplot2::element_blank(),
+          axis.ticks.y = ggplot2::element_blank(),
+          axis.title.x = ggplot2::element_blank(),
+          strip.background = ggplot2::element_blank(),
+          strip.text.y = ggplot2::element_blank(),
+          strip.text.x = ggplot2::element_blank(),
+          axis.title.y = ggplot2::element_blank(),
+          plot.title = element_text(size=10))+
+    labs(title = paste0("rho = ",pearson, 
+                        ", dcor = ",distance,
+                        ", MIC = ", MIC))
+    
+}
 
-p <- ggplot2::ggplot(data=anscombe) + ggplot2::geom_point(ggplot2::aes(x=x,y=y)) + facet_wrap(~set)
+rotation <- function(t, X) return(X %*% matrix(c(cos(t), sin(t), -sin(t), cos(t)), ncol = 2))
 
-p
+set.seed(123)
+n <- 1000
+x = runif(n, -1, 1)
+
+
+
+# Wave pattern
+y = 4 * (x^2 - 1/2)^2 + runif(n, -1, 1)/3
+p1 <- plot_fun(cbind(x,y), xlim = c(-1, 1), ylim = c(-1/3, 1+1/3))
+
+
+# trapezoid pattern
+y = runif(n, -1, 1)
+xy = rotation(-pi/8, cbind(x,y))
+lim = sqrt(2+sqrt(2)) / sqrt(2)
+p2 <- plot_fun(xy, xlim = c(-lim, lim), ylim = c(-lim, lim))
+
+# diamond pattern
+xy = rotation(-pi/8, xy)
+p3 <- plot_fun(xy, xlim = c(-sqrt(2), sqrt(2)), ylim = c(-sqrt(2), sqrt(2)))
+
+# quadratic pattern
+y = 2*x^2 + runif(n, -1, 1)
+p4 <- plot_fun(cbind(x,y), xlim = c(-1, 1), ylim = c(-1, 3))
+
+# x pattern
+y = (x^2 + runif(n, 0, 1/2)) * sample(seq(-1, 1, 2), n, replace = TRUE)
+p5 <- plot_fun(cbind(x,y), xlim = c(-1.5, 1.5), ylim = c(-1.5, 1.5))
+
+# circle pattern
+y = cos(x*pi) + rnorm(n, 0, 1/8)
+x = sin(x*pi) + rnorm(n, 0, 1/8)
+p6 <- plot_fun(cbind(x,y), xlim = c(-1.5, 1.5), ylim = c(-1.5, 1.5))
+
+# cluster pattern
+xy1 = rmvnorm(n/4, c( 3,  3))
+xy2 = rmvnorm(n/4, c(-3,  3))
+xy3 = rmvnorm(n/4, c(-3, -3))
+xy4 = rmvnorm(n/4, c( 3, -3))
+p7 <- plot_fun(rbind(xy1, xy2, xy3, xy4), xlim = c(-3-4, 3+4), ylim = c(-3-4, 3+4))
+
+
+gridExtra::grid.arrange(p1,p2,p3,p4,p5,p6,p7,ncol=3)
 ```
 
-\CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and provides visualizations for displaying associations. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair. The main goal of our work is to propose a displays for multiple association measures and conditional associations display which are useful for uncovering interesting patterns in the data.
+\CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and provides visualizations for displaying associations. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair. The main goal of our work is to propose displays for multiple association measures and conditional associations display which are useful for uncovering interesting patterns in the data.
 
-To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show relationship between the four sets of data points in Anscombe's quartet [@anscombe1973graphs].Pearson's correlation coefficient is the commonly used association measure for exploring relationships among numeric variables and comes out to be around 0.81 for each of these datasets. Figure \@ref(fig:motivation1) shows the inability of Pearson's correlation to capture non-linear relationships such as set 2 and the influence of outliers on Pearson's correlation coefficient and its sensitivity, shown in set 3 and 4. This suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationship among numeric variables.
+To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show different simulated patterns such as wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value for Pearson's correlation, distance correlation and maximal information coefficient by rho, dcor and MIC respectively. It is evident from Figure \@ref(fig:motivation1) that distance correlation and MIC capture these patterns quite well as compared to the Pearson's correlation which is $0$ for every case and suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables.
+
 
 ```{r motivation2, fig.width=5, fig.height=4, fig.align='center', fig.cap = "An example plot showing importance of conditional displays"}
 
@@ -178,7 +248,7 @@ gridExtra::grid.arrange(p1,p2,ncol=2)
 
 Consider Figure \@ref(fig:motivation2) for the motivation behind conditional association displays. The plot on the left shows a positive linear association between `y` and `x` and has a positive Pearson's correlation of value 0.603. The plot on the right shows the disaggregated data by the `group` variable and it is clearly evident that for each group there is a negative linear relationship between `y` and `x`. This is an example of Simpson's paradox and is one of the patterns which are discoverable when conditional association displays are used.
 
-While designing these displays we considered matrix and linear layouts. A matrix layout simplifies the effort in finding variables, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but looking for variables or variable pairs is more challenging. The variable pairs in both matrix and linear layouts are usually ordered by relevance (usually the association measure difference in measures of association or across the factor levels for conditional displays) so that pairs of variables having strong association, with high difference among groups or with any other pattern are esaily higlighted.
+While designing these displays we considered matrix and linear layouts. A matrix layout simplifies the effort in finding variables, and different measures may be displayed on the upper and lower diagonal. Linear layouts are more space-efficient than matrix plots, but looking for variables or variable pairs is more challenging.
 
 Table \@ref(tab:function-corVis) provides a list of the functions available in the package which are useful for calculating association measures among variable pairs and visualising these associations using novel displays. Section 4 provides a detailed description on functions used for calcuating association measures in the package. Section 5 illustrates the use of visualising functions in table \@ref(tab:function-corVis) for displaying pairwise association and conditional association.
 
@@ -207,7 +277,7 @@ df <- data.frame(Function=Function,
                  Usage=Usage,
                  Input=Input)
 
-kableExtra::kbl(df, booktabs = T, caption = "List of the available functions in corVis package") %>%
+kableExtra::kbl(df, caption = "List of functions in corVis package") %>%
   kableExtra::column_spec(1, bold=T)
 
 
@@ -449,16 +519,23 @@ For nominal variable pairs, Figure \@ref(fig:assoc-heatmap) shows a high canonic
 
 <!-- We also calculate multiple association measures for all the variable pairs in the dataset and compare them. This helps in identifying pairs of variables with a high difference among different measures or any unusual variable pairs which should be investigated further in more detail.  -->
 
-The function `pairwise_1d_compare` is used to display a linear layout for comparing multiple association measures calculated for variable pairs in the dataset. `pairwise_1d_compare` takes a dataset and a set of association measures as input and outputs a heatmap display by plotting all the variable pairs in the dataset on the Y-axis and the association measures on the X-axis and encoding the magnitude of association measures with a color.
+The function `pairwise_1d_compare` is used to display a linear layout for comparing multiple association measures calculated for variable pairs in the dataset. `pairwise_1d_compare` the calculated association measures as input and outputs a heatmap display by plotting all the variable pairs in the dataset on the Y-axis and the association measures on the X-axis and encoding the magnitude of association measures with a color.
 
-The `df` argument of the function `pairwise_1d_compare` is used for a dataset. The `measures` argument is for the multiple association measures to be calculated for pairs of variables of `df`. The default measures calculated by the function are Pearson's, Spearman's and Kendall's correlation coefficient, canconical correlation and normalized mutual information. The function also come up with a `var_order` argument which is set to `max_diff` by default and orders the variable pairs on the basis of maximum difference among the magnitude of measures.
+The `assoc` argument of the function `pairwise_1d_compare` represents a tibble of calculated multiple association measures. These measures are calculated using `tbl_*` or `calc_assoc` functions and are binded row wise to create a tibble structure with multiple measures. The function also has a `var_order` argument which is set to `max_diff` by default and orders the variable pairs on the basis of maximum difference among the magnitude of measures.
 
 Figure \@ref(fig:compare-linear) shows a linear layout comparing multiple association measures for all the variable pairs in the chronic kidney data. The plot shows that the variable pair sc and sod have a magnitude for Pearson's correlation and a magnitude for Spearman's rank correlation suggesting that the relationship among these variables might not be linear and should be looked at in more detail. For variable pairs sc and rbcc, and, sc and pcv, the Spearman's rank correlation has a high magnitude indicating a presence of monotonic relationship for these variable pairs.
 
 ```{r compare-linear,fig.width=4, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair.",echo=TRUE}
 
+pearson <- tbl_cor(df,method = "pearson")
+spearman <- tbl_cor(df, method = "spearman")
+distance <- tbl_dcor(df)
+mic <- tbl_mine(df)
+cancor <- tbl_cancor(df)
 
-pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
+assoc <- rbind(pearson, spearman, distance, mic, cancor)
+
+pairwise_1d_compare(assoc)
 
 ```
 

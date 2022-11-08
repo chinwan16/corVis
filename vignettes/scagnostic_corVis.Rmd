@@ -59,7 +59,7 @@ outlying
 
 Similarly, other scagnostic measures are caulculated by updating the `scagnostic` argument in the `tbl_scag` function.
 ```{r}
-striated <- tbl_scag(df)
+striated <- tbl_scag(df, scagnostic = "Striated")
 striated
 ```
 
@@ -80,7 +80,7 @@ Once the scagnostic measures have been calculated, these are visualised using di
 It is clearly evident from Figure 1 that flipper length and body mass of penguins has a montonic relationship.
 
 
-```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 1: Association matrix display for penguins data"}
+```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 1: Matrix display of monotonic measure for penguins data"}
 df <- penguins
 monotonic <- tbl_scag(df,scagnostic = "Monotonic")
 
@@ -93,7 +93,7 @@ Following Tukey's idea of a scatterplot matrix display of the measures, we propo
 
 `pairwise_1d_compare` produces a linear display for comparing multiple scagnostic measures. It takes the calculated scagnostic measures as input and displays the variable pairs on the Y-axis and the scagnostic measures on the X-axis. Figure 2 shows a comparison of scagnostic measures for penguins dataset. The fill of each cell corresponds to the value of the scagnostic measure. The variable pair flipper length and bill depth in Figure 2 shows a high value for clumpy and monotonic measures suggesting a presence of clusters of points and a monotonic relationship between these two variables. The low value for clumpy and a high value for monotonic scagnostic measure for the variable pair body mass and flipper length suggests a strong association among these two variables for the penguins of every species.
 
-```{r fig.width=4, fig.height=5, fig.align='center',fig.cap="Figure 2: Comparing multiple scagnostic measures using a linear layout"}
+```{r fig.width=6, fig.height=5, fig.align='center',fig.cap="Figure 2: Comparing multiple scagnostic measures using a linear layout"}
 outlying <- tbl_scag(df,scagnostic = "Outlying")
 skewed <- tbl_scag(df,scagnostic = "Skewed")
 clumpy <- tbl_scag(df,scagnostic = "Clumpy")
@@ -116,7 +116,7 @@ The package includes a function `calc_assoc_by` which calculates the pairwise as
 Figure 3 clearly shows that there is a strong relationship between bill depth and bill length for Chinstrap and Gentoo penguins which is not evident when we look at the overall relationship between bill depth and bill length (Figure 2).  
 
 
-```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 3: Conditional scagnostics plot"}
+```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 3: Conditional scagnostics plot"}
 
 df_num <- dplyr::select(df, where(is.numeric),"species")
 

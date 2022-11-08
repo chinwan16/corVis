@@ -47,25 +47,25 @@ qualitative pairs similar to correlation for quantitative pairs will
 help in summarizing the relationship, which then can be displayed like
 the correlation displays.
 
-Tukey and Tukey introduced scagnostics which are measures for
-scatterplots \citep{tukey1985computer}. Along with scagnostics, they
-proposed a scagnostics scatterplot matrix which is a visual display to
-explore and compare these measures for all the variable pairs in a
-dataset. By comparing multiple measures at once, the unusual variable
-pairs could be identified and looked at in more detail. In a similar
-manner, a display comparing association measures will help in finding
-interesting variable pairs. Many association measures have been proposed
-to summarize different types of relationships. The most commonly used
-measure is Pearson's correlation coefficient which captures any linear
-trend present between the variables. Other popular measures include
-Kendall's or Spearman's rank correlation coefficient which are
-non-parametric measures and looks for monotonic relationship. Distance
-correlation \citep{szekely2007measuring} is an important measure useful
-in exploring non-linear relationships. The information theory measure
-maximal information coefficient (MIC) \citep{reshef2011detecting} is
-capable of summarizing complex relationships. With effective displaying
-techniques, the multiple measures of association provide a comparison
-tool that assist an analyst to reveal structure present in the data.
+Tukey and Tukey \citep{tukey1985computer} introduced scagnostics which
+are measures for scatterplots. Along with scagnostics, they proposed a
+scagnostics scatterplot matrix which is a visual display to explore and
+compare these measures for all the variable pairs in a dataset. By
+comparing multiple measures at once, the unusual variable pairs could be
+identified and looked at in more detail. In a similar manner, a display
+comparing association measures will help in finding interesting variable
+pairs. Many association measures have been proposed to summarize
+different types of relationships. The most commonly used measure is
+Pearson's correlation coefficient which captures any linear trend
+present between the variables. Other popular measures include Kendall's
+or Spearman's rank correlation coefficient which are non-parametric
+measures and looks for monotonic relationship. Distance correlation
+\citep{szekely2007measuring} is an important measure useful in exploring
+non-linear relationships. The information theory measure maximal
+information coefficient (MIC) \citep{reshef2011detecting} is capable of
+summarizing complex relationships. With effective displaying techniques,
+the multiple measures of association provide a comparison tool that
+assist an analyst to reveal structure present in the data.
 
 Small multiples (or Trellis display) is a simple yet powerful approach
 to compare partitions of data and understand multidimensional datasets
@@ -260,32 +260,30 @@ corVis}\label{section-3-introducing-corvis}}
 
 }
 
-\caption[Scatterplots for Anscombe's quartet]{Scatterplots for Anscombe's quartet}\label{fig:motivation1}
+\caption[Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns]{Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC.}\label{fig:motivation1}
 \end{figure}
 \end{Schunk}
 
 \CRANpkg{corVis} is an R package which calculates measures of
-association for every variable pair in a dataset and helps in
-visualising these associations in different ways. Most of the existing
+association for every variable pair in a dataset and provides
+visualizations for displaying associations. Most of the existing
 correlation displays are limited to numeric pairs of variables. This
 package extends these displays to every variable pair. The main goal of
-our work is to propose a displays for multiple association measures and
+our work is to propose displays for multiple association measures and
 conditional associations display which are useful for uncovering
 interesting patterns in the data.
 
 To motivate our work on multiple measures display, consider the
-scatterplots in Figure \ref{fig:motivation1} which show relationship
-between the four sets of data points in Anscombe's quartet
-\citep{anscombe1973graphs}.Pearson's correlation coefficient is the
-commonly used association measure for exploring relationships among
-numeric variables and comes out to be around 0.81 for each of these
-datasets. Figure \ref{fig:motivation1} shows the inability of Pearson's
-correlation to capture non-linear relationships such as set 2 and the
-influence of outliers on Pearson's correlation coefficient and its
-sensitivity, shown in set 3 and 4. This suggests that association
-measures such as distance correlation, MIC and other measures should be
-used along with Pearson's correlation for exploring relationship among
-numeric variables.
+scatterplots in Figure \ref{fig:motivation1} which show different
+simulated patterns such as wave, trapezoid, diamond, quadratic, X,
+circle and cluster patterns. Each plot shows the value for Pearson's
+correlation, distance correlation and maximal information coefficient by
+rho, dcor and MIC respectively. It is evident from Figure
+\ref{fig:motivation1} that distance correlation and MIC capture these
+patterns quite well as compared to the Pearson's correlation which is
+\(0\) for every case and suggests that association measures such as
+distance correlation, MIC and other measures should be used along with
+Pearson's correlation for exploring relationships among variables.
 
 \begin{Schunk}
 \begin{figure}
@@ -312,12 +310,7 @@ While designing these displays we considered matrix and linear layouts.
 A matrix layout simplifies the effort in finding variables, and
 different measures may be displayed on the upper and lower diagonal.
 Linear layouts are more space-efficient than matrix plots, but looking
-for variables or variable pairs is more challenging. The variable pairs
-in both matrix and linear layouts are usually ordered by relevance
-(usually the association measure difference in measures of association
-or across the factor levels for conditional displays) so that pairs of
-variables having strong association, with high difference among groups
-or with any other pattern are esaily higlighted.
+for variables or variable pairs is more challenging.
 
 Table \ref{tab:function-corVis} provides a list of the functions
 available in the package which are useful for calculating association
@@ -331,18 +324,22 @@ conditional association.
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:function-corVis}List of the available functions in corVis package}
+\caption{\label{tab:function-corVis}List of functions in corVis package}
 \centering
-\begin{tabular}[t]{>{}lll}
-\toprule
+\begin{tabular}[t]{>{}l|l|l}
+\hline
 Function & Usage & Input\\
-\midrule
+\hline
 \textbf{calc\_assoc} & Calculation & Calculates association and conditional association\\
+\hline
 \textbf{association\_heatmap} & Visualization & Plots association for every variable pair in a matrix layout\\
+\hline
 \textbf{pairwise\_2d\_plot} & Visualization & Plots conditional association for every variable pair in a matrix layout\\
+\hline
 \textbf{pairwise\_1d\_compare} & Visualization & Plots multiple association measures for every variable pair in linear layout\\
+\hline
 \textbf{pairwise\_1d\_plot} & Visualization & Plots conditional association dotplot for every variable pair in a linear layout\\
-\bottomrule
+\hline
 \end{tabular}
 \end{table}
 
@@ -841,21 +838,20 @@ Plot}\label{multiple-association-measures-plot}}
 
 The function \texttt{pairwise\_1d\_compare} is used to display a linear
 layout for comparing multiple association measures calculated for
-variable pairs in the dataset. \texttt{pairwise\_1d\_compare} takes a
-dataset and a set of association measures as input and outputs a heatmap
-display by plotting all the variable pairs in the dataset on the Y-axis
-and the association measures on the X-axis and encoding the magnitude of
+variable pairs in the dataset. \texttt{pairwise\_1d\_compare} the
+calculated association measures as input and outputs a heatmap display
+by plotting all the variable pairs in the dataset on the Y-axis and the
+association measures on the X-axis and encoding the magnitude of
 association measures with a color.
 
-The \texttt{df} argument of the function \texttt{pairwise\_1d\_compare}
-is used for a dataset. The \texttt{measures} argument is for the
-multiple association measures to be calculated for pairs of variables of
-\texttt{df}. The default measures calculated by the function are
-Pearson's, Spearman's and Kendall's correlation coefficient, canconical
-correlation and normalized mutual information. The function also come up
-with a \texttt{var\_order} argument which is set to \texttt{max\_diff}
-by default and orders the variable pairs on the basis of maximum
-difference among the magnitude of measures.
+The \texttt{assoc} argument of the function
+\texttt{pairwise\_1d\_compare} represents a tibble of calculated
+multiple association measures. These measures are calculated using
+\texttt{tbl\_*} or \texttt{calc\_assoc} functions and are binded row
+wise to create a tibble structure with multiple measures. The function
+also has a \texttt{var\_order} argument which is set to
+\texttt{max\_diff} by default and orders the variable pairs on the basis
+of maximum difference among the magnitude of measures.
 
 Figure \ref{fig:compare-linear} shows a linear layout comparing multiple
 association measures for all the variable pairs in the chronic kidney
@@ -869,7 +865,15 @@ variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
-pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
+pearson <- tbl_cor(df,method = "pearson")
+spearman <- tbl_cor(df, method = "spearman")
+distance <- tbl_dcor(df)
+mic <- tbl_mine(df)
+cancor <- tbl_cancor(df)
+
+assoc <- rbind(pearson, spearman, distance, mic, cancor)
+
+pairwise_1d_compare(assoc)
 \end{Sinput}
 \begin{figure}
 
