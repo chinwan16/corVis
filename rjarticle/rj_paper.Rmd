@@ -149,7 +149,7 @@ The association measures for the case of nominal pair of variables should be inv
 
 # Section 3: Introducing corVis
 
-```{r motivation1, fig.width=5, fig.height=6, fig.align='center', fig.cap = "Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC."}
+```{r motivation1, fig.width=6, fig.height=4, fig.align='center', fig.cap = "Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC."}
 
 library(ggplot2)
 library(mvtnorm)
@@ -227,7 +227,7 @@ p7 <- plot_fun(rbind(xy1, xy2, xy3, xy4), xlim = c(-3-4, 3+4), ylim = c(-3-4, 3+
 gridExtra::grid.arrange(p1,p2,p3,p4,p5,p6,p7,ncol=3)
 ```
 
-\CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and provides visualizations for displaying associations. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair. The main goal of our work is to propose displays for multiple association measures and conditional associations display which are useful for uncovering interesting patterns in the data.
+\CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and provides visualizations for displaying associations. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair. The main goal of our work is to propose displays for multiple association measures and conditional associations display which are useful for uncovering interesting patterns in the data. This will help in identifying variable pairs which shows a type of relationship or pattern in a dataset with large number of variables.
 
 To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show different simulated patterns such as wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value for Pearson's correlation, distance correlation and maximal information coefficient by rho, dcor and MIC respectively. It is evident from Figure \@ref(fig:motivation1) that distance correlation and MIC capture these patterns quite well as compared to the Pearson's correlation which is $0$ for every case and suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables.
 
