@@ -1,0 +1,127 @@
+---
+title: "Exploring pairwise associations with scagnostics and corVis"
+author: "Amit Chinwan and Catherine Hurley"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+     toc: true
+vignette: >
+  %\VignetteIndexEntry{Exploring pairwise associations with scagnostics and corVis}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r global options, echo=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+corVis is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations. The package also offers to calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette focuses on general association measures such as scagnostics and demonstrates the use of corVis with these measures to explore different patterns in the data.   
+
+
+
+```{r}
+if (!requireNamespace("palmerpenguins", quietly = TRUE))
+  install.packages("palmerpenguins")
+
+library(corVis)
+library(palmerpenguins)
+library(dplyr)
+```
+
+## Scagnostics
+
+Scagnostics was Paul and John Tukey's (1985) idea of defining measures to characterize a scatterplot. Their idea was to plot $\frac{p \times (p-1)}{2}$ scatterplots, where $p$ is the number of variables, as points in a scatterplot matrix of $k$ measures which can be used to find subsets of interesting scatterplots. They suggested that the possible measures for a scatterplot could be density, shape, trend, outliers. 
+
+Wilkinson et al [1] proposed graph-theoretic scagnostic measures based on three geometric graphs: convex hull, alpha hull and minimum spanning tree (mst) to highlight unusual scatterplots. They presented nine measures which quantified the density, shape, trend or outliers in a scatterplot. These nine measures are - 
+
+   - Outlying 
+   - Skewed
+   - Clumpy
+   - Sparse
+   - Striated
+   - Convex
+   - Skinny
+   - Monotonic
+
+## Calculating scagnostics
+
+The package corVis has a function `tbl_scag` for calculating scagnostic measures in a tibble structure for the numeric variable pairs in a dataset. The `tbl_scag` function calculates scagnostic measures using scagnostics package in R. 
+
+`tbl_scag` uses a dataset and a scagnostic measure as its two main inputs and outputs a tibble with the variable pairs and calculated scagnostic measure. By default, the scagnostic measure calculated is Outlying which quantifies the presence of outliers in a scatterplot. We also provide functionality for handling missing values by using pairwise complete observations.
+```{r}
+df <- penguins
+outlying <- tbl_scag(df)
+outlying
+```
+
+Similarly, other scagnostic measures are caulculated by updating the `scagnostic` argument in the `tbl_scag` function.
+```{r}
+striated <- tbl_scag(df)
+striated
+```
+
+`tbl_scag` returns a tibble with the variable pairs and calculated measure, and also with additional classes *pairwise* and *data.frame*. With the pairwise measures of association in a tibble or dataframe structure, the outputs are used with packages like _dplyr_ , _ggplot2_ for further exploration of these scagnostic measures. 
+
+```{r}
+class(striated)
+```
+
+
+
+## Visualising scagnostics
+
+### Matrix display
+
+Once the scagnostic measures have been calculated, these are visualised using different layouts.  `association_heatmap` function is used to produce famous matrix layout of scagnostic measure for every numeric variable pair in the dataset. Figure 1 shows the display of Monotonic measure for every numeric variable pair in the *penguins* dataset from the *palmerpenguins* package. The area of the square glyphs is proportional to the magnitude of the Monotonic measure.
+   
+It is clearly evident from Figure 1 that flipper length and body mass of penguins has a montonic relationship.
+
+
+```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 1: Association matrix display for penguins data"}
+df <- penguins
+monotonic <- tbl_scag(df,scagnostic = "Monotonic")
+
+association_heatmap(monotonic)
+```
+
+### Comparing scagnostics
+
+Following Tukey's idea of a scatterplot matrix display of the measures, we propose a linear display for comparison of multiple scagnostic measures for all the numeric variable pairs in a dataset. This is useful in identifying unusual scatterplots or variable pairs.
+
+`pairwise_1d_compare` produces a linear display for comparing multiple scagnostic measures. It takes the calculated scagnostic measures as input and displays the variable pairs on the Y-axis and the scagnostic measures on the X-axis. Figure 2 shows a comparison of scagnostic measures for penguins dataset. The fill of each cell corresponds to the value of the scagnostic measure. The variable pair flipper length and bill depth in Figure 2 shows a high value for clumpy and monotonic measures suggesting a presence of clusters of points and a monotonic relationship between these two variables. The low value for clumpy and a high value for monotonic scagnostic measure for the variable pair body mass and flipper length suggests a strong association among these two variables for the penguins of every species.
+
+```{r fig.width=4, fig.height=5, fig.align='center',fig.cap="Figure 2: Comparing multiple scagnostic measures using a linear layout"}
+outlying <- tbl_scag(df,scagnostic = "Outlying")
+skewed <- tbl_scag(df,scagnostic = "Skewed")
+clumpy <- tbl_scag(df,scagnostic = "Clumpy")
+sparse <- tbl_scag(df,scagnostic = "Sparse")
+striated <- tbl_scag(df,scagnostic = "Striated")
+convex <- tbl_scag(df,scagnostic = "Convex")
+skinny <- tbl_scag(df,scagnostic = "Skinny")
+stringy <- tbl_scag(df,scagnostic = "Stringy")
+monotonic <- tbl_scag(df,scagnostic = "Monotonic")
+
+scag_measures <- rbind(outlying, skewed, clumpy, sparse, striated, convex, skinny, stringy,
+                       monotonic)
+pairwise_1d_compare(scag_measures)
+```
+
+### Conditional Scagnostics
+
+The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 3 shows a conditional plot for the *penguins* data. Each cell corresponding to a variable pair shows three bars which correspond to the monotonic scagnostic measure calculated at the levels of conditioning variable *species*. The dashed line represents the overall value of monotonic measure.
+
+Figure 3 clearly shows that there is a strong relationship between bill depth and bill length for Chinstrap and Gentoo penguins which is not evident when we look at the overall relationship between bill depth and bill length (Figure 2).  
+
+
+```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 3: Conditional scagnostics plot"}
+
+df_num <- dplyr::select(df, where(is.numeric),"species")
+
+updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Monotonic")
+
+cond_assoc <- calc_assoc_by(df_num, types = updated_assoc, by="species")
+pairwise_2d_plot(cond_assoc)
+```

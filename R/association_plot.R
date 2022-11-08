@@ -417,7 +417,11 @@ pairwise_1d_plot <- function(assoc, group_var = "by",fill="default",
 #' @export
 #'
 #' @examples
-#' pairwise_1d_compare(iris)
+#' pearson <- tbl_cor(iris,method="pearson")
+#' spearman <- tbl_cor(iris,method="spearman")
+#' kendall <- tbl_cor(iris,method="kendall")
+#' assoc <- rbind(pearson, spearman, kendall)
+#' pairwise_1d_compare(assoc)
 
 
 pairwise_1d_compare <- function(assoc, var_order = "max_diff",

@@ -71,8 +71,14 @@ In addition to matrix layout, we can also use linear layouts for comparing multi
 
 ```{r fig.width=4, fig.height=5, fig.align='center',fig.cap="Figure 3: Comparing multiple association measures using a linear layout"}
 
+pearson <- tbl_cor(df,method="pearson")
+spearman <- tbl_cor(df,method="spearman")
+kendall <- tbl_cor(df,method="kendall")
+cancor <- tbl_cancor(df)
+nmi <- tbl_nmi(df)
 
-pairwise_1d_compare(df,measures=c("pearson","spearman","kendall","cancor","nmi"))
+assoc <- rbind(pearson, spearman, kendall, cancor, nmi)
+pairwise_1d_compare(assoc)
 
 ```
 

@@ -5,17 +5,14 @@
 \title{Pairwise linear plot for comparing multiple measures of association}
 \usage{
 pairwise_1d_compare(
-  df,
-  measures = c("pearson", "spearman", "kendall", "cancor", "nmi"),
+  assoc,
   var_order = "max_diff",
   limits = c(-1, 1),
   group_var = NULL
 )
 }
 \arguments{
-\item{df}{A tibble with the calculated multiple association measures for every variable pair in the dataset.}
-
-\item{measures}{association measures to be calculated}
+\item{assoc}{A tibble with multiple association measures for every variable pair in the dataset.}
 
 \item{var_order}{a character string for the ordering of the variables. Either  "max_diff"}
 
@@ -27,5 +24,9 @@ pairwise_1d_compare(
 Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
 }
 \examples{
-pairwise_1d_compare(iris)
+pearson <- tbl_cor(iris,method="pearson")
+spearman <- tbl_cor(iris,method="spearman")
+kendall <- tbl_cor(iris,method="kendall")
+assoc <- rbind(pearson, spearman, kendall)
+pairwise_1d_compare(assoc)
 }

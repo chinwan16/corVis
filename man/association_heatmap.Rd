@@ -7,6 +7,7 @@
 association_heatmap(
   lassoc,
   uassoc = NULL,
+  glyph = c("square", "circle"),
   var_order = "default",
   limits = c(-1, 1)
 )
@@ -16,6 +17,8 @@ association_heatmap(
 
 \item{uassoc}{A tibble with the calculated association measures for the upper triangle of the matrix plot.
 If \emph{NULL} (default) the matrix plot is symmetric.}
+
+\item{glyph}{A character string for the glyph to be used. Either "square" or "circle"}
 
 \item{var_order}{a character string for the ordering of the variables. Either "default" (default) or NA.}
 

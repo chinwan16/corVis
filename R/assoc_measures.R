@@ -449,29 +449,35 @@ tbl_chi <- function(d,handle.na=TRUE,...){
 #' Calculates scagnostic measure for every variable pair in a dataset.
 #'
 #' @param d dataframe
-#' @param scagnostic a character string for the scagnostic to be calculated. One of "outlying",
-#' "stringy", "striated", "striated2", "clumpy", "clumpy2", "sparse", "skewed", "convex",
-#' "skinny", "monotonic" or "splines"
+#' @param scagnostic a character string for the scagnostic to be calculated. One of "Outlying",
+#' "Stringy", "Striated", "Clumpy", "Sparse", "Skewed", "Convex", "Skinny" or "Monotonic"
+#' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
 #' @return tibble
 #' @export
 #'
 #' @examples
-#' tbl_scag(cassowaryr::pk[,2:5])
+#' tbl_scag(iris)
 
-tbl_scag <- function(d, scagnostic = "outlying",...){
+tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 
   d <- dplyr::select(d, where(is.numeric))
-  dscag <- cassowaryr::calc_scags_wide(d,scags = scagnostic) # handles NA automatically by taking complete cases
-  dscag <- pivot_longer(dscag,3,values_to = "measure",names_to = "measure_type")
-  names(dscag)[1:2] <- c("x","y")
+  scag <- assoc_tibble(d, measure_type = scagnostic)
+  scag_fn <- function(x,y) {
 
-  a <- assoc_tibble(d)
-  class(a) <- class(a)[-1]
+    x <- d[[x]]
+    y <- d[[y]]
+    if(handle.na){
+      pick <- stats::complete.cases(x, y)
+      x <- x[pick]
+      y <- y[pick]
+    }
 
-  a<-dplyr::rows_patch(a,dscag,  by = c("x","y"))
-  class(a) <- append("pairwise",class(a))
+    scags <- scagnostics::scagnostics(x,y)
+    scags[scagnostic]
+  }
 
-  return(a)
+  scag$measure <- mapply(scag_fn, scag$x,scag$y)
+  scag
 }
