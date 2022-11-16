@@ -132,6 +132,108 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with
 
 An association measure is defined as a numerical summary quantifying the relationship between two or more variables. The measure is called symmetric if its value is invariant to the choice of independent or dependent variable during the calculation. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables in the range $[-1,1]$ and is symmetric. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess monotonic relationship among two numeric variables in interval $[-1,1]$ and are symmetric measures. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. We now give an overview of available association measures.
 
+```{r motivation1, fig.width=6, fig.height=4, fig.align='center', fig.cap = "Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC."}
+
+library(ggplot2)
+library(mvtnorm)
+# positive linear pattern
+xy <- MvNormal(cor=0.9)
+xlp <- xy[,1]; ylp <- xy[,2]
+
+# negative linear pattern
+xy <- MvNormal(cor=-0.7)
+xln <- xy[,1]; yln <- xy[,2]
+
+
+n <- 100
+
+# x^1/4 pattern
+x_r4 = runif(n, 0, 1)
+y_r4 = x_r4^(1/4) + runif(n, 0, 1)
+
+
+
+
+set.seed(123)
+x = runif(n, -1, 1)
+
+# cubic pattern
+yc = x^3 + runif(n, 0, 1)
+
+
+# wave pattern
+yw = 4 * (x^2 - 1/2)^2 + runif(200, -1, 1)/3
+
+
+# quadratic pattern
+yq = 2*x^2 + runif(200, -1, 1)
+
+
+
+
+# x pattern
+ycross = (x^2 + runif(n, 0, 1/2)) * sample(seq(-1, 1, 2), n, replace = TRUE)
+
+# circle pattern
+ycir = cos(x*pi) + rnorm(n, 0, 1/8)
+xcir = sin(x*pi) + rnorm(n, 0, 1/8)
+
+data <- tibble(dat = c(list(data.frame(x=xlp,y=ylp)),
+                       list(data.frame(x=xln,y=yln)),
+                       list(data.frame(x=x_r4,y=y_r4)),
+                       list(data.frame(x=x,y=yc)),
+                       list(data.frame(x=x,y=yw)),
+                       list(data.frame(x=x,y=yq)),
+                       list(data.frame(x=x,y=ycross)),
+                       list(data.frame(x=xcir,y=ycir))
+                       ),
+               
+               pattern = c("linear positive", "linear negative", "x^(1/4)", "cubic", "wave",
+                           "quadratic", "X", "circle"),
+               
+               cor = c(0.9, -0.7, 0.8, 0.7, 0, 0, 0, 0),
+               dcor = c(0.9, 0.7, 0.8, 0.7, 0.3, 0.3, 0.2, 0.2),
+               MIC = c(0.7, 0.4, 0.7, 0.4, 0.7, 0.4, 0.4, 0.4)
+               )
+
+#ggplot(data=data$dat[[1]]) + geom_point(aes(x=x,y=y))
+
+plots <- list()
+for (i in 1:nrow(data)) {
+  
+  
+  dat <- data$dat[[i]]
+  p1 <- ggplot(data = dat) + geom_point(aes(x=x, y=y),size=0.5) + coord_fixed() + theme_void()
+  #plots <- append(plots,list(p1))
+  
+  p2 <- ggplot(data=dat) + 
+    theme_void() + 
+    geom_text(aes(0,0, label= paste0( names(data)[3], "=", round(cor(dat[,1], dat[,2]), 1) ))) +
+    coord_fixed()
+  #plots <- append(plots,list(p2))
+  
+  p3 <- ggplot(data=dat) + 
+    theme_void() + 
+    geom_text(aes(0,0, label= paste0( names(data)[4], "=", round(sqrt(energy::dcor2d(dat[,1],dat[,2])), 1)))) +
+    coord_fixed()
+  #plots <- append(plots,list(p3))
+  
+  p4 <-  ggplot(data=dat) + 
+    theme_void() +
+    geom_text(aes(0,0, label= paste0( names(data)[5],"=", round(minerva::mine(dat[,1],dat[,2])[[1]], 1)))) +
+    coord_fixed()
+  #plots <- append(plots,list(p4))
+  
+  plots[[i]] <- grid.arrange(p1,p2,p3,p4, ncol =4)
+  
+}
+
+do.call("grid.arrange", c(plots, nrow = 8))
+
+```
+
+To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show different simulated patterns such as wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value for Pearson's correlation, distance correlation and maximal information coefficient by rho, dcor and MIC respectively. It is evident from Figure \@ref(fig:motivation1) that distance correlation and MIC capture these patterns quite well as compared to the Pearson's correlation which is $0$ for every case and suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables.
+
 For a pair of numeric variables, various measures of association have been proposed in literature. The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for the non-linear association between two numeric variables and summarizes it in $[0,1]$. Similarly, MIC [@reshef2011detecting] is capable of summarizing different types of relationships, not just linear or monotonous, between numeric variables and is in range $[0,1]$. @reshef2011detecting used MIC and other related statistics to explore pairwise relationships in large data sets from major-league baseball, gene expression, global health, and the human gut microbiota.
 
 
@@ -149,87 +251,8 @@ The association measures for the case of nominal pair of variables should be inv
 
 # Section 3: Introducing corVis
 
-```{r motivation1, fig.width=6, fig.height=4, fig.align='center', fig.cap = "Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC."}
-
-library(ggplot2)
-library(mvtnorm)
-plot_fun <- function(xy, xlim = c(-4, 4), ylim = c(-4, 4), eps = 1e-15) {
-  data <- as.data.frame(xy)
-  pearson = round(cor(xy[,1], xy[,2]), 1)
-  distance = round(sqrt(energy::dcor2d(xy[,1],xy[,2])), 1)
-  MIC = round(minerva::mine(xy[,1],xy[,2])[[1]], 1)
-  if (sd(xy[,2]) < eps) title = "" # corr. coeff. is undefined
-  ggplot(data=data) + 
-    geom_point(aes(x=data[,1],y=data[,2]),size=0.5) + 
-    coord_cartesian(xlim=xlim,ylim=ylim) +
-    theme(axis.text.x = ggplot2::element_blank(),
-          axis.text.y = ggplot2::element_blank(),
-          panel.grid.major = ggplot2::element_blank(),
-          panel.grid.minor = ggplot2::element_blank(),
-          axis.ticks.x = ggplot2::element_blank(),
-          axis.ticks.y = ggplot2::element_blank(),
-          axis.title.x = ggplot2::element_blank(),
-          strip.background = ggplot2::element_blank(),
-          strip.text.y = ggplot2::element_blank(),
-          strip.text.x = ggplot2::element_blank(),
-          axis.title.y = ggplot2::element_blank(),
-          plot.title = element_text(size=10))+
-    labs(title = paste0("rho = ",pearson, 
-                        ", dcor = ",distance,
-                        ", MIC = ", MIC))
-    
-}
-
-rotation <- function(t, X) return(X %*% matrix(c(cos(t), sin(t), -sin(t), cos(t)), ncol = 2))
-
-set.seed(123)
-n <- 1000
-x = runif(n, -1, 1)
-
-
-
-# Wave pattern
-y = 4 * (x^2 - 1/2)^2 + runif(n, -1, 1)/3
-p1 <- plot_fun(cbind(x,y), xlim = c(-1, 1), ylim = c(-1/3, 1+1/3))
-
-
-# trapezoid pattern
-y = runif(n, -1, 1)
-xy = rotation(-pi/8, cbind(x,y))
-lim = sqrt(2+sqrt(2)) / sqrt(2)
-p2 <- plot_fun(xy, xlim = c(-lim, lim), ylim = c(-lim, lim))
-
-# diamond pattern
-xy = rotation(-pi/8, xy)
-p3 <- plot_fun(xy, xlim = c(-sqrt(2), sqrt(2)), ylim = c(-sqrt(2), sqrt(2)))
-
-# quadratic pattern
-y = 2*x^2 + runif(n, -1, 1)
-p4 <- plot_fun(cbind(x,y), xlim = c(-1, 1), ylim = c(-1, 3))
-
-# x pattern
-y = (x^2 + runif(n, 0, 1/2)) * sample(seq(-1, 1, 2), n, replace = TRUE)
-p5 <- plot_fun(cbind(x,y), xlim = c(-1.5, 1.5), ylim = c(-1.5, 1.5))
-
-# circle pattern
-y = cos(x*pi) + rnorm(n, 0, 1/8)
-x = sin(x*pi) + rnorm(n, 0, 1/8)
-p6 <- plot_fun(cbind(x,y), xlim = c(-1.5, 1.5), ylim = c(-1.5, 1.5))
-
-# cluster pattern
-xy1 = rmvnorm(n/4, c( 3,  3))
-xy2 = rmvnorm(n/4, c(-3,  3))
-xy3 = rmvnorm(n/4, c(-3, -3))
-xy4 = rmvnorm(n/4, c( 3, -3))
-p7 <- plot_fun(rbind(xy1, xy2, xy3, xy4), xlim = c(-3-4, 3+4), ylim = c(-3-4, 3+4))
-
-
-gridExtra::grid.arrange(p1,p2,p3,p4,p5,p6,p7,ncol=3)
-```
 
 \CRANpkg{corVis} is an R package which calculates measures of association for every variable pair in a dataset and provides visualizations for displaying associations. Most of the existing correlation displays are limited to numeric pairs of variables. This package extends these displays to every variable pair. The main goal of our work is to propose displays for multiple association measures and conditional associations display which are useful for uncovering interesting patterns in the data. This will help in identifying variable pairs which shows a type of relationship or pattern in a dataset with large number of variables.
-
-To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show different simulated patterns such as wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value for Pearson's correlation, distance correlation and maximal information coefficient by rho, dcor and MIC respectively. It is evident from Figure \@ref(fig:motivation1) that distance correlation and MIC capture these patterns quite well as compared to the Pearson's correlation which is $0$ for every case and suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables.
 
 
 ```{r motivation2, fig.width=5, fig.height=4, fig.align='center', fig.cap = "An example plot showing importance of conditional displays"}
@@ -256,26 +279,24 @@ Table \@ref(tab:function-corVis) provides a list of the functions available in t
 ```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Function <- c("calc_assoc","association_heatmap","pairwise_2d_plot","pairwise_1d_compare","pairwise_1d_plot")
+Function <- c("calc_assoc","association_heatmap","pairwise_2d_plot","pairwise_1d_plot")
 
-Usage <- c("Calculation","Visualization","Visualization","Visualization","Visualization")
+Usage <- c("Calculation","Visualization","Visualization","Visualization")
 
 #Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",5),rep("Visualization",4),rep("Visualization",5))
 
-Input <- c("Calculates association and conditional association",
+Description <- c("Calculates association and conditional association",
            
-           "Plots association for every variable pair in a matrix layout",
+           "Plots conventional correlation matrix plot",
            
-           "Plots conditional association for every variable pair in a matrix layout",
+           "Matrix plot for conditional association and comparing measures",
            
-           "Plots multiple association measures for every variable pair in linear layout",
-           
-           "Plots conditional association dotplot for every variable pair in a linear layout")
+           "Linear plot for conditional association and comparing measures")
 
 
 df <- data.frame(Function=Function,
                  Usage=Usage,
-                 Input=Input)
+                 Description=Description)
 
 kableExtra::kbl(df, caption = "List of functions in corVis package") %>%
   kableExtra::column_spec(1, bold=T)
