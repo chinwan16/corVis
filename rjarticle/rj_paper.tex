@@ -212,10 +212,82 @@ coefficient are other popular measures which assess monotonic
 relationship among two numeric variables in interval \([-1,1]\) and are
 symmetric measures. As these measures are limited to linear or monotonic
 relationships, there's a need to use association measures which are able
-to capture complex relationships. In addition to association measures
-for numeric variables, association measures for ordinal, nominal and
-mixed variable pairs are useful in exploring a multivariate dataset. We
-now give an overview of available association measures.
+to capture complex relationships.
+
+\begin{Schunk}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-1} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-1}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-2} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-2}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-3} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-3}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-4} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-4}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-5} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-5}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-6} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-6}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-7} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-7}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-8} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-8}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-9} 
+
+}
+
+\caption[Multiple association measures for simulated patterns]{Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation}\label{fig:motivation1-9}
+\end{figure}
+\end{Schunk}
 
 For a pair of numeric variables, various measures of association have
 been proposed in literature. The distance correlation coefficient
@@ -227,6 +299,26 @@ monotonous, between numeric variables and is in range \([0,1]\).
 \citet{reshef2011detecting} used MIC and other related statistics to
 explore pairwise relationships in large data sets from major-league
 baseball, gene expression, global health, and the human gut microbiota.
+
+To motivate our work on using multiple association measures, consider
+the scatterplots in Figure \ref{fig:motivation1} which show different
+simulated linear and non-linear patterns . Each row of the plot shows
+the simulated pattern, value for Pearson's correlation, distance
+correlation and maximal information coefficient respectively. It is
+evident from Figure \ref{fig:motivation1} that Pearson's correlation and
+distance correlation produce similar results for patterns with linear
+relationships. For majority of the non-linear patterns in Figure
+\ref{fig:motivation1}, MIC seems to be the measure which looks suitable
+in summarizing the relationships. There are a few non-linear patterns
+where distance correlation may be the most suitable association measure.
+This suggests that association measures such as distance correlation,
+MIC and other measures should be used along with Pearson's correlation
+for exploring relationships among variables.
+
+In addition to association measures for numeric variables, association
+measures for ordinal, nominal and mixed variable pairs are useful in
+exploring a multivariate dataset. We now give an overview of available
+association measures for other variable types.
 
 \citet{agresti2010analysis} provides an overview of the association
 measures which are used for exploring association between ordinal
@@ -253,17 +345,6 @@ one variable which is explained by the other variable.
 \section{Section 3: Introducing
 corVis}\label{section-3-introducing-corvis}}
 
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/motivation1-1} 
-
-}
-
-\caption[Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns]{Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC.}\label{fig:motivation1}
-\end{figure}
-\end{Schunk}
-
 \CRANpkg{corVis} is an R package which calculates measures of
 association for every variable pair in a dataset and provides
 visualizations for displaying associations. Most of the existing
@@ -274,18 +355,6 @@ conditional associations display which are useful for uncovering
 interesting patterns in the data. This will help in identifying variable
 pairs which shows a type of relationship or pattern in a dataset with
 large number of variables.
-
-To motivate our work on multiple measures display, consider the
-scatterplots in Figure \ref{fig:motivation1} which show different
-simulated patterns such as wave, trapezoid, diamond, quadratic, X,
-circle and cluster patterns. Each plot shows the value for Pearson's
-correlation, distance correlation and maximal information coefficient by
-rho, dcor and MIC respectively. It is evident from Figure
-\ref{fig:motivation1} that distance correlation and MIC capture these
-patterns quite well as compared to the Pearson's correlation which is
-\(0\) for every case and suggests that association measures such as
-distance correlation, MIC and other measures should be used along with
-Pearson's correlation for exploring relationships among variables.
 
 \begin{Schunk}
 \begin{figure}
@@ -330,17 +399,15 @@ conditional association.
 \centering
 \begin{tabular}[t]{>{}l|l|l}
 \hline
-Function & Usage & Input\\
+Function & Usage & Description\\
 \hline
-\textbf{calc\_assoc} & Calculation & Calculates association and conditional association\\
+\textbf{calc\_assoc} & Calculation & Calculates association measures\\
 \hline
-\textbf{association\_heatmap} & Visualization & Plots association for every variable pair in a matrix layout\\
+\textbf{association\_heatmap} & Visualization & Conventional correlation matrix plot\\
 \hline
-\textbf{pairwise\_2d\_plot} & Visualization & Plots conditional association for every variable pair in a matrix layout\\
+\textbf{pairwise\_2d\_plot} & Visualization & Conditional and multiple measures matrix plot\\
 \hline
-\textbf{pairwise\_1d\_compare} & Visualization & Plots multiple association measures for every variable pair in linear layout\\
-\hline
-\textbf{pairwise\_1d\_plot} & Visualization & Plots conditional association dotplot for every variable pair in a linear layout\\
+\textbf{pairwise\_1d\_plot} & Visualization & Conditional and multiple measures linear plot\\
 \hline
 \end{tabular}
 \end{table}

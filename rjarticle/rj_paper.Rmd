@@ -130,12 +130,22 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with
 
 ## Section 2.2: Literature Review on Association Measures
 
-An association measure is defined as a numerical summary quantifying the relationship between two or more variables. The measure is called symmetric if its value is invariant to the choice of independent or dependent variable during the calculation. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables in the range $[-1,1]$ and is symmetric. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess monotonic relationship among two numeric variables in interval $[-1,1]$ and are symmetric measures. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. We now give an overview of available association measures.
+An association measure is defined as a numerical summary quantifying the relationship between two or more variables. The measure is called symmetric if its value is invariant to the choice of independent or dependent variable during the calculation. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two numeric variables in the range $[-1,1]$ and is symmetric. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess monotonic relationship among two numeric variables in interval $[-1,1]$ and are symmetric measures. As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships. 
 
-```{r motivation1, fig.width=6, fig.height=4, fig.align='center', fig.cap = "Simulated wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value of Pearson's correlation, distance correlation and MIC."}
+```{r motivation1, fig.width=6, fig.height=4, fig.align='center', fig.cap = "Multiple association measures for simulated patterns. Each row of the plot shows a simulated pattern, the value of Pearson's correlation, distance correlation and MIC. While Pearson's correlation and distance correlation shows a high value for patterns with linear relationships, MIC tends to be low. For non-linear patterns, MIC might be a more suitable measure along with distance correlation"}
 
 library(ggplot2)
 library(mvtnorm)
+library(gridExtra)
+
+MvNormal <- function(n = 200, cor = 1) {
+  for (i in cor) {
+    sd = matrix(c(1, i, i, 1), ncol = 2)
+    x = MASS::mvrnorm(n, c(0, 0), sd, empirical=T)
+    #print(plot_fun(x))
+    return(x)
+  }
+}
 # positive linear pattern
 xy <- MvNormal(cor=0.9)
 xlp <- xy[,1]; ylp <- xy[,2]
@@ -145,7 +155,7 @@ xy <- MvNormal(cor=-0.7)
 xln <- xy[,1]; yln <- xy[,2]
 
 
-n <- 100
+n <- 200
 
 # x^1/4 pattern
 x_r4 = runif(n, 0, 1)
@@ -232,10 +242,12 @@ do.call("grid.arrange", c(plots, nrow = 8))
 
 ```
 
-To motivate our work on multiple measures display, consider the scatterplots in Figure \@ref(fig:motivation1) which show different simulated patterns such as wave, trapezoid, diamond, quadratic, X, circle and cluster patterns. Each plot shows the value for Pearson's correlation, distance correlation and maximal information coefficient by rho, dcor and MIC respectively. It is evident from Figure \@ref(fig:motivation1) that distance correlation and MIC capture these patterns quite well as compared to the Pearson's correlation which is $0$ for every case and suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables.
-
 For a pair of numeric variables, various measures of association have been proposed in literature. The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for the non-linear association between two numeric variables and summarizes it in $[0,1]$. Similarly, MIC [@reshef2011detecting] is capable of summarizing different types of relationships, not just linear or monotonous, between numeric variables and is in range $[0,1]$. @reshef2011detecting used MIC and other related statistics to explore pairwise relationships in large data sets from major-league baseball, gene expression, global health, and the human gut microbiota.
 
+To motivate our work on using multiple association measures, consider the scatterplots in Figure \@ref(fig:motivation1) which show different simulated linear and non-linear patterns . Each row of the plot shows the simulated pattern, value for Pearson's correlation, distance correlation and maximal information coefficient respectively. It is evident from Figure \@ref(fig:motivation1) that Pearson's correlation and distance correlation produce similar results for patterns with linear relationships. For majority of the non-linear patterns in Figure \@ref(fig:motivation1), MIC seems to be the measure which looks suitable in summarizing the relationships. There are a few non-linear patterns where distance correlation may be the most suitable association measure. This suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables.
+
+
+In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. We now give an overview of available association measures for other variable types.
 
 @agresti2010analysis provides an overview of the association measures which are used for exploring association between ordinal variables. Kendall's tau-b [@kendall1945treatment] is an association measure useful in summarizing the relationship between two ordinal variables in the range $[-1,1]$. It is a relatively stable measure than Goodman and Kruskal's gamma with respect to the changes in categories of any variable i.e. if two categories are merged to make a single category. The polychoric correlation [@olsson1979maximum] measures the correlation between two ordinal variables  by assuming two normally distributed latent variables for a contingency table of two ordinal variables and summarizes the association in $[-1,1]$.
 
@@ -285,13 +297,13 @@ Usage <- c("Calculation","Visualization","Visualization","Visualization")
 
 #Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",5),rep("Visualization",4),rep("Visualization",5))
 
-Description <- c("Calculates association and conditional association",
+Description <- c("Calculates association measures",
            
-           "Plots conventional correlation matrix plot",
+           "Conventional correlation matrix plot",
            
-           "Matrix plot for conditional association and comparing measures",
+           "Conditional and multiple measures matrix plot",
            
-           "Linear plot for conditional association and comparing measures")
+           "Conditional and multiple measures linear plot")
 
 
 df <- data.frame(Function=Function,
