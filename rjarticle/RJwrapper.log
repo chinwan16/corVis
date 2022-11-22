@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.18)  22 NOV 2022 19:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.18)  22 NOV 2022 19:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -759,23 +759,18 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 183.
 [2]
-<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=151, 524.96124pt x 365.365pt>
+<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=151, 338.26375pt x 244.915pt>
 File: rj_paper_files/figure-latex/motivation-patterns-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/motivation-patterns-1.pdf>
 Package pdftex.def Info: rj_paper_files/figure-latex/motivation-patterns-1.pdf  used on input line 227.
-(pdftex.def)             Requested size: 524.95996pt x 365.3641pt.
-
-Overfull \hbox (126.62138pt too wide) in paragraph at lines 227--228
- [][] 
- []
-
-[3] [4 <./rj_paper_files/figure-latex/motivation-patterns-1.pdf>]
-<rj_paper_files/figure-latex/motivation2-1.pdf, id=192, 343.2825pt x 277.035pt>
+(pdftex.def)             Requested size: 338.26291pt x 244.91438pt.
+[3 <./rj_paper_files/figure-latex/motivation-patterns-1.pdf>]
+<rj_paper_files/figure-latex/motivation2-1.pdf, id=182, 343.2825pt x 277.035pt>
 File: rj_paper_files/figure-latex/motivation2-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/motivation2-1.pdf>
 Package pdftex.def Info: rj_paper_files/figure-latex/motivation2-1.pdf  used on input line 316.
 (pdftex.def)             Requested size: 343.28165pt x 277.03432pt.
-[5 <./rj_paper_files/figure-latex/motivation2-1.pdf>]
+[4] [5 <./rj_paper_files/figure-latex/motivation2-1.pdf>]
 Overfull \hbox (152.06586pt too wide) in paragraph at lines 436--456
  [][] 
  []
@@ -856,7 +851,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 2530F3C60EBD961C06E72A7C979E33C0;4013.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: C5DE34F728782F7EA60FFFAE196D5733;1779.
+(rerunfilecheck)             Checksum: 99F7F910378AF8694BFA87D8809A4692;1779.
  ) 
 Here is how much of TeX's memory you used:
  26835 strings out of 477006
@@ -865,12 +860,12 @@ Here is how much of TeX's memory you used:
  47111 multiletter control sequences out of 15000+600000
  515665 words of font info for 285 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 115i,11n,131p,1006b,819s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 115i,12n,131p,1006b,825s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (19 pages, 366040 bytes).
+Output written on RJwrapper.pdf (19 pages, 366258 bytes).
 PDF statistics:
- 492 PDF objects out of 1000 (max. 8388607)
- 417 compressed objects within 5 object streams
+ 494 PDF objects out of 1000 (max. 8388607)
+ 419 compressed objects within 5 object streams
  87 named destinations out of 1000 (max. 500000)
  63164 words of extra memory for PDF output out of 74296 (max. 10000000)
 
