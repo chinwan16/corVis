@@ -167,7 +167,7 @@ association_heatmap <- function(lassoc, uassoc=NULL, glyph = c("square","circle"
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
                    axis.text = ggplot2::element_text(size = 5),
-                   panel.background = ggplot2::element_rect(),
+                   panel.background = ggplot2::element_rect(fill="white"),
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
                    panel.spacing = ggplot2::unit(0,'lines'),

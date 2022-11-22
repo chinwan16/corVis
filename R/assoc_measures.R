@@ -481,3 +481,40 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
   scag$measure <- mapply(scag_fn, scag$x,scag$y)
   scag
 }
+
+
+#' Pearson's Contingency Coefficient
+#'
+#' Calculates Pearson's Contingency coefficient for every variable pair in a dataset.
+#'
+#' @param d dataframe
+#' @param handle.na If TRUE uses pairwise complete observations.
+#' @param ... other arguments
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' tbl_chi(iris)
+
+tbl_ace <- function(d, handle.na = T, ...) {
+
+  d <- dplyr::select(d, where(is.numeric))
+  ace_assoc <- assoc_tibble(d, measure_type = "ace")
+  ace_fn <- function(x,y) {
+
+    x <- d[[x]]
+    y <- d[[y]]
+    if(handle.na){
+      pick <- stats::complete.cases(x, y)
+      x <- x[pick]
+      y <- y[pick]
+    }
+
+    ace_assoc <- acepack::ace(x=x, y=y)[["rsq"]]
+    ace_assoc
+  }
+
+  ace_assoc$measure <- mapply(ace_fn, ace_assoc$x,ace_assoc$y)
+  ace_assoc
+}

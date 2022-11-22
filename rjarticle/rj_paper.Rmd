@@ -504,7 +504,7 @@ The function `association_heatmap` is used to display a matrix layout with assoc
 Figure \@ref(fig:assoc-heatmap) shows an example of the association matrix display for every variable pair in the chronic kidney disease dataset. The cells along the diagonal of the matrix display show the variables present in the dataset. Every off diagonal cell is colored using a divergent color scale with limits $[-1,1]$ representing the value of association measure between two variables. The plot shows Pearson's correlation for the numeric pair of variables and canonical correlation for mixed and nominal variable pairs. 
 
 
-```{r assoc-heatmap,fig.width=5, fig.height=4, fig.align='center', fig.cap="Association matrix display for penguins data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.",echo=TRUE}
+```{r assoc-heatmap,fig.width=5, fig.height=4, fig.align='center', fig.cap="Association matrix display for kidney data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.",echo=TRUE}
 ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
 
 vars <- c("bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
@@ -530,7 +530,7 @@ gridExtra::grid.arrange(p1,p2,ncol=2)
 ```
 
 
-Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation between `bgr` and `su`, `rbcc` and `htn`, and, `pcv` and `al` which are mixed variable pairs in the dataset. These variable pairs are further looked into using boxplots. Figure \@ref(fig:mixed_pairs) shows boxplot for these variable pairs and is evident there is an association among these variable pairs.
+Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation between `bgr` and `su`, `rbcc` and `htn`, and, `pcv` and `al` which are mixed variable pairs in the dataset. These variable pairs are further looked into using boxplots. Figure \@ref(fig:mixed-pairs) shows boxplot for these variable pairs and is evident there is an association among these variable pairs.
 
 ```{r mixed-pairs, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . "}
 

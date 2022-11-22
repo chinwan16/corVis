@@ -84,7 +84,7 @@ It is clearly evident from Figure 1 that flipper length and body mass of penguin
 df <- penguins
 monotonic <- tbl_scag(df,scagnostic = "Monotonic")
 
-association_heatmap(monotonic)
+association_heatmap(monotonic, limits = c(0,1))
 ```
 
 ### Comparing scagnostics
@@ -106,21 +106,22 @@ monotonic <- tbl_scag(df,scagnostic = "Monotonic")
 
 scag_measures <- rbind(outlying, skewed, clumpy, sparse, striated, convex, skinny, stringy,
                        monotonic)
-pairwise_1d_compare(scag_measures)
+pairwise_1d_compare(scag_measures, limits = c(0,1))
 ```
 
 ### Conditional Scagnostics
 
-The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 3 shows a conditional plot for the *penguins* data. Each cell corresponding to a variable pair shows three bars which correspond to the monotonic scagnostic measure calculated at the levels of conditioning variable *species*. The dashed line represents the overall value of monotonic measure.
+The package includes a function `calc_assoc_by` which calculates the pairwise association at different levels of a categorical conditioning variable. This helps in finding out interesting variable triples which can be explored further prior to modeling. Figure 3 shows a conditional plot for the *penguins* data. Each cell corresponding to a variable pair shows three bars which correspond to the clumpy scagnostic measure calculated at the levels of conditioning variable *species*. The dotted line represents the overall value of clumpy measure.
 
-Figure 3 clearly shows that there is a strong relationship between bill depth and bill length for Chinstrap and Gentoo penguins which is not evident when we look at the overall relationship between bill depth and bill length (Figure 2).  
+Figure 3 shows that there is a high value for clumpy for variable pairs flipper length and bill depth, and, body mass and bill depth suggesting a presence of cluster of data points for these pairs. The low values of clumpy for both of these pairs at different levels of species shows that different species of penguins tend to have different pairwise values for flipper length and bill depth, and, body mass and bill depth.  
+
 
 
 ```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 3: Conditional scagnostics plot"}
 
 df_num <- dplyr::select(df, where(is.numeric),"species")
 
-updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Monotonic")
+updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Clumpy")
 
 cond_assoc <- calc_assoc_by(df_num, types = updated_assoc, by="species")
 pairwise_2d_plot(cond_assoc)
