@@ -99,25 +99,11 @@ cond_assoc <- calc_assoc_by(df, by="island")
 pairwise_2d_plot(cond_assoc)
 ```
 
-We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure 5 shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present.
-
-```{r,fig.width=4, fig.height=4, fig.align='center',fig.cap="Figure 5: Conditional Association plot with Simpson's paradox"}
-pairwise_2d_plot_sp_high(cond_assoc,highlight = "sp")
-```
-
-The cells can also be highlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score. Figure 6 shows highlighted cells on the basis of a score provided for a subset of variable pairs.
-
-```{r,fig.width=4, fig.height=4, fig.align='center',fig.cap="Figure 6: Conditional Association plot with manual highlighting"}
-highlight <- data.frame(x=c("bill_depth_mm","bill_length_mm","body_mass_g"),
-                        y=rep("flipper_length_mm",3),score=c(0.8,0.4,0.1))
-pairwise_2d_plot_sp_high(cond_assoc,highlight = highlight)
-```
 
 
+We can also use linear layouts for displaying conditional association. Figure 5 shows a funnel-like linear display for conditional association measures with all the variable pairs on the y-axis, the value of association measure on x-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
 
-We can also use linear layouts for displaying conditional association. Figure 7 shows a funnel-like linear display for conditional association measures with all the variable pairs on the y-axis, the value of association measure on x-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
-
-```{r fig.width=4, fig.height=5, fig.align='center', fig.cap="Figure 7: Conditional Association plot using linear layout"}
+```{r fig.width=4, fig.height=5, fig.align='center', fig.cap="Figure 5: Conditional Association plot using linear layout"}
 
 pairwise_1d_plot(cond_assoc)
 ```

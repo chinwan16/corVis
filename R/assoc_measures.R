@@ -511,7 +511,7 @@ tbl_ace <- function(d, handle.na = T, ...) {
       y <- y[pick]
     }
 
-    ace_assoc <- acepack::ace(x=x, y=y)[["rsq"]]
+    ace_assoc <- sqrt(acepack::ace(x=x, y=y)[["rsq"]])
     ace_assoc
   }
 
