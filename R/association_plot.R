@@ -127,6 +127,7 @@ pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default
 association_heatmap <- function(lassoc, uassoc=NULL, glyph = c("square","circle"), var_order = "default", limits=c(-1,1)){
 
   glyph = match.arg(glyph)
+  vartypes <- attr(lassoc,"vartypes")
 
   if (isTRUE(var_order == "default")){
     var_order <- order_assoc(lassoc, method=var_order)
@@ -151,19 +152,22 @@ association_heatmap <- function(lassoc, uassoc=NULL, glyph = c("square","circle"
   diag_df$measure <- NA
   diag_df$intercept <- NA
   diag_df$text <- diag_df$x
+  diag_df$var_type <- vartypes[var_order]
   assoc$text <- NA
   assoc$intercept <- 0
+  assoc$var_type <- NA
   assoc <- rbind(assoc, diag_df)
 
   p <- ggplot2::ggplot(assoc) +
 
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
-    ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text),size=3)+
+    ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text,color=.data$var_type),size=3)+
     ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
                        color="grey",alpha=0) +
     #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
     #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +
     ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
+    ggplot2::scale_color_hue(guide = "none") +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
                    axis.text = ggplot2::element_text(size = 5),

@@ -9,7 +9,7 @@ tbl_nmi(d, handle.na = T, ...)
 \arguments{
 \item{d}{dataframe}
 
-\item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
+\item{handle.na}{If TRUE uses pairwise complete observations to calculate normalized mutual information}
 
 \item{...}{other arguments}
 }

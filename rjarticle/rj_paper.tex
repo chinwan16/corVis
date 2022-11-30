@@ -471,29 +471,22 @@ dataset, the function \texttt{tbl\_dcor} is used.
 
 \begin{Schunk}
 \begin{Sinput}
-ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
-df <- ckd
-#df$al <- as.ordered(df$al)
-#df$su <- as.ordered(df$su)
+df <- iris
+
 
 distance <- tbl_dcor(df)
 distance
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 55 x 4
-#>    x     y     measure measure_type
-#>    <chr> <chr>   <dbl> <chr>       
-#>  1 bp    age     0.189 dcor        
-#>  2 bgr   age     0.303 dcor        
-#>  3 bu    age     0.249 dcor        
-#>  4 sc    age     0.242 dcor        
-#>  5 sod   age     0.154 dcor        
-#>  6 pot   age     0.119 dcor        
-#>  7 hemo  age     0.254 dcor        
-#>  8 pcv   age     0.296 dcor        
-#>  9 wbcc  age     0.173 dcor        
-#> 10 rbcc  age     0.307 dcor        
-#> # ... with 45 more rows
+#> # A tibble: 6 x 4
+#>   x            y            measure measure_type
+#>   <chr>        <chr>          <dbl> <chr>       
+#> 1 Sepal.Width  Sepal.Length   0.311 dcor        
+#> 2 Petal.Length Sepal.Length   0.859 dcor        
+#> 3 Petal.Width  Sepal.Length   0.827 dcor        
+#> 4 Petal.Length Sepal.Width    0.542 dcor        
+#> 5 Petal.Width  Sepal.Width    0.513 dcor        
+#> 6 Petal.Width  Petal.Length   0.974 dcor
 \end{Soutput}
 \end{Schunk}
 
@@ -550,27 +543,26 @@ default_measures
 #> 4 tbl_cancor other   other   <NULL>
 \end{Soutput}
 \begin{Sinput}
-ckd_assoc <- calc_assoc(df,types = default_assoc())
-ckd_assoc
+iris_assoc <- calc_assoc(df,types = default_assoc())
+iris_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 300 x 4
-#>    x     y     measure measure_type
-#>    <chr> <chr>   <dbl> <chr>       
-#>  1 bp    age    0.159  pearson     
-#>  2 sg    age    0.199  cancor      
-#>  3 al    age    0.235  cancor      
-#>  4 su    age    0.287  cancor      
-#>  5 rbc   age    0.0800 cancor      
-#>  6 pc    age    0.151  cancor      
-#>  7 pcc   age    0.158  cancor      
-#>  8 ba    age    0.0422 cancor      
-#>  9 bgr   age    0.245  pearson     
-#> 10 bu    age    0.197  pearson     
-#> # ... with 290 more rows
+#> # A tibble: 10 x 4
+#>    x            y            measure measure_type
+#>    <chr>        <chr>          <dbl> <chr>       
+#>  1 Sepal.Width  Sepal.Length  -0.118 pearson     
+#>  2 Petal.Length Sepal.Length   0.872 pearson     
+#>  3 Petal.Width  Sepal.Length   0.818 pearson     
+#>  4 Species      Sepal.Length   0.787 cancor      
+#>  5 Petal.Length Sepal.Width   -0.428 pearson     
+#>  6 Petal.Width  Sepal.Width   -0.366 pearson     
+#>  7 Species      Sepal.Width    0.633 cancor      
+#>  8 Petal.Width  Petal.Length   0.963 pearson     
+#>  9 Species      Petal.Length   0.970 cancor      
+#> 10 Species      Petal.Width    0.964 cancor
 \end{Soutput}
 \begin{Sinput}
-class(ckd_assoc)
+class(iris_assoc)
 \end{Sinput}
 \begin{Soutput}
 #> [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"
@@ -621,24 +613,23 @@ different association measures and then merging the output tibbles.
 
 \begin{Schunk}
 \begin{Sinput}
-updated_ckd_assoc <- calc_assoc(df, types = updated_assoc)
-updated_ckd_assoc
+updated_iris_assoc <- calc_assoc(df, types = updated_assoc)
+updated_iris_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 300 x 4
-#>    x     y     measure measure_type
-#>    <chr> <chr>   <dbl> <chr>       
-#>  1 bp    age    0.123  spearman    
-#>  2 sg    age    0.199  cancor      
-#>  3 al    age    0.235  cancor      
-#>  4 su    age    0.287  cancor      
-#>  5 rbc   age    0.0800 cancor      
-#>  6 pc    age    0.151  cancor      
-#>  7 pcc   age    0.158  cancor      
-#>  8 ba    age    0.0422 cancor      
-#>  9 bgr   age    0.299  spearman    
-#> 10 bu    age    0.309  spearman    
-#> # ... with 290 more rows
+#> # A tibble: 10 x 4
+#>    x            y            measure measure_type
+#>    <chr>        <chr>          <dbl> <chr>       
+#>  1 Sepal.Width  Sepal.Length  -0.167 spearman    
+#>  2 Petal.Length Sepal.Length   0.882 spearman    
+#>  3 Petal.Width  Sepal.Length   0.834 spearman    
+#>  4 Species      Sepal.Length   0.787 cancor      
+#>  5 Petal.Length Sepal.Width   -0.310 spearman    
+#>  6 Petal.Width  Sepal.Width   -0.289 spearman    
+#>  7 Species      Sepal.Width    0.633 cancor      
+#>  8 Petal.Width  Petal.Length   0.938 spearman    
+#>  9 Species      Petal.Length   0.970 cancor      
+#> 10 Species      Petal.Width    0.964 cancor
 \end{Soutput}
 \end{Schunk}
 
@@ -655,24 +646,24 @@ variable and needs to be categorical.
 
 \begin{Schunk}
 \begin{Sinput}
-ckd_assoc_by <- calc_assoc_by(df,by = "htn")
-ckd_assoc_by
+iris_assoc_by <- calc_assoc_by(df,by = "Species")
+iris_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 1,104 x 5
-#>    x     y      measure measure_type by   
-#>    <chr> <chr>    <dbl> <chr>        <fct>
-#>  1 bp    age   -0.112   pearson      yes  
-#>  2 sg    age    0.0240  cancor       yes  
-#>  3 al    age    0.130   cancor       yes  
-#>  4 su    age    0.219   cancor       yes  
-#>  5 rbc   age    0.115   cancor       yes  
-#>  6 pc    age    0.101   cancor       yes  
-#>  7 pcc   age    0.0609  cancor       yes  
-#>  8 ba    age    0.00562 cancor       yes  
-#>  9 bgr   age    0.0303  pearson      yes  
-#> 10 bu    age   -0.135   pearson      yes  
-#> # ... with 1,094 more rows
+#> # A tibble: 24 x 5
+#>    x            y            measure measure_type by        
+#>    <chr>        <chr>          <dbl> <chr>        <fct>     
+#>  1 Sepal.Width  Sepal.Length   0.743 pearson      setosa    
+#>  2 Petal.Length Sepal.Length   0.267 pearson      setosa    
+#>  3 Petal.Width  Sepal.Length   0.278 pearson      setosa    
+#>  4 Petal.Length Sepal.Width    0.178 pearson      setosa    
+#>  5 Petal.Width  Sepal.Width    0.233 pearson      setosa    
+#>  6 Petal.Width  Petal.Length   0.332 pearson      setosa    
+#>  7 Sepal.Width  Sepal.Length   0.526 pearson      versicolor
+#>  8 Petal.Length Sepal.Length   0.754 pearson      versicolor
+#>  9 Petal.Width  Sepal.Length   0.546 pearson      versicolor
+#> 10 Petal.Length Sepal.Width    0.561 pearson      versicolor
+#> # ... with 14 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -685,24 +676,31 @@ behavior can be changed by setting \texttt{include.overall} argument to
 
 \begin{Schunk}
 \begin{Sinput}
-ckd_assoc_by <- calc_assoc_by(df,by = "htn",include.overall = FALSE)
-ckd_assoc_by
+iris_assoc_by <- calc_assoc_by(df,by = "Species",include.overall = FALSE)
+iris_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 828 x 5
-#>    x     y      measure measure_type by   
-#>    <chr> <chr>    <dbl> <chr>        <fct>
-#>  1 bp    age   -0.112   pearson      yes  
-#>  2 sg    age    0.0240  cancor       yes  
-#>  3 al    age    0.130   cancor       yes  
-#>  4 su    age    0.219   cancor       yes  
-#>  5 rbc   age    0.115   cancor       yes  
-#>  6 pc    age    0.101   cancor       yes  
-#>  7 pcc   age    0.0609  cancor       yes  
-#>  8 ba    age    0.00562 cancor       yes  
-#>  9 bgr   age    0.0303  pearson      yes  
-#> 10 bu    age   -0.135   pearson      yes  
-#> # ... with 818 more rows
+#> # A tibble: 18 x 5
+#>    x            y            measure measure_type by        
+#>    <chr>        <chr>          <dbl> <chr>        <fct>     
+#>  1 Sepal.Width  Sepal.Length   0.743 pearson      setosa    
+#>  2 Petal.Length Sepal.Length   0.267 pearson      setosa    
+#>  3 Petal.Width  Sepal.Length   0.278 pearson      setosa    
+#>  4 Petal.Length Sepal.Width    0.178 pearson      setosa    
+#>  5 Petal.Width  Sepal.Width    0.233 pearson      setosa    
+#>  6 Petal.Width  Petal.Length   0.332 pearson      setosa    
+#>  7 Sepal.Width  Sepal.Length   0.526 pearson      versicolor
+#>  8 Petal.Length Sepal.Length   0.754 pearson      versicolor
+#>  9 Petal.Width  Sepal.Length   0.546 pearson      versicolor
+#> 10 Petal.Length Sepal.Width    0.561 pearson      versicolor
+#> 11 Petal.Width  Sepal.Width    0.664 pearson      versicolor
+#> 12 Petal.Width  Petal.Length   0.787 pearson      versicolor
+#> 13 Sepal.Width  Sepal.Length   0.457 pearson      virginica 
+#> 14 Petal.Length Sepal.Length   0.864 pearson      virginica 
+#> 15 Petal.Width  Sepal.Length   0.281 pearson      virginica 
+#> 16 Petal.Length Sepal.Width    0.401 pearson      virginica 
+#> 17 Petal.Width  Sepal.Width    0.538 pearson      virginica 
+#> 18 Petal.Width  Petal.Length   0.322 pearson      virginica
 \end{Soutput}
 \end{Schunk}
 
@@ -729,33 +727,32 @@ display association and conditional association for every variable pair
 in a dataset in a single plot and show multiple bivariate measures of
 association simultaneously.
 
-We use chronic kidney dataset providing information on early stage of
-Chronic Kidney Disease(CKD) patients from the \citep{Dua:2019} to
-provide illustrative examples. Table \ref{tab:ckd} provides a brief
-description of set of variables from this dataset used for analysis.
+We use Steel Industry Energy consumption dataset providing information
+on energy consumption by a steel company in South Korea from the
+\citep{Dua:2019} to provide illustrative examples. Table
+\ref{tab:steelindustry} provides a brief description of set of variables
+from this dataset used for analysis.
 
 \begin{Schunk}
 \begin{table}
 
-\caption{\label{tab:ckd}Variable description of the chronic kidney dataset along with the types of variables}
+\caption{\label{tab:steelindustry}Variable description of the Steel Industry Energy consumption dataset along with the types of variables}
 \centering
 \begin{tabular}[t]{lll}
 \toprule
 Variable & Description & VariableType\\
 \midrule
-bgr & Blood Glucose Random in mgs/dl & numerical\\
-bu & Blood Urea mgs/dl & numerical\\
-rbcc & Red Blood Cell Count in millions/cmm & numerical\\
-pcv & Packed  Cell Volume & numerical\\
-sod & Sodium in mEq/L & numerical\\
+Usage\_kWh & Energy Consumption in kWh & numerical\\
+LgCRP & Lagging Current reactive power in kVarh & numerical\\
+LdCRP & Leading Current reactive power in kVarh & numerical\\
+CO2.tCO2. & CO2 emission in ppm & numerical\\
+LgCPF & Lagging Current power factor & numerical\\
 \addlinespace
-sc & Serum Creatinine in mgs/dl & numerical\\
-al & Albumin (0,1,2,3,4,5) & ordinal\\
-su & Sugar (0,1,2,3,4,5) & ordinal\\
-htn & Hypertension (yes,no) & nominal\\
-dm & Diabetes Mellitus (yes,no) & nominal\\
-\addlinespace
-cad & Coronary Artery Disease (yes,no) & nominal\\
+LdCPF & Leading Current power factor & numerical\\
+NSM & Number of Seconds from midnight & numerical\\
+WeekStatus & Week status (0 for weekend, 1 for weekday) & nominal\\
+Day\_of\_week & Day of the week & nominal\\
+Load\_Type & Load type (Light Load, Medium Load or Maximum Load) & ordinal\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -784,25 +781,22 @@ variables. The function also has a \texttt{limits} argument specifying
 the limit of the color scale.
 
 Figure \ref{fig:assoc-heatmap} shows an example of the association
-matrix display for every variable pair in the chronic kidney disease
-dataset. The cells along the diagonal of the matrix display show the
-variables present in the dataset. Every off diagonal cell is colored
-using a divergent color scale with limits \([-1,1]\) representing the
-value of association measure between two variables. The plot shows
-Pearson's correlation for the numeric pair of variables and canonical
-correlation for mixed and nominal variable pairs.
+matrix display for every variable pair in the energy comsumption for
+steel industry dataset. The cells along the diagonal of the matrix
+display show the variables present in the dataset. Every off diagonal
+cell is colored using a divergent color scale with limits \([-1,1]\)
+representing the value of association measure between two variables. The
+plot shows Pearson's correlation for the numeric pair of variables and
+canonical correlation for mixed and nominal variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
-ckd <- RWeka::read.arff("../data/chronic_kidney_disease.arff")
-
-vars <- c("bgr","bu","rbcc","pcv","sod","sc","al","su","htn","dm","cad")
-df <- ckd[,vars]
+df <- steelindustry
 #df$al <- as.ordered(df$al)
 #df$su <- as.ordered(df$su)
 
-assoc <- calc_assoc(df)
-association_heatmap(assoc)
+assoc_steel <- calc_assoc(df)
+association_heatmap(assoc_steel)
 \end{Sinput}
 \begin{figure}
 
@@ -810,16 +804,16 @@ association_heatmap(assoc)
 
 }
 
-\caption[Association matrix display for kidney data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs]{Association matrix display for kidney data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.}\label{fig:assoc-heatmap}
+\caption[Association matrix display for energy consumption data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs]{Association matrix display for energy consumption data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.}\label{fig:assoc-heatmap}
 \end{figure}
 \end{Schunk}
 
 For numeric pairs, Figure \ref{fig:assoc-heatmap} shows a high positive
-Pearson's correlation among \texttt{rbcc} and \texttt{pcv} and a high
-negative Pearson's correlation between \texttt{sc} and \texttt{sod}.
-Figure \ref{fig:numeric-pairs} shows scatterplot for these two pairs of
-variables and is evident that these pairs seems to be linearly
-associated.
+Pearson's correlation among \texttt{Usage\_kWh} and \texttt{Co2.tCO2.}
+and a high negative Pearson's correlation between \texttt{LdCRP} and
+\texttt{LdCPF}. Figure \ref{fig:numeric-pairs} shows scatterplot for
+these two pairs of variables and is evident that these pairs seem to be
+linearly associated.
 
 \begin{Schunk}
 \begin{figure}
@@ -828,16 +822,16 @@ associated.
 
 }
 
-\caption[Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables rbcc and pcv, and, sc and sod showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric-pairs}
+\caption[Scatterplot for variables Usage_kWh and Co2.tCO2., and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables Usage_kWh and Co2.tCO2., and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric-pairs}
 \end{figure}
 \end{Schunk}
 
 Figure \ref{fig:assoc-heatmap} shows a high canonical correlation
-between \texttt{bgr} and \texttt{su}, \texttt{rbcc} and \texttt{htn},
-and, \texttt{pcv} and \texttt{al} which are mixed variable pairs in the
-dataset. These variable pairs are further looked into using boxplots.
-Figure \ref{fig:mixed-pairs} shows boxplot for these variable pairs and
-is evident there is an association among these variable pairs.
+between \texttt{Load\_Type} and \texttt{Usage\_kWh}, and,
+\texttt{Load\_Type} and \texttt{NSM} which are mixed variable pairs in
+the dataset. These variable pairs are further looked into using
+boxplots. Figure \ref{fig:mixed-pairs} shows boxplot for these variable
+pairs and is evident there is an association among these variable pairs.
 
 \begin{Schunk}
 \begin{figure}
@@ -846,14 +840,15 @@ is evident there is an association among these variable pairs.
 
 }
 
-\caption[Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation ]{Boxplot for variables bgr and su, htn and rbcc, and, al and pcv showing a high canonical correlation . }\label{fig:mixed-pairs}
+\caption[Boxplot for variables Load_Type and Usage_kWh, and, Load_Type and NSM showing a high canonical correlation]{Boxplot for variables Load_Type and Usage_kWh, and, Load_Type and NSM showing a high canonical correlation. }\label{fig:mixed-pairs}
 \end{figure}
 \end{Schunk}
 
 For nominal variable pairs, Figure \ref{fig:assoc-heatmap} shows a high
-canonical correlation among \texttt{htn} and \texttt{al}, \texttt{htn}
-and \texttt{dm}, and, \texttt{dm} and \texttt{su}. These pairs of
-variables can be further looked at by plotting proportional bar charts.
+canonical correlation among \texttt{WeekStatus} and
+\texttt{Day\_of\_week} only. Because both variables are nested
+variables, there is a high association among them and is picked by
+canonical correlation.
 
 \hypertarget{multiple-association-measures-plot}{%
 \subsection{Multiple Association Measures
@@ -861,7 +856,7 @@ Plot}\label{multiple-association-measures-plot}}
 
 The function \texttt{pairwise\_1d\_compare} is used to display a linear
 layout for comparing multiple association measures calculated for
-variable pairs in the dataset. \texttt{pairwise\_1d\_compare} the
+variable pairs in the dataset. \texttt{pairwise\_1d\_compare} takes the
 calculated association measures as input and outputs a heatmap display
 by plotting all the variable pairs in the dataset on the Y-axis and the
 association measures on the X-axis and encoding the magnitude of
@@ -876,27 +871,30 @@ also has a \texttt{var\_order} argument which is set to
 \texttt{max\_diff} by default and orders the variable pairs on the basis
 of maximum difference among the magnitude of measures.
 
-Figure \ref{fig:compare-linear} shows a linear layout comparing multiple
-association measures for all the variable pairs in the chronic kidney
-data. The plot shows that the variable pair sc and sod have a magnitude
-for Pearson's correlation and a magnitude for Spearman's rank
-correlation suggesting that the relationship among these variables might
-not be linear and should be looked at in more detail. For variable pairs
-sc and rbcc, and, sc and pcv, the Spearman's rank correlation has a high
-magnitude indicating a presence of monotonic relationship for these
-variable pairs.
+Figure \ref{fig:compare-linear} shows the output of
+\texttt{pairwise\_1d\_compare} comparing association measures such as
+canonical correlation, MIC, Pearson's correlation, Spearman's
+correlation and distance correlation for all the variable pairs in the
+dataset. The cells where association measures are not defined for
+specific variable pairs have been colored grey. An interesting variable
+pair evident in the plot is \texttt{LgCPF} and \texttt{LgCRP} which has
+a low value for all the measures except MIC. On looking at the
+scatterplot (\ref{fig:comp-var-pairs}) of \texttt{LgCPF} and
+\texttt{LgCRP}, it seems MIC is able to detect the non-linear pattern
+quite well in this case compared to the other association measures.
 
 \begin{Schunk}
 \begin{Sinput}
-pearson <- tbl_cor(df,method = "pearson")
-spearman <- tbl_cor(df, method = "spearman")
-distance <- tbl_dcor(df)
-mic <- tbl_mine(df)
-cancor <- tbl_cancor(df)
+pearson_steel <- tbl_cor(df,method = "pearson")
+spearman_steel <- tbl_cor(df, method = "spearman")
+distance_steel <- tbl_dcor(df)
+mic_steel <- tbl_mine(df)
+cancor_steel <- tbl_cancor(df)
 
-assoc <- rbind(pearson, spearman, distance, mic, cancor)
-
-pairwise_1d_compare(assoc)
+compare_assoc_steel <- rbind(pearson_steel, spearman_steel, distance_steel, mic_steel, cancor_steel)
+compare_assoc_steel$measure_type <- factor(compare_assoc_steel$measure_type,
+                                           levels = c("cancor","mic","dcor","pearson","spearman"))
+pairwise_1d_compare(compare_assoc_steel)
 \end{Sinput}
 \begin{figure}
 
@@ -904,7 +902,7 @@ pairwise_1d_compare(assoc)
 
 }
 
-\caption[Comparing multiple association measures using a linear layout]{Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey showing that the measure is not defined for corresponding pair.}\label{fig:compare-linear}
+\caption[Comparing multiple association measures using a linear layout]{Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.}\label{fig:compare-linear}
 \end{figure}
 \end{Schunk}
 
@@ -915,14 +913,9 @@ pairwise_1d_compare(assoc)
 
 }
 
-\caption[Scatterplots for numeric variable pairs with high difference among the magnitude of association measures]{Scatterplots for numeric variable pairs with high difference among the magnitude of association measures}\label{fig:comp-var-pairs}
+\caption[Scatterplot for numeric variable pairs with high difference among the magnitude of association measures]{Scatterplot for numeric variable pairs with high difference among the magnitude of association measures}\label{fig:comp-var-pairs}
 \end{figure}
 \end{Schunk}
-
-Figure \ref{fig:comp-var-pairs} shows scatterplots for the three
-variable pairs which are picked out from the multiple measures plot.
-These pairs have a high magnitude difference for Pearson's and
-Spearman's correlation.
 
 \hypertarget{conditional-association-plot}{%
 \subsection{Conditional Association
@@ -954,21 +947,23 @@ height and color of the bars coded by the value of association measure
 and the type of association measure respectively.
 
 Figure \ref{fig:cond-assoc} shows a conditional association plot for the
-chronic kidney data. Each cell corresponding to a variable pair shows
-two bars which correspond to the association measure (Pearson's
-correlation for numeric pair, Kendall's tau-b for ordered pair and
-canonical correlation coefficient for other combination of variables)
-calculated at the levels of conditioning variable \texttt{htn}
-i.e.~whether the patient suffers from hypertension or not. The dashed
-line represents the overall association measure. The plot indicates that
-there is a high difference in the measure (Pearson's correlation) value
-for the variable pair sc and sod among the patients with and without
-hypertension.
+Steel industry energy consumption data. Each cell corresponding to a
+variable pair shows seven bars which correspond to the association
+measure (MIC for numeric pair and canonical correlation coefficient for
+mixed and nominal variable pairs) calculated at the levels of
+conditioning variable \texttt{Day\_of\_week}. The dotted line represents
+the overall association measure. The plot indicates that there is a high
+difference in the measure (MIC) value for the variable pair
+\texttt{LgCRP} and \texttt{Usage\_kWh} for Saturday and Sunday, compared
+to other days and overall value.
 
 \begin{Schunk}
 \begin{Sinput}
-cond_assoc <- calc_assoc_by(df, by="htn")
-pairwise_2d_plot(cond_assoc)
+updated_assoc <- update_assoc(default=default_assoc(),
+                              num_pair = "tbl_mine",
+                              mixed_pair = "tbl_cancor")
+cond_assoc_steel <- calc_assoc_by(df, by="Day_of_week",types = updated_assoc)
+pairwise_2d_plot(cond_assoc_steel)
 \end{Sinput}
 \begin{figure}
 
@@ -981,12 +976,13 @@ pairwise_2d_plot(cond_assoc)
 \end{Schunk}
 
 Figure \ref{fig:high-diff} shows the scatterplot for the variable pair
-sc and sod spllitted by the conditioning variable htn. The plot
-indicates that there might be a stronger linear relationship among sc
-and sod for the people having hypertension compared to patients without
-hypertension. It is possible to filter out more variable pairs from the
-conditional association plot having high difference for association
-measure among the groups and further investigate these pairs.
+\texttt{LgCPR} and \texttt{Usage\_kWh} faceted by the conditioning
+variable \texttt{Day\_of\_week}. The scatterplot for \texttt{Sunday}
+shows a weaker association than other days of the week and could be
+investigated in more detail. It is possible to filter out more variable
+pairs from the conditional association plot having high difference for
+association measure among the groups and further investigate these
+pairs.
 
 \begin{Schunk}
 \begin{figure}
@@ -995,7 +991,7 @@ measure among the groups and further investigate these pairs.
 
 }
 
-\caption[Scatterplot for variable pair sc and sod splitted by a conditioning variable htn]{Scatterplot for variable pair sc and sod splitted by a conditioning variable htn.}\label{fig:high-diff}
+\caption[Scatterplot for variable pair LgCPR and Usage_kWh splitted by a conditioning variable htn]{Scatterplot for variable pair LgCPR and Usage_kWh splitted by a conditioning variable htn.}\label{fig:high-diff}
 \end{figure}
 \end{Schunk}
 
@@ -1038,7 +1034,7 @@ variables and number of levels of grouping variable are high.
 
 \begin{Schunk}
 \begin{Sinput}
-pairwise_1d_plot(cond_assoc)
+pairwise_1d_plot(cond_assoc_steel)
 \end{Sinput}
 \begin{figure}
 
@@ -1049,19 +1045,6 @@ pairwise_1d_plot(cond_assoc)
 \caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear-cond-assoc}
 \end{figure}
 \end{Schunk}
-
-The \texttt{pairwise\_2d\_plot} function is also useful for comparing
-various measures using the matrix layout. It plots multiple measures
-among the variable pairs as bars, where each bar represents one measure
-of association. Figure \ref{fig:compare-matrix} shows a matrix layout
-comparing Pearson's and Spearman's correlation coefficient for the
-numeric variable pairs in \texttt{penguins} data. The plot shows that
-the value for both the correlation coefficients are very high for
-\texttt{bill\_length} and \texttt{flipper\_length},
-\texttt{bill\_length} and \texttt{body\_mass}, and
-\texttt{flipper\_length} and \texttt{body\_mass} suggesting a strong
-linear and montonic relationship among these variable pairs in the
-dataset.
 
 \begin{Schunk}
 \begin{Sinput}

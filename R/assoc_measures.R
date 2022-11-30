@@ -229,7 +229,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #' Calculates normalized mutual information for every variable pair in a dataset.
 #'
 #' @param d dataframe
-#' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
+#' @param handle.na If TRUE uses pairwise complete observations to calculate normalized mutual information
 #' @param ... other arguments
 #'
 #' @return tibble

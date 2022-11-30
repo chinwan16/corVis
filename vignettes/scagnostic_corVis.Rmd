@@ -81,10 +81,11 @@ It is clearly evident from Figure 1 that flipper length and body mass of penguin
 
 
 ```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 1: Matrix display of monotonic measure for penguins data"}
-df <- penguins
-monotonic <- tbl_scag(df,scagnostic = "Monotonic")
+df <- penguins %>% select(where(is.numeric))
+updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Monotonic")
+assoc_monotonic <- calc_assoc(df,types = updated_assoc)
 
-association_heatmap(monotonic, limits = c(0,1))
+association_heatmap(assoc_monotonic, limits = c(0,1))
 ```
 
 ### Comparing scagnostics
@@ -119,7 +120,7 @@ Figure 3 shows that there is a high value for clumpy for variable pairs flipper 
 
 ```{r fig.width=5, fig.height=5, fig.align='center', fig.cap="Figure 3: Conditional scagnostics plot"}
 
-df_num <- dplyr::select(df, where(is.numeric),"species")
+df_num <- dplyr::select(penguins, where(is.numeric),"species")
 
 updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Clumpy")
 

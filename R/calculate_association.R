@@ -67,6 +67,8 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
         pcor$measure_type[i] <- m$measure_type[1]
       }
   }
+  names(vartypes) <- names(d)
+  attr(pcor,"vartypes") <- vartypes
   class(pcor)<-append("pairwise", class(pcor))
   pcor
 }
