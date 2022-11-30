@@ -729,7 +729,7 @@ association simultaneously.
 
 We use Steel Industry Energy consumption dataset providing information
 on energy consumption by a steel company in South Korea from the
-\citep{Dua:2019} to provide illustrative examples. Table
+\citep{Dua2019} to provide illustrative examples. Table
 \ref{tab:steelindustry} provides a brief description of set of variables
 from this dataset used for analysis.
 
@@ -791,9 +791,10 @@ canonical correlation for mixed and nominal variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
-df <- steelindustry
+df <- steelindustry[sample(1:nrow(steelindustry),5000),] # taking a sample as original dataset has 35k entries
 #df$al <- as.ordered(df$al)
 #df$su <- as.ordered(df$su)
+
 
 assoc_steel <- calc_assoc(df)
 association_heatmap(assoc_steel)
@@ -822,7 +823,7 @@ linearly associated.
 
 }
 
-\caption[Scatterplot for variables Usage_kWh and Co2.tCO2., and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables Usage_kWh and Co2.tCO2., and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric-pairs}
+\caption[Scatterplot for variables Usage in kWh and CO2 in ppm, and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively]{Scatterplot for variables Usage in kWh and CO2 in ppm, and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively.}\label{fig:numeric-pairs}
 \end{figure}
 \end{Schunk}
 
@@ -840,7 +841,7 @@ pairs and is evident there is an association among these variable pairs.
 
 }
 
-\caption[Boxplot for variables Load_Type and Usage_kWh, and, Load_Type and NSM showing a high canonical correlation]{Boxplot for variables Load_Type and Usage_kWh, and, Load_Type and NSM showing a high canonical correlation. }\label{fig:mixed-pairs}
+\caption[Boxplot for variables Load type and Usage in kWh, and, Load type and NSM showing a high canonical correlation]{Boxplot for variables Load type and Usage in kWh, and, Load type and NSM showing a high canonical correlation. }\label{fig:mixed-pairs}
 \end{figure}
 \end{Schunk}
 
@@ -879,7 +880,7 @@ dataset. The cells where association measures are not defined for
 specific variable pairs have been colored grey. An interesting variable
 pair evident in the plot is \texttt{LgCPF} and \texttt{LgCRP} which has
 a low value for all the measures except MIC. On looking at the
-scatterplot (\ref{fig:comp-var-pairs}) of \texttt{LgCPF} and
+scatterplot ( Figure \ref{fig:comp-var-pairs} ) of \texttt{LgCPF} and
 \texttt{LgCRP}, it seems MIC is able to detect the non-linear pattern
 quite well in this case compared to the other association measures.
 
@@ -892,8 +893,7 @@ mic_steel <- tbl_mine(df)
 cancor_steel <- tbl_cancor(df)
 
 compare_assoc_steel <- rbind(pearson_steel, spearman_steel, distance_steel, mic_steel, cancor_steel)
-compare_assoc_steel$measure_type <- factor(compare_assoc_steel$measure_type,
-                                           levels = c("cancor","mic","dcor","pearson","spearman"))
+compare_assoc_steel$measure_type <- factor(compare_assoc_steel$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
 pairwise_1d_compare(compare_assoc_steel)
 \end{Sinput}
 \begin{figure}
@@ -913,7 +913,7 @@ pairwise_1d_compare(compare_assoc_steel)
 
 }
 
-\caption[Scatterplot for numeric variable pairs with high difference among the magnitude of association measures]{Scatterplot for numeric variable pairs with high difference among the magnitude of association measures}\label{fig:comp-var-pairs}
+\caption[Scatterplot for numeric variable pair LgCPF and LgCRP with high difference among the magnitude of association measures]{Scatterplot for numeric variable pair LgCPF and LgCRP with high difference among the magnitude of association measures}\label{fig:comp-var-pairs}
 \end{figure}
 \end{Schunk}
 
@@ -971,7 +971,7 @@ pairwise_2d_plot(cond_assoc_steel)
 
 }
 
-\caption[Conditional Association plot for chronic kidney data showing Pearson's correlation for numeric pairs, Kendall's tau-b for ordered pair and canonical correlation for nominal or mixed pairs]{Conditional Association plot for chronic kidney data showing Pearson's correlation for numeric pairs, Kendall's tau-b for ordered pair and canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable `htn`. The dashed line in each cell represents overall value of the association measure.}\label{fig:cond-assoc}
+\caption[Conditional Association plot for energy consumption data showing MIC for numeric pairs and canonical correlation for nominal or mixed pairs]{Conditional Association plot for energy consumption data showing MIC for numeric pairs and canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable Day of week. The dotted line in each cell represents overall value of the association measure.}\label{fig:cond-assoc}
 \end{figure}
 \end{Schunk}
 
@@ -991,7 +991,7 @@ pairs.
 
 }
 
-\caption[Scatterplot for variable pair LgCPR and Usage_kWh splitted by a conditioning variable htn]{Scatterplot for variable pair LgCPR and Usage_kWh splitted by a conditioning variable htn.}\label{fig:high-diff}
+\caption[Scatterplot for variable pair LgCPR and Usage in kWh splitted by conditioning variable Day of week]{Scatterplot for variable pair LgCPR and Usage in kWh splitted by conditioning variable Day of week.}\label{fig:high-diff}
 \end{figure}
 \end{Schunk}
 
@@ -1043,29 +1043,6 @@ pairwise_1d_plot(cond_assoc_steel)
 }
 
 \caption[Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis]{Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.}\label{fig:linear-cond-assoc}
-\end{figure}
-\end{Schunk}
-
-\begin{Schunk}
-\begin{Sinput}
-df_num <- select(df,where(is.numeric))
-pearson <- calc_assoc(df_num)
-
-spearman_assoc <- update_assoc(num_pair = "tbl_cor",
-                               num_pair_argList= "spearman",
-                               mixed_pair = "tbl_cancor",
-                               other_pair = "tbl_nmi")
-spearman <- calc_assoc(df_num, types=spearman_assoc)
-compare <- rbind(pearson,spearman)
-pairwise_2d_plot(compare, group_var = "measure_type")
-\end{Sinput}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/compare-matrix-1} 
-
-}
-
-\caption[Matrix display comparing Pearson's and Spearman's correlation coefficient]{Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations.}\label{fig:compare-matrix}
 \end{figure}
 \end{Schunk}
 

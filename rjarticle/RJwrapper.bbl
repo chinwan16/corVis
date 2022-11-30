@@ -1,0 +1,141 @@
+\begin{thebibliography}{21}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Agresti(2010)]{agresti2010analysis}
+A.~Agresti.
+\newblock \emph{Analysis of ordinal categorical data}, volume 656.
+\newblock John Wiley \& Sons, 2010.
+
+\bibitem[Buja et~al.(2016)Buja, Krieger, and George]{buja2016visualization}
+A.~Buja, A.~M. Krieger, and E.~I. George.
+\newblock A visualization tool for mining large correlation tables: The
+  association navigator., 2016.
+
+\bibitem[Dua and Graff(2017)]{Dua2019}
+D.~Dua and C.~Graff.
+\newblock {UCI} machine learning repository, 2017.
+\newblock URL \url{http://archive.ics.uci.edu/ml}.
+
+\bibitem[Friendly(2002)]{friendly2002corrgrams}
+M.~Friendly.
+\newblock Corrgrams: Exploratory displays for correlation matrices.
+\newblock \emph{The American Statistician}, 56\penalty0 (4):\penalty0 316--324,
+  2002.
+
+\bibitem[Gerber(2022)]{scorr}
+S.~Gerber.
+\newblock \emph{scorr: s-CorrPlot: Visualizing Correlation}, 2022.
+\newblock URL \url{http://mckennapsean.com/scorrplot/}.
+\newblock R package version 1.0.
+
+\bibitem[Hills(1969)]{hills1969looking}
+M.~Hills.
+\newblock On looking at large correlation matrices.
+\newblock \emph{Biometrika}, 56\penalty0 (2):\penalty0 249--253, 1969.
+
+\bibitem[Kendall(1945)]{kendall1945treatment}
+M.~G. Kendall.
+\newblock The treatment of ties in ranking problems.
+\newblock \emph{Biometrika}, 33\penalty0 (3):\penalty0 239--251, 1945.
+
+\bibitem[Kuhn et~al.(2013)Kuhn, Johnson, et~al.]{kuhn2013applied}
+M.~Kuhn, K.~Johnson, et~al.
+\newblock \emph{Applied predictive modeling}, volume~26.
+\newblock Springer, 2013.
+
+\bibitem[Kuhn et~al.(2020)Kuhn, Jackson, and Cimentada]{corrr2020}
+M.~Kuhn, S.~Jackson, and J.~Cimentada.
+\newblock \emph{corrr: Correlations in R}, 2020.
+\newblock URL \url{https://CRAN.R-project.org/package=corrr}.
+\newblock R package version 0.4.3.
+
+\bibitem[Morgen and Biecek(2020)]{corrgrapher}
+P.~Morgen and P.~Biecek.
+\newblock \emph{corrgrapher: Explore Correlations Between Variables in a
+  Machine Learning Model}, 2020.
+\newblock URL \url{https://CRAN.R-project.org/package=corrgrapher}.
+\newblock R package version 1.0.4.
+
+\bibitem[Murdoch and Chow(1996)]{murdoch1996graphical}
+D.~J. Murdoch and E.~Chow.
+\newblock A graphical display of large correlation matrices.
+\newblock \emph{The American Statistician}, 50\penalty0 (2):\penalty0 178--180,
+  1996.
+
+\bibitem[Olsson(1979)]{olsson1979maximum}
+U.~Olsson.
+\newblock Maximum likelihood estimation of the polychoric correlation
+  coefficient.
+\newblock \emph{Psychometrika}, 44\penalty0 (4):\penalty0 443--460, 1979.
+
+\bibitem[Reshef et~al.(2011)Reshef, Reshef, Finucane, Grossman, McVean,
+  Turnbaugh, Lander, Mitzenmacher, and Sabeti]{reshef2011detecting}
+D.~N. Reshef, Y.~A. Reshef, H.~K. Finucane, S.~R. Grossman, G.~McVean, P.~J.
+  Turnbaugh, E.~S. Lander, M.~Mitzenmacher, and P.~C. Sabeti.
+\newblock Detecting novel associations in large data sets.
+\newblock \emph{science}, 334\penalty0 (6062):\penalty0 1518--1524, 2011.
+
+\bibitem[Samba(2020)]{linkspotter}
+A.~Samba.
+\newblock \emph{linkspotter: Bivariate Correlations Calculation and
+  Visualization}, 2020.
+\newblock URL \url{https://CRAN.R-project.org/package=linkspotter}.
+\newblock R package version 1.3.0.
+
+\bibitem[Sz{\'e}kely et~al.(2007)Sz{\'e}kely, Rizzo, and
+  Bakirov]{szekely2007measuring}
+G.~J. Sz{\'e}kely, M.~L. Rizzo, and N.~K. Bakirov.
+\newblock Measuring and testing dependence by correlation of distances.
+\newblock \emph{The annals of statistics}, 35\penalty0 (6):\penalty0
+  2769--2794, 2007.
+
+\bibitem[Theil(1970)]{theil1970estimation}
+H.~Theil.
+\newblock On the estimation of relationships involving qualitative variables.
+\newblock \emph{American Journal of Sociology}, 76\penalty0 (1):\penalty0
+  103--154, 1970.
+
+\bibitem[Tufte(1986)]{tufte1986thevisual}
+E.~R. Tufte.
+\newblock \emph{The Visual Display of Quantitative Information}.
+\newblock Graphics Press, USA, 1986.
+\newblock ISBN 096139210X.
+
+\bibitem[Tukey and Tukey(1985)]{tukey1985computer}
+J.~W. Tukey and P.~A. Tukey.
+\newblock Computer graphics and exploratory data analysis: An introduction.
+\newblock In \emph{Proceedings of the sixth annual conference and exposition:
+  computer graphics}, volume~85, pages 773--785, 1985.
+
+\bibitem[Wei and Simko(2021)]{corrplot2021}
+T.~Wei and V.~Simko.
+\newblock \emph{R package 'corrplot': Visualization of a Correlation Matrix},
+  2021.
+\newblock URL \url{https://github.com/taiyun/corrplot}.
+\newblock (Version 0.92).
+
+\bibitem[Wickham et~al.(2019)Wickham, Averick, Bryan, Chang, McGowan,
+  François, Grolemund, Hayes, Henry, Hester, Kuhn, Pedersen, Miller, Bache,
+  Müller, Ooms, Robinson, Seidel, Spinu, Takahashi, Vaughan, Wilke, Woo, and
+  Yutani]{tidyverse}
+H.~Wickham, M.~Averick, J.~Bryan, W.~Chang, L.~D. McGowan, R.~François,
+  G.~Grolemund, A.~Hayes, L.~Henry, J.~Hester, M.~Kuhn, T.~L. Pedersen,
+  E.~Miller, S.~M. Bache, K.~Müller, J.~Ooms, D.~Robinson, D.~P. Seidel,
+  V.~Spinu, K.~Takahashi, D.~Vaughan, C.~Wilke, K.~Woo, and H.~Yutani.
+\newblock Welcome to the {tidyverse}.
+\newblock \emph{Journal of Open Source Software}, 4\penalty0 (43):\penalty0
+  1686, 2019.
+\newblock \doi{10.21105/joss.01686}.
+
+\bibitem[Wilkinson et~al.(2005)Wilkinson, Anand, and
+  Grossman]{wilkinson2005graph}
+L.~Wilkinson, A.~Anand, and R.~Grossman.
+\newblock Graph-theoretic scagnostics.
+\newblock In \emph{Information Visualization, IEEE Symposium on}, pages 21--21.
+  IEEE Computer Society, 2005.
+
+\end{thebibliography}
