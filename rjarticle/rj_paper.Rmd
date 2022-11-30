@@ -482,7 +482,7 @@ The function `association_heatmap` is used to display a matrix layout with assoc
 Figure \@ref(fig:assoc-heatmap) shows an example of the association matrix display for every variable pair in the energy comsumption for steel industry dataset. The cells along the diagonal of the matrix display show the variables present in the dataset. Every off diagonal cell is colored using a divergent color scale with limits $[-1,1]$ representing the value of association measure between two variables. The plot shows Pearson's correlation for the numeric pair of variables and canonical correlation for mixed and nominal variable pairs. 
 
 
-```{r assoc-heatmap,fig.width=6, fig.height=6, fig.align='center', fig.cap="Association matrix display for energy consumption data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.",echo=TRUE}
+```{r assoc-heatmap,fig.width=6.5, fig.height=4, fig.align='center', fig.cap="Association matrix display for energy consumption data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.",echo=TRUE}
 
 df <- steelindustry[sample(1:nrow(steelindustry),5000),] # taking a sample as original dataset has 35k entries
 #df$al <- as.ordered(df$al)

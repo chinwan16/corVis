@@ -1,0 +1,93 @@
+---
+title: "Finding interesting pairs of variables"
+author: "Amit Chinwan"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r Loading libraries}
+library(corVis)
+library(dplyr)
+library(tidyr)
+library(palmerpenguins)
+library(GGally)
+library(HDoutliers)
+```
+
+## Graph-Theoretic scagnostics
+
+The idea of using measures to summarize a scatterplot proposed by Tukey and Tukey was an interesting idea. Using these measures, Tukeys aimed to detect anomalies in density, shape, trend, and other features in the 2D point scatters. Tukeys introduced the idea of scatterplot matrix of scagnostic measures and suggested that with brushing and linking tools, unusual scatterplots could be identified from **outliers in the scagnostic SPLOM**. Below is a plot showing comparison of multiple scagnostic measures for penguins data.
+
+```{r}
+df <- penguins
+outlying <- tbl_scag(df,scagnostic = "Outlying")
+skewed <- tbl_scag(df,scagnostic = "Skewed")
+clumpy <- tbl_scag(df,scagnostic = "Clumpy")
+sparse <- tbl_scag(df,scagnostic = "Sparse")
+striated <- tbl_scag(df,scagnostic = "Striated")
+convex <- tbl_scag(df,scagnostic = "Convex")
+skinny <- tbl_scag(df,scagnostic = "Skinny")
+stringy <- tbl_scag(df,scagnostic = "Stringy")
+monotonic <- tbl_scag(df,scagnostic = "Monotonic")
+
+scag_measures <- rbind(outlying, skewed, clumpy, sparse, striated, convex, skinny, stringy,
+                       monotonic)
+pairwise_1d_compare(scag_measures, limits = c(0,1))
+```
+
+Wilkinson et al followed the idea of scagnostics SPLOM and used brushing and linking tools to identify outliers and detect unusual scatterplot or variable pairs.
+
+## Identifying outliers
+
+The idea of using brushing and linking tools for identifying outliers is tedious and is inefficient when the number of variables in a dataset is high. Instead, one can use algorithms to find outliers from a dataset of multiple association measures. The package *HDoutliers* uses Leland Wilkinson’s hdoutliers algorithm for outlier detection. Below is an example to idenitfy outliers with a dataset of multiple measures.
+
+```{r}
+scag_measures_long <- pivot_wider(scag_measures,1:2,names_from = measure_type, 
+                                  values_from = measure )
+
+outliers <- HDoutliers(scag_measures_long[,3:7])
+outliers
+```
+
+For this case, there seems to be no outliers and hence no interesting scatterplots.
+
+
+I used on it on the steelindustry dataset. Below are some results. I used the OutliersO3 package to find out which combination of variables had an outlier.
+```{r}
+steelindustry <- read.csv("~/Downloads/Steel_industry_data.csv")
+steelindustry <- steelindustry[,-1] # removing the date column
+names(steelindustry) <- c("Usage_kWh", "LgCRP", "LdCRP", "CO2.tCO2.", "LgCPF", "LdCPF", "NSM",
+                          "WeekStatus", "Day_of_week","Load_Type")
+df <- steelindustry[sample(1:nrow(steelindustry),5000),]
+
+pearson_steel <- tbl_cor(df,method = "pearson")
+spearman_steel <- tbl_cor(df, method = "spearman")
+distance_steel <- tbl_dcor(df)
+mic_steel <- tbl_mine(df)
+
+compare_assoc_steel <- rbind(pearson_steel, spearman_steel, distance_steel, mic_steel)
+compare_assoc_steel$measure <- abs(compare_assoc_steel$measure)
+
+compare_assoc_steel$measure_type <- factor(compare_assoc_steel$measure_type,levels =c("mic","dcor","pearson","spearman"))
+pairwise_1d_compare(compare_assoc_steel)
+```
+
+```{r}
+compare_assoc_steel_wide <- pivot_wider(compare_assoc_steel,1:2,names_from = measure_type, 
+                                  values_from = measure )
+outliers <- HDoutliers(scag_measures_long[,3:6])
+outliers
+ggpairs(compare_assoc_steel_wide[,3:6])
+```
+
+
+
+
+
+
+
+
+
+
