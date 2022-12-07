@@ -521,3 +521,31 @@ tbl_ace <- function(d, handle.na = T, ...) {
   ace_assoc$measure <- mapply(ace_fn, ace_assoc$x,ace_assoc$y)
   ace_assoc
 }
+
+#' Association functions in the package
+#'
+#' List of all the functions to calculate association measures in the package..
+#'
+#' @param d dataframe
+#' @param handle.na If TRUE uses pairwise complete observations.
+#' @param ... other arguments
+#'
+#' @return tibble
+#' @export
+
+
+assocMethods <- tribble(
+  ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
+  "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
+  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
+  "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
+  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
+  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
+  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[0,1]",
+  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
+  #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
+  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
+  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
+  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
+  "tbl_nmi", "nominal", "nominal", "corVis", "Y", "[0,1]",
+  "tbl_easy", "nominal/numerical", "nominal/numerical", "correlation::correlation", "Y", "[-1,1]")
