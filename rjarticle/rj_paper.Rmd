@@ -323,8 +323,8 @@ assocMethods <- tribble(
   "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
   "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
   "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
-  "tbl_nmi", "any", "any", "corVis", "Y", "[0,1]",
-  "tbl_easy", "any", "any", "correlation::correlation", "Y", "[-1,1]")
+  "tbl_nmi", "nominal", "nominal", "corVis", "Y", "[0,1]",
+  "tbl_easy", "nominal/numerical", "nominal/numerical", "correlation::correlation", "Y", "[-1,1]")
 
 kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.")
 #kableExtra::kable_styling(kable_input,latex_options = "striped")

@@ -291,7 +291,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 
 #' Polychoric correlation
 #'
-#' Calculates Polychoric correlation for every variable pair in a dataset.
+#' Calculates Polychoric correlation for every ordinal variable pair in a dataset.
 #'
 #' @param d dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
@@ -305,6 +305,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 
 tbl_polycor <- function(d,handle.na=TRUE,...){
   # polycor automatically does pairwise omit
+  d <- dplyr::select(d, where(is.ordered))
   pcor <- assoc_tibble(d, measure_type="polycor")
   pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
   pcor
@@ -418,6 +419,7 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 #' tbl_gkGamma(iris)
 
 tbl_gkGamma <- function(d,handle.na=TRUE,...){
+  d <- dplyr::select(d, where(is.ordered))
   a <- assoc_tibble(d, measure_type="gkGamma")
   a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
   a
@@ -438,6 +440,7 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 #' tbl_chi(iris)
 
 tbl_chi <- function(d,handle.na=TRUE,...){
+  d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="chi")
   a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
