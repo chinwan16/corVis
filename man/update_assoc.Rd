@@ -36,7 +36,7 @@ update_assoc(
 
 \item{other_pair_argList}{a character string specifying the measure to be calculated using other_pair, default is NULL}
 
-\item{...}{in progress}
+\item{...}{other arguments}
 }
 \value{
 tibble

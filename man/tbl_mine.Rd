@@ -7,7 +7,7 @@
 tbl_mine(d, method = "mic", handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{method}{character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 "mcn", or "mic-r2"}
@@ -17,7 +17,7 @@ tbl_mine(d, method = "mic", handle.na = TRUE, ...)
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble
 }
 \description{
 Calculates MINE family measures for every numeric variable pair in a dataset.
@@ -25,4 +25,8 @@ Calculates MINE family measures for every numeric variable pair in a dataset.
 \examples{
 tbl_mine(iris)
 tbl_mine(iris, method="mas")
+}
+\references{
+Reshef, David N., et al. "Detecting novel associations in large data sets."
+science 334.6062 (2011): 1518-1524
 }

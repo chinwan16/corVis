@@ -1,11 +1,11 @@
-#' A tibble structure for a measure of association
+#' A generic function to create a tibble structure for a measure of association
 #'
 #' Creates a tibble for every variable pair in a dataset with a measure of association
 #'
-#' @param data dataframe
+#' @param data A dataframe
 #' @param measure_type a character string indicating the measure of association
 #'
-#' @return tibble
+#' @return A tibble structure of variable pairs and measure of association
 #' @export
 #'
 #' @examples
@@ -18,12 +18,7 @@ assoc_tibble <- function(data, measure_type="?"){
 }
 
 
-#' A tibble structure for a measure of association
-#'
-#' Creates a tibble for every variable pair in a dataset with a measure of association
-#' @param data matrix
-#' @param measure_type a character string indicating the measure of association
-#' @return tibble
+#' @describeIn assoc_tibble  assoc_tibble method
 #' @export
 assoc_tibble.matrix <- function(data, measure_type="?"){
   m <- data
@@ -38,15 +33,7 @@ assoc_tibble.matrix <- function(data, measure_type="?"){
 }
 
 
-#' A tibble structure for a measure of association
-#'
-#' Creates a tibble for every variable pair in a dataset with a measure of association
-#'
-#' @param data dataframe
-#' @param measure_type a character string indicating the measure of association
-#'
-#' @return tibble
-#' @export
+#' @describeIn assoc_tibble  assoc_tibble method
 #' @export
 assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
   d <- data
@@ -64,13 +51,13 @@ assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
 #'
 #' Calculates one of either pearson, spearman or kendall correlation for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe
-#' @param method a character string for the correlation coefficient to be calculated. Either "pearson" (default),
+#' @param d A dataframe
+#' @param method A character string for the correlation coefficient to be calculated. Either "pearson" (default),
 #'               "spearman", or "kendall"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with calculated association measure for every numeric variable pair
 #' @export
 #'
 #' @examples
@@ -92,11 +79,11 @@ tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
 #'
 #' Calculates canonical correlation for every variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with canonical correlation for every variable pair
 #' @export
 #'
 #' @examples
@@ -134,11 +121,11 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates distance correlation for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with distance correlation for every numeric variable pair
 #' @export
 #'
 #' @examples
@@ -166,8 +153,8 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 #' Calculates one of the many correlation coefficients available with easystats package
 #' for variable pairs in a dataset.
 #'
-#' @param d dataframe
-#' @param method a character string for the correlation coefficient to be calculated. One of "pearson" (default),
+#' @param d A dataframe
+#' @param method A character string for the correlation coefficient to be calculated. One of "pearson" (default),
 #'               "spearman", "kendall", "biserial", "polychoric", "tetrachoric", "biweight", "distance",
 #'               "percentage" (for percentage bend correlation), "blomqvist" (for Blomqvist's coefficient),
 #'               "hoeffding" (for Hoeffding's D), "gamma", "gaussian" (for Gaussian Rank correlation) or
@@ -176,7 +163,7 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 #' @param handle.na NA handling not available
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with calculated association measures
 #' @export
 #'
 #' @examples
@@ -200,18 +187,21 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
 #'
 #' Calculates MINE family measures for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param method character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 #'               "mcn", or "mic-r2"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble
 #' @export
 #'
 #' @examples
 #' tbl_mine(iris)
 #' tbl_mine(iris, method="mas")
+#' @references Reshef, David N., et al. "Detecting novel associations in large data sets."
+#' science 334.6062 (2011): 1518-1524
+
 
 tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.numeric))
@@ -228,11 +218,11 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #'
 #' Calculates normalized mutual information for every variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate normalized mutual information
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble
 #' @export
 #'
 #' @examples
@@ -293,11 +283,14 @@ tbl_nmi <- function(d,handle.na=T,...){
 #'
 #' Calculates Polychoric correlation for every ordinal variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with polychoric correlation for ordinal variable pairs
+#'
+#' @details The polychoric correlation is calculated using the \code{polychor} function from the
+#' \code{polycor} package
 #' @export
 #'
 #' @examples
@@ -315,12 +308,17 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates one of either Kendall's tau A, B, C or Kendall's W for every ordinal variable pair in a dataset.
 #'
-#' @param d dataframe
-#' @param method a character string for the correlation coefficient to be calculated. Either "B" (default),
+#' @param d A dataframe
+#' @param method A character string for the correlation coefficient to be calculated. Either "B" (default),
 #'               "A", "C" or "W"
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return  A tibble with ordinal variable pairs along with one of either Kendall's tau A, B, C or
+#' Kendall's W measure
+#'
+#' @details The available association measures are calculated using functions from the
+#' \code{DescTools} package.
+#'
 #' @export
 #'
 #' @examples
@@ -347,6 +345,7 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 tbl_tau <- function(d,method=c("B","A","C","W"),...){
   # automatically does pairwise omit, Kendall
   method <- method[1]
+  d <- dplyr::select(d, where(is.ordered))
   a <- assoc_tibble(d, measure_type=paste0("tau", method))
   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
              DescTools::KendallW)
@@ -364,19 +363,23 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 
 #' Uncertainty coefficient
 #'
-#' Calculates uncertainty coefficient for every variable pair in a dataset.
+#' Calculates uncertainty coefficient for every nominal variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with every nominal variable pair and uncertainty coefficient value.
+#' @details The Uncertainty coefficient is calculated using \code{UncertCoef} function from the
+#' \code{DescTools} package.
+#'
 #' @export
 #'
 #' @examples
 #' tbl_uncertainty(iris)
 
 tbl_uncertainty <- function(d,handle.na=TRUE,...){
+  d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="uncertainty")
   a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
@@ -385,19 +388,22 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 
 #' Goodman Kruskal's Tau
 #'
-#' Calculates Goodman Kruskal's Tau coefficient for every variable pair in a dataset.
+#' Calculates Goodman Kruskal's Tau coefficient for every nominal variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with Goodman Kruskal's Tau for every nominal variable pair
+#' @details The Goodman Kruskal's Tau coefficient is calculated using \code{GoodmanKruskalTau}
+#' function from the \code{DescTools} package.
 #' @export
 #'
 #' @examples
 #' tbl_gkTau(iris)
 
 tbl_gkTau <- function(d,handle.na=TRUE,...){
+  d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="gkTau")
   a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalTau(d[[x]],d[[y]],...), a$x,a$y)
   a
@@ -406,13 +412,15 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 
 #' Goodman Kruskal's Gamma
 #'
-#' Calculates Goodman Kruskal's Gamma coefficient for every variable pair in a dataset.
+#' Calculates Goodman Kruskal's Gamma coefficient for every ordinal variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with ordinal variable pairs and Goodman Kruskal's Gamma coefficient
+#' @details The Goodman Kruskal's Gamma coefficient is calculated using \code{GoodmanKruskalGamma}
+#' function from the \code{DescTools} package.
 #' @export
 #'
 #' @examples
@@ -427,14 +435,17 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 
 #' Pearson's Contingency Coefficient
 #'
-#' Calculates Pearson's Contingency coefficient for every variable pair in a dataset.
+#' Calculates Pearson's Contingency coefficient for every nominal variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with calculated Pearson's contingency coefficient for every nominal variable
+#' pair
 #' @export
+#' @details The Pearson's contingency coefficient is calculated using \code{ContCoef}
+#' function from the \code{DescTools} package.
 #'
 #' @examples
 #' tbl_chi(iris)
@@ -449,17 +460,22 @@ tbl_chi <- function(d,handle.na=TRUE,...){
 
 #' Graph-theoretic scagnostics measures
 #'
-#' Calculates scagnostic measure for every variable pair in a dataset.
+#' Calculates scagnostic measure for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param scagnostic a character string for the scagnostic to be calculated. One of "Outlying",
 #' "Stringy", "Striated", "Clumpy", "Sparse", "Skewed", "Convex", "Skinny" or "Monotonic"
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with one of the nine scagnostic measures for every numeric variable pair
+#' @details The scagnostic measures are calculated using \code{scagnostics}
+#' function from the \code{scagnostics} package.
 #' @export
 #'
+#' @references Wilkinson, Leland, Anushka Anand, and Robert Grossman.
+#' "Graph-theoretic scagnostics."
+#' Information Visualization, IEEE Symposium on. IEEE Computer Society, 2005
 #' @examples
 #' tbl_scag(iris)
 
@@ -486,16 +502,25 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 }
 
 
-#' Pearson's Contingency Coefficient
+#' Alternating conditional expectations correlation
 #'
-#' Calculates Pearson's Contingency coefficient for every variable pair in a dataset.
+#' Calculates the maximal correlation coefficient for every numeric variable pair in a dataset.
 #'
-#' @param d dataframe
+#' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
-#' @return tibble
+#' @return A tibble with a correlation coefficient from alternating conditional expectations
+#' algorithm for every numeric variable pair
+#'
+#' @details The maximal correlation is calculated using alternating conditional expectations
+#' algorithm which find the transformations of variables such that the proportion of variance
+#' explained is meaximised. The \code{ace} function from \code{acepack} package is used for the
+#' calculation.
 #' @export
+#' @references Breiman, Leo, and Jerome H. Friedman.
+#' "Estimating optimal transformations for multiple regression and correlation."
+#' Journal of the American statistical Association 80.391 (1985): 580-598.
 #'
 #' @examples
 #' tbl_chi(iris)
@@ -522,19 +547,15 @@ tbl_ace <- function(d, handle.na = T, ...) {
   ace_assoc
 }
 
-#' Association functions in the package
+#' Association functions available in the package
 #'
-#' List of all the functions to calculate association measures in the package..
-#'
-#' @param d dataframe
-#' @param handle.na If TRUE uses pairwise complete observations.
-#' @param ... other arguments
+#' List of all the functions available to calculate association measures in the package.
 #'
 #' @return tibble
 #' @export
 
 
-assocMethods <- tribble(
+assocMethods <- dplyr::tribble(
   ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
   "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
   "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
@@ -543,7 +564,6 @@ assocMethods <- tribble(
   "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
   "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[0,1]",
   "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
-  #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
   "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
   "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
   "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",

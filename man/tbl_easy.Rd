@@ -7,9 +7,9 @@
 tbl_easy(d, method = "pearson", handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
-\item{method}{a character string for the correlation coefficient to be calculated. One of "pearson" (default),
+\item{method}{A character string for the correlation coefficient to be calculated. One of "pearson" (default),
 "spearman", "kendall", "biserial", "polychoric", "tetrachoric", "biweight", "distance",
 "percentage" (for percentage bend correlation), "blomqvist" (for Blomqvist's coefficient),
 "hoeffding" (for Hoeffding's D), "gamma", "gaussian" (for Gaussian Rank correlation) or
@@ -21,7 +21,7 @@ method depending on the variable types in the dataset.}
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with calculated association measures
 }
 \description{
 Calculates one of the many correlation coefficients available with easystats package

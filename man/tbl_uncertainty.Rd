@@ -7,17 +7,21 @@
 tbl_uncertainty(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with every nominal variable pair and uncertainty coefficient value.
 }
 \description{
-Calculates uncertainty coefficient for every variable pair in a dataset.
+Calculates uncertainty coefficient for every nominal variable pair in a dataset.
+}
+\details{
+The Uncertainty coefficient is calculated using \code{UncertCoef} function from the
+\code{DescTools} package.
 }
 \examples{
 tbl_uncertainty(iris)

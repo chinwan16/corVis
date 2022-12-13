@@ -2,21 +2,34 @@
 % Please edit documentation in R/assoc_measures.R
 \name{assoc_tibble}
 \alias{assoc_tibble}
-\title{A tibble structure for a measure of association}
+\alias{assoc_tibble.matrix}
+\alias{assoc_tibble.data.frame}
+\title{A generic function to create a tibble structure for a measure of association}
 \usage{
 assoc_tibble(data, measure_type = "?")
+
+\method{assoc_tibble}{matrix}(data, measure_type = "?")
+
+\method{assoc_tibble}{data.frame}(data, measure_type = NA_character_)
 }
 \arguments{
-\item{data}{dataframe}
+\item{data}{A dataframe}
 
 \item{measure_type}{a character string indicating the measure of association}
 }
 \value{
-tibble
+A tibble structure of variable pairs and measure of association
 }
 \description{
 Creates a tibble for every variable pair in a dataset with a measure of association
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{matrix}: assoc_tibble method
+
+\item \code{data.frame}: assoc_tibble method
+}}
+
 \examples{
 assoc_tibble(cor(iris[,1:4]), measure_type="pearson")
 assoc_tibble(iris)

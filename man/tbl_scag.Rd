@@ -7,7 +7,7 @@
 tbl_scag(d, scagnostic = "Outlying", handle.na = T, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{scagnostic}{a character string for the scagnostic to be calculated. One of "Outlying",
 "Stringy", "Striated", "Clumpy", "Sparse", "Skewed", "Convex", "Skinny" or "Monotonic"}
@@ -17,11 +17,20 @@ tbl_scag(d, scagnostic = "Outlying", handle.na = T, ...)
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with one of the nine scagnostic measures for every numeric variable pair
 }
 \description{
-Calculates scagnostic measure for every variable pair in a dataset.
+Calculates scagnostic measure for every numeric variable pair in a dataset.
+}
+\details{
+The scagnostic measures are calculated using \code{scagnostics}
+function from the \code{scagnostics} package.
 }
 \examples{
 tbl_scag(iris)
+}
+\references{
+Wilkinson, Leland, Anushka Anand, and Robert Grossman.
+"Graph-theoretic scagnostics."
+Information Visualization, IEEE Symposium on. IEEE Computer Society, 2005
 }

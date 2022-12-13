@@ -89,8 +89,8 @@ test_that("tbl_cor functions return a value greater than or equal to -1",{
   expect_gte(sample(kendall$measure,1),-1)
 
   #tbl_tau (Kendall Tau coefficients (A,B,C) from DescTools package)
-  KendallTauA <- tbl_tau(df, method = "A")
-  expect_gte(sample(KendallTauA$measure,1),-1)
+  #KendallTauA <- tbl_tau(df, method = "A")
+  #expect_gte(sample(KendallTauA$measure,1),-1)
 
 
 })
@@ -114,8 +114,8 @@ test_that("tbl_dcor/tbl_cancor/tbl_mine/tbl_tau functions return a value greater
   expect_gte(sample(mine_mic$measure,1),0)
 
   #tbl_tau (Kendall Tau coefficients from DescTools package)
-  KendallTauW <- tbl_tau(df, method = "W")
-  expect_gte(sample(KendallTauW$measure,1),0)
+  #KendallTauW <- tbl_tau(df, method = "W")
+  #expect_gte(sample(KendallTauW$measure,1),0)
 
 
 })

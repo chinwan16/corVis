@@ -154,7 +154,7 @@ default_assoc <- function(){
 #' @param mixed_pair_argList a character string specifying the measure to be calculated using mixed_pair, default is NULL
 #' @param other_pair a measure(s) function for other pair of variables, default is NULL
 #' @param other_pair_argList a character string specifying the measure to be calculated using other_pair, default is NULL
-#' @param ... in progress
+#' @param ... other arguments
 #' @return tibble
 #' @export
 #' @examples

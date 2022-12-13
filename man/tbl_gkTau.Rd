@@ -7,17 +7,21 @@
 tbl_gkTau(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations.}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with Goodman Kruskal's Tau for every nominal variable pair
 }
 \description{
-Calculates Goodman Kruskal's Tau coefficient for every variable pair in a dataset.
+Calculates Goodman Kruskal's Tau coefficient for every nominal variable pair in a dataset.
+}
+\details{
+The Goodman Kruskal's Tau coefficient is calculated using \code{GoodmanKruskalTau}
+function from the \code{DescTools} package.
 }
 \examples{
 tbl_gkTau(iris)

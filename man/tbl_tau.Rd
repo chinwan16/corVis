@@ -7,18 +7,23 @@
 tbl_tau(d, method = c("B", "A", "C", "W"), ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
-\item{method}{a character string for the correlation coefficient to be calculated. Either "B" (default),
+\item{method}{A character string for the correlation coefficient to be calculated. Either "B" (default),
 "A", "C" or "W"}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with ordinal variable pairs along with one of either Kendall's tau A, B, C or
+Kendall's W measure
 }
 \description{
 Calculates one of either Kendall's tau A, B, C or Kendall's W for every ordinal variable pair in a dataset.
+}
+\details{
+The available association measures are calculated using functions from the
+\code{DescTools} package.
 }
 \examples{
 tbl_tau(iris)

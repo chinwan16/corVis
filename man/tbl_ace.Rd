@@ -2,23 +2,35 @@
 % Please edit documentation in R/assoc_measures.R
 \name{tbl_ace}
 \alias{tbl_ace}
-\title{Pearson's Contingency Coefficient}
+\title{Alternating conditional expectations correlation}
 \usage{
 tbl_ace(d, handle.na = T, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations.}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with a correlation coefficient from alternating conditional expectations
+algorithm for every numeric variable pair
 }
 \description{
-Calculates Pearson's Contingency coefficient for every variable pair in a dataset.
+Calculates the maximal correlation coefficient for every numeric variable pair in a dataset.
+}
+\details{
+The maximal correlation is calculated using alternating conditional expectations
+algorithm which find the transformations of variables such that the proportion of variance
+explained is meaximised. The \code{ace} function from \code{acepack} package is used for the
+calculation.
 }
 \examples{
 tbl_chi(iris)
+}
+\references{
+Breiman, Leo, and Jerome H. Friedman.
+"Estimating optimal transformations for multiple regression and correlation."
+Journal of the American statistical Association 80.391 (1985): 580-598.
 }

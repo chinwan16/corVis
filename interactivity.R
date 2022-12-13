@@ -326,7 +326,40 @@ p <- eventReactive(input$plot_click,{
 
 
 
-ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-                   fill="blue")
+
+############## creating a function for plotting the association
+
+show_assoc <- function(d, x, y, by = NULL){
+
+
+
+  if ( is.numeric(d[[x]]) & is.numeric(d[[y]]) ) {
+    p <- ggplot2::ggplot(data=d) +
+      ggplot2::geom_point(ggplot2::aes(x = .data[[x]], y = .data[[y]])) + xlab(x) + ylab(y) +
+      {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+
+  } else if ( is.factor(d[[x]]) & is.factor(d[[y]]) ) {
+
+    p <- ggplot2::ggplot(data=d) +
+      ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(.data[[x]], .data[[y]]), fill= .data[[x]] )) +
+      xlab(x) + ylab(y) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+
+  } else {
+
+    p <- ggplot2::ggplot(data=d) +
+      ggplot2::geom_boxplot(ggplot2::aes(x =.data[[x]], y =.data[[y]]) ) + xlab(x) +
+      ylab(y) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+  }
+
+  print(p)
+
+}
+
+
+
+
+
+
+
 
 

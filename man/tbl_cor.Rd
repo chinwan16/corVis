@@ -7,9 +7,9 @@
 tbl_cor(d, method = "pearson", handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
-\item{method}{a character string for the correlation coefficient to be calculated. Either "pearson" (default),
+\item{method}{A character string for the correlation coefficient to be calculated. Either "pearson" (default),
 "spearman", or "kendall"}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
@@ -17,7 +17,7 @@ tbl_cor(d, method = "pearson", handle.na = TRUE, ...)
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with calculated association measure for every numeric variable pair
 }
 \description{
 Calculates one of either pearson, spearman or kendall correlation for every numeric variable pair in a dataset.

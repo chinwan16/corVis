@@ -2,6 +2,7 @@
 
 S3method(assoc_tibble,data.frame)
 S3method(assoc_tibble,matrix)
+export(assocMethods)
 export(assoc_tibble)
 export(association_heatmap)
 export(calc_assoc)

@@ -7,14 +7,14 @@
 tbl_nmi(d, handle.na = T, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate normalized mutual information}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble
 }
 \description{
 Calculates normalized mutual information for every variable pair in a dataset.

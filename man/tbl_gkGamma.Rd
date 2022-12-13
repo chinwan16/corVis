@@ -7,17 +7,21 @@
 tbl_gkGamma(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations.}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with ordinal variable pairs and Goodman Kruskal's Gamma coefficient
 }
 \description{
-Calculates Goodman Kruskal's Gamma coefficient for every variable pair in a dataset.
+Calculates Goodman Kruskal's Gamma coefficient for every ordinal variable pair in a dataset.
+}
+\details{
+The Goodman Kruskal's Gamma coefficient is calculated using \code{GoodmanKruskalGamma}
+function from the \code{DescTools} package.
 }
 \examples{
 tbl_gkGamma(iris)

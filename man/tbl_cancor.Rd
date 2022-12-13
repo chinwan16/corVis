@@ -7,14 +7,14 @@
 tbl_cancor(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with canonical correlation for every variable pair
 }
 \description{
 Calculates canonical correlation for every variable pair in a dataset.

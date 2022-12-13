@@ -44,10 +44,10 @@ Wilkinson et al followed the idea of scagnostics SPLOM and used brushing and lin
 The idea of using brushing and linking tools for identifying outliers is tedious and is inefficient when the number of variables in a dataset is high. Instead, one can use algorithms to find outliers from a dataset of multiple association measures. The package *HDoutliers* uses Leland Wilkinson’s hdoutliers algorithm for outlier detection. Below is an example to idenitfy outliers with a dataset of multiple measures.
 
 ```{r}
-scag_measures_long <- pivot_wider(scag_measures,1:2,names_from = measure_type, 
+scag_measures_wide <- pivot_wider(scag_measures,1:2,names_from = measure_type, 
                                   values_from = measure )
 
-outliers <- HDoutliers(scag_measures_long[,3:7])
+outliers <- HDoutliers(scag_measures_wide[,3:7])
 outliers
 ```
 
@@ -82,6 +82,20 @@ outliers
 ggpairs(compare_assoc_steel_wide[,3:6])
 ```
 
+## stray algorithm
+
+```{r}
+library(stray)
+
+outliers_stray <- find_HDoutliers(compare_assoc_steel_wide[,3:6],0.15)
+outliers_stray
+
+steel_wide_outliers <- (compare_assoc_steel_wide[,3:6])
+steel_wide_outliers$out <- ifelse(outliers_stray$out_scores>0.7,"out","nout")
+
+ggparcoord(steel_wide_outliers,columns = 1:4,groupColumn = "out",scale = "globalminmax")
+
+```
 
 
 

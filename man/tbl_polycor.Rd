@@ -7,17 +7,21 @@
 tbl_polycor(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with polychoric correlation for ordinal variable pairs
 }
 \description{
-Calculates Polychoric correlation for every variable pair in a dataset.
+Calculates Polychoric correlation for every ordinal variable pair in a dataset.
+}
+\details{
+The polychoric correlation is calculated using the \code{polychor} function from the
+\code{polycor} package
 }
 \examples{
 tbl_polycor(iris)

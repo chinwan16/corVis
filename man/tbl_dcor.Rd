@@ -7,14 +7,14 @@
 tbl_dcor(d, handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{A dataframe}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate correlation coefficient}
 
 \item{...}{other arguments}
 }
 \value{
-tibble
+A tibble with distance correlation for every numeric variable pair
 }
 \description{
 Calculates distance correlation for every numeric variable pair in a dataset.
