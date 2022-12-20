@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.30)  30 NOV 2022 08:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.30)  20 DEC 2022 16:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -757,11 +757,11 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 183.
 [2]
-<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=151, 338.26375pt x 245.91875pt>
+<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=151, 338.26375pt x 240.9pt>
 File: rj_paper_files/figure-latex/motivation-patterns-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/motivation-patterns-1.pdf>
 Package pdftex.def Info: rj_paper_files/figure-latex/motivation-patterns-1.pdf  used on input line 227.
-(pdftex.def)             Requested size: 338.26291pt x 245.91814pt.
+(pdftex.def)             Requested size: 338.26291pt x 240.8994pt.
 [3 <./rj_paper_files/figure-latex/motivation-patterns-1.pdf>]
 <rj_paper_files/figure-latex/motivation2-1.pdf, id=182, 343.2825pt x 277.035pt>
 File: rj_paper_files/figure-latex/motivation2-1.pdf Graphic file (type pdf)
@@ -855,7 +855,7 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  115i,11n,131p,1006b,825s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (18 pages, 1004706 bytes).
+Output written on RJwrapper.pdf (18 pages, 1004673 bytes).
 PDF statistics:
  479 PDF objects out of 1000 (max. 8388607)
  408 compressed objects within 5 object streams
