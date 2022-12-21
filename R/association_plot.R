@@ -321,3 +321,68 @@ pairwise_1d_compare <- function(assoc, var_order = "max_diff",
 
   suppressWarnings(print(p))
 }
+
+
+
+#' Association plot for a variable pair with or without a conditioning variable
+#'
+#' Plots the interesting variable pairs of a dataset with or without a conditioning variable. For
+#' a numeric pair, mixed pair and factor pair, a scatterplot, raincloud plot and a mosaic plot is
+#' drawn respectively.
+#'
+#' @param d A dataset
+#' @param by a character string for the grouping variable.
+#' @param x a character string for one of the variable.
+#' @param y a character string for the second variable.
+#'
+#' @export
+#'
+#' @examples
+#' show_assoc(iris,"Sepal.Width","Species")
+
+show_assoc <- function(d, x, y, by = NULL){
+
+
+
+  if ( is.numeric(d[[x]]) & is.numeric(d[[y]]) ) {
+    p <- ggplot2::ggplot(data=d, ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
+      ggplot2::geom_point() +
+      ggplot2::xlab(x) +
+      ggplot2::ylab(y) +
+      {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+
+  } else if ( is.factor(d[[x]]) & is.factor(d[[y]]) ) {
+
+    p <- ggplot2::ggplot(data=d, ggplot2::aes(x= .data[[x]], fill= .data[[y]])) +
+      #ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(.data[[x]], .data[[y]]), fill= .data[[x]] )) +
+      ggplot2::geom_bar( position = "dodge") +
+      ggplot2::xlab(x) +
+      ggplot2::ylab(y) +
+      {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+
+  } else {
+
+    fact <- names(dplyr::select_if(d[,c(x,y)], is.factor))
+    num <- names(dplyr::select_if(d[,c(x,y)], is.numeric))
+
+    p <- ggplot2::ggplot(data=d, ggplot2::aes(x =reorder(.data[[fact]],.data[[num]],FUN=median),
+                                              y = .data[[num]])) +
+      ## add half-violin from {ggdist} package
+      ggdist::stat_halfeye(adjust = .5, width = .6, justification = -.2, .width = 0,
+                           point_colour = NA) +
+      ggplot2::geom_boxplot(width = .12, outlier.color = NA) +
+      ## add dot plots from {ggdist} package
+      gghalves::geom_half_point(side = "l", range_scale = .4, alpha = .3) +
+      ggplot2::coord_cartesian(xlim = c(1.2, NA), clip = "off") +
+      ggplot2::xlab(fact) +
+      ggplot2::ylab(num) +
+      {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+
+    #p <- ggplot2::ggplot(data=d) +
+    #ggplot2::geom_boxplot(ggplot2::aes(x =.data[[fact]], y =.data[[num]]) ) + xlab(fact) +
+    #ylab(num) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+  }
+
+  print(p)
+
+}
