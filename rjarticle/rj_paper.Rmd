@@ -262,9 +262,11 @@ Table \@ref(tab:function-corVis) provides a list of the functions available in t
 ```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Function <- c("calc_assoc","association_heatmap","pairwise_2d_plot","pairwise_1d_plot")
+Function <- c("calc_assoc","association_heatmap","pairwise_2d_plot","pairwise_1d_plot",
+              "show_assoc")
 
-Usage <- c("Calculation","Visualization","Visualization","Visualization")
+Usage <- c("Calculation","Visualization","Visualization","Visualization",
+           "Visualization")
 
 #Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",5),rep("Visualization",4),rep("Visualization",5))
 
@@ -274,7 +276,9 @@ Description <- c("Calculates association measures",
            
            "Conditional and multiple measures matrix plot",
            
-           "Conditional and multiple measures linear plot")
+           "Conditional and multiple measures linear plot",
+           
+           "Association (or conditional) plot for a pair of variables")
 
 
 df <- data.frame(Function=Function,
@@ -498,9 +502,11 @@ For numeric pairs, Figure \@ref(fig:assoc-heatmap) shows a high positive Pearson
 
 ```{r numeric-pairs, fig.width=5.5, fig.height=4.5, fig.align='center', fig.cap = "Scatterplot for variables Usage in kWh and CO2 in ppm, and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively."}
 
-p1 <- ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=Usage_kWh,x=CO2.tCO2.),size = 0.2)
+p1 <- show_assoc(df,"Usage_kWh","CO2.tCO2.")
+  #ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=Usage_kWh,x=CO2.tCO2.),size = 0.2)
 
-p2 <- ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LdCRP,x=LdCPF),size = 0.2)
+p2 <- show_assoc(df,"LdCRP","LdCPF")
+  #ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LdCRP,x=LdCPF),size = 0.2)
 
 gridExtra::grid.arrange(p1,p2,ncol=2)
 
@@ -511,9 +517,11 @@ Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation between `Load
 
 ```{r mixed-pairs, fig.width=5.5, fig.height=4.5, fig.align='center', fig.cap = "Boxplot for variables Load type and Usage in kWh, and, Load type and NSM showing a high canonical correlation. "}
 
-p3 <- ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=Usage_kWh,x=Load_Type))
+p3 <- show_assoc(df,"Usage_kWh","Load_Type")
+  #ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=Usage_kWh,x=Load_Type))
 
-p4 <- ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=NSM,x=Load_Type))
+p4 <- show_assoc(df,"NSM","Load_Type")
+  #ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=NSM,x=Load_Type))
 
 
 
@@ -550,8 +558,8 @@ pairwise_1d_compare(compare_assoc_steel)
 
 ```{r comp-var-pairs, fig.width=4, fig.height=4, fig.align='center', fig.cap = "Scatterplot for numeric variable pair LgCPF and LgCRP with high difference among the magnitude of association measures"}
 
-
-ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LgCPF,x=LgCRP), size=0.2)
+show_assoc(df,"LgCPF","LgCRP")
+#ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LgCPF,x=LgCRP), size=0.2)
 
 
 ```
@@ -578,7 +586,8 @@ Figure \@ref(fig:high-diff) shows the scatterplot for the variable pair `LgCPR` 
 
 ```{r high-diff, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplot for variable pair LgCPR and Usage in kWh splitted by conditioning variable Day of week."}
 
-ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LgCRP,x=Usage_kWh), size=0.2) + ggplot2::facet_wrap(~Day_of_week)
+show_assoc(df,"LgCRP","Usage_kWh",by="Day_of_week")
+#ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LgCRP,x=Usage_kWh), size=0.2) + ggplot2::facet_wrap(~Day_of_week)
 ```
 
 <!-- We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure \@ref(fig:cond-assoc-sp) shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present. -->
