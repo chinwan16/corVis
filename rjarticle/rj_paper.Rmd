@@ -432,42 +432,79 @@ The tibble output in the conditional setting has a similar structure as `calc_as
 
 This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display association and conditional association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously. 
 
-We use Steel Industry Energy consumption dataset providing information on energy consumption by a steel company in South Korea from the [@Dua2019] to provide illustrative examples. Table \@ref(tab:steelindustry) provides a brief description of set of variables from this dataset used for analysis.
+We use two datasets to provide illustrative examples. The first dataset is `de_elect` (German Election Data from 2002 and 2005) from \CRANpkg{zenplots} package which includes numeric variables only. The second dataset is `cdc` (Behavioral survey data) from @diez2012openintro which includes numeric, nominal and ordered variables.
+
+The German Election dataset provides the information on election results for two German elections held in 2002 and 2005.The dataset includes $299$ constituencies and $68$ variables providing information on these constituencies.
+
+The `cdc` dataset is a random sample of 20,000 people from Behavioral Risk Factor Surveillance System (BRFSS) survey, which is an annual telephonic survey of 350,000 people, in United States collected by the Centers for Disease Control and Prevention (CDC) conducted in 2000. The respondents of the survey are asked questions related to their diet, weekly physical activity and even their level of health coverage. The goal of the survey is to identify risk factors in adult population and report the health trends. The dataset used here has only 9 questions or variables as compared to the original dataset which includes more than 200 questions or variables. 
+
+Table \@ref(tab:germanelection) provides a brief description of a subset of variables from the German election dataset.
+
+<!-- Steel Industry Energy consumption dataset providing information on energy consumption by a steel company in South Korea from the [@Dua2019] to provide illustrative examples. Table \@ref(tab:steelindustry) provides a brief description of set of variables from this dataset used for analysis. The dataset includes ten variables  -->
 
 
-```{r steelindustry,warning=FALSE,message=FALSE,echo=FALSE }
+```{r germanelection,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
+library(zenplots)
+data("de_elect")
 
-steelindustry <- read.csv("../data/Steel_industry_data.csv")
-steelindustry <- steelindustry[,-1] # removing the date column
-names(steelindustry) <- c("Usage_kWh", "LgCRP", "LdCRP", "CO2.tCO2.", "LgCPF", "LdCPF", "NSM",
-                          "WeekStatus", "Day_of_week","Load_Type")
+selected_vars <- c("Votes.Linke.02","Votes.FDP.02","Votes.Gruene.02","FDP.02","CDU.CSU.02","Gruene.02","Linke.02","Votes.Gruene.05", "Gruene.05", "Pop.15.18", "Pop.le.15")
 
-steelindustry$Load_Type <- factor(steelindustry$Load_Type, levels = c("Light_Load", "Medium_Load","Maximum_Load"))
-steelindustry$Load_Type <- ordered(steelindustry$Load_Type)
+german_election <- de_elect[selected_vars]
 
-Variable <- c("Usage_kWh", "LgCRP", "LdCRP", "CO2.tCO2.", "LgCPF", "LdCPF", "NSM",
-                          "WeekStatus", "Day_of_week","Load_Type")
+Variable <- selected_vars
 
-Description <- c(
-                 "Energy Consumption in kWh",
-                 "Lagging Current reactive power in kVarh",
-                 "Leading Current reactive power in kVarh",
-                 "CO2 emission in ppm",
-                 "Lagging Current power factor",
-                 "Leading Current power factor",
-                 "Number of Seconds from midnight",
-                 "Week status (0 for weekend, 1 for weekday)",
-                 "Day of the week",
-                 "Load type (Light Load, Medium Load or Maximum Load)")
+Description <- c("votes for Linke 2002",
+                 "votes for FDP 2002",
+                 "votes for Gruene 2002",
+                 "FDP 2002 (as a fraction in [0,1])",
+                 "CDU/CSU 2002 (as a fraction in [0,1])",
+                 "Gruene 2002 (as a fraction in [0,1])",
+                 "Linke 2002 (as a fraction in [0,1])",
+                 "votes for Gruene 2005",
+                 "Gruene 2005 (as a fraction in [0,1])",
+                 "population between 15 and 18 years old 2002-12-31 (in percent)",
+                 "population younger than (or equal to) 15 years 2002-12-31 (in percent)")
 
-VariableType <- c("numerical","numerical","numerical","numerical","numerical","numerical","numerical","nominal","nominal","ordinal")
+#VariableType <- c("numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical")
 
 df <- data.frame(Variable=Variable,
-                 Description=Description,
-                 VariableType=VariableType)
+                 Description=Description
+                 #VariableType=VariableType
+                 )
 
-kableExtra::kbl(df, booktabs = T, caption = "Variable description of the Steel Industry Energy consumption dataset along with the types of variables")
+kableExtra::kbl(df, booktabs = T, caption = "Variable description of the German election result dataset from 2002 and 2005.")
+#print(table_1)
+#df %>%
+  #kbl() %>%
+  #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+
+Similarly, Table \@ref(tab:cdcdata) provides a brief description of the variables in `cdc` dataset along with the variable type.
+```{r cdcdata,warning=FALSE,message=FALSE,echo=FALSE }
+library(kableExtra)
+cdcdata <- read.csv("../data/cdc.csv")
+
+variable <- names(cdcdata)
+
+description <- c("General health, with categories excellent, very good, good, fair, and poor",
+                 "Respondent exercised in the past month",
+                 "Respondent has some form of health coverage",
+                 "Respondent has smoked at least 100 cigarettes in their entire life",
+                 "Respondent's height in inches",
+                 "Respondent's weight in pounds",
+                 "Respondent's desired weight",
+                 "Respondent's age in years",
+                 "Respondent's gender")
+
+variable_type <- c("ordinal","nominal","nominal","nominal","numerical","numerical","numerical","numerical","nominal")
+
+df <- data.frame(Variable=variable,
+                 Description=description,
+                 VariableType=variable_type
+                 )
+
+kableExtra::kbl(df, booktabs = T, caption = "Variable description of the CDC dataset")
 #print(table_1)
 #df %>%
   #kbl() %>%
@@ -477,7 +514,7 @@ kableExtra::kbl(df, booktabs = T, caption = "Variable description of the Steel I
 
 ## Association Matrix plot
 
-The function `association_heatmap` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
+The function `plot_assoc_matrix` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
 
 
 
