@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -85,6 +85,11 @@ A.~Samba.
   Visualization}, 2020.
 \newblock URL \url{https://CRAN.R-project.org/package=linkspotter}.
 \newblock R package version 1.3.0.
+
+\bibitem[Speed(2011)]{speed2011correlation}
+T.~Speed.
+\newblock A correlation for the 21st century.
+\newblock \emph{Science}, 334\penalty0 (6062):\penalty0 1502--1503, 2011.
 
 \bibitem[Sz{\'e}kely et~al.(2007)Sz{\'e}kely, Rizzo, and
   Bakirov]{szekely2007measuring}

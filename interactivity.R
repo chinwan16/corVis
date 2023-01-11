@@ -289,12 +289,8 @@ ui <- fluidPage(
 
 server <- function(input, output,session) {
 
-  p <- association_heatmap(assoc_iris)
-  output$plot <- renderPlot({
-
-    p
-
-      })
+  p <- association_heatmap(assoc_penguins)
+  output$plot <- renderPlot({p})
 
   p1 <- eventReactive(input$plot_click,{
     x <- input$plot_click$panelvar1
@@ -302,12 +298,10 @@ server <- function(input, output,session) {
     list(x=x,y=y)
   })
 
-  output$panel1 = renderText(input$plot_click$panelvar1)
-  output$panel2 = renderText(input$plot_click$panelvar2)
+
   output$scatter <- renderPlot({
-    ggplot(data=iris) + geom_point(aes(x=iris[,p1()$x],y=iris[,p1()$y])) + xlab(p1()$x) +
-      ylab(p1()$y)
-  })
+    assoc_p <- show_assoc(penguins,p1()$x,p1()$y)
+    assoc_p})
 
 
   }
@@ -315,13 +309,13 @@ server <- function(input, output,session) {
 shinyApp(ui, server)
 
 
-p <- eventReactive(input$plot_click,{
-  levs_x <- levels(factor(assoc_iris$x))
-  x <- levs_x[round(input$plot_click$x)]
-  levs_y <- levels(factor(assoc_iris$y))
-  y <- levs_y[round(input$plot_click$y)]
-  list(x=x,y=y)
-})
+# p <- eventReactive(input$plot_click,{
+#   levs_x <- levels(factor(assoc_iris$x))
+#   x <- levs_x[round(input$plot_click$x)]
+#   levs_y <- levels(factor(assoc_iris$y))
+#   y <- levs_y[round(input$plot_click$y)]
+#   list(x=x,y=y)
+# })
 
 
 
@@ -341,14 +335,28 @@ show_assoc <- function(d, x, y, by = NULL){
   } else if ( is.factor(d[[x]]) & is.factor(d[[y]]) ) {
 
     p <- ggplot2::ggplot(data=d) +
-      ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(.data[[x]], .data[[y]]), fill= .data[[x]] )) +
+      #ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(.data[[x]], .data[[y]]), fill= .data[[x]] )) +
+      ggplot2::geom_bar(ggplot2::aes(x= .data[[x]], fill= .data[[y]]), position = "dodge") +
       xlab(x) + ylab(y) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
 
   } else {
 
-    p <- ggplot2::ggplot(data=d) +
-      ggplot2::geom_boxplot(ggplot2::aes(x =.data[[x]], y =.data[[y]]) ) + xlab(x) +
-      ylab(y) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+    fact <- names(dplyr::select_if(d[,c(x,y)], is.factor))
+    num <- names(dplyr::select_if(d[,c(x,y)], is.numeric))
+
+    p <- ggplot(data=d, aes(x =reorder(.data[[fact]],.data[[num]],FUN=median), y = .data[[num]])) +
+      ## add half-violin from {ggdist} package
+      ggdist::stat_halfeye(adjust = .5, width = .6, justification = -.2, .width = 0,
+        point_colour = NA) +
+      geom_boxplot(width = .12, outlier.color = NA) +
+      ## add dot plots from {ggdist} package
+      gghalves::geom_half_point(side = "l", range_scale = .4, alpha = .3) +
+      coord_cartesian(xlim = c(1.2, NA), clip = "off") +  xlab(fact) +ylab(num) +
+      {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+
+    #p <- ggplot2::ggplot(data=d) +
+      #ggplot2::geom_boxplot(ggplot2::aes(x =.data[[fact]], y =.data[[num]]) ) + xlab(fact) +
+      #ylab(num) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
   }
 
   print(p)

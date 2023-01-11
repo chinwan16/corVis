@@ -22,33 +22,27 @@ package \texttt{corVis} provides an implementation.
 \hypertarget{section-1-introduction}{%
 \section{Section 1: Introduction}\label{section-1-introduction}}
 
-Correlation matrix display is a popular tool to visually explore
-correlations among variables while performing Exploratory Data Analysis
-(EDA) on a multivariate dataset. Popularized by
-\citet{friendly2002corrgrams} as corrgram, these displays are produced
-by first calculating the correlation among the variables and then
-plotting these calculated values in a matrix display. With effective
-ordering techniques, these displays quickly highlight variables which
-are highly correlated and an analyst interested in building a predictive
-model could use these displays to remove correlated variables and avoid
+Correlation matrix display helps in visually exploring correlations
+among variables during Exploratory Data Analysis (EDA) of a multivariate
+dataset. Popularized by \citet{friendly2002corrgrams} as corrgram, these
+displays are produced by first calculating the correlation among the
+variables and then plotting these calculated values in a matrix display.
+With effective ordering techniques, these displays quickly highlight
+variables which are highly correlated and an analyst interested in
+building a predictive model could use these displays to flag and avoid
 multicollinearity.
 
-The correlation displays are generally used with one of the Pearson's,
-Spearman's or Kendall's correlation coefficient and are therefore
-limited to quantitative variables. An analyst can use one-hot encoding
-of the qualitative variables in order to use these displays but will
-need to deal with the high dimensions as a result of the encoding. In
-addition to the dimensionality problem, it is not easy to assess the
-overall correlation when using the one-hot encoding. The existing
-methods to quickly explore association among qualitative variables in a
-dataset include using proportions or counts with different graphical
-displays like boxplots or barplots. Using association measures for
-qualitative pairs similar to correlation for quantitative pairs will
-help in summarizing the relationship, which then can be displayed like
-the correlation displays.
+The correlation displays are generally used with Pearson's correlation
+coefficient and are therefore limited to quantitative variables. An
+analyst can use one-hot encoding of the qualitative variables in order
+to use these displays but will need to deal with the high dimensions as
+a result of the encoding. In addition to the dimensionality problem, it
+is not easy to assess the overall correlation when using the one-hot
+encoding.
 
 Tukey and Tukey \citep{tukey1985computer} introduced scagnostics which
-are measures for scatterplots. Along with scagnostics, they proposed a
+are diagnostic measures, quantifying density, shape, trend, and other
+features, of a scatterplot. Along with scagnostics, they proposed a
 scagnostics scatterplot matrix which is a visual display to explore and
 compare these measures for all the variable pairs in a dataset. By
 comparing multiple measures at once, the unusual variable pairs could be
@@ -63,9 +57,7 @@ measures and looks for monotonic relationship. Distance correlation
 \citep{szekely2007measuring} is an important measure useful in exploring
 non-linear relationships. The information theory measure maximal
 information coefficient (MIC) \citep{reshef2011detecting} is capable of
-summarizing complex relationships. With effective displaying techniques,
-the multiple measures of association provide a comparison tool that
-assist an analyst to reveal structure present in the data.
+summarizing complex relationships.
 
 Small multiples (or Trellis display) is a simple yet powerful approach
 to compare partitions of data and understand multidimensional datasets
@@ -205,11 +197,11 @@ An association measure is defined as a numerical summary quantifying the
 relationship between two or more variables. The measure is called
 symmetric if its value is invariant to the choice of independent or
 dependent variable during the calculation. For example, Pearson's
-correlation coefficient summarizes the strength and direction of the
-linear relationship present between two numeric variables in the range
-\([-1,1]\) and is symmetric. Kendall's or Spearman's rank correlation
+correlation coefficient summarizes the strength and direction in the
+range \([-1,1]\) of the linear relationship present between two numeric
+variables and is symmetric. Kendall's or Spearman's rank correlation
 coefficient are other popular measures which assess monotonic
-relationship among two numeric variables in interval \([-1,1]\) and are
+relationship in interval \([-1,1]\) among two numeric variables and are
 symmetric measures.
 
 Pearson's correlation is the most popular association measure because of
@@ -228,7 +220,7 @@ linear and non-linear patterns.
 
 }
 
-\caption[Multiple association measures for simulated linear and non-linear pattern]{Multiple association measures for simulated linear and non-linear pattern. The first row of the plot shows a linear pattern, the value of Pearson's correlation, distance correlation and MIC. The second row of the plot shows a non-linear pattern along with the values for association measures. All three association measures show a high value for the linear relationship and hence are useful for linear patterns. For non-linear pattern, distance correlation and MIC are more suitable measures than Pearson's correlation.}\label{fig:motivation-patterns}
+\caption[Multiple association measures for simulated linear and non-linear pattern]{Multiple association measures for simulated linear and non-linear pattern. The first row of the plot shows a linear pattern, the value of Pearson's correlation, distance correlation and MIC. The second row of the plot shows a non-linear pattern along with the values for association measures. All three association measures show a high value for the linear relationship and hence are useful for linear patterns. For the non-linear pattern, distance correlation and MIC are more suitable measures than Pearson's correlation.}\label{fig:motivation-patterns}
 \end{figure}
 \end{Schunk}
 
@@ -262,7 +254,7 @@ of possible grids on a scatterplot of two numeric variables, in order to
 discretize the variables, which maximises the mutual information for the
 two variables. A normalisation technique is used to make the mutual
 information from different grids comparable. Referred as `a correlation
-of 21st century' {[}speed2011correlation{]}, MIC is capable of
+of 21st century' \citep{speed2011correlation}, MIC is capable of
 summarizing different types of relationships, not just linear or
 monotonous, between numeric variables and is in range \([0,1]\).
 \citet{reshef2011detecting} used MIC and other related statistics to
@@ -277,8 +269,8 @@ association measures for other variable types.
 \citet{agresti2010analysis} provides an overview of the association
 measures which are used for exploring association between ordinal
 variables. Kendall's tau-b \citep{kendall1945treatment} is an
-association measure useful in summarizing the relationship between two
-ordinal variables in the range \([-1,1]\). It is a relatively stable
+association measure useful in summarizing the relationship in range
+\([-1,1]\) between two ordinal variables. It is a relatively stable
 measure than Goodman and Kruskal's gamma with respect to the changes in
 categories of any variable i.e.~if two categories are merged to make a
 single category. The polychoric correlation \citep{olsson1979maximum}
@@ -290,10 +282,11 @@ The association measures for the case of nominal pair of variables
 should be invariant to the order in which the categories appear.
 Pearson's contingency coefficient uses the \({\chi}^2\) value from the
 Pearson's \({\chi}^2\) test for independence and is a useful measure to
-summarize the association between two nominal variables in \([0,1]\).
+summarize the association in \([0,1]\) between two nominal variables.
 Another measure for nominal variable pair is the Uncertainty coefficient
 \citep{theil1970estimation} measuring the proportion of uncertainty in
-one variable which is explained by the other variable.
+one variable which is explained by the other variable. The uncertainty
+coefficient measure is in the range \([0,1]\) and is not symmetric.
 
 \hypertarget{section-3-introducing-corvis}{%
 \section{Section 3: Introducing
@@ -309,27 +302,6 @@ conditional associations display which are useful for uncovering
 interesting patterns in the data. This will help in identifying variable
 pairs which shows a type of relationship or pattern in a dataset with
 large number of variables.
-
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/motivation2-1} 
-
-}
-
-\caption[An example plot showing importance of conditional displays]{An example plot showing importance of conditional displays}\label{fig:motivation2}
-\end{figure}
-\end{Schunk}
-
-Consider Figure \ref{fig:motivation2} for the motivation behind
-conditional association displays. The plot on the left shows a positive
-linear association between \texttt{y} and \texttt{x} and has a positive
-Pearson's correlation of value 0.603. The plot on the right shows the
-disaggregated data by the \texttt{group} variable and it is clearly
-evident that for each group there is a negative linear relationship
-between \texttt{y} and \texttt{x}. This is an example of Simpson's
-paradox and is one of the patterns which are discoverable when
-conditional association displays are used.
 
 While designing these displays we considered matrix and linear layouts.
 A matrix layout simplifies the effort in finding variables, and
@@ -357,11 +329,9 @@ Function & Usage & Description\\
 \hline
 \textbf{calc\_assoc} & Calculation & Calculates association measures\\
 \hline
-\textbf{association\_heatmap} & Visualization & Conventional correlation matrix plot\\
+\textbf{plot\_assoc\_matrix} & Visualization & Visualize assocition and conditional association in matrix plot\\
 \hline
-\textbf{pairwise\_2d\_plot} & Visualization & Conditional and multiple measures matrix plot\\
-\hline
-\textbf{pairwise\_1d\_plot} & Visualization & Conditional and multiple measures linear plot\\
+\textbf{plot\_assoc\_linear} & Visualization & Visualize assocition and conditional association in linear plot\\
 \hline
 \textbf{show\_assoc} & Visualization & Association (or conditional) plot for a pair of variables\\
 \hline
@@ -418,17 +388,17 @@ used for exploring association among the variables.
 The function \texttt{tbl\_cancor} calculates a measure of association
 based on canonical correlations for mixed pairs of variables. Nominal
 variables are converted into sets of dummy variables, which are then
-assigned scored to find the maximal correlation. For two numeric
+assigned score to find the maximal correlation. For two numeric
 variables this measure is identical to absolute correlation, for two
 factors the correlation is identical to that obtained from
 correspondence analysis.
 
-The functions listed in \ref{tab:association-measures} for calculating
-association measures provide a functionality for handling missing value
-or \texttt{NA} in the dataset. Each of these functions either have a
-\texttt{handle.na} argument or have package functions which
-automatically uses pairwise complete observations for taking care of
-missing values present in the data.
+The functions listed in Table \ref{tab:association-measures} for
+calculating association measures provide a functionality for handling
+missing value or \texttt{NA} in the dataset. Each of these functions
+either have a \texttt{handle.na} argument or automatically uses pairwise
+complete observations (depending on the package used for calculation)
+for taking care of missing values present in the data.
 
 \begin{Schunk}
 \begin{table}
@@ -492,20 +462,12 @@ distance
 \end{Soutput}
 \end{Schunk}
 
-The tibble output for the functions mentioned in Table
-\ref{tab:association-measures} has the following structure:
-
-\begin{itemize}
-\tightlist
-\item
-  \texttt{x} and \texttt{y} representing a pair of variables
-\item
-  \texttt{measure} representing the calculated value for association
-  measure
-\item
-  \texttt{measure\_type} representing the association measure calculated
-  for \texttt{x} and \texttt{y} pair.
-\end{itemize}
+In the tibble output for the functions mentioned in Table
+\ref{tab:association-measures} \texttt{x} and \texttt{y} represents a
+pair of variables. The \texttt{measure} variable represents the
+calculated value for association measure. And the \texttt{measure\_type}
+variable represents the association measure calculated for \texttt{x}
+and \texttt{y} pair.
 
 \hypertarget{calculating-association-measures-for-whole-dataset}{%
 \subsection{Calculating association measures for whole
@@ -523,12 +485,12 @@ associations. In addition to tibble structure, the output also has
 class attributes for producing visual summaries in this package.
 
 The function \texttt{calc\_assoc} has a \texttt{types} argument which is
-basically a tibble of the association measure to be calculated for
-different variable pairs. The default tibble of measures is
-\texttt{default\_assoc()} which calculates Pearson's correlation if both
-the variables are numeric, Kendall's tau-b if both the variables are
-ordinal, canonical correlation if one is factor and other is numeric and
-canonical correlation for the rest of the variable pairs.
+a tibble of the association measure for different variable pairs. The
+default tibble of measures is \texttt{default\_assoc()} which calculates
+Pearson's correlation if both the variables are numeric, Kendall's tau-b
+if both the variables are ordinal, canonical correlation if one is
+factor and other is numeric and canonical correlation for the rest of
+the variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -545,7 +507,7 @@ default_measures
 #> 4 tbl_cancor other   other   <NULL>
 \end{Soutput}
 \begin{Sinput}
-iris_assoc <- calc_assoc(df,types = default_assoc())
+iris_assoc <- calc_assoc(df,types = default_measures)
 iris_assoc
 \end{Sinput}
 \begin{Soutput}
@@ -583,7 +545,7 @@ of variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
-updated_assoc <- update_assoc(default=default_assoc(),
+updated_assoc <- update_assoc(default_measures,
                               num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
