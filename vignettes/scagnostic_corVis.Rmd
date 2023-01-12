@@ -85,7 +85,7 @@ df <- penguins %>% select(where(is.numeric))
 updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Monotonic")
 assoc_monotonic <- calc_assoc(df,types = updated_assoc)
 
-association_heatmap(assoc_monotonic, limits = c(0,1))
+plot_assoc_matrix(assoc_monotonic, limits = c(0,1))
 ```
 
 ### Comparing scagnostics
@@ -107,7 +107,7 @@ monotonic <- tbl_scag(df,scagnostic = "Monotonic")
 
 scag_measures <- rbind(outlying, skewed, clumpy, sparse, striated, convex, skinny, stringy,
                        monotonic)
-pairwise_1d_compare(scag_measures, limits = c(0,1))
+plot_assoc_linear(scag_measures,group_var = "measure_type", limits = c(0,1))
 ```
 
 ### Conditional Scagnostics
@@ -124,6 +124,6 @@ df_num <- dplyr::select(penguins, where(is.numeric),"species")
 
 updated_assoc <- update_assoc(num_pair = "tbl_scag",num_pair_argList = "Clumpy")
 
-cond_assoc <- calc_assoc_by(df_num, types = updated_assoc, by="species")
-pairwise_2d_plot(cond_assoc)
+cond_assoc <- calc_assoc(df_num, types = updated_assoc, by="species")
+plot_assoc_matrix(cond_assoc, group_var = "by")
 ```

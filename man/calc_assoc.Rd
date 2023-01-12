@@ -2,26 +2,58 @@
 % Please edit documentation in R/calculate_association.R
 \name{calc_assoc}
 \alias{calc_assoc}
-\title{Association measures for a dataset}
+\alias{calc_assoc.NULL}
+\alias{calc_assoc.character}
+\title{Association/Conditional Association measures for a dataset}
 \usage{
-calc_assoc(d, types = default_assoc(), handle.na = TRUE)
+calc_assoc(
+  d,
+  by = NULL,
+  types = default_assoc(),
+  include.overall = TRUE,
+  handle.na = TRUE
+)
+
+\method{calc_assoc}{`NULL`}(d, types = default_assoc(), handle.na = TRUE)
+
+\method{calc_assoc}{character}(
+  d,
+  by,
+  types = default_assoc(),
+  handle.na = TRUE,
+  include.overall = TRUE
+)
 }
 \arguments{
 \item{d}{dataframe}
+
+\item{by}{a character string for the name of the conditional variable. Set to \emph{NULL} by default.}
 
 \item{types}{a tibble for the measures to be calculated for different variable types. The default is
 \emph{default_assoc()} which calculates Pearson's correlation if the variable pair is numeric,
 Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
 other is a factor, and canonical correlation for any other variable pair.}
 
-\item{handle.na}{If TRUE uses pairwise complete observations to calculate measure of association}
+\item{include.overall}{Useful during calculation of conditional association measures. If TRUE calculates the overall measure of association for every pair of variable and
+includes it in the result.}
+
+\item{handle.na}{If TRUE uses pairwise complete observations to calculate measure of association.}
 }
 \value{
 tibble
 }
 \description{
-Calculates a measure of association for every variable pair in a dataset.
+Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
+variable in a dataset.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{NULL}: calc_assoc method
+
+\item \code{character}: calc_assoc method
+}}
+
 \examples{
 calc_assoc(iris)
+calc_assoc(iris, by = "Species")
 }

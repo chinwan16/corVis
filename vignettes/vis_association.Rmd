@@ -43,7 +43,7 @@ It shows a high positive Pearson's correlation among flipper_length_mm and body_
 ```{r fig.width=4, fig.height=4, fig.align='center', fig.cap="Figure 1: Association matrix display for penguins data"}
 df <- penguins
 assoc <- calc_assoc(df)
-association_heatmap(assoc)
+plot_assoc_matrix(assoc)
 ```
 
 
@@ -63,7 +63,7 @@ spearman_assoc <- update_assoc(num_pair = "tbl_cor",
                                other_pair = "tbl_nmi")
 spearman <- calc_assoc(df_num, types=spearman_assoc)
 compare <- rbind(pearson,spearman)
-pairwise_2d_plot(compare, group_var = "measure_type")
+plot_assoc_matrix(compare, group_var = "measure_type")
 ```
 
 
@@ -78,7 +78,7 @@ cancor <- tbl_cancor(df)
 nmi <- tbl_nmi(df)
 
 assoc <- rbind(pearson, spearman, kendall, cancor, nmi)
-pairwise_1d_compare(assoc)
+plot_assoc_linear(assoc, group_var = "measure_type")
 
 ```
 
@@ -95,8 +95,8 @@ updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               mixed_pair = "tbl_nmi",
                               other_pair = "tbl_nmi")
 
-cond_assoc <- calc_assoc_by(df, by="island")
-pairwise_2d_plot(cond_assoc)
+cond_assoc <- calc_assoc(df, by="island")
+plot_assoc_matrix(cond_assoc, group_var = "by")
 ```
 
 
@@ -105,7 +105,7 @@ We can also use linear layouts for displaying conditional association. Figure 5 
 
 ```{r fig.width=4, fig.height=5, fig.align='center', fig.cap="Figure 5: Conditional Association plot using linear layout"}
 
-pairwise_1d_plot(cond_assoc)
+plot_assoc_linear(cond_assoc, group_var = "by")
 ```
 
 

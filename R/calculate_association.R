@@ -1,23 +1,37 @@
-#' Association measures for a dataset
+#' Association/Conditional Association measures for a dataset
 #'
-#' Calculates a measure of association for every variable pair in a dataset.
+#' Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
+#' variable in a dataset.
 #'
 #' @param d dataframe
+#' @param by a character string for the name of the conditional variable. Set to *NULL* by default.
 #' @param types a tibble for the measures to be calculated for different variable types. The default is
 #'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
 #'              Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
 #'              other is a factor, and canonical correlation for any other variable pair.
 #'
-#' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association
+#' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association.
+#' @param include.overall Useful during calculation of conditional association measures. If TRUE calculates the overall measure of association for every pair of variable and
+#'                        includes it in the result.
 #'
 #' @return tibble
+#' @importFrom magrittr %>%
 #' @export
+#'
 #'
 #' @examples
 #' calc_assoc(iris)
+#' calc_assoc(iris, by = "Species")
 
 
-calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
+calc_assoc <- function(d, by=NULL, types=default_assoc(), include.overall=TRUE, handle.na=TRUE){
+  UseMethod("calc_assoc", by)
+}
+
+
+#' @describeIn calc_assoc  calc_assoc method
+#' @export
+calc_assoc.NULL  <- function(d, types=default_assoc(),handle.na=TRUE){
   types1 <- types
   names(types1) <- names(types)[c(1,3,2,4)]
   types <- rbind(types,types1)
@@ -73,32 +87,9 @@ calc_assoc <- function(d, types=default_assoc(),handle.na=TRUE){
   pcor
 }
 
-
-#' Conditional Association measures for a dataset
-#'
-#' Calculates a measure of association for every variable pair at different levels of a third (conditional)
-#' variable in a dataset.
-#'
-#' @param d dataframe
-#' @param by a character string for the name of the conditional variable. Set to *NULL* by default.
-#' @param types a tibble for the measures to be calculated for different variable types. The default is
-#'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
-#'              Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
-#'              other is a factor, and canonical correlation for any other variable pair.
-#'
-#' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association.
-#' @param include.overall If TRUE calculates the overall measure of association for every pair of variable and
-#'                        includes it in the result.
-#'
-#' @return tibble
-#' @importFrom magrittr %>%
+#' @describeIn calc_assoc  calc_assoc method
 #' @export
-#'
-#' @examples
-#' calc_assoc_by(iris,by="Species")
-
-
-calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,include.overall=TRUE){
+calc_assoc.character <- function(d, by,types=default_assoc(),handle.na=TRUE,include.overall=TRUE){
   if (!(by %in% names(d))) stop("by variable not present in data")
   result <- d %>%
     dplyr::rename(by=by) %>%
@@ -113,10 +104,20 @@ calc_assoc_by <- function(d, by=NULL,types=default_assoc(),handle.na=TRUE,includ
       dplyr::mutate(by = "overall")
     result <- rbind(result, overall)
   }
+  d_new <- d %>% dplyr::select(-by)
+  vartypes <- sapply(names(d_new), function(u)
+    if (is.numeric(d[[u]])) "numeric"
+    else if (is.ordered(d[[u]])) "ordered"
+    else if (is.factor(d[[u]])) "factor"
+    else "other")
+  names(vartypes) <- names(d_new)
+  attr(result,"vartypes") <- vartypes
+  #print(attr(result,"vartypes"))
   class(result)<-append("pairwise", class(result))
   attr(result,"by_var") <- by
   result
 }
+
 
 
 #' A function for default association measures
@@ -160,7 +161,7 @@ default_assoc <- function(){
 #' @examples
 #' updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_argList="spearman",
 #' ordered_pair="tbl_tau",mixed_pair="tbl_nmi",other_pair="tbl_cancor")
-#' calc_assoc(iris,updated_assoc)
+#' calc_assoc(iris,types=updated_assoc)
 
 update_assoc <- function(default=default_assoc(),
                               num_pair=NULL, num_pair_argList=NULL,
@@ -234,6 +235,14 @@ calc_assoc_all <- function (d,handle.na=T){
 
   assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, polycor, tau_b,
                  uncertainty, gkTau, gkGanmma, chi)
+
+  vartypes <- sapply(names(d), function(u)
+    if (is.numeric(d[[u]])) "numeric"
+    else if (is.ordered(d[[u]])) "ordered"
+    else if (is.factor(d[[u]])) "factor"
+    else "other")
+  names(vartypes) <- names(d)
+  attr(assoc,"vartypes") <- vartypes
 
   return(assoc)
 }

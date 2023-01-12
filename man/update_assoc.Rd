@@ -47,5 +47,5 @@ Creates a tibble for different measures of association for different variable ty
 \examples{
 updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_argList="spearman",
 ordered_pair="tbl_tau",mixed_pair="tbl_nmi",other_pair="tbl_cancor")
-calc_assoc(iris,updated_assoc)
+calc_assoc(iris,types=updated_assoc)
 }

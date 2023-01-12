@@ -16,8 +16,8 @@
 #'
 #' @examples
 #' order_assoc(calc_assoc(iris))
-#' order_assoc(calc_assoc_by(iris,"Species"))
-#' order_assoc(calc_assoc_by(iris,"Species"),method="max_diff")
+#' order_assoc(calc_assoc(iris,"Species"))
+#' order_assoc(calc_assoc(iris,"Species"),method="max_diff")
 
 
 order_assoc <- function(assoc, method = "default", group_var = NULL){

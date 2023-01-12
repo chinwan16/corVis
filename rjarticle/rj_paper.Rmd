@@ -512,9 +512,13 @@ kableExtra::kbl(df, booktabs = T, caption = "Variable description of the CDC dat
 ```
 
 
-## Association Matrix plot
+## Association plots in matrix layout
 
-The function `plot_assoc_matrix` is used to display a matrix layout with association for variable pairs in the dataset. The display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
+The function `plot_assoc_matrix` uses a matrix layout for association displays, multiple association measures displays and conditional association displays. It takes the calculated measures of association by `calc_assoc` or by `calc_assoc_all` function as input and outputs a matrix display. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
+
+### Association display
+
+The association display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
 
 
 
@@ -566,7 +570,7 @@ gridExtra::grid.arrange(p3,p4,ncol=2)
 For nominal variable pairs, Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation among `WeekStatus` and `Day_of_week` only. Because both variables are nested variables, there is a high association among them and is picked by canonical correlation.
 
 
-## Multiple Association Measures Plot
+### Multiple Association Measures Plot
 
 <!-- We also calculate multiple association measures for all the variable pairs in the dataset and compare them. This helps in identifying pairs of variables with a high difference among different measures or any unusual variable pairs which should be investigated further in more detail.  -->
 

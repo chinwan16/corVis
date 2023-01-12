@@ -136,7 +136,7 @@ The variable pairs in the output are unique pairs and a subset of all the variab
 
 `calc_assoc_by` can be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a tibble structure with _pairwise_ and _data.frame_ as additional class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
 ```{r}
-complete_assoc_by <- calc_assoc_by(df,by = "sex")
+complete_assoc_by <- calc_assoc(df,by = "sex")
 ```
 
 The function also has a `types` argument which can be updated similarly to `calc_assoc`. 
@@ -145,14 +145,14 @@ updated_assoc <- update_assoc(num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
                               other_pair = "tbl_nmi")
-updated_complete_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc)
+updated_complete_assoc_by <- calc_assoc(df,by = "sex", types = updated_assoc)
 glimpse(updated_complete_assoc_by)
 ```
 
 By default, the function calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (*overall*). This behavior can be changed by setting `include.overall` to *FALSE*.
 
 ```{r}
-complete_assoc_by <- calc_assoc_by(df,by = "sex",include.overall = FALSE)
+complete_assoc_by <- calc_assoc(df,by = "sex",include.overall = FALSE)
 ```
 
 The tibble output for `calc_assoc_by` has the following structure:
