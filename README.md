@@ -20,6 +20,7 @@ You can install the development version of corVis from
 [GitHub](https://github.com/) with:
 
 ``` r
+# still in progress
 # install.packages("devtools")
 # devtools::install_github("chinwan16/corVis")
 ```
