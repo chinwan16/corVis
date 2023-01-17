@@ -4,10 +4,20 @@
 \alias{calc_assoc_all}
 \title{Calculates all association measures in the package for a dataset}
 \usage{
-calc_assoc_all(d, handle.na = T)
+calc_assoc_all(
+  d,
+  measures = c("pearson", "spearman", "kendall", "cancor", "nmi", "dcor", "mic",
+    "polycor", "tau_b", "uncertainty", "gkTau", "gkGamma", "chi"),
+  handle.na = T
+)
 }
 \arguments{
 \item{d}{dataframe}
+
+\item{measures}{a set of all the measures such as "pearson","spearman","kendall",
+"cancor","nmi","dcor", "mic", "polycor", "tau_b", "uncertainty",
+"gkTau", "gkGamma" and "chi" available in the package. Set to all the measures by default and
+can be updated to a subset of these measures.}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate measure of association}
 }

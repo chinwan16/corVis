@@ -208,6 +208,10 @@ update_assoc <- function(default=default_assoc(),
 #' Calculates all association measures for every variable pair in a dataset.
 #'
 #' @param d dataframe
+#' @param measures a set of all the measures such as "pearson","spearman","kendall",
+#' "cancor","nmi","dcor", "mic", "polycor", "tau_b", "uncertainty",
+#' "gkTau", "gkGamma" and "chi" available in the package. Set to all the measures by default and
+#' can be updated to a subset of these measures.
 #'
 #' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association
 #'
@@ -217,24 +221,11 @@ update_assoc <- function(default=default_assoc(),
 #' @examples
 #' calc_assoc_all(iris)
 
-calc_assoc_all <- function (d,handle.na=T){
 
-  pearson <- tbl_cor(d,handle.na = handle.na)
-  spearman <- tbl_cor(d,handle.na = handle.na,"spearman")
-  kendall <- tbl_cor(d,handle.na = handle.na,"kendall")
-  cancor <- tbl_cancor(d,handle.na = handle.na)
-  nmi <- tbl_nmi(d,handle.na = handle.na)
-  dcor <- tbl_dcor(d,handle.na = handle.na)
-  mic <- tbl_mine(d,handle.na = handle.na)
-  polycor <- tbl_polycor(d,handle.na = handle.na)
-  tau_b <- tbl_tau(d)
-  uncertainty <- tbl_uncertainty(d,handle.na = handle.na)
-  gkTau <- tbl_gkTau(d, handle.na = handle.na)
-  gkGanmma <- tbl_gkGamma(d, handle.na = handle.na)
-  chi <- tbl_chi(d, handle.na = handle.na)
-
-  assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, polycor, tau_b,
-                 uncertainty, gkTau, gkGanmma, chi)
+calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor","nmi",
+                                             "dcor", "mic", "polycor", "tau_b", "uncertainty",
+                                             "gkTau", "gkGamma", "chi"),
+                                handle.na=T) {
 
   vartypes <- sapply(names(d), function(u)
     if (is.numeric(d[[u]])) "numeric"
@@ -242,8 +233,96 @@ calc_assoc_all <- function (d,handle.na=T){
     else if (is.factor(d[[u]])) "factor"
     else "other")
   names(vartypes) <- names(d)
+
+  pearson = NULL; spearman = NULL; kendall = NULL; cancor = NULL
+  nmi = NULL; dcor = NULL; mic = NULL; polycor = NULL; tau_b = NULL
+  uncertainty = NULL; gkTau = NULL; gkGamma = NULL; chi = NULL
+
+  if ("pearson" %in% measures) {
+
+    pearson <- tbl_cor(d,handle.na = handle.na)
+
+  }
+
+  if ("spearman" %in% measures) {
+
+    spearman <- tbl_cor(d,handle.na = handle.na,"spearman")
+
+  }
+
+  if ("kendall" %in% measures) {
+
+    kendall <- tbl_cor(d,handle.na = handle.na,"kendall")
+
+  }
+
+  if ("cancor" %in% measures) {
+
+    cancor <- tbl_cancor(d,handle.na = handle.na)
+
+  }
+
+  if ("nmi" %in% measures) {
+
+    nmi <- tbl_nmi(d,handle.na = handle.na)
+
+  }
+
+  if ("dcor" %in% measures) {
+
+    dcor <- tbl_dcor(d,handle.na = handle.na)
+
+  }
+
+  if ("mic" %in% measures) {
+
+    mic <- tbl_mine(d,handle.na = handle.na)
+
+  }
+
+  if ("polycor" %in% measures) {
+
+    polycor <- tbl_polycor(d,handle.na = handle.na)
+
+  }
+
+  if ("tau_b" %in% measures) {
+
+    tau_b <- tbl_tau(d)
+
+  }
+
+  if ("uncertainty" %in% measures) {
+
+    uncertainty <- tbl_uncertainty(d,handle.na = handle.na)
+
+  }
+
+  if ("gkTau" %in% measures) {
+
+    gkTau <- tbl_gkTau(d, handle.na = handle.na)
+
+  }
+
+  if ("gkGamma" %in% measures) {
+
+    gkGamma <- tbl_gkGamma(d, handle.na = handle.na)
+
+  }
+
+  if ("chi" %in% measures) {
+
+    chi <- tbl_chi(d, handle.na = handle.na)
+
+  }
+
+  assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, polycor, tau_b,
+                 uncertainty, gkTau, gkGamma, chi)
+
+
   attr(assoc,"vartypes") <- vartypes
 
   return(assoc)
+
 }
 
