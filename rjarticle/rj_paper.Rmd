@@ -266,21 +266,23 @@ Table \@ref(tab:function-corVis) provides a list of the functions available in t
 ```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 
-Function <- c("calc_assoc","plot_assoc_matrix","plot_assoc_linear",
+Function <- c("calc_assoc","calc_assoc_all","plot_assoc_matrix","plot_assoc_linear",
               "show_assoc")
 
-Usage <- c("Calculation","Visualization","Visualization",
+Usage <- c("Calculation","Calculation","Visualization","Visualization",
            "Visualization")
 
 #Usage <- c(rep("Calculation",5),rep("Visualization",3),rep("Visualization",5),rep("Visualization",4),rep("Visualization",5))
 
 Description <- c("Calculates association measures",
-           
-           "Visualize assocition and conditional association in matrix plot",
-           
-           "Visualize assocition and conditional association in linear plot",
-           
-           "Association (or conditional) plot for a pair of variables")
+                 
+                 "Calculates all the association measures available",
+                 
+                 "Visualize assocition and conditional association in matrix plot",
+                 
+                 "Visualize assocition and conditional association in linear plot",
+                 
+                 "Association (or conditional) plot for a pair of variables")
 
 
 df <- data.frame(Function=Function,
@@ -323,7 +325,7 @@ assocMethods <- tribble(
   "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
   "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
   "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
-  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[0,1]",
+  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[-1,1]",
   "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
   #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
   "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
@@ -395,6 +397,8 @@ updated_iris_assoc
 
 ```
 
+## Calculating multiple association measures
+
 
 
 ## Calculating conditional association
@@ -420,25 +424,21 @@ iris_assoc_by
 By default, the function `calc_assoc` calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (`overall`) when used with the `by` argument. This behavior can be changed by setting `include.overall` argument to `FALSE`.
 
 ```{r,echo=TRUE}
-iris_assoc_by <- calc_assoc_by(df,by = "Species",include.overall = FALSE)
+iris_assoc_by <- calc_assoc(df,by = "Species",include.overall = FALSE)
 iris_assoc_by
 ```
 
-The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added in the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc` and then can merge these multiple tibble outputs.
+The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added to the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc` and then can merge these multiple tibble outputs.
 
 
 
 # Section 5: corVis: Visualising Association
 
-This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display association and conditional association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously. 
+This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display association and conditional association for every variable pair in a dataset in a single plot and show multiple bivariate measures of association simultaneously. The package includes functions such as `plot_assoc_matrix` and `plot_assoc_linear` to produce these displays in matrix and linear layout respectively. In addition, the package also provides a function `show_assoc` to display a scatterplot for a numeric variable pair input, a box plot for mixed variable pair input and bar plot for other variable pair input.
 
-We use two datasets to provide illustrative examples. The first dataset is `de_elect` (German Election Data from 2002 and 2005) from \CRANpkg{zenplots} package which includes numeric variables only. The second dataset is `cdc` (Behavioral survey data) from @diez2012openintro which includes numeric, nominal and ordered variables.
+We use two datasets to provide illustrative examples. The first dataset is `de_elect` (German Election Data from 2002 and 2005) from \CRANpkg{zenplots} package which includes numeric variables only. `cdc` (Behavioral survey data) is the second dataset from @diez2012openintro which includes numeric, nominal and ordered variables.
 
-The German Election dataset provides the information on election results for two German elections held in 2002 and 2005.The dataset includes $299$ constituencies and $68$ variables providing information on these constituencies.
-
-The `cdc` dataset is a random sample of 20,000 people from Behavioral Risk Factor Surveillance System (BRFSS) survey, which is an annual telephonic survey of 350,000 people, in United States collected by the Centers for Disease Control and Prevention (CDC) conducted in 2000. The respondents of the survey are asked questions related to their diet, weekly physical activity and even their level of health coverage. The goal of the survey is to identify risk factors in adult population and report the health trends. The dataset used here has only 9 questions or variables as compared to the original dataset which includes more than 200 questions or variables. 
-
-Table \@ref(tab:germanelection) provides a brief description of a subset of variables from the German election dataset.
+The German Election dataset provides the information on election results for two German elections held in 2002 and 2005.The dataset includes $299$ constituencies and $68$ variables providing information on these constituencies. We use a subset of variables from this dataset to avoid overplotting, for our analysis. Table \@ref(tab:germanelection) provides a brief description of the subset of variables from the German election dataset.
 
 <!-- Steel Industry Energy consumption dataset providing information on energy consumption by a steel company in South Korea from the [@Dua2019] to provide illustrative examples. Table \@ref(tab:steelindustry) provides a brief description of set of variables from this dataset used for analysis. The dataset includes ten variables  -->
 
@@ -448,23 +448,23 @@ library(kableExtra)
 library(zenplots)
 data("de_elect")
 
-selected_vars <- c("Votes.Linke.02","Votes.FDP.02","Votes.Gruene.02","FDP.02","CDU.CSU.02","Gruene.02","Linke.02","Votes.Gruene.05", "Gruene.05", "Pop.15.18", "Pop.le.15")
+selected_vars <- c("Votes.Linke.02","Votes.FDP.02","Votes.Gruene.02","Votes.Gruene.05", "Pop.18.25", "Pop.25.35","Pop.35.60", "Births", "School.finishers", "Unemployment.03")
 
 german_election <- de_elect[selected_vars]
+names(german_election) <-c("V.Linke.02","V.FDP.02","V.Gruene.02","V.Gruene.05", "Pop.18.25", "Pop.25.35","Pop.35.60", "Births", "School.finishers", "Unempl.03" )
 
-Variable <- selected_vars
+Variable <- names(german_election)
 
 Description <- c("votes for Linke 2002",
                  "votes for FDP 2002",
                  "votes for Gruene 2002",
-                 "FDP 2002 (as a fraction in [0,1])",
-                 "CDU/CSU 2002 (as a fraction in [0,1])",
-                 "Gruene 2002 (as a fraction in [0,1])",
-                 "Linke 2002 (as a fraction in [0,1])",
                  "votes for Gruene 2005",
-                 "Gruene 2005 (as a fraction in [0,1])",
-                 "population between 15 and 18 years old 2002-12-31 (in percent)",
-                 "population younger than (or equal to) 15 years 2002-12-31 (in percent)")
+                 "population between 18 and 25 years old 2002-12-31 (in percent)",
+                 "population between 25 and 35 years old 2002-12-31 (in percent)",
+                 "population between 35 and 60 years old 2002-12-31 (in percent)",
+                 "live births (per 1000)",
+                 "school finishers 2002 (per 1000)",
+                 "unemployment 2003-12-31 (in percent)")
 
 #VariableType <- c("numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical","numerical")
 
@@ -473,17 +473,27 @@ df <- data.frame(Variable=Variable,
                  #VariableType=VariableType
                  )
 
-kableExtra::kbl(df, booktabs = T, caption = "Variable description of the German election result dataset from 2002 and 2005.")
+kableExtra::kbl(df, booktabs = T, caption = "Variable description of a subset of the German election result dataset from 2002 and 2005.")
 #print(table_1)
 #df %>%
   #kbl() %>%
   #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-Similarly, Table \@ref(tab:cdcdata) provides a brief description of the variables in `cdc` dataset along with the variable type.
+The `cdc` dataset is a random sample of 20,000 people from Behavioral Risk Factor Surveillance System (BRFSS) survey, which is an annual telephonic survey of 350,000 people, in United States collected by the Centers for Disease Control and Prevention (CDC) conducted in 2000. The respondents of the survey are asked questions related to their diet, weekly physical activity and even their level of health coverage. The goal of the survey is to identify risk factors in adult population and report the health trends. The dataset used here has only 9 questions or variables as compared to the original dataset which includes more than 200 questions or variables.Table \@ref(tab:cdcdata) provides a brief description of the variables in `cdc` dataset along with the variable type. The `age` variable in the dataset was converted to an ordinal factor in order to have an ordinal variable pair.
 ```{r cdcdata,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
 cdcdata <- read.csv("../data/cdc.csv")
+
+cdcdata$genhlth <- as.ordered(factor(cdcdata$genhlth,levels = c("poor", "fair", "good", "very good", "excellent")))
+cdcdata$exerany <- factor(cdcdata$exerany)
+cdcdata$hlthplan <- factor(cdcdata$hlthplan)
+cdcdata$smoke100 <- factor(cdcdata$smoke100)
+cdcdata$gender <- factor(cdcdata$gender)
+cdcdata$age <- ggplot2::cut_interval(cdcdata$age,
+                            n = 4,
+                            ordered_result=T,
+                            right = F)
 
 variable <- names(cdcdata)
 
@@ -497,7 +507,7 @@ description <- c("General health, with categories excellent, very good, good, fa
                  "Respondent's age in years",
                  "Respondent's gender")
 
-variable_type <- c("ordinal","nominal","nominal","nominal","numerical","numerical","numerical","numerical","nominal")
+variable_type <- c("ordinal","nominal","nominal","nominal","numerical","numerical","numerical","ordinal","nominal")
 
 df <- data.frame(Variable=variable,
                  Description=description,
@@ -512,85 +522,84 @@ kableExtra::kbl(df, booktabs = T, caption = "Variable description of the CDC dat
 ```
 
 
-## Association plots in matrix layout
-
-The function `plot_assoc_matrix` uses a matrix layout for association displays, multiple association measures displays and conditional association displays. It takes the calculated measures of association by `calc_assoc` or by `calc_assoc_all` function as input and outputs a matrix display. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
-
-### Association display
-
-The association display is similar to existing correlation matrix plots but with every variable pair in the dataset. This function `association_heatmap` takes the calculated measures of association by `calc_assoc` function as input and outputs a matrix display by rendering the magnitude of association measures with a color. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not changed. The argument `var_order` is used for ordering or seriating the matrix display such that highly-associated variables are placed nearby and are easier to identify. We use average linkage hierarchical clustering method as the default method for ordering the variables. The function also has a `limits` argument specifying the limit of the color scale. 
+## Association plots
 
 
-
-Figure \@ref(fig:assoc-heatmap) shows an example of the association matrix display for every variable pair in the energy comsumption for steel industry dataset. The cells along the diagonal of the matrix display show the variables present in the dataset. Every off diagonal cell is colored using a divergent color scale with limits $[-1,1]$ representing the value of association measure between two variables. The plot shows Pearson's correlation for the numeric pair of variables and canonical correlation for mixed and nominal variable pairs. 
-
-
-```{r assoc-heatmap,fig.width=6.5, fig.height=4, fig.align='center', fig.cap="Association matrix display for energy consumption data showing Pearson's correlation for numeric variable pairs, canonical correlation for mixed variable pairs and categorical variable pairs.",echo=TRUE}
-
-df <- steelindustry[sample(1:nrow(steelindustry),5000),] # taking a sample as original dataset has 35k entries
-#df$al <- as.ordered(df$al)
-#df$su <- as.ordered(df$su)
+```{r assoc-matrix-germanelection,fig.width=6.5, fig.height=4, fig.align='center', fig.cap="Association matrix display for German election data showing Pearson's correlation for the variable pairs. The off diagonal cells show the correlation value for a variable pair using a square glyph. The color of every square is mapped with the correlation value for the variable pair and the area of the square is mapped by absolute correlation value for the corresponding variable pair. The plot shows a high positive correlation between the votes for Linke party in 2002 and the population between 18 and 25 years suggesting Linke party was a popular choice among the young population in Germany.",echo=TRUE}
 
 
-assoc_steel <- calc_assoc(df)
-association_heatmap(assoc_steel)
+assoc_german <- calc_assoc(german_election)
+plot_assoc_matrix(lassoc = assoc_german,
+                  glyph = "square",
+                  group_var = NULL,
+                  var_order = "default",
+                  limits = c(-1,1))
 ```
 
 
-For numeric pairs, Figure \@ref(fig:assoc-heatmap) shows a high positive Pearson's correlation among `Usage_kWh` and `Co2.tCO2.` and a high negative Pearson's correlation between `LdCRP` and `LdCPF`. Figure \@ref(fig:numeric-pairs) shows scatterplot for these two pairs of variables and is evident that these pairs seem to be linearly associated.
+Figure \@ref(fig:assoc-matrix-germanelection) shows an association plot in matrix layout for a subset of variables from German election dataset. The cells along the diagonal of the plot show the variables present in the dataset which are colored by their type in the plot. For this plot, all the variables are numeric and therefore they all have been colored red. Every off diagonal cell contains a glyph, square in this plot, which is filled with a divergent color scale with limits $[-1,1]$ representing the value of association measure (Pearson's correlation) between two variables. Also, the area of the glyph is proportional to the absolute value of the measure for the variable pair. The plot shows a high positive correlation for the variable pairs `V.Linke.02` and `Pop.18.25`, and, `V.Linke.02` and `Unempl.03` suggesting Linke party was a popular choice among the young and unemployed population in Germany.
 
-```{r numeric-pairs, fig.width=5.5, fig.height=4.5, fig.align='center', fig.cap = "Scatterplot for variables Usage in kWh and CO2 in ppm, and, LdCRP and LdCPF showing a high positive and negative Pearson's correlation respectively."}
+The function `plot_assoc_matrix` is used to produce Figure \@ref(fig:assoc-matrix-germanelection). It takes the calculated measures of association by `calc_assoc` function as input and outputs an association plot. The function has `lassoc` and `uassoc` arguments for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is `NULL` by default and uses the same tibble input as used by `lassoc` if not updated. The `glyph` argument allows a user to display either a square or circle glyph for the association displays. The argument `group_var` is responsible for producing different dispays such as association display, multiple measures display or conditional association display. For the case when it is set to `NULL` the function plots an association display, for the case of `group_var` being `measure_type` the function produces a multiple measures display and for the case of `by` the function results in a conditional association plot. The argument `var_order` is used for ordering or seriating the variables in the matrix display so that highly-associated variables are arranged closer to each other and the task of detecting patterns or relations becomes easier. The function uses average linkage hierarchical clustering of the association matrix of the variables for ordering the variables, which clusters the highly associated variables together and arranges them nearby. The function also has a `limits` argument for specifying the limit of the color scale. 
 
-p1 <- show_assoc(df,"Usage_kWh","CO2.tCO2.")
-  #ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=Usage_kWh,x=CO2.tCO2.),size = 0.2)
+```{r assoc-matrix-cdcdata,fig.width=6.5, fig.height=4, fig.align='center', fig.cap="Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs. The variables are colored according to the variable type. The numeric variables are colored green, the ordered variables are colored blue and the nominal variables are colored red. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the variable pair and the area of the square is mapped by absolute measure value for the corresponding variable pair. The plot shows a strong association between desired weight and gender of the indvividuals. Also, there is an negative association between the general health and the age of the individuals suggesting the health of individuals deteriorating with age.",echo=TRUE}
 
-p2 <- show_assoc(df,"LdCRP","LdCPF")
-  #ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LdCRP,x=LdCPF),size = 0.2)
+assoc_cdc <- calc_assoc(cdcdata)
+plot_assoc_matrix(assoc_cdc)
+```
 
-gridExtra::grid.arrange(p1,p2,ncol=2)
+Figure \@ref(fig:assoc-matrix-cdcdata) shows an association plot  for cdc dataset in matrix layout. The diagonal cells represent the variables present in the data and are colored by the type of variable. The numeric, ordered and nominal variables have been mapped with green, blue and red colors respectively. The off diagonal cells show a square glyph filled with a diverging color scale rendered by the value of corresponding association measure for a variable pair. The area of the square is mapped to absolute value of the association measure. 
 
+The display in Figure \@ref(fig:assoc-matrix-cdcdata) shows a high positive Pearson's correlation for `wtdesire` and `height` which suggests that taller individuals have higher desired weights. For ordered variable pairs. The plot also shows a negative Goodman Kruskal's gamma measure for the ordered variable pair `genhlth` and `age` indicating that the health of individuals deteriorates as they age. In order to explore these variable pairs in more detail, the function `show_assoc` is used to plot a scatterplot and a barplot for numeric and ordinal pairs respectively in Figure \@ref(fig:int-pairs-cdcdata).
+
+```{r int-pairs-cdcdata, fig.show="hold", out.width="50%", fig.cap = "Scatterplot and barplot for variable pairs wtdesire and height, and, genhlth  and age showing association between these pair of variables."}
+
+show_assoc(d = cdcdata,
+           x = "weight",
+           y = "wtdesire")
+
+show_assoc(d = cdcdata,
+           x = "age",
+           y = "genhlth")
 ```
 
 
-Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation between `Load_Type` and `Usage_kWh`, and, `Load_Type` and `NSM` which are mixed variable pairs in the dataset. These variable pairs are further looked into using boxplots. Figure \@ref(fig:mixed-pairs) shows boxplot for these variable pairs and is evident there is an association among these variable pairs.
-
-```{r mixed-pairs, fig.width=5.5, fig.height=4.5, fig.align='center', fig.cap = "Boxplot for variables Load type and Usage in kWh, and, Load type and NSM showing a high canonical correlation. "}
-
-p3 <- show_assoc(df,"Usage_kWh","Load_Type")
-  #ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=Usage_kWh,x=Load_Type))
-
-p4 <- show_assoc(df,"NSM","Load_Type")
-  #ggplot2::ggplot(data = df) + ggplot2::geom_boxplot(ggplot2::aes(y=NSM,x=Load_Type))
-
-
-
-gridExtra::grid.arrange(p3,p4,ncol=2)
-```
-
-For nominal variable pairs, Figure \@ref(fig:assoc-heatmap) shows a high canonical correlation among `WeekStatus` and `Day_of_week` only. Because both variables are nested variables, there is a high association among them and is picked by canonical correlation.
 
 
 ### Multiple Association Measures Plot
 
 <!-- We also calculate multiple association measures for all the variable pairs in the dataset and compare them. This helps in identifying pairs of variables with a high difference among different measures or any unusual variable pairs which should be investigated further in more detail.  -->
 
-The function `pairwise_1d_compare` is used to display a linear layout for comparing multiple association measures calculated for variable pairs in the dataset. `pairwise_1d_compare` takes the calculated association measures as input and outputs a heatmap display by plotting all the variable pairs in the dataset on the Y-axis and the association measures on the X-axis and encoding the magnitude of association measures with a color.
+The function `plot_assoc_matrix` is also used to display a linear layout for comparing multiple association measures calculated for variable pairs in the dataset. `plot_assoc_matrix` takes the calculated association measures as input and outputs a heatmap display by plotting all the variable pairs in the dataset on the Y-axis and the association measures on the X-axis and encoding the magnitude of association measures with a color.
 
-The `assoc` argument of the function `pairwise_1d_compare` represents a tibble of calculated multiple association measures. These measures are calculated using `tbl_*` or `calc_assoc` functions and are binded row wise to create a tibble structure with multiple measures. The function also has a `var_order` argument which is set to `max_diff` by default and orders the variable pairs on the basis of maximum difference among the magnitude of measures.
+The `assoc` argument of the function `plot_assoc_matrix` represents a tibble of calculated multiple association measures. These measures are calculated using `tbl_*` or `calc_assoc` functions and are binded row wise to create a tibble structure with multiple measures. The function also has a `var_order` argument which is set to `max_diff` by default and orders the variable pairs on the basis of maximum difference among the magnitude of measures.
 
-Figure \@ref(fig:compare-linear) shows the output of `pairwise_1d_compare` comparing association measures such as canonical correlation, MIC, Pearson's correlation, Spearman's correlation and distance correlation for all the variable pairs in the dataset. The cells where association measures are not defined for specific variable pairs have been colored grey. An interesting variable pair evident in the plot is `LgCPF` and `LgCRP` which has a low value for all the measures except MIC. On looking at the scatterplot ( Figure \@ref(fig:comp-var-pairs) ) of `LgCPF` and `LgCRP`, it seems MIC is able to detect the non-linear pattern quite well in this case compared to the other association measures. 
+Figure \@ref(fig:compare-linear) shows the output of `plot_assoc_matrix` comparing association measures such as canonical correlation, MIC, Pearson's correlation, Spearman's correlation and distance correlation for all the variable pairs in the dataset. The cells where association measures are not defined for specific variable pairs have been colored grey. An interesting variable pair evident in the plot is `LgCPF` and `LgCRP` which has a low value for all the measures except MIC. On looking at the scatterplot ( Figure \@ref(fig:comp-var-pairs) ) of `LgCPF` and `LgCRP`, it seems MIC is able to detect the non-linear pattern quite well in this case compared to the other association measures. 
 
-```{r compare-linear,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
+```{r compare-matrix,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
 
-pearson_steel <- tbl_cor(df,method = "pearson")
-spearman_steel <- tbl_cor(df, method = "spearman")
-distance_steel <- tbl_dcor(df)
-mic_steel <- tbl_mine(df)
-cancor_steel <- tbl_cancor(df)
 
-compare_assoc_steel <- rbind(pearson_steel, spearman_steel, distance_steel, mic_steel, cancor_steel)
-compare_assoc_steel$measure_type <- factor(compare_assoc_steel$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
-pairwise_1d_compare(compare_assoc_steel)
+assoc_german_all <- calc_assoc_all(german_election)
+assoc_german_all$measure_type <- factor(assoc_german_all$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
+plot_assoc_matrix(assoc_german_all,group_var = "measure_type")
+
+```
+
+
+```{r compare-linear-heatmap,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
+
+
+assoc_german_all <- calc_assoc_all(german_election)
+assoc_german_all$measure_type <- factor(assoc_german_all$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
+plot_assoc_linear(assoc_german_all,group_var = "measure_type", plot_type = "heatmap")
+
+```
+
+```{r compare-linear-dotplot,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
+
+
+assoc_german_all <- calc_assoc_all(german_election)
+assoc_german_all$measure_type <- factor(assoc_german_all$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
+plot_assoc_linear(assoc_german_all,group_var = "measure_type", plot_type = "dotplot")
 
 ```
 
