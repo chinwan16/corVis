@@ -352,7 +352,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
   fn <- fns[[method]]
   fnlocal <- function(x,y){
     if (length(unique(d[[x]])) <= 1) return(NA)
-    if (length(unique(d[[x]])) <= 1) return(NA)
+    if (length(unique(d[[y]])) <= 1) return(NA)
     if (method =="W")
       fn(d[c(x,y)], correct=TRUE,...)
     else fn(d[[x]],d[[y]],...)
