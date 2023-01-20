@@ -15,10 +15,10 @@ A.~Buja, A.~M. Krieger, and E.~I. George.
 \newblock A visualization tool for mining large correlation tables: The
   association navigator., 2016.
 
-\bibitem[Dua and Graff(2017)]{Dua2019}
-D.~Dua and C.~Graff.
-\newblock {UCI} machine learning repository, 2017.
-\newblock URL \url{http://archive.ics.uci.edu/ml}.
+\bibitem[Diez et~al.(2012)Diez, Barr, and Cetinkaya-Rundel]{diez2012openintro}
+D.~M. Diez, C.~D. Barr, and M.~Cetinkaya-Rundel.
+\newblock \emph{OpenIntro statistics}.
+\newblock OpenIntro Boston, MA, USA:, 2012.
 
 \bibitem[Friendly(2002)]{friendly2002corrgrams}
 M.~Friendly.

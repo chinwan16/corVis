@@ -397,7 +397,7 @@ updated_iris_assoc
 
 ```
 
-## Calculating multiple association measures
+
 
 
 
@@ -406,7 +406,8 @@ updated_iris_assoc
 `calc_assoc` is also used to calculate association measures for all the variable pairs at different levels of a categorical variable. This helps in exploring the conditional associations and find out the differences between the groups of the conditioning variable. The function has a `by` argument which is used as the grouping variable and needs to be categorical.
 
 ```{r,echo=TRUE}
-iris_assoc_by <- calc_assoc_by(df,by = "Species")
+iris_assoc_by <- calc_assoc(d = df,
+                            by = "Species")
 iris_assoc_by
 ```
 
@@ -486,6 +487,7 @@ library(kableExtra)
 cdcdata <- read.csv("../data/cdc.csv")
 
 cdcdata$genhlth <- as.ordered(factor(cdcdata$genhlth,levels = c("poor", "fair", "good", "very good", "excellent")))
+levels(cdcdata$genhlth)[levels(cdcdata$genhlth)=="very good"] <- "v.good"
 cdcdata$exerany <- factor(cdcdata$exerany)
 cdcdata$hlthplan <- factor(cdcdata$hlthplan)
 cdcdata$smoke100 <- factor(cdcdata$smoke100)
@@ -543,15 +545,15 @@ The function `plot_assoc_matrix` is used to produce Figure \@ref(fig:assoc-matri
 
 ```{r assoc-matrix-cdcdata,fig.width=6.5, fig.height=4, fig.align='center', fig.cap="Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs. The variables are colored according to the variable type. The numeric variables are colored green, the ordered variables are colored blue and the nominal variables are colored red. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the variable pair and the area of the square is mapped by absolute measure value for the corresponding variable pair. The plot shows a strong association between desired weight and gender of the indvividuals. Also, there is an negative association between the general health and the age of the individuals suggesting the health of individuals deteriorating with age.",echo=TRUE}
 
-assoc_cdc <- calc_assoc(cdcdata)
-plot_assoc_matrix(assoc_cdc)
+assoc_cdc <- calc_assoc(d = cdcdata)
+plot_assoc_matrix(lassoc = assoc_cdc)
 ```
 
 Figure \@ref(fig:assoc-matrix-cdcdata) shows an association plot  for cdc dataset in matrix layout. The diagonal cells represent the variables present in the data and are colored by the type of variable. The numeric, ordered and nominal variables have been mapped with green, blue and red colors respectively. The off diagonal cells show a square glyph filled with a diverging color scale rendered by the value of corresponding association measure for a variable pair. The area of the square is mapped to absolute value of the association measure. 
 
 The display in Figure \@ref(fig:assoc-matrix-cdcdata) shows a high positive Pearson's correlation for `wtdesire` and `height` which suggests that taller individuals have higher desired weights. For ordered variable pairs. The plot also shows a negative Goodman Kruskal's gamma measure for the ordered variable pair `genhlth` and `age` indicating that the health of individuals deteriorates as they age. In order to explore these variable pairs in more detail, the function `show_assoc` is used to plot a scatterplot and a barplot for numeric and ordinal pairs respectively in Figure \@ref(fig:int-pairs-cdcdata).
 
-```{r int-pairs-cdcdata, fig.show="hold", out.width="50%", fig.cap = "Scatterplot and barplot for variable pairs wtdesire and height, and, genhlth  and age showing association between these pair of variables."}
+```{r int-pairs-cdcdata, fig.show="hold", out.width="50%", fig.cap = "Scatterplot and barplot for variable pairs wtdesire and height, and, genhlth  and age showing association between these pair of variables.", echo=TRUE}
 
 show_assoc(d = cdcdata,
            x = "weight",
@@ -565,123 +567,106 @@ show_assoc(d = cdcdata,
 
 
 
-### Multiple Association Measures Plot
+## Multiple Association Measures Plot
 
 <!-- We also calculate multiple association measures for all the variable pairs in the dataset and compare them. This helps in identifying pairs of variables with a high difference among different measures or any unusual variable pairs which should be investigated further in more detail.  -->
 
-The function `plot_assoc_matrix` is also used to display a linear layout for comparing multiple association measures calculated for variable pairs in the dataset. `plot_assoc_matrix` takes the calculated association measures as input and outputs a heatmap display by plotting all the variable pairs in the dataset on the Y-axis and the association measures on the X-axis and encoding the magnitude of association measures with a color.
+The multiple association measures plot compares the multiple association measures for all the variable pairs in a dataset. This display is useful in detecting variable pairs with high difference among the measures which then can be explored further in more detail. 
 
-The `assoc` argument of the function `plot_assoc_matrix` represents a tibble of calculated multiple association measures. These measures are calculated using `tbl_*` or `calc_assoc` functions and are binded row wise to create a tibble structure with multiple measures. The function also has a `var_order` argument which is set to `max_diff` by default and orders the variable pairs on the basis of maximum difference among the magnitude of measures.
-
-Figure \@ref(fig:compare-linear) shows the output of `plot_assoc_matrix` comparing association measures such as canonical correlation, MIC, Pearson's correlation, Spearman's correlation and distance correlation for all the variable pairs in the dataset. The cells where association measures are not defined for specific variable pairs have been colored grey. An interesting variable pair evident in the plot is `LgCPF` and `LgCRP` which has a low value for all the measures except MIC. On looking at the scatterplot ( Figure \@ref(fig:comp-var-pairs) ) of `LgCPF` and `LgCRP`, it seems MIC is able to detect the non-linear pattern quite well in this case compared to the other association measures. 
-
-```{r compare-matrix,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
+```{r compare-linear-heatmap,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Multiple association measures plot in a linear layout for a subset of German election data. The plot has variable pairs on the Y-axis and association measures on the X-axis. The color intensity of each cell is proportional to the absolute value of association measure. The variable pairs on Y-axis are ordered by the maximum difference between the absolute value of association measures. The plot shows the highest difference for variable pair V.FDP.02 and V.Linke.02 which can be explored further to understand the underlying reasons for this difference.",echo=TRUE}
 
 
-assoc_german_all <- calc_assoc_all(german_election)
-assoc_german_all$measure_type <- factor(assoc_german_all$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
-plot_assoc_matrix(assoc_german_all,group_var = "measure_type")
+assoc_german_all <- calc_assoc_all(d = german_election,
+                                   measures = c("ace",
+                                                "pearson",
+                                                "spearman",
+                                                "kendall",
+                                                "dcor",
+                                                "spearman",
+                                                "mic"))
 
-```
-
-
-```{r compare-linear-heatmap,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
-
-
-assoc_german_all <- calc_assoc_all(german_election)
-assoc_german_all$measure_type <- factor(assoc_german_all$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
-plot_assoc_linear(assoc_german_all,group_var = "measure_type", plot_type = "heatmap")
+plot_assoc_linear(assoc = assoc_german_all,
+                  group_var = "measure_type", 
+                  plot_type = "heatmap",
+                  limits = c(0,1),
+                  var_order = "max_diff")
 
 ```
 
-```{r compare-linear-dotplot,fig.width=4.5, fig.height=6.5, fig.align='center',fig.cap="Comparing multiple association measures using a linear layout. The display has variable pairs on the Y-axis and association measures on the X-axis. The cell corresponding to a variable pair and an association measure has been colored grey if the measure is not defined for corresponding pair.",echo=TRUE}
+Figure \@ref(fig:compare-linear-heatmap) shows a multiple association measures plot in linear layout for German election dataset. The plot compares the absolute values of association measures such as `ace`, `dcor`, `kendall`, `mic`, `pearson` and `spearman` for every variable pair in the dataset. Each cell of the plot corresponds to a variable pair and an association measure, and color intensity of each cell corresponds to the absolute value of association measure. The variable pairs in the plot are ordered by the maximum difference between the absolute value of these measures. The plot shows the variable pairs `V.FDP.02` and `V.Linke.02`, and, `V.Gruene.02` and `V.Linke.02` with the highest difference between the association measures and the pair `V.Gruene.05` and `V.Gruene.02` with the lowest difference. 
 
+```{r int-pairs-multiple-germanelection, fig.show="hold", out.width="50%", fig.cap = "Scatterplot for variable pairs (from left to right) V.FDP.02 and V.Linke.02, V.Gruene.02  and V.Linke.02, and,  V.Gruene.02 and V.Gruene.05 showing relationships between these pair of variables.",echo=TRUE}
 
-assoc_german_all <- calc_assoc_all(german_election)
-assoc_german_all$measure_type <- factor(assoc_german_all$measure_type,levels =c("cancor","mic","dcor","pearson","spearman"))
-plot_assoc_linear(assoc_german_all,group_var = "measure_type", plot_type = "dotplot")
+show_assoc(d = german_election,
+           x = "V.Linke.02",
+           y = "V.FDP.02")
 
+show_assoc(d = german_election,
+           x = "V.Linke.02",
+           y = "V.Gruene.02")
+
+show_assoc(d = german_election,
+           x = "V.Gruene.05",
+           y = "V.Gruene.02")
 ```
 
+We use `show_assoc` to explore the relationship for the interesting variable pairs in Figure \@ref(fig:int-pairs-multiple-germanelection).  It is evident from the plots that the variable pairs `V.FDP.02` and `V.Linke.02`, and, `V.Gruene.02` and `V.Linke.02` do not show a monotonic relationship and hence have very low values for Kendall's and Spearman's correlation but show that the variable pairs are not independent. The scatterplot for variable pair `V.Gruene.02` and `V.Gruene.05` in Figure \@ref(fig:int-pairs-multiple-germanelection) shows a strong linear and monotonic relationship.
 
-```{r comp-var-pairs, fig.width=4, fig.height=4, fig.align='center', fig.cap = "Scatterplot for numeric variable pair LgCPF and LgCRP with high difference among the magnitude of association measures"}
-
-show_assoc(df,"LgCPF","LgCRP")
-#ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LgCPF,x=LgCRP), size=0.2)
-
-
-```
+The function `plot_assoc_linear` is used to display Figure \@ref(fig:compare-linear-heatmap). The function takes tibble of association measures calculated by `calc_assoc_all` as input and outputs a multiple association measures plot in linear layout. `group_var` argument is set to `measure_type` for a multiple measures plot. A maximum difference ordering is used for the plot by setting the `var_order` argument to `max_diff`. The `plot_type` argument is used for the type of plot for plotting the association measures. It is set to `heatmap` for rendering the color intensity to measure value or `dotplot` when points are used to represent the measure value. The `limits` argument is set to `c(0,1)` for multiple measures plot.
 
 
 ## Conditional Association Plot
 
-The function `pairwise_2d_plot` is used to display a matrix layout of the conditional association for variable pairs in the dataset. The display is produced by splitting the data by a partitioning variable and calculating association for the variable pairs at each level of partitioning variable using `calc_assoc` function with conditioning variable as the `by` argument. The calculated association measures are then displayed using bars in a matrix plot. The height and color of the bars are coded with the value of association measure and the level of the partitioning variable respectively. These displays are efficient for discovering variable pair with high differences among the levels of partitioning variable in the data.
+The functions `plot_assoc_matrix` is used to display conditional association for variable pairs in the dataset in matrix layout. The display is produced by splitting the data by a partitioning variable and calculating association for the variable pairs at each level of partitioning variable using `calc_assoc` function with conditioning variable as the `by` argument. The calculated association measures are then displayed using bars in a matrix plot. The height and color of the bars are coded with the value of association measure and the level of the partitioning variable respectively. These displays are efficient for discovering variable pair with high differences among the levels of partitioning variable in the data.
 
-The measures of association calculated for every variable pair at every level of conditioning serve as input to the `pairwise_2d_plot` function. The `lassoc` and `uassoc` arguments look for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The `uassoc` argument is set to `NULL` by default and uses the same tibble input as used by `lassoc` if not updated. The argument `group_var` is responsible for the grouping variable when plotting the bars. The default value `by` uses the conditioning variable and `measure_type` is useful for displaying bars with height and color of the bars coded by the value of association measure and the type of association measure respectively.
+The measures of association calculated for every variable pair at every level of conditioning serve as input to the `plot_assoc_matrix` function. The `lassoc` and `uassoc` arguments look for a tibble of association measures for the lower triangle and the upper triangle of the matrix display respectively. The argument `group_var` is set to `by` for producing a conditional association plot.
 
-Figure \@ref(fig:cond-assoc) shows a conditional association plot for the Steel industry energy consumption data. Each cell corresponding to a variable pair shows seven bars which correspond to the association measure (MIC for numeric pair and canonical correlation coefficient for mixed and nominal variable pairs) calculated at the levels of conditioning variable `Day_of_week`.  The dotted line represents the overall association measure. The plot indicates that there is a high difference in the measure (MIC) value for the variable pair `LgCRP` and `Usage_kWh` for Saturday and Sunday, compared to other days and overall value.  
+```{r cond-assoc,fig.width=5, fig.height=5, fig.align='center', fig.cap="Conditional Association plot for cdc data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable gender. The dotted line in each cell represents overall value of the association measure. The plot shows evident difference in measure value for pair wtdesire and height, and, wtdesire and genhlth for male and female participants in the data.",echo=TRUE}
 
-```{r cond-assoc,fig.width=5, fig.height=5, fig.align='center', fig.cap="Conditional Association plot for energy consumption data showing MIC for numeric pairs and canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable Day of week. The dotted line in each cell represents overall value of the association measure.",echo=TRUE}
-
-updated_assoc <- update_assoc(default=default_assoc(),
-                              num_pair = "tbl_mine",
-                              mixed_pair = "tbl_cancor")
-cond_assoc_steel <- calc_assoc_by(df, by="Day_of_week",types = updated_assoc)
-pairwise_2d_plot(cond_assoc_steel)
+cond_assoc_cdc <- calc_assoc(d = cdcdata, 
+                             by = "gender")
+plot_assoc_matrix(lassoc = cond_assoc_cdc,
+                  group_var = "by")
 ```
 
-Figure \@ref(fig:high-diff) shows the scatterplot for the variable pair `LgCPR` and `Usage_kWh` faceted by the conditioning variable `Day_of_week`. The scatterplot for `Sunday` shows a weaker association than other days of the week and could be investigated in more detail. It is possible to filter out more variable pairs from the conditional association plot having high difference for association measure among the groups and further investigate these pairs.
+Figure \@ref(fig:cond-assoc) shows a conditional association plot for the cdc data. Each cell corresponding to a variable pair shows two bars which correspond to the association measure (Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs) calculated at the levels of conditioning variable `gender`.  The dotted line represents the overall association measure. The plot indicates that there is an evident difference in the Pearson's correlation for the variable pair `wtdesire` and `height` for the two genders, compared with each other and overall value. Also, the canonical correlation for females is higher than males for variable pair `wtdesire` and `genhlth`. We explore these variable pairs in more detail using `show_assoc`.
 
-```{r high-diff, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Scatterplot for variable pair LgCPR and Usage in kWh splitted by conditioning variable Day of week."}
 
-show_assoc(df,"LgCRP","Usage_kWh",by="Day_of_week")
-#ggplot2::ggplot(data = df) + ggplot2::geom_point(ggplot2::aes(y=LgCRP,x=Usage_kWh), size=0.2) + ggplot2::facet_wrap(~Day_of_week)
+Figure \@ref(fig:int-pairs-conditional-cdc) shows a scatterplot for the variable pair `wtdesire` and `height` and a boxplot for variable pair `wtdesire` and `genhlth` faceted by the conditioning variable `gender`. The faceted scatterplot shows that a higher Pearson's correlation value for males compared to females might be due to few outlying cases present for the males. Interestingly, the boxplot shows a decreasing trend in desired weight for females with better health as compared to the males.
+
+```{r  int-pairs-conditional-cdc, fig.show="hold", out.width="50%", fig.cap = "Scatterplot for variable pair wtdesire and height, and boxplot for variable pair wtdesire and genhlth faceted by conditioning variable gender.", echo=TRUE}
+
+show_assoc(d = cdcdata,
+           x = "height",
+           y = "wtdesire",
+           by = "gender")
+
+show_assoc(d = cdcdata,
+           x = "wtdesire",
+           y = "genhlth",
+           by = "gender")
 ```
 
-<!-- We also provide a functionality for highlighting interesting patterns like Simpson's paradox. Figure \@ref(fig:cond-assoc-sp) shows the matrix plot with highlighted cells for the variable pairs where Simpson's paradox is present. -->
 
-<!-- ```{r cond-assoc-sp,fig.width=5, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with examples of Simpson's paradox"} -->
-<!-- pairwise_2d_plot_sp_high(cond_assoc,highlight = "sp") -->
-<!-- ``` -->
+We also use linear layouts for displaying conditional association in the package. The function `plot_assoc_linear` is used for displaying a linear layout of the conditional association for variable pairs in the dataset. The association measures are calculated for every variable pair at each level of partitioning variable using `calc_assoc` function with conditioning variable as the `by` argument. 
 
-<!-- The cells can also be highlighted on the basis of a score calculated by the user. This can be done by providing a dataframe with pairs of variables to highlight and a score for highlighting variable pairs. The cells with high score will have a thicker border compared to cells with low score. Figure \@ref(fig:cond-assoc-manual) shows highlighted cells on the basis of a score provided for a subset of variable pairs. -->
+The measures are then displayed using a dotplot where color of the dots are coded by the level of the partitioning variable and the variable pairs are ordered by absolute maximum value of association measure for each of the pair of variable. These displays are also efficient for discovering differences among the levels of partitioning variable in the data. In comparison to matrix layout, it is easier to omit less relevant pairs of variables in linear layouts by filtering the variables pairs having a higher value for association measures than a threshold.
 
-<!-- ```{r cond-assoc-manual,fig.width=5, fig.height=4, fig.align='center',fig.cap="Conditional Association plot with manual highlighting"} -->
-<!-- highlight <- data.frame(x=c("bill_depth","bill_length","body_mass"), -->
-<!--                         y=rep("flipper_length",3),score=c(0.8,0.4,0.1)) -->
-<!-- pairwise_2d_plot_sp_high(cond_assoc,highlight = highlight) -->
-<!-- ``` -->
+The measures of association calculated for every variable pair at every level of conditioning serve as input to the `plot_assoc_linear` function. The `assoc` argument uses a tibble of association measures calculated using `calc_assoc` function with a `by` variable. The argument `group_var` is responsible for the grouping variable and is set to `by`. The argument `plot_type` is set to either `heatmap` or `dotplot` depending on the type of plot an analyst needs.
 
-We also use linear layouts for displaying conditional association in the package. The function `pairwise_1d_plot` is used for displaying a linear layout of the conditional association for variable pairs in the dataset. The association measures are calculated for every variable pair at each level of partitioning variable using `calc_assoc` function with conditioning variable as the `by` argument. 
-
-The measures are then displayed using a dotplot where color of the dots are coded by the level of the partitioning variable and the variable pairs are ordered by absolute maximum value of association measure for each of the pair of variable. These displays are also efficient for discovering differences among the levels of partitioning variable in the data. With the linear layouts it is easier to omit less relevant pairs of variables by filtering the variables pairs having a higher value for association measures than a threshold.
-
-The measures of association calculated for every variable pair at every level of conditioning serve as input to the `pairwise_1d_plot` function. The `assoc` argument uses a tibble of association measures calculated using `calc_assoc` function with a `by` variable. The argument `group_var` is responsible for the grouping variable when plotting the dots. The default value `by` uses the conditioning variable and `measure_type` is useful for displaying dots with color of the dots coded by the type of association measure. The `var_order` argument is responsible for the ordering of variable pairs in the display. If set to `default` variable pairs are ordered alphabetically and are ordered by absolute maximum value of association measure for every variable pair when set to `max_diff`.
-
-Figure \@ref(fig:linear-cond-assoc) shows a funnel-like linear display for conditional association measures with all the variable pairs on the y-axis, the value of association measure on x-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
+Figure \@ref(fig:linear-cond-assoc) shows a linear display for conditional association measures with all the variable pairs along the Y-axis, the value of association measure along X-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout when the number of variables and number of levels of grouping variable are high.
 
 
 ```{r linear-cond-assoc, fig.width=5.5, fig.height=6.5, fig.align='center', fig.cap="Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.",echo=TRUE}
 
-pairwise_1d_plot(cond_assoc_steel)
+cond_assoc_cdc <- calc_assoc(d = cdcdata, 
+                             by = "gender")
+plot_assoc_linear(assoc = cond_assoc_cdc,
+                  group_var = "by",
+                  plot_type = "dotplot")
 ```
 
 
-<!-- The `pairwise_2d_plot` function is also useful for comparing various measures using the matrix layout. It plots multiple measures among the variable pairs as bars, where each bar represents one measure of association. Figure \@ref(fig:compare-matrix) shows a matrix layout comparing Pearson's and Spearman's correlation coefficient for the numeric variable pairs in `penguins` data. The plot shows that the value for both the correlation coefficients are very high for `bill_length` and `flipper_length`, `bill_length` and `body_mass`, and `flipper_length` and `body_mass` suggesting a strong linear and montonic relationship among these variable pairs in the dataset. -->
-
-<!-- # ```{r compare-matrix, fig.width=4, fig.height=4, fig.align='center',fig.cap="Matrix display comparing Pearson's and Spearman's correlation coefficient. All the variable pairs have similar values for both correlations.",echo=TRUE} -->
-<!-- #  -->
-<!-- # df_num <- select(df,where(is.numeric)) -->
-<!-- # pearson <- calc_assoc(df_num) -->
-<!-- #  -->
-<!-- # spearman_assoc <- update_assoc(num_pair = "tbl_cor", -->
-<!-- #                                num_pair_argList= "spearman", -->
-<!-- #                                mixed_pair = "tbl_cancor", -->
-<!-- #                                other_pair = "tbl_nmi") -->
-<!-- # spearman <- calc_assoc(df_num, types=spearman_assoc) -->
-<!-- # compare <- rbind(pearson,spearman) -->
-<!-- # pairwise_2d_plot(compare, group_var = "measure_type") -->
-<!-- # ``` -->
 
 # Section 5: Discussion
 

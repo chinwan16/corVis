@@ -6,41 +6,41 @@ Database file #1: RJreferences.bib
 Warning--can't use both volume and number fields in tukey1985computer
 You've used 22 entries,
             2773 wiz_defined-function locations,
-            738 strings with 8301 characters,
-and the built_in function-call counts, 10392 in all, are:
-= -- 910
-> -- 657
-< -- 20
-+ -- 226
-- -- 204
-* -- 854
-:= -- 1627
+            736 strings with 8247 characters,
+and the built_in function-call counts, 10437 in all, are:
+= -- 908
+> -- 666
+< -- 19
++ -- 229
+- -- 207
+* -- 865
+:= -- 1639
 add.period$ -- 73
 call.type$ -- 22
 change.case$ -- 125
 chr.to.int$ -- 22
 cite$ -- 45
-duplicate$ -- 444
-empty$ -- 799
-format.name$ -- 236
-if$ -- 2134
+duplicate$ -- 450
+empty$ -- 800
+format.name$ -- 237
+if$ -- 2139
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 18
+missing$ -- 20
 newline$ -- 124
 num.names$ -- 88
-pop$ -- 256
+pop$ -- 258
 preamble$ -- 1
-purify$ -- 111
+purify$ -- 112
 quote$ -- 0
-skip$ -- 366
+skip$ -- 363
 stack$ -- 0
 substring$ -- 355
 swap$ -- 49
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 227
+type$ -- 222
 warning$ -- 1
 while$ -- 91
 width$ -- 0
