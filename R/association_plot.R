@@ -1,4 +1,4 @@
-#' Pairs plot with in a matrix layout
+#' Pairwise plot in a matrix layout
 #'
 #' Plots the calculated measures of association among different variable pairs for a dataset in a matrix layout.
 #'
@@ -67,6 +67,8 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   assoc$var_type <- NA
   assoc <- rbind(assoc, diag_df)
 
+  assoc$abs_measure <- abs(assoc$measure)
+
   p <- ggplot2::ggplot(assoc) +
     #ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
     #data=simpson[,1:2],
@@ -92,7 +94,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   if(is.null(group_var)){
 
     p <- p +
-      ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text,color=.data$var_type),size=3) +
+      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text,color=.data$var_type),hjust=0,size=3) +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank(),
                      axis.ticks.y = ggplot2::element_blank(),
@@ -114,13 +116,15 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     }
   } else if (isTRUE(group_var %in% names(assoc))) {
     p <- p +
-      ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text, color=.data$var_type),size=3) +
+      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text, color=.data$var_type),hjust=0,size=3) +
       ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
       ggplot2::scale_y_continuous(limits=limits)
 
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
-      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")+
+      p <- p+
+      {if (fillvar == "by") ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")} +
+      {if (fillvar == "measure_type") ggplot2::geom_col(ggplot2::aes(x=1,y=.data$abs_measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")} +
       {if(group_var!="measure_type") ggplot2::labs(fill = by_var)} # ch comments updated
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
@@ -178,8 +182,9 @@ plot_assoc_linear <- function(assoc, group_var = NULL,fill="default",
     } else{
       assoc$z <- paste0(assoc$x, sep=":", assoc$y)
       var_order <- assoc %>% dplyr::group_by(.data$z) %>%
-        dplyr::summarise(max_diff=diff(range(.data$measure))) %>%
+        dplyr::summarise(max_diff=diff(range(abs(.data$measure)))) %>%
         dplyr::arrange(.data$max_diff) %>% dplyr::pull(.data$z)
+      assoc$z <- factor(assoc$z,levels = var_order)
     }
 
   }
@@ -198,6 +203,8 @@ plot_assoc_linear <- function(assoc, group_var = NULL,fill="default",
 
   by_var <- attr(assoc,"by_var")
 
+  assoc$abs_measure <- abs(assoc$measure)
+
 
   p <- ggplot2::ggplot(assoc) +
     ggplot2::theme(legend.position = "top",
@@ -207,9 +214,10 @@ plot_assoc_linear <- function(assoc, group_var = NULL,fill="default",
 
     p <- p +
       {if(group_var=="NULL") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$measure))} +
-      {if(group_var=="measure_type") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$measure))} +
+      {if(group_var=="measure_type") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$abs_measure))} +
+      {if(group_var=="measure_type") ggplot2::scale_fill_gradient(low="white", high="brown",na.value="grey95",limits=limits)} +
       {if(group_var=="by") ggplot2::geom_tile(ggplot2::aes(x=.data$by,y=.data$z,fill=.data$measure))} +
-      ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits)+
+      {if(group_var=="by") ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits)} +
       ggplot2::scale_x_discrete(position = "top") +
       #ggplot2::scale_y_discrete(limits=rev) +
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -268,7 +276,7 @@ show_assoc <- function(d, x, y, by = NULL){
       #ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(.data[[x]], .data[[y]]), fill= .data[[x]] )) +
       ggplot2::geom_bar( position = "dodge") +
       ggplot2::xlab(x) +
-      ggplot2::ylab(y) +
+      #ggplot2::ylab(y) +
       {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
 
   } else {

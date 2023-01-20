@@ -13,6 +13,7 @@
 #'
 #' @return character vector representing the ordering of the variables
 #' @export
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' order_assoc(calc_assoc(iris))

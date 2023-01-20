@@ -2,7 +2,7 @@
 % Please edit documentation in R/association_plot.R
 \name{plot_assoc_matrix}
 \alias{plot_assoc_matrix}
-\title{Pairs plot with in a matrix layout}
+\title{Pairwise plot in a matrix layout}
 \usage{
 plot_assoc_matrix(
   lassoc,

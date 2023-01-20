@@ -138,7 +138,7 @@ default_assoc <- function(){
   dplyr::tribble(
     ~funName, ~typeX, ~typeY, ~argList,
     "tbl_cor", "numeric", "numeric", NULL,
-    "tbl_tau", "ordered", "ordered", NULL,
+    "tbl_gkGamma", "ordered", "ordered", NULL,
     "tbl_cancor",  "factor", "numeric", NULL,
     "tbl_cancor", "other", "other",NULL)
 }
@@ -209,7 +209,7 @@ update_assoc <- function(default=default_assoc(),
 #'
 #' @param d dataframe
 #' @param measures a set of all the measures such as "pearson","spearman","kendall",
-#' "cancor","nmi","dcor", "mic", "polycor", "tau_b", "uncertainty",
+#' "cancor","nmi","dcor", "mic", "ace, "polycor", "tau_b", "uncertainty",
 #' "gkTau", "gkGamma" and "chi" available in the package. Set to all the measures by default and
 #' can be updated to a subset of these measures.
 #'
@@ -223,9 +223,9 @@ update_assoc <- function(default=default_assoc(),
 
 
 calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor","nmi",
-                                             "dcor", "mic", "polycor", "tau_b", "uncertainty",
-                                             "gkTau", "gkGamma", "chi"),
-                                handle.na=T) {
+                                        "dcor", "mic", "ace", "polycor", "tau_b",
+                                        "uncertainty","gkTau", "gkGamma", "chi"),
+                           handle.na=T) {
 
   vartypes <- sapply(names(d), function(u)
     if (is.numeric(d[[u]])) "numeric"
@@ -235,7 +235,7 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
   names(vartypes) <- names(d)
 
   pearson = NULL; spearman = NULL; kendall = NULL; cancor = NULL
-  nmi = NULL; dcor = NULL; mic = NULL; polycor = NULL; tau_b = NULL
+  nmi = NULL; dcor = NULL; mic = NULL;  ace = NULL;polycor = NULL; tau_b = NULL
   uncertainty = NULL; gkTau = NULL; gkGamma = NULL; chi = NULL
 
   if ("pearson" %in% measures) {
@@ -280,6 +280,12 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
 
   }
 
+  if ("ace" %in% measures) {
+
+    ace <- tbl_ace(d,handle.na = handle.na)
+
+  }
+
   if ("polycor" %in% measures) {
 
     polycor <- tbl_polycor(d,handle.na = handle.na)
@@ -316,7 +322,7 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
 
   }
 
-  assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, polycor, tau_b,
+  assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, ace, polycor, tau_b,
                  uncertainty, gkTau, gkGamma, chi)
 
 
