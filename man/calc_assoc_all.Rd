@@ -6,7 +6,7 @@
 \usage{
 calc_assoc_all(
   d,
-  measures = c("pearson", "spearman", "kendall", "cancor", "nmi", "dcor", "mic",
+  measures = c("pearson", "spearman", "kendall", "cancor", "nmi", "dcor", "mic", "ace",
     "polycor", "tau_b", "uncertainty", "gkTau", "gkGamma", "chi"),
   handle.na = T
 )
@@ -15,7 +15,7 @@ calc_assoc_all(
 \item{d}{dataframe}
 
 \item{measures}{a set of all the measures such as "pearson","spearman","kendall",
-"cancor","nmi","dcor", "mic", "polycor", "tau_b", "uncertainty",
+"cancor","nmi","dcor", "mic", "ace, "polycor", "tau_b", "uncertainty",
 "gkTau", "gkGamma" and "chi" available in the package. Set to all the measures by default and
 can be updated to a subset of these measures.}
 

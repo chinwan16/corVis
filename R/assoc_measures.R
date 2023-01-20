@@ -515,7 +515,7 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 #'
 #' @details The maximal correlation is calculated using alternating conditional expectations
 #' algorithm which find the transformations of variables such that the proportion of variance
-#' explained is meaximised. The \code{ace} function from \code{acepack} package is used for the
+#' explained is maximised. The \code{ace} function from \code{acepack} package is used for the
 #' calculation.
 #' @export
 #' @references Breiman, Leo, and Jerome H. Friedman.
@@ -523,7 +523,7 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 #' Journal of the American statistical Association 80.391 (1985): 580-598.
 #'
 #' @examples
-#' tbl_chi(iris)
+#' tbl_ace(iris)
 
 tbl_ace <- function(d, handle.na = T, ...) {
 

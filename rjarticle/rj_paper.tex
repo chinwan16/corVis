@@ -149,10 +149,12 @@ zero. \citet{buja2016visualization} proposed Association Navigator which
 is an interactive visualization tool for large correlation matrices with
 upto 2000 variables. The R package \CRANpkg{scorrplot} \citep{scorr}
 produces an interactive scatterplot for exploring pairwise correlations
-in a large dataset by projecting variables as points and encoding the
-correlations as space between these points. The package provides a
-functionality to update variable of interest which creates tour of the
-correlation space between different projections of the data.
+in a large dataset by projecting variables as points on a scatterplot
+with respect to some user-selected variables of interest, driven by a
+geometric interpretation of correlation and encoding the correlation as
+vertical gridlines in the plot. The package allows user to update
+variable of interest which creates tour of the correlation space between
+different projections of the data.
 
 The R package \CRANpkg{correlationfunnel} offers a novel display which
 assists in feature selection in a setting with a single response and
@@ -261,6 +263,15 @@ monotonous, between numeric variables and is in range \([0,1]\).
 explore pairwise relationships in large data sets such as major-league
 baseball, gene expression, global health, and the human gut microbiota.
 
+Both distance correlation and MIC have advantages of detecting
+non-linear and complex relationship but these measures aren't perfect
+yet. \citet{commentSimonTibshirani} showed that distance correlation has
+more statistical power than MIC. Also, distance correlation is not an
+approximation when compared to MIC. On the other hand, distance
+correlation computation is slower as compared to the conventional
+association measures such as Pearson's correlation for datasets with
+high number of cases.
+
 In addition to association measures for numeric variables, association
 measures for ordinal, nominal and mixed variable pairs are useful in
 exploring a multivariate dataset. We now give an overview of available
@@ -303,40 +314,41 @@ interesting patterns in the data. This will help in identifying variable
 pairs which shows a type of relationship or pattern in a dataset with
 large number of variables.
 
-While designing these displays we considered matrix and linear layouts.
-A matrix layout simplifies the effort in finding variables, and
-different measures may be displayed on the upper and lower diagonal.
-Linear layouts are more space-efficient than matrix plots, but looking
-for variables or variable pairs is more challenging.
+While designing these displays we consider matrix and linear layouts. A
+matrix layout reduces the effort in looking up for variable pairs
+corresponding to a cell or panel, and different measures may be
+displayed on the upper and lower triangle of the matrix. On the other
+hand, the filtering of variable pairs, for example pairs having measure
+value greater than a threshold, is easier with linear layouts in
+comparison to matrix layouts.
 
 Table \ref{tab:function-corVis} provides a list of the functions
-available in the package which are useful for calculating association
-measures among variable pairs and visualising these associations using
-novel displays. Section 4 provides a detailed description on functions
-used for calcuating association measures in the package. Section 5
-illustrates the use of visualising functions in table
-\ref{tab:function-corVis} for displaying pairwise association and
-conditional association.
+available in the package. The functions \texttt{calc\_assoc} and
+\texttt{calc\_assoc\_all} are responsible for calculating association
+measures which are used as input for the \texttt{plot\_assoc\_matrix}
+and \texttt{plot\_assoc\_linear} functions. The functions
+\texttt{plot\_assoc\_matrix} and \texttt{plot\_assoc\_linear} produces
+association display, multiple association measures display and
+conditional association display, in a matrix and linear layout
+respectively. We provide detailed examples on calculation and
+visualisation of association and conditional association in next
+sections.
 
 \begin{Schunk}
 \begin{table}
 
 \caption{\label{tab:function-corVis}List of functions in corVis package}
 \centering
-\begin{tabular}[t]{>{}l|l|l}
-\hline
+\begin{tabular}[t]{>{}lll}
+\toprule
 Function & Usage & Description\\
-\hline
+\midrule
 \textbf{calc\_assoc} & Calculation & Calculates association measures\\
-\hline
-\textbf{calc\_assoc\_all} & Calculation & Calculates all the association measures available\\
-\hline
+\textbf{calc\_assoc\_all} & Calculation & Calculates all the association measures available in package\\
 \textbf{plot\_assoc\_matrix} & Visualization & Visualize assocition and conditional association in matrix plot\\
-\hline
 \textbf{plot\_assoc\_linear} & Visualization & Visualize assocition and conditional association in linear plot\\
-\hline
 \textbf{show\_assoc} & Visualization & Association (or conditional) plot for a pair of variables\\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -357,26 +369,29 @@ package also provides a functionality for handling missing value or
 
 Table \ref{tab:association-measures} lists different functions provided
 in the package to calculate varoius measures of association. The
-\texttt{Function} column represents the function name used to calculate
-measure(s) of associations in this package. The \texttt{typeX} and
+\texttt{Function} column represents \texttt{tbl\_*} functions which are
+used to calculate a single association measure. The \texttt{typeX} and
 \texttt{typeY} columns provide the information on types of variables
 which can be used with the corresponding functions. The \texttt{X} or
-\texttt{Y} variable is one of the numeric, nominal, ordinal or any type.
-The \texttt{from} column corresponds to the package functions used to
-calculate the association measures by the function under
-\texttt{Function}. The \texttt{symmetric} column represents if the
-measure is symmetric i.e.~if the value of measure is same regardless of
-the order of variables. The last column provides the range of values for
-these measures. The function \texttt{tbl\_easy} calculates association
-measures available in the R package \CRANpkg{correlation} and is
-suitable for different variable types. The functions in Table
-\ref{tab:association-measures} with \texttt{corVis} entries under
-\texttt{from} column calculate the association measures which have been
-implemented in this package.
+\texttt{Y} variable is one of the numeric, nominal or ordinal type. The
+\texttt{from} column corresponds to the external package functions used
+to calculate the association measures by \texttt{tbl\_*} functions. The
+\texttt{symmetric} column represents if the measure is symmetric i.e.~if
+its value doesn't change by the choice of independent or dependent
+variable during its calculation. The last column provides the range of
+values for these measures. The function \texttt{tbl\_easy} calculates
+association measures available in the R package \CRANpkg{correlation}
+and is suitable for different variable types.
 
-For numeric pairs of variables, this package provides a range of
+The functions in Table \ref{tab:association-measures} such as
+\texttt{tbl\_ace}, \texttt{tbl\_cancor} and \texttt{tbl\_nmi} which
+calculates maximal correlation coefficient, canonical correlationa and
+normailzed mutual information respectively, have been implemented in
+\CRANpkg{corVis}.
+
+For numeric pairs of variables, the package provides a range of
 association measures. The popular correlation coefficients like
-Pearson's or Spearman's or Kendall's are calculated using
+Pearson's, Spearman's or Kendall's are calculated using
 \texttt{tbl\_cor} function. The measures such as distance correlation or
 MIC are calculated using \texttt{tbl\_dcor} or \texttt{tbl\_mine}
 respectively. The association measures available in the package for the
@@ -407,6 +422,7 @@ for taking care of missing values present in the data.
 
 \caption{\label{tab:association-measures}List of the functions available in the package for calculating different association measures along with the packages used for calculation.}
 \centering
+\resizebox{\linewidth}{!}{
 \begin{tabular}[t]{llllll}
 \toprule
 Function & X & Y & from & symmetric & range\\
@@ -414,19 +430,20 @@ Function & X & Y & from & symmetric & range\\
 tbl\_cor & numerical & numerical & stats::cor & Y & {}[-1,1]\\
 tbl\_dcor & numerical & numerical & energy::dcor2d & Y & {}[0,1]\\
 tbl\_mine & numerical & numerical & minerva::mine & Y & {}[0,1]\\
+tbl\_ace & numerical & numerical & corVis & Y & {}[0,1]\\
 tbl\_polycor & ordinal & ordinal & polycor::polychor & Y & {}[-1,1]\\
-tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & Y & {}[-1,1]\\
 \addlinespace
+tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & Y & {}[-1,1]\\
 tbl\_gkGamma & ordinal & ordinal & DescTools::GoodmanKruskalGamma & Y & {}[-1,1]\\
 tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & N & {}[0,1]\\
 tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & Y & {}[0,1]\\
 tbl\_chi & nominal & nominal & DescTools::ContCoef & Y & {}[0,1]\\
-tbl\_cancor & nominal/numerical & nominal/numerical & corVis & Y & {}[0,1]\\
 \addlinespace
+tbl\_cancor & nominal/numerical & nominal/numerical & corVis & Y & {}[0,1]\\
 tbl\_nmi & nominal & nominal & corVis & Y & {}[0,1]\\
 tbl\_easy & nominal/numerical & nominal/numerical & correlation::correlation & Y & {}[-1,1]\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \end{Schunk}
@@ -445,10 +462,7 @@ dataset, the function \texttt{tbl\_dcor} is used.
 
 \begin{Schunk}
 \begin{Sinput}
-df <- iris
-
-
-distance <- tbl_dcor(df)
+distance <- tbl_dcor(iris)
 distance
 \end{Sinput}
 \begin{Soutput}
@@ -476,23 +490,25 @@ and \texttt{y} pair.
 dataset}\label{calculating-association-measures-for-whole-dataset}}
 
 \texttt{calc\_assoc} is used to calculate association measures for all
-the variable pairs in the dataset at once in a tibble structure. The
-variable pairs in the output are unique pairs and a subset of all the
-pairs of variables in a dataset where \texttt{x} \(\neq\) \texttt{y}.
-Because of the tidy structure of the output, the data manipulation and
-visualisation tools of \CRANpkg{tidyverse} \citep{tidyverse} are
-applicable to and are useful for further exploration of pairwise
-associations. In addition to tibble structure, the output also has
-\texttt{pairwise} and \texttt{data.frame} class which are important
-class attributes for producing visual summaries in this package.
+variable pairs in a dataset at once in a tibble structure. The variable
+pairs in the output are unique pairs in the dataset where \texttt{x}
+\(\neq\) \texttt{y}. Because of the tidy structure of the output, the
+data manipulation and visualisation tools of \CRANpkg{tidyverse}
+\citep{tidyverse} are applicable and are useful for further exploration
+of pairwise associations. In addition to tibble structure, the output
+also has \texttt{pairwise} and \texttt{data.frame} class which are
+important class attributes for producing visual summaries in this
+package.
 
 The function \texttt{calc\_assoc} has a \texttt{types} argument which is
-a tibble of the association measure for different variable pairs. The
-default tibble of measures is \texttt{default\_assoc()} which calculates
-Pearson's correlation if both the variables are numeric, Kendall's tau-b
-if both the variables are ordinal, canonical correlation if one is
-factor and other is numeric and canonical correlation for the rest of
-the variable pairs.
+a tibble of the \texttt{tbl\_*} functions for different types of
+variable pairs. The default tibble is \texttt{default\_assoc()} which
+includes \texttt{tbl\_cor} if both the variables are numeric and
+calculates Pearson's correlation , \texttt{tbl\_gkGamma} if both the
+variables are ordinal and calculates Goodman and Kruskal's gamma ,
+\texttt{tbl\_cancor} if one is factor and other is numeric and
+calculates canonical correlation, and canonical correlation for the rest
+of the variable pairs.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -509,7 +525,8 @@ default_measures
 #> 4 tbl_cancor  other   other   <NULL>
 \end{Soutput}
 \begin{Sinput}
-iris_assoc <- calc_assoc(df,types = default_measures)
+iris_assoc <- calc_assoc(d = iris,
+                         types = default_measures)
 iris_assoc
 \end{Sinput}
 \begin{Soutput}
@@ -565,6 +582,22 @@ updated_assoc
 \end{Soutput}
 \end{Schunk}
 
+\begin{Schunk}
+\begin{Sinput}
+updated_iris_assoc <- calc_assoc(d = df, 
+                                 types = updated_assoc)
+updated_iris_assoc
+\end{Sinput}
+\begin{Soutput}
+#> # A tibble: 3 x 4
+#>   x           y        measure measure_type
+#>   <chr>       <chr>      <dbl> <chr>       
+#> 1 Usage       Function   0.647 nmi         
+#> 2 Description Function   1     nmi         
+#> 3 Description Usage      0.647 nmi
+\end{Soutput}
+\end{Schunk}
+
 \texttt{calc\_assoc} also has a \texttt{handle.na} argument for handling
 the \texttt{NA} or missing values which is fed into the \texttt{tbl\_*}
 functions used with the \texttt{types} argument for different types of
@@ -572,30 +605,33 @@ variable pairs. The default value is set to \texttt{TRUE} for using
 pairwise complete observations for calculating a measure of association
 between two variables.
 
-If a user is interested in calculating multiple association measures for
-a type of variable pair, it can be done by using the
-\texttt{calc\_assoc} and \texttt{update\_assoc} together for calculating
-different association measures and then merging the output tibbles.
+\hypertarget{calculating-multiple-association-measures}{%
+\subsection{Calculating multiple association
+measures}\label{calculating-multiple-association-measures}}
+
+The multiple association measures are calculated using
+\texttt{calc\_assoc\_all} function in the package. The function takes a
+dataset and a list of measures as input and outputs a tibble structure
+with multiple measures of association for every variable pair. This
+output serves as input to the multiple association measures plot
+function for comparison of measures for variable pairs.
 
 \begin{Schunk}
-\begin{Sinput}
-updated_iris_assoc <- calc_assoc(df, types = updated_assoc)
-updated_iris_assoc
-\end{Sinput}
 \begin{Soutput}
-#> # A tibble: 10 x 4
+#> # A tibble: 22 x 4
 #>    x            y            measure measure_type
 #>    <chr>        <chr>          <dbl> <chr>       
-#>  1 Sepal.Width  Sepal.Length  -0.167 spearman    
-#>  2 Petal.Length Sepal.Length   0.882 spearman    
-#>  3 Petal.Width  Sepal.Length   0.834 spearman    
-#>  4 Species      Sepal.Length   0.787 cancor      
-#>  5 Petal.Length Sepal.Width   -0.310 spearman    
-#>  6 Petal.Width  Sepal.Width   -0.289 spearman    
-#>  7 Species      Sepal.Width    0.633 cancor      
-#>  8 Petal.Width  Petal.Length   0.938 spearman    
-#>  9 Species      Petal.Length   0.970 cancor      
-#> 10 Species      Petal.Width    0.964 cancor
+#>  1 Sepal.Width  Sepal.Length  -0.118 pearson     
+#>  2 Petal.Length Sepal.Length   0.872 pearson     
+#>  3 Petal.Width  Sepal.Length   0.818 pearson     
+#>  4 Petal.Length Sepal.Width   -0.428 pearson     
+#>  5 Petal.Width  Sepal.Width   -0.366 pearson     
+#>  6 Petal.Width  Petal.Length   0.963 pearson     
+#>  7 Sepal.Width  Sepal.Length   0.118 cancor      
+#>  8 Petal.Length Sepal.Length   0.872 cancor      
+#>  9 Petal.Width  Sepal.Length   0.818 cancor      
+#> 10 Species      Sepal.Length   0.787 cancor      
+#> # ... with 12 more rows
 \end{Soutput}
 \end{Schunk}
 
@@ -612,7 +648,7 @@ variable and needs to be categorical.
 
 \begin{Schunk}
 \begin{Sinput}
-iris_assoc_by <- calc_assoc(d = df,
+iris_assoc_by <- calc_assoc(d = iris,
                             by = "Species")
 iris_assoc_by
 \end{Sinput}
@@ -643,7 +679,9 @@ behavior can be changed by setting \texttt{include.overall} argument to
 
 \begin{Schunk}
 \begin{Sinput}
-iris_assoc_by <- calc_assoc(df,by = "Species",include.overall = FALSE)
+iris_assoc_by <- calc_assoc(d = iris,
+                            by = "Species",
+                            include.overall = FALSE)
 iris_assoc_by
 \end{Sinput}
 \begin{Soutput}
@@ -679,10 +717,7 @@ The \texttt{x} and \texttt{y} variables in the output are repeated for
 every level of \texttt{by} variable. In order to have multiple
 \texttt{by} variables, the function \texttt{calc\_assoc} is used
 multiple times with a different \texttt{by} variable each time and then
-the multiple outputs are binded row wise. For calculating multiple
-measures for a specific variable type, one can use
-\texttt{update\_assoc} with \texttt{calc\_assoc} and then can merge
-these multiple tibble outputs.
+the multiple outputs are binded row wise.
 
 \hypertarget{section-5-corvis-visualising-association}{%
 \section{Section 5: corVis: Visualising
@@ -1098,8 +1133,9 @@ Figure \ref{fig:linear-cond-assoc} shows a linear display for
 conditional association measures with all the variable pairs along the
 Y-axis, the value of association measure along X-axis and color of the
 points representing the level of the grouping variable. The linear
-layout becomes more useful over the matrix layout when the number of
-variables and number of levels of grouping variable are high.
+layout becomes more useful over the matrix layout for conditional
+association display when the number of variables and number of levels of
+grouping variable are high.
 
 \begin{Schunk}
 \begin{Sinput}

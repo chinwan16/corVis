@@ -58,29 +58,18 @@ In this section we provide a brief review of  existing packages used for correla
 
 ## Section 2.1: Literature Review on Correlation Displays
 
-<!-- HISTORICAL REFS ADD HERE -->
+
 
 According to @hills1969looking, "the first and sometimes only impression gained by looking at a large correlation matrix is its largeness". To overcome this, @murdoch1996graphical proposed a  display for  large correlation matrices which uses a matrix layout of ellipses where the parameters of the ellipses  are  scaled to the correlation values. @friendly2002corrgrams  expanded on this idea by rendering correlation values as shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The variables in the matrix displays were optionally ordered using the angular ordering of the first two eigen vectors of the correlation matrix. The ordering places highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation.
 
-<!-- In order to explore a large correlation matrix @hills1969looking proposed a QQ plot of the entries of the correlation matrix. According to @murdoch1996graphical, they proposed a more effective display for exploring a large correlation matrix. @murdoch1996graphical replaced the entries in a correlation matrix by an ellipse where the parameters of ellipse were scaled to the correlation value. These displays are called as correlation matrix displays. -->
-
-<!-- The correlation matrix display is an important tool to explore association among variables in a multivariate analysis. The display was made popular by @friendly2002corrgrams who called them corrgrams, wherein he rendered the correlation values of $p$ numeric variables in a $p \times p$ matrix layout with shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The main goal of these displays is to render the correlation patterns in a dataset.  -->
 
 Nowadays, there are many R  packages devoted to correlation visualisation. Table \@ref(tab:corrdisplay-packages) provides a summary, listing the displays offered, and whether these extend to factor variables or mixed numeric-factor pairs. 
 
 The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the methods in @friendly2002corrgrams. 
  The package \CRANpkg{corrr} [@corrr2020] organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse]. In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges.
 
-<!-- Table \@ref(tab:corrdisplay-packages) provides a list of  packages available in R which  either calculate correlations, visualise correlations or both.  -->
-<!-- The displays provided by each of the packages are listed, as are the correlations or associations calculated, in particular whether association measures are provided for factor variables or mixed numeric-factor pairs. We also summarise whether packages provide conditional displays of association, by which we mean displays for each of the levels of a categorical variable. -->
-
-<!-- The R package \CRANpkg{corrplot} [@corrplot2021] provides an implementation of the @friendly2002corrgrams paper. It serves as a visual exploratory tool for correlation matrices and includes various variable ordering methods which place highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation. -->
 
 
-<!-- The package \CRANpkg{corrr} [@corrr2020] organises correlations as tidy data, so leveraging the data manipulation and visualisation tools of the \CRANpkg{tidyverse} [@tidyverse]. In addition to various matrix displays, the package offers network displays where line-thickness encodes correlation magnitude, with a filtering option to discard low-correlation edges. -->
-
-
-<!-- CORRGRAPHER -->
 
 The package \CRANpkg{corrgrapher} [@corrgrapher] uses a network plot for exploring correlations, where the nodes close to each other have high correlation magnitude, edge thickness encodes the absolute correlation value and edge color indicates the sign of correlation. The package also handles mixed type variables by using association measures obtained as transformations of $p$-values obtained from
 Pearson's correlation test in the case of two numeric variables, Kruskal's test for numerical and factor variables, and a chi-squared test for two categorical variables. 
@@ -90,18 +79,10 @@ The package \CRANpkg{linkspotter} [@linkspotter] offers a variety of association
 
 Our own package \CRANpkg{corVis} offers a variety of displays, and has new features not available elsewhere, in particular simultaneous display of multiple association measures, and association displays stratified by levels of a grouping variable. This will be described  in the following sections.
 
-<!-- ALL THIS STUFF ABOUT CORVIS SHOULD APPEAR IN THE SECTION ABOUT CORVIS. -->
-
-<!-- It allows the user to select association measure for different variable types and then calculates and visualizes all of the variable pairs in a single plot. This helps an analyst to explore the associations among different variables in a single display. -->
-
-
 
 There have been other extensions to correlation displays which are useful when dealing with high dimensional datasets. 
-@hills1969looking proposed a QQ plot of the $z$-transform of the entries of the correlation matrix to discover correlation coefficients too large to come from a normal distribution with mean zero. @buja2016visualization proposed Association Navigator which is an interactive visualization tool for large correlation matrices with upto 2000 variables.  The R package \CRANpkg{scorrplot} [@scorr] produces an interactive scatterplot for exploring pairwise correlations in a large dataset by projecting variables as points and encoding the correlations as space between these points. The package provides a functionality to update variable of interest which creates tour of the correlation space between different projections of the data. 
+@hills1969looking proposed a QQ plot of the $z$-transform of the entries of the correlation matrix to discover correlation coefficients too large to come from a normal distribution with mean zero. @buja2016visualization proposed Association Navigator which is an interactive visualization tool for large correlation matrices with upto 2000 variables.  The R package \CRANpkg{scorrplot} [@scorr] produces an interactive scatterplot for exploring pairwise correlations in a large dataset by projecting variables as points on a scatterplot with respect to some user-selected variables of interest, driven by a geometric interpretation of correlation and encoding the correlation as vertical gridlines in the plot. The package allows user to update variable of interest which creates tour of the correlation space between different projections of the data. 
 
-<!-- I DO NOT UNDERSTAND ANY OF THIS ABOUT SCORRPLOT. TRY AGAIN. -->
-
-<!-- REMOVE CORHEAT FROM TABLE -->
 
 
 The R package \CRANpkg{correlationfunnel} offers a novel display which assists in feature selection in a setting with a single response and many predictor variables. All numeric variables including the response are binned. All (now categorical) variables in the resulting dataset are one-hot encoded and Pearson's correlation calculated with the response categories. The correlations are visualised in a dot-plot display, where predictors are ordered by maximum correlation magnitude. Correlations between one-hot encoded variables are challenging to interpret, especially as the number of levels increase.  In corVis we offer a similar dot-plot display, but showing multiple correlation or association measures, or alternatively measures stratified by a grouping variable.
@@ -219,9 +200,11 @@ grid.arrange(p1_linear,p2_linear,p3_linear,p4_linear,
 Figure \@ref(fig:motivation-patterns) shows a plot of simulated linear and non-linear patterns. The first row shows a linear relationship along with the value for measures such as Pearson's correlation, distance correlation and maximal information coefficient respectively for the pattern. In a similar manner, the second row shows a quadratic relationship and its values for  Pearson's correlation, distance correlation and maximal information coefficient respectively.   
 It is clearly evident from Figure \@ref(fig:motivation-patterns) that all the three measures summarizes the pattern with linear relationship quite well. For the non-linear pattern, distance correlation and MIC are better in detecting underlying relationship than Pearson's correlation. This suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables in the datasets where there is no prior knowledge about the possible patterns in the data.
 
-The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for any relationship among two numeric variables using the distances between observations of these variables and summarizes the relationship in $[0,1]$. The distance correlation is $0$ only when the variables are independent and is a symmetric measure.
+The distance correlation coefficient [@szekely2007measuring] is an association measure which looks for any relationship among two numeric variables using the distances between observations of these variables and summarizes the relationship in $[0,1]$. The distance correlation is $0$ only when the variables are independent and is a symmetric measure. 
 
 The maximal information coefficient (MIC) [@reshef2011detecting] is an information theory measure which uses mutual information among the two variables for its calculation. The main idea is to find a grid out of possible grids on a scatterplot of two numeric variables, in order to discretize the variables, which maximises the mutual information for the two variables. A normalisation technique is used to make the mutual information from different grids comparable. Referred as 'a correlation of 21st century' [@speed2011correlation], MIC is capable of summarizing different types of relationships, not just linear or monotonous, between numeric variables and is in range $[0,1]$. @reshef2011detecting used MIC and other related statistics to explore pairwise relationships in large data sets such as major-league baseball, gene expression, global health, and the human gut microbiota. 
+
+Both distance correlation and MIC have advantages of detecting non-linear and complex relationship but these measures aren't perfect yet. @commentSimonTibshirani showed that distance correlation has more statistical power than MIC. Also, distance correlation is not an approximation when compared to MIC. On the other hand, distance correlation computation is slower as compared to the conventional association measures such as Pearson's correlation for datasets with high number of cases.
 
 In addition to association measures for numeric variables, association measures for ordinal, nominal and mixed variable pairs are useful in exploring a multivariate dataset. We now give an overview of available association measures for other variable types.
 
@@ -442,12 +425,13 @@ iris_assoc_by
 By default, the function `calc_assoc` calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (`overall`) when used with the `by` argument. This behavior can be changed by setting `include.overall` argument to `FALSE`.
 
 ```{r,echo=TRUE}
-iris_assoc_by <- calc_assoc(df,by = "Species",include.overall = FALSE)
+iris_assoc_by <- calc_assoc(d = iris,
+                            by = "Species",
+                            include.overall = FALSE)
 iris_assoc_by
 ```
 
-The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added to the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc` and then can merge these multiple tibble outputs.
-
+The tibble output in the conditional setting has a similar structure as `calc_assoc` used with no `by` argument. When used with the `by` argument, an additional `by` column representing the levels of the categorical variable is added to the tibble output. The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. 
 
 
 # Section 5: corVis: Visualising Association

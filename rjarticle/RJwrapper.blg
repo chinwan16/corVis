@@ -4,45 +4,45 @@ The top-level auxiliary file: RJwrapper.aux
 The style file: abbrvnat.bst
 Database file #1: RJreferences.bib
 Warning--can't use both volume and number fields in tukey1985computer
-You've used 22 entries,
+You've used 23 entries,
             2773 wiz_defined-function locations,
-            736 strings with 8247 characters,
-and the built_in function-call counts, 10437 in all, are:
-= -- 908
-> -- 666
-< -- 19
-+ -- 229
-- -- 207
-* -- 865
-:= -- 1639
-add.period$ -- 73
-call.type$ -- 22
-change.case$ -- 125
-chr.to.int$ -- 22
-cite$ -- 45
-duplicate$ -- 450
-empty$ -- 800
-format.name$ -- 237
-if$ -- 2139
+            744 strings with 8487 characters,
+and the built_in function-call counts, 10799 in all, are:
+= -- 940
+> -- 687
+< -- 20
++ -- 236
+- -- 213
+* -- 888
+:= -- 1693
+add.period$ -- 76
+call.type$ -- 23
+change.case$ -- 130
+chr.to.int$ -- 23
+cite$ -- 47
+duplicate$ -- 465
+empty$ -- 832
+format.name$ -- 246
+if$ -- 2217
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 20
-newline$ -- 124
-num.names$ -- 88
-pop$ -- 258
+newline$ -- 129
+num.names$ -- 92
+pop$ -- 271
 preamble$ -- 1
-purify$ -- 112
+purify$ -- 116
 quote$ -- 0
-skip$ -- 363
+skip$ -- 380
 stack$ -- 0
-substring$ -- 355
-swap$ -- 49
+substring$ -- 357
+swap$ -- 50
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 222
+type$ -- 233
 warning$ -- 1
-while$ -- 91
+while$ -- 94
 width$ -- 0
-write$ -- 300
+write$ -- 312
 (There was 1 warning)
