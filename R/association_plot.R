@@ -110,7 +110,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
                                         fill = .data[["measure"]]),na.rm = TRUE)
     } else {
       p <- p +
-        ggforce::geom_circle(ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]])/pi),
+        ggforce::geom_circle(color=NA,ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]])/pi),
                                           fill = .data[["measure"]]))
 
     }
