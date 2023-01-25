@@ -2,8 +2,6 @@
 
 S3method(assoc_tibble,data.frame)
 S3method(assoc_tibble,matrix)
-S3method(calc_assoc,"NULL")
-S3method(calc_assoc,character)
 export(assocMethods)
 export(assoc_tibble)
 export(calc_assoc)

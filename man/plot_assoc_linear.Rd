@@ -6,7 +6,6 @@
 \usage{
 plot_assoc_linear(
   assoc,
-  group_var = NULL,
   fill = "default",
   var_order = "default",
   plot_type = c("heatmap", "dotplot"),

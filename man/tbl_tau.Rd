@@ -22,7 +22,8 @@ Kendall's W measure
 Calculates one of either Kendall's tau A, B, C or Kendall's W for every ordinal variable pair in a dataset.
 }
 \details{
-The available association measures are calculated using functions from the
+The association measures Kendall's tau A, B, C or Kendall's W are calculated using \code{\link[DescTools]{KendallTauA}},
+\code{\link[DescTools]{KendallTauB}}, \code{\link[DescTools]{StuartTauC}} or \code{\link[DescTools]{KendallW}} respectively,from the
 \code{DescTools} package.
 }
 \examples{

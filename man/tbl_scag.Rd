@@ -23,7 +23,7 @@ A tibble with one of the nine scagnostic measures for every numeric variable pai
 Calculates scagnostic measure for every numeric variable pair in a dataset.
 }
 \details{
-The scagnostic measures are calculated using \code{scagnostics}
+The scagnostic measures are calculated using \code{\link[scagnostics]{scagnostics}}
 function from the \code{scagnostics} package.
 }
 \examples{

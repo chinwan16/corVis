@@ -165,7 +165,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 #' plot_assoc_linear(calc_assoc_all(iris))
 
 
-plot_assoc_linear <- function(assoc, group_var = NULL,fill="default",
+plot_assoc_linear <- function(assoc,fill="default",
                               var_order = "default",plot_type = c("heatmap","dotplot"), limits=c(-1,1)){
 
   plot_type = match.arg(plot_type)
@@ -245,7 +245,7 @@ plot_assoc_linear <- function(assoc, group_var = NULL,fill="default",
       {if(group_var=="NULL") ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$measure_type))} +
       {if(group_var=="measure_type") ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$measure_type))} +
       {if(group_var=="by") ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$by)) } +
-      ggplot2::ylim(-1,1) +
+      ggplot2::ylim(limits[1],limits[2]) +
       ggplot2::coord_flip() +
       ggplot2::scale_x_discrete(limits=rev) +
       ggplot2::labs(colour = by_var)

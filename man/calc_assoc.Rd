@@ -2,8 +2,6 @@
 % Please edit documentation in R/calculate_association.R
 \name{calc_assoc}
 \alias{calc_assoc}
-\alias{calc_assoc.NULL}
-\alias{calc_assoc.character}
 \title{Association/Conditional Association measures for a dataset}
 \usage{
 calc_assoc(
@@ -12,16 +10,6 @@ calc_assoc(
   types = default_assoc(),
   include.overall = TRUE,
   handle.na = TRUE
-)
-
-\method{calc_assoc}{`NULL`}(d, types = default_assoc(), handle.na = TRUE)
-
-\method{calc_assoc}{character}(
-  d,
-  by,
-  types = default_assoc(),
-  handle.na = TRUE,
-  include.overall = TRUE
 )
 }
 \arguments{
@@ -46,13 +34,6 @@ tibble
 Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
 variable in a dataset.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{NULL}: calc_assoc method
-
-\item \code{character}: calc_assoc method
-}}
-
 \examples{
 calc_assoc(iris)
 calc_assoc(iris, by = "Species")

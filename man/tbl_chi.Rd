@@ -21,7 +21,7 @@ pair
 Calculates Pearson's Contingency coefficient for every nominal variable pair in a dataset.
 }
 \details{
-The Pearson's contingency coefficient is calculated using \code{ContCoef}
+The Pearson's contingency coefficient is calculated using \code{\link[DescTools]{ContCoef}}
 function from the \code{DescTools} package.
 }
 \examples{

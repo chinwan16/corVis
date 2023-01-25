@@ -20,7 +20,7 @@ A tibble with polychoric correlation for ordinal variable pairs
 Calculates Polychoric correlation using from polycor for every ordinal variable pair in a dataset.
 }
 \details{
-The polychoric correlation is calculated using the \code{polychor} function from the
+The polychoric correlation is calculated using the \code{\link[polycor]{polychor}} function from the
 \code{polycor} package
 }
 \examples{

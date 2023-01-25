@@ -73,7 +73,7 @@ penguins_compare$measure_type <- factor(penguins_compare$measure_type,
                                         levels = c("cancor","nmi","pearson",
                                                    "mic","dcor"))
 
-plot_assoc_linear(penguins_compare, group_var = "measure_type",var_order = "max_diff")
+plot_assoc_linear(penguins_compare,var_order = "max_diff")
 ```
 
 <img src="man/figures/README-example2-1.png" width="100%" />
@@ -87,7 +87,7 @@ measure value at different levels of a conditioning variable.
 
 ``` r
 penguins_cond <- calc_assoc(penguins_df, by="species")
-plot_assoc_matrix(penguins_cond, group_var = "by")
+plot_assoc_matrix(penguins_cond)
 ```
 
 <img src="man/figures/README-example3-1.png" width="100%" />

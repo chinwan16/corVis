@@ -20,7 +20,7 @@ A tibble with ordinal variable pairs and Goodman Kruskal's Gamma coefficient
 Calculates Goodman Kruskal's Gamma coefficient for every ordinal variable pair in a dataset.
 }
 \details{
-The Goodman Kruskal's Gamma coefficient is calculated using \code{GoodmanKruskalGamma}
+The Goodman Kruskal's Gamma coefficient is calculated using \code{\link[DescTools]{GoodmanKruskalGamma}}
 function from the \code{DescTools} package.
 }
 \examples{

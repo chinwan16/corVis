@@ -20,7 +20,7 @@ A tibble with Goodman Kruskal's Tau for every nominal variable pair
 Calculates Goodman Kruskal's Tau coefficient for every nominal variable pair in a dataset.
 }
 \details{
-The Goodman Kruskal's Tau coefficient is calculated using \code{GoodmanKruskalTau}
+The Goodman Kruskal's Tau coefficient is calculated using \code{\link[DescTools]{GoodmanKruskalTau}}
 function from the \code{DescTools} package.
 }
 \examples{

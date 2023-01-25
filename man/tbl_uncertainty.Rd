@@ -20,7 +20,7 @@ A tibble with every nominal variable pair and uncertainty coefficient value.
 Calculates uncertainty coefficient for every nominal variable pair in a dataset.
 }
 \details{
-The Uncertainty coefficient is calculated using \code{UncertCoef} function from the
+The Uncertainty coefficient is calculated using \code{\link[DescTools]{UncertCoef}} function from the
 \code{DescTools} package.
 }
 \examples{

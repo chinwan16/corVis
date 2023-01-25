@@ -23,7 +23,7 @@ Calculates the maximal correlation coefficient for every numeric variable pair i
 \details{
 The maximal correlation is calculated using alternating conditional expectations
 algorithm which find the transformations of variables such that the proportion of variance
-explained is maximised. The \code{ace} function from \code{acepack} package is used for the
+explained is maximised. The \code{\link[acepack]{ace}} function from \code{acepack} package is used for the
 calculation.
 }
 \examples{

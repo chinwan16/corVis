@@ -290,7 +290,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 #'
 #' @return A tibble with polychoric correlation for ordinal variable pairs
 #'
-#' @details The polychoric correlation is calculated using the \code{polychor} function from the
+#' @details The polychoric correlation is calculated using the \code{\link[polycor]{polychor}} function from the
 #' \code{polycor} package
 #' @export
 #'
@@ -317,7 +317,8 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #' @return  A tibble with ordinal variable pairs along with one of either Kendall's tau A, B, C or
 #' Kendall's W measure
 #'
-#' @details The available association measures are calculated using functions from the
+#' @details The association measures Kendall's tau A, B, C or Kendall's W are calculated using \code{\link[DescTools]{KendallTauA}},
+#' \code{\link[DescTools]{KendallTauB}}, \code{\link[DescTools]{StuartTauC}} or \code{\link[DescTools]{KendallW}} respectively,from the
 #' \code{DescTools} package.
 #'
 #' @export
@@ -371,7 +372,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 #' @param ... other arguments
 #'
 #' @return A tibble with every nominal variable pair and uncertainty coefficient value.
-#' @details The Uncertainty coefficient is calculated using \code{UncertCoef} function from the
+#' @details The Uncertainty coefficient is calculated using \code{\link[DescTools]{UncertCoef}} function from the
 #' \code{DescTools} package.
 #'
 #' @export
@@ -396,7 +397,7 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 #' @param ... other arguments
 #'
 #' @return A tibble with Goodman Kruskal's Tau for every nominal variable pair
-#' @details The Goodman Kruskal's Tau coefficient is calculated using \code{GoodmanKruskalTau}
+#' @details The Goodman Kruskal's Tau coefficient is calculated using \code{\link[DescTools]{GoodmanKruskalTau}}
 #' function from the \code{DescTools} package.
 #' @export
 #'
@@ -420,7 +421,7 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 #' @param ... other arguments
 #'
 #' @return A tibble with ordinal variable pairs and Goodman Kruskal's Gamma coefficient
-#' @details The Goodman Kruskal's Gamma coefficient is calculated using \code{GoodmanKruskalGamma}
+#' @details The Goodman Kruskal's Gamma coefficient is calculated using \code{\link[DescTools]{GoodmanKruskalGamma}}
 #' function from the \code{DescTools} package.
 #' @export
 #'
@@ -445,7 +446,7 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 #' @return A tibble with calculated Pearson's contingency coefficient for every nominal variable
 #' pair
 #' @export
-#' @details The Pearson's contingency coefficient is calculated using \code{ContCoef}
+#' @details The Pearson's contingency coefficient is calculated using \code{\link[DescTools]{ContCoef}}
 #' function from the \code{DescTools} package.
 #'
 #' @examples
@@ -470,7 +471,7 @@ tbl_chi <- function(d,handle.na=TRUE,...){
 #' @param ... other arguments
 #'
 #' @return A tibble with one of the nine scagnostic measures for every numeric variable pair
-#' @details The scagnostic measures are calculated using \code{scagnostics}
+#' @details The scagnostic measures are calculated using \code{\link[scagnostics]{scagnostics}}
 #' function from the \code{scagnostics} package.
 #' @export
 #'
@@ -516,7 +517,7 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 #'
 #' @details The maximal correlation is calculated using alternating conditional expectations
 #' algorithm which find the transformations of variables such that the proportion of variance
-#' explained is maximised. The \code{ace} function from \code{acepack} package is used for the
+#' explained is maximised. The \code{\link[acepack]{ace}} function from \code{acepack} package is used for the
 #' calculation.
 #' @export
 #' @references Breiman, Leo, and Jerome H. Friedman.
