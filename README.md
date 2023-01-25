@@ -73,7 +73,9 @@ penguins_compare$measure_type <- factor(penguins_compare$measure_type,
                                         levels = c("cancor","nmi","pearson",
                                                    "mic","dcor"))
 
-plot_assoc_linear(penguins_compare,var_order = "max_diff")
+plot_assoc_linear(penguins_compare,
+                  var_order = "max_diff",
+                  limits = c(0,1))
 ```
 
 <img src="man/figures/README-example2-1.png" width="100%" />
