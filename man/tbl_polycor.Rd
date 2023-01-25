@@ -17,7 +17,7 @@ tbl_polycor(d, handle.na = TRUE, ...)
 A tibble with polychoric correlation for ordinal variable pairs
 }
 \description{
-Calculates Polychoric correlation for every ordinal variable pair in a dataset.
+Calculates Polychoric correlation using from polycor for every ordinal variable pair in a dataset.
 }
 \details{
 The polychoric correlation is calculated using the \code{polychor} function from the

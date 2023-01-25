@@ -8,7 +8,6 @@ plot_assoc_matrix(
   lassoc,
   uassoc = NULL,
   glyph = c("square", "circle"),
-  group_var = NULL,
   fill = "default",
   var_order = "default",
   limits = c(-1, 1)
@@ -22,8 +21,6 @@ If \emph{NULL} (default) the matrix plot is symmetric.}
 
 \item{glyph}{A character string for the glyph to be used. Either "square" or "circle"}
 
-\item{group_var}{a character string for the grouping variable. One of NULL (default), "by"  or "measure_type".}
-
 \item{fill}{a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 for using levels of conditioning variable, "measure" for displaying a gradient or a color.}
 
@@ -36,6 +33,6 @@ Plots the calculated measures of association among different variable pairs for 
 }
 \examples{
 plot_assoc_matrix(calc_assoc(iris))
-plot_assoc_matrix(calc_assoc(iris,"Species"), group_var = "by")
-plot_assoc_matrix(calc_assoc_all(iris),group_var ="measure_type")
+plot_assoc_matrix(calc_assoc(iris,"Species"))
+plot_assoc_matrix(calc_assoc_all(iris))
 }

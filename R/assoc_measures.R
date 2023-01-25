@@ -124,7 +124,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 #' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
-#'
+#' @details The distance correlation is calculated using \code{\link[energy]{dcor2d}} from \code{energy} package
 #' @return A tibble with distance correlation for every numeric variable pair
 #' @export
 #'
@@ -195,7 +195,7 @@ tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
 #'
 #' @return A tibble
 #' @export
-#'
+#' @details The measures are calculated using \code{\link[minerva]{mine}} from \code{minerva}
 #' @examples
 #' tbl_mine(iris)
 #' tbl_mine(iris, method="mas")
@@ -222,6 +222,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #' @param handle.na If TRUE uses pairwise complete observations to calculate normalized mutual information
 #' @param ... other arguments
 #'
+#' @details The normalized mutual information is calculated using \code{\link[DescTools]{MutInf}} and  \code{\link[DescTools]{Entropy}} from DescTools
 #' @return A tibble
 #' @export
 #'
@@ -281,7 +282,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 
 #' Polychoric correlation
 #'
-#' Calculates Polychoric correlation for every ordinal variable pair in a dataset.
+#' Calculates Polychoric correlation using from polycor for every ordinal variable pair in a dataset.
 #'
 #' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient

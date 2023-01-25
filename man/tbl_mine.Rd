@@ -22,6 +22,9 @@ A tibble
 \description{
 Calculates MINE family measures for every numeric variable pair in a dataset.
 }
+\details{
+The measures are calculated using \code{\link[minerva]{mine}} from \code{minerva}
+}
 \examples{
 tbl_mine(iris)
 tbl_mine(iris, method="mas")

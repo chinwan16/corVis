@@ -6,7 +6,6 @@
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
 #'               If *NULL* (default) the matrix plot is symmetric.
 #' @param glyph A character string for the glyph to be used. Either "square" or "circle"
-#' @param group_var a character string for the grouping variable. One of NULL (default), "by"  or "measure_type".
 #' @param fill a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 #'             for using levels of conditioning variable, "measure" for displaying a gradient or a color.
 #'
@@ -17,15 +16,22 @@
 #' @importFrom magrittr %>%
 #' @examples
 #' plot_assoc_matrix(calc_assoc(iris))
-#' plot_assoc_matrix(calc_assoc(iris,"Species"), group_var = "by")
-#' plot_assoc_matrix(calc_assoc_all(iris),group_var ="measure_type")
+#' plot_assoc_matrix(calc_assoc(iris,"Species"))
+#' plot_assoc_matrix(calc_assoc_all(iris))
 
 
 plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
-                              group_var = NULL,fill="default",var_order = "default",
+                              fill="default",var_order = "default",
                               limits=c(-1,1)){
   glyph = match.arg(glyph)
   vartypes <- attr(lassoc,"vartypes")
+
+  if ("by" %in% names(lassoc)){
+    group_var <- "by"
+  } else {
+    if (nrow(lassoc) == choose(length(unique(c(lassoc$y, lassoc$x))), 2)) group_var <- NULL
+    else group_var <- "measure_type"
+  }
 
   if (isTRUE(var_order %in% c("default", "max_diff"))){
     var_order <- order_assoc(lassoc, method=var_order, group_var=group_var)
@@ -89,7 +95,8 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
                    strip.background = ggplot2::element_blank(),
                    strip.text.y = ggplot2::element_blank(),
                    strip.text.x = ggplot2::element_blank(),
-                   axis.title.y = ggplot2::element_blank())
+                   axis.title.y = ggplot2::element_blank(),
+                   aspect.ratio = 1)
 
   if(is.null(group_var)){
 
@@ -97,8 +104,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
       ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text,color=.data$var_type),hjust=0,size=3) +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank(),
-                     axis.ticks.y = ggplot2::element_blank(),
-                     aspect.ratio = 1)
+                     axis.ticks.y = ggplot2::element_blank())
 
     if (glyph=="square"){
       p <- p+
@@ -144,7 +150,6 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 #' Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
 #'
 #' @param assoc A tibble with the calculated association measures for every variable pair in the dataset..
-#' @param group_var a character string for the grouping variable. One of NULL (default), "by" or "measure_type".
 #' @param fill a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 #'             for using levels of conditioning variable, "measure" for displaying a gradient or a color.
 #'
@@ -156,14 +161,21 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 #'
 #' @examples
 #' plot_assoc_linear(calc_assoc(iris))
-#' plot_assoc_linear(calc_assoc(iris,"Species"), group_var = "by")
-#' plot_assoc_linear(calc_assoc_all(iris),group_var ="measure_type")
+#' plot_assoc_linear(calc_assoc(iris,"Species"))
+#' plot_assoc_linear(calc_assoc_all(iris))
 
 
 plot_assoc_linear <- function(assoc, group_var = NULL,fill="default",
                               var_order = "default",plot_type = c("heatmap","dotplot"), limits=c(-1,1)){
 
   plot_type = match.arg(plot_type)
+
+  if ("by" %in% names(assoc)){
+    group_var <- "by"
+  } else {
+    if (nrow(assoc) == choose(length(unique(c(assoc$y, assoc$x))), 2)) group_var <- NULL
+    else group_var <- "measure_type"
+  }
 
   if (isTRUE(var_order == "default")){
     assoc$z <- paste0(assoc$x, sep=":", assoc$y)

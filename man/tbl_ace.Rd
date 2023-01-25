@@ -23,11 +23,11 @@ Calculates the maximal correlation coefficient for every numeric variable pair i
 \details{
 The maximal correlation is calculated using alternating conditional expectations
 algorithm which find the transformations of variables such that the proportion of variance
-explained is meaximised. The \code{ace} function from \code{acepack} package is used for the
+explained is maximised. The \code{ace} function from \code{acepack} package is used for the
 calculation.
 }
 \examples{
-tbl_chi(iris)
+tbl_ace(iris)
 }
 \references{
 Breiman, Leo, and Jerome H. Friedman.

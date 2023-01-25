@@ -16,8 +16,6 @@ plot_assoc_linear(
 \arguments{
 \item{assoc}{A tibble with the calculated association measures for every variable pair in the dataset..}
 
-\item{group_var}{a character string for the grouping variable. One of NULL (default), "by" or "measure_type".}
-
 \item{fill}{a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 for using levels of conditioning variable, "measure" for displaying a gradient or a color.}
 
@@ -32,6 +30,6 @@ Plots the calculated measures of association among different variable pairs for 
 }
 \examples{
 plot_assoc_linear(calc_assoc(iris))
-plot_assoc_linear(calc_assoc(iris,"Species"), group_var = "by")
-plot_assoc_linear(calc_assoc_all(iris),group_var ="measure_type")
+plot_assoc_linear(calc_assoc(iris,"Species"))
+plot_assoc_linear(calc_assoc_all(iris))
 }

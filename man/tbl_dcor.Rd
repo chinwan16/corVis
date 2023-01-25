@@ -19,6 +19,9 @@ A tibble with distance correlation for every numeric variable pair
 \description{
 Calculates distance correlation for every numeric variable pair in a dataset.
 }
+\details{
+The distance correlation is calculated using \code{\link[energy]{dcor2d}} from \code{energy} package
+}
 \examples{
 tbl_dcor(iris)
 }

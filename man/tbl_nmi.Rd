@@ -19,6 +19,9 @@ A tibble
 \description{
 Calculates normalized mutual information for every variable pair in a dataset.
 }
+\details{
+The normalized mutual information is calculated using \code{\link[DescTools]{MutInf}} and  \code{\link[DescTools]{Entropy}} from DescTools
+}
 \examples{
 tbl_nmi(iris)
 }
