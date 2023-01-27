@@ -15,10 +15,10 @@ A.~Buja, A.~M. Krieger, and E.~I. George.
 \newblock A visualization tool for mining large correlation tables: The
   association navigator., 2016.
 
-\bibitem[Diez et~al.(2012)Diez, Barr, and Cetinkaya-Rundel]{diez2012openintro}
-D.~M. Diez, C.~D. Barr, and M.~Cetinkaya-Rundel.
-\newblock \emph{OpenIntro statistics}.
-\newblock OpenIntro Boston, MA, USA:, 2012.
+\bibitem[CDC(2000)]{cdc}
+CDC.
+\newblock Behavioral risk factor surveillance system survey data, 2000.
+\newblock URL \url{https://www.cdc.gov/brfss/}.
 
 \bibitem[Friendly(2002)]{friendly2002corrgrams}
 M.~Friendly.

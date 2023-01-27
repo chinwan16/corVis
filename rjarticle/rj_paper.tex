@@ -736,80 +736,88 @@ variable pair input and bar plot for other variable pair input.
 
 We use two datasets to provide illustrative examples. The first dataset
 is \texttt{de\_elect} (German Election Data from 2002 and 2005) from
-\CRANpkg{zenplots} package which includes numeric variables only.
-\texttt{cdc} (Behavioral survey data) is the second dataset from
-\citet{diez2012openintro} which includes numeric, nominal and ordered
-variables.
-
-The German Election dataset provides the information on election results
-for two German elections held in 2002 and 2005.The dataset includes
-\(299\) constituencies and \(68\) variables providing information on
-these constituencies. We use a subset of variables from this dataset to
-avoid overplotting, for our analysis. Table \ref{tab:germanelection}
-provides a brief description of the subset of variables from the German
-election dataset.
+\CRANpkg{zenplots} package which includes numeric variables only. The
+German Election dataset provides the information on election results for
+two German elections held in 2002 and 2005. The dataset includes \(299\)
+constituencies and \(68\) variables providing information on these
+constituencies. For our analysis, we use a subset of variables from
+German election dataset which are described in Table
+\ref{tab:germanelection}. The poor economic performance of the country
+was one of the dominant issues during 2002 German election. To analyse
+the same, we use variables including vote proportion for three major
+parties in 2002 election, population percentages for different age
+groups, percentage of employees in different sectors subjected to social
+insurance contribution and percentage unemployment.
 
 \begin{Schunk}
 \begin{table}
 
 \caption{\label{tab:germanelection}Variable description of a subset of the German election result dataset from 2002 and 2005.}
 \centering
+\resizebox{\linewidth}{!}{
 \begin{tabular}[t]{ll}
 \toprule
 Variable & Description\\
 \midrule
-V.Linke.02 & votes for Linke 2002\\
-V.FDP.02 & votes for FDP 2002\\
-V.Gruene.02 & votes for Gruene 2002\\
-V.Gruene.05 & votes for Gruene 2005\\
+SPD.02 & Proportion of votes for SPD in 2002\\
+CDU.CSU.02 & Proportion of votes for CDU/CSU in 2002\\
+Gruene.02 & Proportion of votes for Gruene in 2002\\
 Pop.18.25 & population between 18 and 25 years old 2002-12-31 (in percent)\\
-\addlinespace
 Pop.25.35 & population between 25 and 35 years old 2002-12-31 (in percent)\\
+\addlinespace
 Pop.35.60 & population between 35 and 60 years old 2002-12-31 (in percent)\\
-Births & live births (per 1000)\\
-School.finishers & school finishers 2002 (per 1000)\\
-Unempl.03 & unemployment 2003-12-31 (in percent)\\
+Industry & industry employees subject to social insurance contribution (in percent)\\
+CTT & commerce, transportation and telecommunication employees subject to social insurance contribution (in percent)\\
+Unemployment.03 & unemployment 2003-12-31 (in percent)\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \end{Schunk}
 
-The \texttt{cdc} dataset is a random sample of 20,000 people from
-Behavioral Risk Factor Surveillance System (BRFSS) survey, which is an
-annual telephonic survey of 350,000 people, in United States collected
-by the Centers for Disease Control and Prevention (CDC) conducted in
-2000. The respondents of the survey are asked questions related to their
-diet, weekly physical activity and even their level of health coverage.
-The goal of the survey is to identify risk factors in adult population
-and report the health trends. The dataset used here has only 9 questions
-or variables as compared to the original dataset which includes more
-than 200 questions or variables.Table \ref{tab:cdcdata} provides a brief
-description of the variables in \texttt{cdc} dataset along with the
-variable type. The \texttt{age} variable in the dataset was converted to
-an ordinal factor in order to have an ordinal variable pair.
+\texttt{cdc} (Behavioral survey data) is the second dataset from
+\citet{cdc} which includes numeric, nominal and ordered variables. The
+dataset is a random sample of 20,000 people from Behavioral Risk Factor
+Surveillance System (BRFSS) survey, which is an annual telephonic survey
+of 350,000 people, in United States collected by the Centers for Disease
+Control and Prevention (CDC) conducted in 2000. The respondents of the
+survey are asked questions related to their diet, weekly physical
+activity and even their level of health coverage. The goal of the survey
+is to identify risk factors in adult population and report the health
+trends. The dataset used here has only 9 questions or variables as
+compared to the original dataset which includes more than 200
+variables.Table \ref{tab:cdcdata} provides a brief description of the
+variables in \texttt{cdc} dataset along with the variable type. The
+variables \texttt{genhlth}, \texttt{exerany}, \texttt{smoke100} and
+\texttt{age} in the dataset were converted to ordinal factors as they
+had a natural ordering. \texttt{hlthplan} and \texttt{gender} were
+considered as nominal factors for the analysis. During the association
+analysis, we found some individuals with very high values for
+\texttt{height}, \texttt{weight} and \texttt{wtdesire}, and filtered out
+these cases for further analysis.
 
 \begin{Schunk}
 \begin{table}
 
 \caption{\label{tab:cdcdata}Variable description of the CDC dataset}
 \centering
+\resizebox{\linewidth}{!}{
 \begin{tabular}[t]{lll}
 \toprule
 Variable & Description & VariableType\\
 \midrule
 genhlth & General health, with categories excellent, very good, good, fair, and poor & ordinal\\
-exerany & Respondent exercised in the past month & nominal\\
+exerany & Respondent exercised in the past month with category 0 and 1 & ordinal\\
 hlthplan & Respondent has some form of health coverage & nominal\\
-smoke100 & Respondent has smoked at least 100 cigarettes in their entire life & nominal\\
+smoke100 & Respondent has smoked at least 100 cigarettes in their entire life with category 0 and 1 & ordinal\\
 height & Respondent's height in inches & numerical\\
 \addlinespace
 weight & Respondent's weight in pounds & numerical\\
 wtdesire & Respondent's desired weight & numerical\\
-age & Respondent's age in years & ordinal\\
+age & Respondent's age in categories [18,25], (25,35], (35,60], (60,99] & ordinal\\
 gender & Respondent's gender & nominal\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \end{Schunk}
@@ -817,65 +825,11 @@ gender & Respondent's gender & nominal\\
 \hypertarget{association-plots}{%
 \subsection{Association plots}\label{association-plots}}
 
-\begin{Schunk}
-\begin{Sinput}
-assoc_german <- calc_assoc(german_election)
-plot_assoc_matrix(lassoc = assoc_german,
-                  glyph = "square",
-                  group_var = NULL,
-                  var_order = "default",
-                  limits = c(-1,1))
-\end{Sinput}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/assoc-matrix-germanelection-1} 
-
-}
-
-\caption[Association matrix display for German election data showing Pearson's correlation for the variable pairs]{Association matrix display for German election data showing Pearson's correlation for the variable pairs. The off diagonal cells show the correlation value for a variable pair using a square glyph. The color of every square is mapped with the correlation value for the variable pair and the area of the square is mapped by absolute correlation value for the corresponding variable pair. The plot shows a high positive correlation between the votes for Linke party in 2002 and the population between 18 and 25 years suggesting Linke party was a popular choice among the young population in Germany.}\label{fig:assoc-matrix-germanelection}
-\end{figure}
-\end{Schunk}
-
-Figure \ref{fig:assoc-matrix-germanelection} shows an association plot
-in matrix layout for a subset of variables from German election dataset.
-The cells along the diagonal of the plot show the variables present in
-the dataset which are colored by their type in the plot. For this plot,
-all the variables are numeric and therefore they all have been colored
-red. Every off diagonal cell contains a glyph, square in this plot,
-which is filled with a divergent color scale with limits \([-1,1]\)
-representing the value of association measure (Pearson's correlation)
-between two variables. Also, the area of the glyph is proportional to
-the absolute value of the measure for the variable pair. The plot shows
-a high positive correlation for the variable pairs \texttt{V.Linke.02}
-and \texttt{Pop.18.25}, and, \texttt{V.Linke.02} and \texttt{Unempl.03}
-suggesting Linke party was a popular choice among the young and
-unemployed population in Germany.
-
-The function \texttt{plot\_assoc\_matrix} is used to produce Figure
-\ref{fig:assoc-matrix-germanelection}. It takes the calculated measures
-of association by \texttt{calc\_assoc} function as input and outputs an
-association plot. The function has \texttt{lassoc} and \texttt{uassoc}
-arguments for a tibble of association measures for the lower triangle
-and the upper triangle of the matrix display respectively. The
-\texttt{uassoc} argument is \texttt{NULL} by default and uses the same
-tibble input as used by \texttt{lassoc} if not updated. The
-\texttt{glyph} argument allows a user to display either a square or
-circle glyph for the association displays. The argument
-\texttt{group\_var} is responsible for producing different dispays such
-as association display, multiple measures display or conditional
-association display. For the case when it is set to \texttt{NULL} the
-function plots an association display, for the case of
-\texttt{group\_var} being \texttt{measure\_type} the function produces a
-multiple measures display and for the case of \texttt{by} the function
-results in a conditional association plot. The argument
-\texttt{var\_order} is used for ordering or seriating the variables in
-the matrix display so that highly-associated variables are arranged
-closer to each other and the task of detecting patterns or relations
-becomes easier. The function uses average linkage hierarchical
-clustering of the association matrix of the variables for ordering the
-variables, which clusters the highly associated variables together and
-arranges them nearby. The function also has a \texttt{limits} argument
-for specifying the limit of the color scale.
+For association analysis, we start with calculating the default
+association measures for the \texttt{cdc} data using
+\texttt{calc\_assoc} and then this result is plotted using
+\texttt{plot\_assoc\_matrix} in a matrix layout in Figure
+\ref{fig:assoc-matrix-cdcdata}.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -888,42 +842,64 @@ plot_assoc_matrix(lassoc = assoc_cdc)
 
 }
 
-\caption[Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs]{Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs. The variables are colored according to the variable type. The numeric variables are colored green, the ordered variables are colored blue and the nominal variables are colored red. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the variable pair and the area of the square is mapped by absolute measure value for the corresponding variable pair. The plot shows a strong association between desired weight and gender of the indvividuals. Also, there is an negative association between the general health and the age of the individuals suggesting the health of individuals deteriorating with age.}\label{fig:assoc-matrix-cdcdata}
+\caption[Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs]{Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the variable pair and the area of the square is mapped by absolute measure value for the corresponding variable pair. The plot shows a strong association between desired weight and gender of the indvividuals. Also, there is an negative association between the general health and the age of the individuals suggesting the health of individuals deteriorating with age.}\label{fig:assoc-matrix-cdcdata}
 \end{figure}
 \end{Schunk}
 
-Figure \ref{fig:assoc-matrix-cdcdata} shows an association plot for cdc
-dataset in matrix layout. The diagonal cells represent the variables
-present in the data and are colored by the type of variable. The
-numeric, ordered and nominal variables have been mapped with green, blue
-and red colors respectively. The off diagonal cells show a square glyph
-filled with a diverging color scale rendered by the value of
-corresponding association measure for a variable pair. The area of the
-square is mapped to absolute value of the association measure.
+The diagonal cells in Figure \ref{fig:assoc-matrix-cdcdata} represent
+the variables present in the data. Every off diagonal cell contains a
+glyph, square in this plot, which is filled with a divergent color scale
+representing the value of corresponding association measure for a
+variable pair. The \texttt{glyph} argument can be either \texttt{square}
+or \texttt{circle}. The area of the square is mapped to absolute value
+of the association measure which quickly highlights the associated pairs
+of variables. We also offer ordering of the variables in this display so
+that highly-associated variables are arranged closer to each other and
+the task of detecting patterns or relations becomes easier. The argument
+\texttt{var\_order} is used for the variables in the matrix display. The
+function uses average linkage hierarchical clustering of the association
+matrix of the variables for ordering the variables, which clusters the
+highly associated variables together and arranges them nearby.
 
-The display in Figure \ref{fig:assoc-matrix-cdcdata} shows a high
-positive Pearson's correlation for \texttt{wtdesire} and \texttt{height}
-which suggests that taller individuals have higher desired weights. For
-ordered variable pairs. The plot also shows a negative Goodman Kruskal's
-gamma measure for the ordered variable pair \texttt{genhlth} and
-\texttt{age} indicating that the health of individuals deteriorates as
-they age. In order to explore these variable pairs in more detail, the
-function \texttt{show\_assoc} is used to plot a scatterplot and a
-barplot for numeric and ordinal pairs respectively in Figure
+Figure \ref{fig:assoc-matrix-cdcdata} shows a high positive Pearson's
+correlation for (\texttt{wtdesire}, \texttt{height}) which suggests that
+taller individuals have higher desired weights. The plot also shows a
+negative Goodman Kruskal's gamma measure for the ordered variable pairs
+(\texttt{genhlth}, \texttt{age}) and (\texttt{genhlth},
+\texttt{smoke100}) indicating that the health of individuals
+deteriorates as they age and with more smoking. The positive association
+for (\texttt{smoke100}, \texttt{age}) implies that older people tend to
+smoke more. Also, it is evident from the plot that individuals who
+exercise often are more healthier, shown by the variable pair
+(\texttt{exerany}, \texttt{genhlth}).
+
+In order to explore these variable pairs in more detail, the function
+\texttt{show\_assoc} is used to plot a scatterplot and a mosaic plot for
+numeric and ordinal pairs respectively in Figure
 \ref{fig:int-pairs-cdcdata}.
 
 \begin{Schunk}
 \begin{Sinput}
-show_assoc(d = cdcdata,
-           x = "weight",
-           y = "wtdesire")
+show_assoc(d = cdcdata, 
+           x = "wtdesire", 
+           y = "height")
 
-show_assoc(d = cdcdata,
-           x = "age",
+show_assoc(d = cdcdata, 
+           x = "age", 
            y = "genhlth")
+
+
+show_assoc(d = cdcdata, 
+           x = "genhlth", 
+           y = "smoke100")
+
+
+show_assoc(d = cdcdata, 
+           x = "smoke100", 
+           y = "age")
 \end{Sinput}
 \begin{figure}
-\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-2} \caption[Scatterplot and barplot for variable pairs wtdesire and height, and, genhlth  and age showing association between these pair of variables]{Scatterplot and barplot for variable pairs wtdesire and height, and, genhlth  and age showing association between these pair of variables.}\label{fig:int-pairs-cdcdata}
+\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-3} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-4} \caption[Scatterplot and mosaic plots for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables]{Scatterplot and mosaic plots for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables.}\label{fig:int-pairs-cdcdata}
 \end{figure}
 \end{Schunk}
 
@@ -947,8 +923,7 @@ assoc_german_all <- calc_assoc_all(d = german_election,
                                                 "spearman",
                                                 "mic"))
 
-plot_assoc_linear(assoc = assoc_german_all,
-                  group_var = "measure_type", 
+plot_assoc_linear(assoc = assoc_german_all, 
                   plot_type = "heatmap",
                   limits = c(0,1),
                   var_order = "max_diff")
@@ -972,86 +947,61 @@ dataset. Each cell of the plot corresponds to a variable pair and an
 association measure, and color intensity of each cell corresponds to the
 absolute value of association measure. The variable pairs in the plot
 are ordered by the maximum difference between the absolute value of
-these measures. The plot shows the variable pairs \texttt{V.FDP.02} and
-\texttt{V.Linke.02}, and, \texttt{V.Gruene.02} and \texttt{V.Linke.02}
-with the highest difference between the association measures and the
-pair \texttt{V.Gruene.05} and \texttt{V.Gruene.02} with the lowest
-difference.
-
-\begin{Schunk}
-\begin{Sinput}
-show_assoc(d = german_election,
-           x = "V.Linke.02",
-           y = "V.FDP.02")
-
-show_assoc(d = german_election,
-           x = "V.Linke.02",
-           y = "V.Gruene.02")
-
-show_assoc(d = german_election,
-           x = "V.Gruene.05",
-           y = "V.Gruene.02")
-\end{Sinput}
-\begin{figure}
-\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-3} \caption[Scatterplot for variable pairs (from left to right) V.FDP.02 and V.Linke.02, V.Gruene.02  and V.Linke.02, and,  V.Gruene.02 and V.Gruene.05 showing relationships between these pair of variables]{Scatterplot for variable pairs (from left to right) V.FDP.02 and V.Linke.02, V.Gruene.02  and V.Linke.02, and,  V.Gruene.02 and V.Gruene.05 showing relationships between these pair of variables.}\label{fig:int-pairs-multiple-germanelection}
-\end{figure}
-\end{Schunk}
+these measures. The plot shows the variable pair
+(\texttt{Unemployment.03},\texttt{CTT}) with highest difference between
+the association measures. The low value for Pearson's correlation and
+Kendall's correlation suggest no trend but measures such as ace,
+distance correlation, MIC and Spearman's correlation indicates that a
+relationship might exist among the variables. Another interesting
+variable pair evident from the plot is (\texttt{Pop.35.60},
+\texttt{Gruene.02}) for which the three popular measures like Pearson's,
+Kendall's and Spearman's correlation coefficient are almost zero but
+measures such as ace, distance correlation and MIC suggest presence of a
+pattern.
 
 We use \texttt{show\_assoc} to explore the relationship for the
 interesting variable pairs in Figure
 \ref{fig:int-pairs-multiple-germanelection}. It is evident from the
-plots that the variable pairs \texttt{V.FDP.02} and \texttt{V.Linke.02},
-and, \texttt{V.Gruene.02} and \texttt{V.Linke.02} do not show a
-monotonic relationship and hence have very low values for Kendall's and
-Spearman's correlation but show that the variable pairs are not
-independent. The scatterplot for variable pair \texttt{V.Gruene.02} and
-\texttt{V.Gruene.05} in Figure
-\ref{fig:int-pairs-multiple-germanelection} shows a strong linear and
-monotonic relationship.
+plots that the variable pairs (\texttt{Unemployment.03},\texttt{CTT})
+and (\texttt{Pop.35.60}, \texttt{Gruene.02}) show a non-linear trend for
+which measures such as Pearson's correlation, Kendall's correlation and
+Spearman's correlation might not be suitable.
 
-The function \texttt{plot\_assoc\_linear} is used to display Figure
-\ref{fig:compare-linear-heatmap}. The function takes tibble of
-association measures calculated by \texttt{calc\_assoc\_all} as input
-and outputs a multiple association measures plot in linear layout.
-\texttt{group\_var} argument is set to \texttt{measure\_type} for a
-multiple measures plot. A maximum difference ordering is used for the
-plot by setting the \texttt{var\_order} argument to \texttt{max\_diff}.
-The \texttt{plot\_type} argument is used for the type of plot for
-plotting the association measures. It is set to \texttt{heatmap} for
-rendering the color intensity to measure value or \texttt{dotplot} when
-points are used to represent the measure value. The \texttt{limits}
-argument is set to \texttt{c(0,1)} for multiple measures plot.
+\begin{Schunk}
+\begin{Sinput}
+show_assoc(d = german_election,
+           x = "Unemployment.03",
+           y = "CTT")
+
+show_assoc(d = german_election,
+           x = "Gruene.02",
+           y = "Pop.35.60")
+\end{Sinput}
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2} \caption[Scatterplot for variable pairs (from left to right) (Unemployment.03 and CTT) and (`Pop.35.60`, `Gruene.02`) showing relationships between these pair of variables]{Scatterplot for variable pairs (from left to right) (Unemployment.03 and CTT) and (`Pop.35.60`, `Gruene.02`) showing relationships between these pair of variables.}\label{fig:int-pairs-multiple-germanelection}
+\end{figure}
+\end{Schunk}
 
 \hypertarget{conditional-association-plot}{%
 \subsection{Conditional Association
 Plot}\label{conditional-association-plot}}
 
-The functions \texttt{plot\_assoc\_matrix} is used to display
-conditional association for variable pairs in the dataset in matrix
-layout. The display is produced by splitting the data by a partitioning
-variable and calculating association for the variable pairs at each
-level of partitioning variable using \texttt{calc\_assoc} function with
-conditioning variable as the \texttt{by} argument. The calculated
-association measures are then displayed using bars in a matrix plot. The
-height and color of the bars are coded with the value of association
-measure and the level of the partitioning variable respectively. These
-displays are efficient for discovering variable pair with high
-differences among the levels of partitioning variable in the data.
-
-The measures of association calculated for every variable pair at every
-level of conditioning serve as input to the \texttt{plot\_assoc\_matrix}
-function. The \texttt{lassoc} and \texttt{uassoc} arguments look for a
-tibble of association measures for the lower triangle and the upper
-triangle of the matrix display respectively. The argument
-\texttt{group\_var} is set to \texttt{by} for producing a conditional
-association plot.
+The conditional association plot is produced by splitting the data by a
+partitioning variable and calculating association for the variable pairs
+at each level of partitioning variable using \texttt{calc\_assoc}
+function with conditioning variable as the \texttt{by} argument. The
+calculated association measures are then displayed using bars in a
+matrix plot. The height and color of the bars are coded with the value
+of association measure and the level of the partitioning variable
+respectively. These displays are efficient for discovering variable pair
+with high differences among the levels of partitioning variable in the
+data.
 
 \begin{Schunk}
 \begin{Sinput}
 cond_assoc_cdc <- calc_assoc(d = cdcdata, 
-                             by = "gender")
-plot_assoc_matrix(lassoc = cond_assoc_cdc,
-                  group_var = "by")
+                             by = "genhlth")
+plot_assoc_matrix(lassoc = cond_assoc_cdc)
 \end{Sinput}
 \begin{figure}
 
@@ -1059,7 +1009,7 @@ plot_assoc_matrix(lassoc = cond_assoc_cdc,
 
 }
 
-\caption[Conditional Association plot for cdc data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs]{Conditional Association plot for cdc data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable gender. The dotted line in each cell represents overall value of the association measure. The plot shows evident difference in measure value for pair wtdesire and height, and, wtdesire and genhlth for male and female participants in the data.}\label{fig:cond-assoc}
+\caption[Conditional Association plot for cdc data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs]{Conditional Association plot for cdc data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs. The bars in each cell represent the value for asssociation measure colored by the conditioning variable genhlth The dotted line in each cell represents overall value of the association measure. The plot shows evident difference in measure value for pair (smoke100, age) and (weight, gender) for participants with different levels of health in the data.}\label{fig:cond-assoc}
 \end{figure}
 \end{Schunk}
 
@@ -1068,38 +1018,41 @@ cdc data. Each cell corresponding to a variable pair shows two bars
 which correspond to the association measure (Pearson's correlation for
 numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical
 correlation for nominal or mixed pairs) calculated at the levels of
-conditioning variable \texttt{gender}. The dotted line represents the
+conditioning variable \texttt{genhlth}. The dotted line represents the
 overall association measure. The plot indicates that there is an evident
-difference in the Pearson's correlation for the variable pair
-\texttt{wtdesire} and \texttt{height} for the two genders, compared with
-each other and overall value. Also, the canonical correlation for
-females is higher than males for variable pair \texttt{wtdesire} and
-\texttt{genhlth}. We explore these variable pairs in more detail using
+difference in the Goodman and Kruskal's gamma for the variable pair
+(\texttt{smoke100}, \texttt{age}) for different levels of health,
+compared with each other and overall value. Also, the canonical
+correlation for variable pair (\texttt{weight}, \texttt{gender}) for
+individuals feeling poor or fair health is low compared to the overall
+value. We explore these variable pairs in more detail using
 \texttt{show\_assoc}.
 
-Figure \ref{fig:int-pairs-conditional-cdc} shows a scatterplot for the
-variable pair \texttt{wtdesire} and \texttt{height} and a boxplot for
-variable pair \texttt{wtdesire} and \texttt{genhlth} faceted by the
-conditioning variable \texttt{gender}. The faceted scatterplot shows
-that a higher Pearson's correlation value for males compared to females
-might be due to few outlying cases present for the males. Interestingly,
-the boxplot shows a decreasing trend in desired weight for females with
-better health as compared to the males.
+Figure \ref{fig:int-pairs-conditional-cdc} shows a barplot for the
+variable pair (\texttt{smoke100}, \texttt{age}) and a boxplot for
+variable pair (\texttt{weight}, \texttt{gender}) faceted by the
+conditioning variable \texttt{genhlth}. The faceted barplot shows that
+individuals who are old with smoking habits suffer with poor health more
+(almost twice) compared to individuals who are old and don't smoke.
+Interstingly, the faceted boxplot shows that healthier females have low
+weight compared to the females who don't feel healthy. On the other
+hand, the weight of the males who feel either health or unhealthy have
+fairly similar weight.
 
 \begin{Schunk}
 \begin{Sinput}
 show_assoc(d = cdcdata,
-           x = "height",
-           y = "wtdesire",
-           by = "gender")
+           x = "smoke100",
+           y = "age",
+           by = "genhlth")
 
 show_assoc(d = cdcdata,
-           x = "wtdesire",
-           y = "genhlth",
-           by = "gender")
+           x = "weight",
+           y = "gender",
+           by = "genhlth")
 \end{Sinput}
 \begin{figure}
-\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-2} \caption[Scatterplot for variable pair wtdesire and height, and boxplot for variable pair wtdesire and genhlth faceted by conditioning variable gender]{Scatterplot for variable pair wtdesire and height, and boxplot for variable pair wtdesire and genhlth faceted by conditioning variable gender.}\label{fig:int-pairs-conditional-cdc}
+\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-2} \caption[Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth]{Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth.}\label{fig:int-pairs-conditional-cdc}
 \end{figure}
 \end{Schunk}
 
@@ -1111,38 +1064,31 @@ variable pair at each level of partitioning variable using
 \texttt{calc\_assoc} function with conditioning variable as the
 \texttt{by} argument.
 
-The measures are then displayed using a dotplot where color of the dots
-are coded by the level of the partitioning variable and the variable
-pairs are ordered by absolute maximum value of association measure for
-each of the pair of variable. These displays are also efficient for
-discovering differences among the levels of partitioning variable in the
-data. In comparison to matrix layout, it is easier to omit less relevant
-pairs of variables in linear layouts by filtering the variables pairs
-having a higher value for association measures than a threshold.
-
-The measures of association calculated for every variable pair at every
-level of conditioning serve as input to the \texttt{plot\_assoc\_linear}
-function. The \texttt{assoc} argument uses a tibble of association
-measures calculated using \texttt{calc\_assoc} function with a
-\texttt{by} variable. The argument \texttt{group\_var} is responsible
-for the grouping variable and is set to \texttt{by}. The argument
-\texttt{plot\_type} is set to either \texttt{heatmap} or
-\texttt{dotplot} depending on the type of plot an analyst needs.
+The measures are then displayed using a dotplot (or a heatmap) where
+color of the dots (or each cell) is coded by the level of the
+partitioning variable and the variable pairs are ordered by absolute
+maximum value of association measure for each of the pair of variable.
+These displays are also efficient for discovering differences among the
+levels of partitioning variable in the data. In comparison to matrix
+layout, it is easier to omit less relevant pairs of variables in linear
+layouts by filtering the variables pairs having a higher value for
+association measures than a threshold.
 
 Figure \ref{fig:linear-cond-assoc} shows a linear display for
-conditional association measures with all the variable pairs along the
-Y-axis, the value of association measure along X-axis and color of the
-points representing the level of the grouping variable. The linear
-layout becomes more useful over the matrix layout for conditional
-association display when the number of variables and number of levels of
-grouping variable are high.
+conditional association measures with the variable pairs having absoulte
+measure value greater than \(0.1\) along the Y-axis, the value of
+association measure along X-axis and color of the points representing
+the level of the grouping variable. The linear layout becomes more
+useful over the matrix layout for conditional association display when
+the number of variables and number of levels of grouping variable are
+high.
 
 \begin{Schunk}
 \begin{Sinput}
 cond_assoc_cdc <- calc_assoc(d = cdcdata, 
                              by = "gender")
+cond_assoc_cdc <- dplyr::filter(cond_assoc_cdc, abs(measure) > 0.1)
 plot_assoc_linear(assoc = cond_assoc_cdc,
-                  group_var = "by",
                   plot_type = "dotplot")
 \end{Sinput}
 \begin{figure}

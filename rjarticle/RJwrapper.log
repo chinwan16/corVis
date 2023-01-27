@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.21)  20 JAN 2023 11:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.21)  27 JAN 2023 08:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -757,134 +757,133 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 177.
 [2]
-<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=156, 338.26375pt x 239.89626pt>
+<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=156, 338.26375pt x 241.90375pt>
 File: rj_paper_files/figure-latex/motivation-patterns-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/motivation-patterns-1.pdf>
 Package pdftex.def Info: rj_paper_files/figure-latex/motivation-patterns-1.pdf  used on input line 221.
-(pdftex.def)             Requested size: 338.26291pt x 239.89566pt.
+(pdftex.def)             Requested size: 338.26291pt x 241.90315pt.
 [3 <./rj_paper_files/figure-latex/motivation-patterns-1.pdf>]
 Overfull \hbox (50.37665pt too wide) in paragraph at lines 342--353
  [][] 
  []
 
 [4] [5] [6] [7] [8]
-Overfull \hbox (60.49658pt too wide) in paragraph at lines 797--813
- [][] 
- []
-
-[9]
-<rj_paper_files/figure-latex/assoc-matrix-germanelection-1.pdf, id=254, 222.8325pt x 272.01625pt>
-File: rj_paper_files/figure-latex/assoc-matrix-germanelection-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/assoc-matrix-germanelection-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-matrix-germanelection-1.pdf  used on input line 831.
-(pdftex.def)             Requested size: 222.83195pt x 272.01558pt.
-<rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf, id=257, 222.8325pt x 272.01625pt>
+<rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf, id=247, 295.1025pt x 344.28625pt>
 File: rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf  used on input line 887.
-(pdftex.def)             Requested size: 222.83195pt x 272.01558pt.
-[10 <./rj_paper_files/figure-latex/assoc-matrix-germanelection-1.pdf>] [11 <./rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf>]
-<rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf, id=288, 459.7175pt x 315.1775pt>
+Package pdftex.def Info: rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf  used on input line 841.
+(pdftex.def)             Requested size: 295.10176pt x 344.2854pt.
+[9] [10 <./rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf>]
+<rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf, id=272, 459.7175pt x 313.17pt>
 File: rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf  used on input line 926.
-(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf, id=289, 453.695pt x 315.1775pt>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf  used on input line 902.
+(pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
+<rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf, id=273, 453.695pt x 315.1775pt>
 File: rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf  used on input line 926.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf  used on input line 902.
 (pdftex.def)             Requested size: 199.16928pt x 138.36111pt.
+<rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf, id=274, 453.695pt x 315.1775pt>
+File: rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf  used on input line 902.
+(pdftex.def)             Requested size: 199.16928pt x 138.36111pt.
+<rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf, id=275, 453.695pt x 313.17pt>
+File: rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf  used on input line 902.
+(pdftex.def)             Requested size: 199.16928pt x 137.47983pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 926--926
-[][] [] 
- []
-
-<rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf, id=290, 320.19624pt x 454.69875pt>
-File: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf  used on input line 958.
-(pdftex.def)             Requested size: 320.19545pt x 454.69763pt.
-[12 <./rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf>] [13 <./rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf>]
-<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf, id=326, 459.7175pt x 313.17pt>
-File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf  used on input line 996.
-(pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
-<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf, id=327, 459.7175pt x 313.17pt>
-File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf  used on input line 996.
-(pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
-<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-3.pdf, id=328, 459.7175pt x 313.17pt>
-File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-3.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-3.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-3.pdf  used on input line 996.
-(pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
-
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 996--996
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 902--902
 [][] []
  []
 
-[14 <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-3.pdf>]
-<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=359, 351.3125pt x 346.29375pt>
-File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 1058.
-(pdftex.def)             Requested size: 351.31163pt x 346.2929pt.
-[15 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>]
-<rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf, id=374, 459.7175pt x 315.1775pt>
-File: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf  used on input line 1102.
-(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf, id=375, 459.7175pt x 315.1775pt>
-File: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf  used on input line 1102.
-(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 1102--1102
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 902--902
+[] [] 
+ []
+
+<rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf, id=276, 319.1925pt x 454.69875pt>
+File: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf  used on input line 933.
+(pdftex.def)             Requested size: 319.19171pt x 454.69763pt.
+[11]
+<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf, id=287, 459.7175pt x 315.1775pt>
+File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf  used on input line 981.
+(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
+<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf, id=288, 459.7175pt x 313.17pt>
+File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf  used on input line 981.
+(pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 981--981
 [][] [] 
  []
 
-<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=377, 387.4475pt x 452.69125pt>
+<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=289, 323.2075pt x 346.29375pt>
+File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/cond-assoc-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 1008.
+(pdftex.def)             Requested size: 323.20671pt x 346.2929pt.
+[12 <./rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf>] [13 <./rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf>] [14 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>]
+<rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf, id=365, 453.695pt x 313.17pt>
+File: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf  used on input line 1055.
+(pdftex.def)             Requested size: 199.16928pt x 137.47983pt.
+<rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf, id=366, 459.7175pt x 315.1775pt>
+File: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf Graphic file (type pdf)
+<use rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf  used on input line 1055.
+(pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 1055--1055
+[][] [] 
+ []
+
+<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=368, 387.4475pt x 452.69125pt>
 File: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 1150.
+Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 1096.
 (pdftex.def)             Requested size: 387.44655pt x 452.69014pt.
-[16 <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf> <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>] [17 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>] (./RJwrapper.bbl (./RJwrapper.brf)
+[15 <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf> <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>] [16 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>] (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[18])
+[17])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1189.
+(Font)              using `T1/zi4/m/n' instead on input line 1135.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1199.
-) [19] (./RJwrapper.aux)
+(Font)              scaled to size 9.18004pt on input line 1145.
+) [18] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 0B6C7B7B87E70D72F00A9320A11BA4EE;4256.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: DC66F4772AB898DA5B036943BE468643;1916.
+(rerunfilecheck)             Checksum: 7AFE3414A8AE9112440354599E3CD973;1906.
  ) 
 Here is how much of TeX's memory you used:
- 26862 strings out of 478028
- 502230 string characters out of 5838503
+ 26845 strings out of 478028
+ 501718 string characters out of 5838503
  1868793 words of memory out of 5000000
- 46103 multiletter control sequences out of 15000+600000
- 558937 words of font info for 297 fonts, out of 8000000 for 9000
+ 46102 multiletter control sequences out of 15000+600000
+ 558456 words of font info for 288 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 115i,12n,131p,1334b,835s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 115i,12n,131p,1153b,834s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (19 pages, 2533225 bytes).
+Output written on RJwrapper.pdf (18 pages, 881933 bytes).
 PDF statistics:
- 528 PDF objects out of 1000 (max. 8388607)
- 446 compressed objects within 5 object streams
- 90 named destinations out of 1000 (max. 500000)
+ 515 PDF objects out of 1000 (max. 8388607)
+ 435 compressed objects within 5 object streams
+ 88 named destinations out of 1000 (max. 500000)
  59086 words of extra memory for PDF output out of 61914 (max. 10000000)
 

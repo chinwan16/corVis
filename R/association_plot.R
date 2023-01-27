@@ -101,7 +101,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   if(is.null(group_var)){
 
     p <- p +
-      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text,color=.data$var_type),hjust=0,size=3) +
+      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text),hjust=0,size=2) +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank(),
                      axis.ticks.y = ggplot2::element_blank())
@@ -122,7 +122,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     }
   } else if (isTRUE(group_var %in% names(assoc))) {
     p <- p +
-      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text, color=.data$var_type),hjust=0,size=3) +
+      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text),hjust=0,size=2) +
       ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
       ggplot2::scale_y_continuous(limits=limits)
 
@@ -227,13 +227,14 @@ plot_assoc_linear <- function(assoc,fill="default",
     p <- p +
       {if(group_var=="NULL") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$measure))} +
       {if(group_var=="measure_type") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$abs_measure))} +
-      {if(group_var=="measure_type") ggplot2::scale_fill_gradient(low="white", high="brown",na.value="grey95",limits=limits)} +
+      {if(group_var=="measure_type") ggplot2::scale_fill_gradient(low="white", high="brown",na.value="grey95",limits=c(0,1))} +
       {if(group_var=="by") ggplot2::geom_tile(ggplot2::aes(x=.data$by,y=.data$z,fill=.data$measure))} +
       {if(group_var=="by") ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits)} +
       ggplot2::scale_x_discrete(position = "top") +
       #ggplot2::scale_y_discrete(limits=rev) +
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0),
+                     axis.text = ggplot2::element_text(size = 8),
                      panel.grid.major = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank(),
                      panel.background = ggplot2::element_rect(fill = "grey95"))
@@ -283,10 +284,11 @@ show_assoc <- function(d, x, y, by = NULL){
       {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
 
   } else if ( is.factor(d[[x]]) & is.factor(d[[y]]) ) {
+    d["x"] <- d[x] ; d["y"] <- d[y]
 
-    p <- ggplot2::ggplot(data=d, ggplot2::aes(x= .data[[x]], fill= .data[[y]])) +
-      #ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(.data[[x]], .data[[y]]), fill= .data[[x]] )) +
-      ggplot2::geom_bar( position = "dodge") +
+    p <- ggplot2::ggplot(data=d) +
+      #ggmosaic::geom_mosaic(ggplot2::aes(x = ggmosaic::product(y, x) )) +
+      ggplot2::geom_bar(ggplot2::aes(x=.data[[x]], fill = .data[[y]]), position = "dodge") +
       ggplot2::xlab(x) +
       #ggplot2::ylab(y) +
       {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
@@ -296,22 +298,22 @@ show_assoc <- function(d, x, y, by = NULL){
     fact <- names(dplyr::select_if(d[,c(x,y)], is.factor))
     num <- names(dplyr::select_if(d[,c(x,y)], is.numeric))
 
-    p <- ggplot2::ggplot(data=d, ggplot2::aes(x =reorder(.data[[fact]],.data[[num]],FUN=median),
-                                              y = .data[[num]])) +
-      ## add half-violin from {ggdist} package
-      ggdist::stat_halfeye(adjust = .5, width = .6, justification = -.2, .width = 0,
-                           point_colour = NA) +
-      ggplot2::geom_boxplot(width = .12, outlier.color = NA) +
-      ## add dot plots from {ggdist} package
-      gghalves::geom_half_point(side = "l", range_scale = .4, alpha = .3) +
-      ggplot2::coord_cartesian(xlim = c(1.2, NA), clip = "off") +
-      ggplot2::xlab(fact) +
-      ggplot2::ylab(num) +
-      {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+    # p <- ggplot2::ggplot(data=d, ggplot2::aes(x =reorder(.data[[fact]],.data[[num]],FUN=median),
+    #                                           y = .data[[num]])) +
+    #   ## add half-violin from {ggdist} package
+    #   ggdist::stat_halfeye(adjust = .5, width = .6, justification = -.2, .width = 0,
+    #                        point_colour = NA) +
+    #   ggplot2::geom_boxplot(width = .12, outlier.color = NA) +
+    #   ## add dot plots from {ggdist} package
+    #   gghalves::geom_half_point(side = "l", range_scale = .4, alpha = .3) +
+    #   ggplot2::coord_cartesian(xlim = c(1.2, NA), clip = "off") +
+    #   ggplot2::xlab(fact) +
+    #   ggplot2::ylab(num) +
+    #   {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
 
-    #p <- ggplot2::ggplot(data=d) +
-    #ggplot2::geom_boxplot(ggplot2::aes(x =.data[[fact]], y =.data[[num]]) ) + xlab(fact) +
-    #ylab(num) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
+    p <- ggplot2::ggplot(data=d) +
+    ggplot2::geom_boxplot(ggplot2::aes(x =.data[[fact]], y =.data[[num]]) ) + ggplot2::xlab(fact) +
+    ggplot2::ylab(num) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
   }
 
   print(p)
