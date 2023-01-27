@@ -45,19 +45,21 @@ are diagnostic measures, quantifying density, shape, trend, and other
 features, of a scatterplot. Along with scagnostics, they proposed a
 scagnostics scatterplot matrix which is a visual display to explore and
 compare these measures for all the variable pairs in a dataset. By
-comparing multiple measures at once, the unusual variable pairs could be
-identified and looked at in more detail. In a similar manner, a display
-comparing association measures will help in finding interesting variable
-pairs. Many association measures have been proposed to summarize
-different types of relationships. The most commonly used measure is
-Pearson's correlation coefficient which captures any linear trend
-present between the variables. Other popular measures include Kendall's
-or Spearman's rank correlation coefficient which are non-parametric
-measures and looks for monotonic relationship. Distance correlation
-\citep{szekely2007measuring} is an important measure useful in exploring
-non-linear relationships. The information theory measure maximal
-information coefficient (MIC) \citep{reshef2011detecting} is capable of
-summarizing complex relationships.
+comparing multiple measures at once, variable pairs with high difference
+among measures could be identified and looked at in more detail. In a
+similar manner, a display comparing association measures will help in
+finding interesting variable pairs. Many association measures have been
+proposed to summarize different types of relationships. The most
+commonly used measure is Pearson's correlation coefficient which
+captures any linear trend present between the variables. Other popular
+measures include Kendall's or Spearman's rank correlation coefficient
+which are non-parametric measures and look for monotonic relationship.
+Distance correlation \citep{szekely2007measuring} is an important
+measure useful in exploring non-linear relationships. The information
+theory measure maximal information coefficient (MIC)
+\citep{reshef2011detecting} is capable of summarizing complex
+relationships. With an effective displaying technique for the multiple
+measures of association, it will be easier to .
 
 Small multiples (or Trellis display) is a simple yet powerful approach
 to compare partitions of data and understand multidimensional datasets
@@ -888,18 +890,16 @@ show_assoc(d = cdcdata,
            x = "age", 
            y = "genhlth")
 
-
 show_assoc(d = cdcdata, 
            x = "genhlth", 
            y = "smoke100")
-
 
 show_assoc(d = cdcdata, 
            x = "smoke100", 
            y = "age")
 \end{Sinput}
 \begin{figure}
-\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-3} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-4} \caption[Scatterplot and mosaic plots for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables]{Scatterplot and mosaic plots for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables.}\label{fig:int-pairs-cdcdata}
+\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-3} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-4} \caption[Scatterplot and barplot for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables]{Scatterplot and barplot for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables.}\label{fig:int-pairs-cdcdata}
 \end{figure}
 \end{Schunk}
 
@@ -959,14 +959,6 @@ Kendall's and Spearman's correlation coefficient are almost zero but
 measures such as ace, distance correlation and MIC suggest presence of a
 pattern.
 
-We use \texttt{show\_assoc} to explore the relationship for the
-interesting variable pairs in Figure
-\ref{fig:int-pairs-multiple-germanelection}. It is evident from the
-plots that the variable pairs (\texttt{Unemployment.03},\texttt{CTT})
-and (\texttt{Pop.35.60}, \texttt{Gruene.02}) show a non-linear trend for
-which measures such as Pearson's correlation, Kendall's correlation and
-Spearman's correlation might not be suitable.
-
 \begin{Schunk}
 \begin{Sinput}
 show_assoc(d = german_election,
@@ -981,6 +973,14 @@ show_assoc(d = german_election,
 \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2} \caption[Scatterplot for variable pairs (from left to right) (Unemployment.03 and CTT) and (`Pop.35.60`, `Gruene.02`) showing relationships between these pair of variables]{Scatterplot for variable pairs (from left to right) (Unemployment.03 and CTT) and (`Pop.35.60`, `Gruene.02`) showing relationships between these pair of variables.}\label{fig:int-pairs-multiple-germanelection}
 \end{figure}
 \end{Schunk}
+
+We use \texttt{show\_assoc} to explore the relationship for the
+interesting variable pairs in Figure
+\ref{fig:int-pairs-multiple-germanelection}. It is evident from the
+plots that the variable pairs (\texttt{Unemployment.03},\texttt{CTT})
+and (\texttt{Pop.35.60}, \texttt{Gruene.02}) show a non-linear trend for
+which measures such as Pearson's correlation, Kendall's correlation and
+Spearman's correlation might not be suitable.
 
 \hypertarget{conditional-association-plot}{%
 \subsection{Conditional Association
@@ -1028,17 +1028,6 @@ individuals feeling poor or fair health is low compared to the overall
 value. We explore these variable pairs in more detail using
 \texttt{show\_assoc}.
 
-Figure \ref{fig:int-pairs-conditional-cdc} shows a barplot for the
-variable pair (\texttt{smoke100}, \texttt{age}) and a boxplot for
-variable pair (\texttt{weight}, \texttt{gender}) faceted by the
-conditioning variable \texttt{genhlth}. The faceted barplot shows that
-individuals who are old with smoking habits suffer with poor health more
-(almost twice) compared to individuals who are old and don't smoke.
-Interstingly, the faceted boxplot shows that healthier females have low
-weight compared to the females who don't feel healthy. On the other
-hand, the weight of the males who feel either health or unhealthy have
-fairly similar weight.
-
 \begin{Schunk}
 \begin{Sinput}
 show_assoc(d = cdcdata,
@@ -1055,6 +1044,17 @@ show_assoc(d = cdcdata,
 \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-2} \caption[Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth]{Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth.}\label{fig:int-pairs-conditional-cdc}
 \end{figure}
 \end{Schunk}
+
+Figure \ref{fig:int-pairs-conditional-cdc} shows a barplot for the
+variable pair (\texttt{smoke100}, \texttt{age}) and a boxplot for
+variable pair (\texttt{weight}, \texttt{gender}) faceted by the
+conditioning variable \texttt{genhlth}. The faceted barplot shows that
+individuals who are old with smoking habits suffer with poor health more
+(almost twice) compared to individuals who are old and don't smoke.
+Interstingly, the faceted boxplot shows that healthier females have low
+weight compared to the females who don't feel healthy. On the other
+hand, the weight of the males who feel either health or unhealthy have
+fairly similar weight.
 
 We also use linear layouts for displaying conditional association in the
 package. The function \texttt{plot\_assoc\_linear} is used for
@@ -1086,7 +1086,7 @@ high.
 \begin{Schunk}
 \begin{Sinput}
 cond_assoc_cdc <- calc_assoc(d = cdcdata, 
-                             by = "gender")
+                             by = "genhlth")
 cond_assoc_cdc <- dplyr::filter(cond_assoc_cdc, abs(measure) > 0.1)
 plot_assoc_linear(assoc = cond_assoc_cdc,
                   plot_type = "dotplot")

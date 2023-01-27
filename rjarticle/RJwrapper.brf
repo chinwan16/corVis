@@ -17,7 +17,7 @@
 \backcite {scorr}{{2}{2.2.1}{subsection.2.2.1}}
 \backcite {szekely2007measuring}{{3}{2.2.2}{subsection.2.2.2}}
 \backcite {reshef2011detecting}{{3}{2.2.2}{subsection.2.2.2}}
-\backcite {szekely2007measuring}{{3}{2.2.2}{figure.caption.3}}
+\backcite {szekely2007measuring}{{4}{2.2.2}{figure.caption.3}}
 \backcite {reshef2011detecting}{{4}{2.2.2}{figure.caption.3}}
 \backcite {speed2011correlation}{{4}{2.2.2}{figure.caption.3}}
 \backcite {reshef2011detecting}{{4}{2.2.2}{figure.caption.3}}
@@ -28,6 +28,6 @@
 \backcite {theil1970estimation}{{4}{2.2.2}{figure.caption.3}}
 \backcite {tidyverse}{{6}{2.4.2}{subsection.2.4.2}}
 \backcite {cdc}{{9}{2.5}{table.caption.6}}
-\backcite {tukey1985computer}{{17}{2.6}{section.2.6}}
-\backcite {wilkinson2005graph}{{17}{2.6}{section.2.6}}
-\backcite {kuhn2013applied}{{17}{2.6}{section.2.6}}
+\backcite {tukey1985computer}{{15}{2.6}{section.2.6}}
+\backcite {wilkinson2005graph}{{15}{2.6}{section.2.6}}
+\backcite {kuhn2013applied}{{15}{2.6}{section.2.6}}
