@@ -642,7 +642,7 @@ The measures are then displayed using a dotplot (or a heatmap) where color of th
 
 Figure \@ref(fig:linear-cond-assoc) shows a linear display for conditional association measures with  the variable pairs having absoulte measure value greater than $0.1$  along the Y-axis, the value of association measure along X-axis and color of the points representing the level of the grouping variable. The linear layout becomes more useful over the matrix layout for conditional association display when the number of variables and number of levels of grouping variable are high.
 
-```{r linear-cond-assoc,fig.width=8, fig.height=5, fig.align='center', fig.cap="Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.",echo=TRUE}
+```{r linear-cond-assoc,fig.width=5, fig.height=4, fig.align='left', fig.cap="Conditional Association plot using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.",echo=TRUE}
 
 cond_assoc_cdc <- calc_assoc(d = cdcdata, 
                              by = "genhlth")
