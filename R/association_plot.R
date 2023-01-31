@@ -10,7 +10,7 @@
 #'             for using levels of conditioning variable, "measure" for displaying a gradient or a color.
 #'
 #' @param var_order a character string for the ordering of the variables. Either "default" (default) or "max_diff"
-#' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
+#' @param limits a numeric vector of length 2 specifying the limits of the scale. Default is c(-1,1)
 
 #' @export
 #' @importFrom magrittr %>%
@@ -82,7 +82,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
     ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
                        color="grey",alpha=0) +
-    ggplot2::scale_color_hue(guide = "none") +
+    #ggplot2::scale_color_hue(guide = "none") +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text = ggplot2::element_text(size = 5),
                    panel.background = ggplot2::element_rect(fill="white"),
@@ -117,7 +117,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     } else {
       p <- p +
         ggforce::geom_circle(color=NA,ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]])/pi),
-                                          fill = .data[["measure"]]))
+                                                   fill = .data[["measure"]]))
 
     }
   } else if (isTRUE(group_var %in% names(assoc))) {
@@ -129,9 +129,11 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
       p <- p+
-      {if (fillvar == "by") ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")} +
-      {if (fillvar == "measure_type") ggplot2::geom_col(ggplot2::aes(x=1,y=.data$abs_measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")} +
-      {if(group_var!="measure_type") ggplot2::labs(fill = by_var)} # ch comments updated
+      {if(fillvar == "by") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], y=0, yend=.data$measure))} +
+      {if(fillvar == "by") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$measure,group=.data[[group_var]],color=.data[[fillvar]]))} +
+      {if(fillvar == "measure_type") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], y=0, yend=.data$abs_measure))} +
+      {if(fillvar == "measure_type") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$abs_measure,group=.data[[group_var]],color=.data[[fillvar]]))} +
+      {if(group_var!="measure_type") ggplot2::labs(color = by_var)} # ch comments updated
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dotted")
