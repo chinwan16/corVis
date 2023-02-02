@@ -22,71 +22,65 @@ package \texttt{corVis} provides an implementation.
 \hypertarget{section-1-introduction}{%
 \section{Section 1: Introduction}\label{section-1-introduction}}
 
-Correlation matrix display helps in visually exploring correlations
-among variables during Exploratory Data Analysis (EDA) of a multivariate
-dataset. Popularized by \citet{friendly2002corrgrams} as corrgram, these
-displays are produced by first calculating the correlation among the
-variables and then plotting these calculated values in a matrix display.
-With effective ordering techniques, these displays quickly highlight
-variables which are highly correlated and an analyst interested in
-building a predictive model could use these displays to flag and avoid
-multicollinearity.
+As a first stage in an analysis, numerical and graphical variable
+summaries are explored. Bivariate patterns can be explored with
+correlation matrices and scatterplot matrices. Typically these are
+applied to numerical variables only, though there are generalisations of
+scatterplot matrices \citep{emerson2013generalized}, implemented in
+\CRANpkg{GGally}, where both numerical and categorical variables are
+used. For correlation matrices, popularized by
+\citet{friendly2002corrgrams} as corrgram, an analyst would remove the
+non-numeric variables and then calculate and plot correlations in a
+matrix. Many datasets include a mix of variable types, and our goal is
+to investigate and visualise associations among these. The new package
+\CRANpkg{corVis} fills this gap and extends the correlation matrix for
+different variable types.
 
-The correlation displays are generally used with Pearson's correlation
-coefficient and are therefore limited to quantitative variables. An
-analyst can use one-hot encoding of the qualitative variables in order
-to use these displays but will need to deal with the high dimensions as
-a result of the encoding. In addition to the dimensionality problem, it
-is not easy to assess the overall correlation when using the one-hot
-encoding.
+In this work, we produce displays of bivariate association, using
+measures suitable for numerical, ordinal and nominal variables. For
+numeric variables we go beyond Pearson, Spearman and Kendall
+correlation, and use methods such as distance correlation
+\citep{szekely2007measuring}, information theory measure maximal
+information coefficient (MIC) \citep{reshef2011detecting}, ace from
+alternating conditional expectations algorithm and more, which are
+capable of capturing non-linear patterns. We use association measures
+for pairs of factor and ordered-factor (ordinal) variables and also for
+mixed pairs where one variable is numeric and the other is a factor. For
+numeric-ordinal and nominal-ordinal pair of variables, we do not
+consider the ordering of the ordinal variable and treat them as mixed
+and factor pair respectively.
 
-Tukey and Tukey \citep{tukey1985computer} introduced scagnostics which
-are diagnostic measures, quantifying density, shape, trend, and other
-features, of a scatterplot. Along with scagnostics, they proposed a
-scagnostics scatterplot matrix which is a visual display to explore and
-compare these measures for all the variable pairs in a dataset. By
-comparing multiple measures at once, variable pairs with high difference
-among measures could be identified and looked at in more detail. In a
-similar manner, a display comparing association measures will help in
-finding interesting variable pairs. Many association measures have been
-proposed to summarize different types of relationships. The most
-commonly used measure is Pearson's correlation coefficient which
-captures any linear trend present between the variables. Other popular
-measures include Kendall's or Spearman's rank correlation coefficient
-which are non-parametric measures and look for monotonic relationship.
-Distance correlation \citep{szekely2007measuring} is an important
-measure useful in exploring non-linear relationships. The information
-theory measure maximal information coefficient (MIC)
-\citep{reshef2011detecting} is capable of summarizing complex
-relationships. With an effective displaying technique for the multiple
-measures of association, it will be easier to .
+Our first display uses a matrix-layout, similar to corrgram. A novel
+feature is that our version can show multiple association measures for
+each pair of variables, so that patterns other than linear association
+can be uncovered. For high-dimensional datasets, matrix layouts become
+unwieldy and run out of space, so our second display uses a linear
+layout, showing one or more association measures for each pair of
+variables. This is especially useful when the analyst wishes to limit
+the display to pairs of variables showing non-negligible association.
 
-Small multiples (or Trellis display) is a simple yet powerful approach
-to compare partitions of data and understand multidimensional datasets
-\citep{tufte1986thevisual}. The display is produced by splitting the
-data into groups by a conditioning variable and then plotting the data
-for each group. Such displays allow analysts to quickly infer about the
-impact of the conditioning variable. A similar idea applied to displays
-of association measures (correlation plot) will help uncover underlying
-patterns in the data. One such pattern is Simpson's paradox which can be
-detected by comparing Pearson's correlation for data at overall level
-versus individual levels of the conditioning variable.
+We also present displays of bivariate association grouped by levels of a
+categorical variable, again using matrix and linear layouts. These
+displays are useful for discovering variable pairs showing different
+relationships at different levels. For our displays, we use seriation
+methods such that highly-associated variables or variable pairs with
+high difference among the measures are placed nearby and are easier to
+identify.
 
-In this paper, we propose extensions of the correlation plot and new
-visualizations which look at variables of mixed type, multiple
-association measures and conditional associations. These displays are
-implemented in the R package \CRANpkg{corVis}. The next section provides
-a review of existing packages which deal with correlation displays and a
-quick background on association measures and the packages used for
-calculating them. Then we describe our approach to calculate the
-association measures, followed by visualizations of associations and
-conditional associations. We conclude with a summary and future work.
+In this paper, we introduce the R package \CRANpkg{corVis} where these
+displays are implemented. The next section provides a review of existing
+packages which deal with correlation displays and a quick background on
+association measures and the packages used for calculating them. Then we
+describe our approach to calculate the association measures, followed by
+visualizations of multiple association measures and conditional
+associations. We conclude with a discussion and future work.
 
 \hypertarget{section-2-background}{%
 \section{Section 2: Background}\label{section-2-background}}
 
 In this section we provide a brief review of existing packages used for
-correlation displays and association measure calculation.
+correlation displays and association measure used in the package
+\CRANpkg{corVis}.
 
 \hypertarget{section-2.1-literature-review-on-correlation-displays}{%
 \subsection{Section 2.1: Literature Review on Correlation
@@ -216,17 +210,6 @@ recent measures such as distance correlation
 \citep{szekely2007measuring} and MIC \citep{reshef2011detecting}
 overcome these limitations and are more suitable for datasets with both
 linear and non-linear patterns.
-
-\begin{Schunk}
-\begin{figure}
-
-{\centering \includegraphics{rj_paper_files/figure-latex/motivation-patterns-1} 
-
-}
-
-\caption[Multiple association measures for simulated linear and non-linear pattern]{Multiple association measures for simulated linear and non-linear pattern. The first row of the plot shows a linear pattern, the value of Pearson's correlation, distance correlation and MIC. The second row of the plot shows a non-linear pattern along with the values for association measures. All three association measures show a high value for the linear relationship and hence are useful for linear patterns. For the non-linear pattern, distance correlation and MIC are more suitable measures than Pearson's correlation.}\label{fig:motivation-patterns}
-\end{figure}
-\end{Schunk}
 
 Figure \ref{fig:motivation-patterns} shows a plot of simulated linear
 and non-linear patterns. The first row shows a linear relationship along
@@ -425,25 +408,24 @@ for taking care of missing values present in the data.
 \caption{\label{tab:association-measures}List of the functions available in the package for calculating different association measures along with the packages used for calculation.}
 \centering
 \resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llllll}
+\begin{tabular}[t]{lllllll}
 \toprule
-Function & X & Y & from & symmetric & range\\
+name & nn & ff & oo & nf & from & range\\
 \midrule
-tbl\_cor & numerical & numerical & stats::cor & Y & {}[-1,1]\\
-tbl\_dcor & numerical & numerical & energy::dcor2d & Y & {}[0,1]\\
-tbl\_mine & numerical & numerical & minerva::mine & Y & {}[0,1]\\
-tbl\_ace & numerical & numerical & corVis & Y & {}[0,1]\\
-tbl\_polycor & ordinal & ordinal & polycor::polychor & Y & {}[-1,1]\\
+tbl\_cor & y &  &  &  & stats::cor & {}[-1,1]\\
+tbl\_dcor & y &  &  &  & energy::dcor2d & {}[0,1]\\
+tbl\_mine & y &  &  &  & minerva::mine & {}[0,1]\\
+tbl\_ace & y & y &  & y & corVis & {}[0,1]\\
+tbl\_cancor & y & y &  & y & corVis & {}[0,1]\\
 \addlinespace
-tbl\_tau & ordinal & ordinal & DescTools::KendalTauA,B,C,W & Y & {}[-1,1]\\
-tbl\_gkGamma & ordinal & ordinal & DescTools::GoodmanKruskalGamma & Y & {}[-1,1]\\
-tbl\_gkTau & nominal & nominal & DescTools::GoodmanKruskalTau & N & {}[0,1]\\
-tbl\_uncertainty & nominal & nominal & DescTools::UncertCoef & Y & {}[0,1]\\
-tbl\_chi & nominal & nominal & DescTools::ContCoef & Y & {}[0,1]\\
+tbl\_nmi & y & y &  & y & linkspotter::maxNMI & {}[0,1]\\
+tbl\_polycor &  &  & y &  & polycor::polychor & {}[-1,1]\\
+tbl\_tau &  &  & y &  & DescTools::KendalTauA,B,C,W & {}[-1,1]\\
+tbl\_gkGamma &  &  & y &  & DescTools::GoodmanKruskalGamma & {}[-1,1]\\
+tbl\_gkTau &  &  & y &  & DescTools::GoodmanKruskalTau & {}[0,1]\\
 \addlinespace
-tbl\_cancor & nominal/numerical & nominal/numerical & corVis & Y & {}[0,1]\\
-tbl\_nmi & nominal & nominal & corVis & Y & {}[0,1]\\
-tbl\_easy & nominal/numerical & nominal/numerical & correlation::correlation & Y & {}[-1,1]\\
+tbl\_uncertainty &  & y &  &  & DescTools::UncertCoef & {}[0,1]\\
+tbl\_chi &  & y &  &  & DescTools::ContCoef & {}[0,1]\\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -522,9 +504,9 @@ default_measures
 #>   funName     typeX   typeY   argList
 #>   <chr>       <chr>   <chr>   <list> 
 #> 1 tbl_cor     numeric numeric <NULL> 
-#> 2 tbl_gkGamma ordered ordered <NULL> 
-#> 3 tbl_cancor  factor  numeric <NULL> 
-#> 4 tbl_cancor  other   other   <NULL>
+#> 2 tbl_cancor  factor  factor  <NULL> 
+#> 3 tbl_gkGamma ordered ordered <NULL> 
+#> 4 tbl_cancor  factor  numeric <NULL>
 \end{Soutput}
 \begin{Sinput}
 iris_assoc <- calc_assoc(d = iris,
@@ -570,7 +552,7 @@ updated_assoc <- update_assoc(default_measures,
                               num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
-                              other_pair = "tbl_nmi")
+                              factor_pair = "tbl_nmi")
 updated_assoc
 \end{Sinput}
 \begin{Soutput}
@@ -578,25 +560,32 @@ updated_assoc
 #>   funName     typeX   typeY   argList  
 #>   <chr>       <chr>   <chr>   <list>   
 #> 1 tbl_cor     numeric numeric <chr [1]>
-#> 2 tbl_gkGamma ordered ordered <NULL>   
-#> 3 tbl_cancor  factor  numeric <NULL>   
-#> 4 tbl_nmi     other   other   <NULL>
+#> 2 tbl_nmi     factor  factor  <NULL>   
+#> 3 tbl_gkGamma ordered ordered <NULL>   
+#> 4 tbl_cancor  factor  numeric <NULL>
 \end{Soutput}
 \end{Schunk}
 
 \begin{Schunk}
 \begin{Sinput}
-updated_iris_assoc <- calc_assoc(d = df, 
+updated_iris_assoc <- calc_assoc(d = iris, 
                                  types = updated_assoc)
 updated_iris_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 3 x 4
-#>   x           y        measure measure_type
-#>   <chr>       <chr>      <dbl> <chr>       
-#> 1 Usage       Function   0.647 nmi         
-#> 2 Description Function   1     nmi         
-#> 3 Description Usage      0.647 nmi
+#> # A tibble: 10 x 4
+#>    x            y            measure measure_type
+#>    <chr>        <chr>          <dbl> <chr>       
+#>  1 Sepal.Width  Sepal.Length  -0.167 spearman    
+#>  2 Petal.Length Sepal.Length   0.882 spearman    
+#>  3 Petal.Width  Sepal.Length   0.834 spearman    
+#>  4 Species      Sepal.Length   0.787 cancor      
+#>  5 Petal.Length Sepal.Width   -0.310 spearman    
+#>  6 Petal.Width  Sepal.Width   -0.289 spearman    
+#>  7 Species      Sepal.Width    0.633 cancor      
+#>  8 Petal.Width  Petal.Length   0.938 spearman    
+#>  9 Species      Petal.Length   0.970 cancor      
+#> 10 Species      Petal.Width    0.964 cancor
 \end{Soutput}
 \end{Schunk}
 

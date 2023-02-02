@@ -20,6 +20,14 @@ CDC.
 \newblock Behavioral risk factor surveillance system survey data, 2000.
 \newblock URL \url{https://www.cdc.gov/brfss/}.
 
+\bibitem[Emerson et~al.(2013)Emerson, Green, Schloerke, Crowley, Cook, Hofmann,
+  and Wickham]{emerson2013generalized}
+J.~W. Emerson, W.~A. Green, B.~Schloerke, J.~Crowley, D.~Cook, H.~Hofmann, and
+  H.~Wickham.
+\newblock The generalized pairs plot.
+\newblock \emph{Journal of Computational and Graphical Statistics}, 22\penalty0
+  (1):\penalty0 79--91, 2013.
+
 \bibitem[Friendly(2002)]{friendly2002corrgrams}
 M.~Friendly.
 \newblock Corrgrams: Exploratory displays for correlation matrices.
@@ -109,12 +117,6 @@ H.~Theil.
 \newblock On the estimation of relationships involving qualitative variables.
 \newblock \emph{American Journal of Sociology}, 76\penalty0 (1):\penalty0
   103--154, 1970.
-
-\bibitem[Tufte(1986)]{tufte1986thevisual}
-E.~R. Tufte.
-\newblock \emph{The Visual Display of Quantitative Information}.
-\newblock Graphics Press, USA, 1986.
-\newblock ISBN 096139210X.
 
 \bibitem[Tukey and Tukey(1985)]{tukey1985computer}
 J.~W. Tukey and P.~A. Tukey.

@@ -38,25 +38,25 @@ library(magrittr)
 
 # Section 1: Introduction
 
-Correlation matrix display helps in visually exploring correlations among variables during Exploratory Data Analysis (EDA) of a multivariate dataset. Popularized by @friendly2002corrgrams as corrgram, these displays are produced by first calculating the correlation among the variables and then plotting these calculated values in a matrix display. With effective ordering techniques, these displays quickly highlight variables which are highly correlated and an analyst interested in building a predictive model could use these displays to flag and avoid multicollinearity.
+As a first stage in an analysis, numerical and graphical variable summaries are explored. Bivariate patterns can be explored with correlation matrices and scatterplot matrices. Typically these are applied to numerical variables only, though there are generalisations of scatterplot matrices [@emerson2013generalized], implemented in \CRANpkg{GGally}, where both numerical and categorical variables are used. For correlation matrices, popularized by @friendly2002corrgrams as corrgram, an analyst would remove the non-numeric variables and then calculate and plot correlations in a matrix.   Many datasets include a mix of variable types, and our goal is to investigate and visualise associations among these. The new package \CRANpkg{corVis} fills this gap and extends the correlation matrix for different variable types.
 
-The correlation displays are generally used with Pearson's correlation coefficient and are therefore limited to quantitative variables. An analyst can use one-hot encoding of the qualitative variables in order to use these displays but will need to deal with the high dimensions as a result of the encoding. In addition to the dimensionality problem, it is not easy to assess the overall correlation when using the one-hot encoding.  
+<!-- Correlation matrix display helps in visually exploring correlations among variables during Exploratory Data Analysis (EDA) of a multivariate dataset. Popularized by @friendly2002corrgrams as corrgram, these displays are produced by first calculating the correlation among the variables and then plotting these calculated values in a matrix display. With effective ordering techniques, these displays quickly highlight variables which are highly correlated and an analyst interested in building a predictive model could use these displays to flag and avoid multicollinearity. -->
 
-<!-- The existing methods to quickly explore association among qualitative variables in a dataset include using proportions or counts with different graphical displays like boxplots or barplots. Using association measures for qualitative pairs similar to correlation for quantitative pairs will help in summarizing the relationship, which then can be displayed like the correlation displays.  -->
+In this work, we produce displays of bivariate association, using measures suitable for numerical, ordinal and nominal variables. For numeric variables we go beyond Pearson, Spearman and Kendall correlation, and use methods such as distance correlation [@szekely2007measuring], information theory measure maximal information coefficient (MIC) [@reshef2011detecting], ace from alternating conditional expectations algorithm and more, which are capable of capturing non-linear patterns. We use association measures for pairs of factor and ordered-factor (ordinal) variables and also for mixed pairs where one variable is numeric and the other is a factor. For numeric-ordinal and nominal-ordinal pair of variables, we do not consider the ordering of the ordinal variable and treat them as mixed and factor pair respectively. 
 
-Tukey and Tukey [@tukey1985computer] introduced scagnostics which are diagnostic measures, quantifying density, shape, trend, and other features, of a scatterplot. Along with scagnostics, they proposed a scagnostics scatterplot matrix which is a visual display to explore and compare these measures for all the variable pairs in a dataset. By comparing multiple measures at once, variable pairs with high difference among measures could be identified and looked at in more detail. In a similar manner, a display comparing association measures will help in finding interesting variable pairs. Many association measures have been proposed to summarize different types of relationships. The most commonly used measure is Pearson's correlation coefficient which captures any linear trend present between the variables. Other popular measures include Kendall's or Spearman's rank correlation coefficient which are non-parametric measures and look for monotonic relationship. Distance correlation [@szekely2007measuring] is an important measure useful in exploring non-linear relationships. The information theory measure maximal information coefficient (MIC) [@reshef2011detecting] is capable of summarizing complex relationships. With an effective displaying technique for the multiple measures of association, it will be easier to  .
 
-Small multiples (or Trellis display) is a simple yet powerful approach to compare partitions of data and understand multidimensional datasets [@tufte1986thevisual]. The display is produced by splitting the data into groups by a conditioning variable and then plotting the data for each group. Such displays allow analysts to quickly infer about the impact of the conditioning variable. A similar idea applied to displays of association measures (correlation plot) will help uncover underlying patterns in the data. One such pattern is Simpson's paradox which can be detected by comparing Pearson's correlation for data at overall level versus individual levels of the conditioning variable.
+Our first display uses a matrix-layout, similar to corrgram. A novel feature is that our version can show multiple association measures for each pair of variables, so that patterns other than linear association can be uncovered. For high-dimensional datasets, matrix layouts become unwieldy and run out of space, so our second display uses a linear layout, showing one or more association measures for each pair of variables. This is especially useful when the analyst wishes to limit the display to pairs of variables showing non-negligible association.
 
-In this paper, we propose extensions of the correlation plot and new visualizations which look at variables of mixed type, multiple association measures and conditional associations. These displays are implemented in the R package \CRANpkg{corVis}. The next section provides a review of existing packages which deal with correlation displays and a quick background on association measures and the packages used for calculating them. Then we describe our approach to calculate the association measures, followed by visualizations of associations and conditional associations. We conclude with a summary and future work.
+We also present displays of bivariate association grouped by levels of a categorical variable, again using matrix and linear layouts. These displays are useful for discovering variable pairs showing different relationships at different levels. For our displays, we use seriation methods such that highly-associated variables or variable pairs with high difference among the measures are placed nearby and are easier to identify.
+
+In this paper, we introduce the R package \CRANpkg{corVis} where these displays are implemented. The next section provides a review of existing packages which deal with correlation displays and a quick background on association measures and the packages used for calculating them. Then we describe our approach to calculate the association measures, followed by visualizations of multiple association measures and conditional associations. We conclude with a discussion and future work.
 
 # Section 2: Background
 
-In this section we provide a brief review of  existing packages used for correlation displays and  association measure calculation. 
+In this section we provide a brief review of  existing packages used for correlation displays and  association measure used in the package \CRANpkg{corVis}. 
+
 
 ## Section 2.1: Literature Review on Correlation Displays
-
-
 
 According to @hills1969looking, "the first and sometimes only impression gained by looking at a large correlation matrix is its largeness". To overcome this, @murdoch1996graphical proposed a  display for  large correlation matrices which uses a matrix layout of ellipses where the parameters of the ellipses  are  scaled to the correlation values. @friendly2002corrgrams  expanded on this idea by rendering correlation values as shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. The variables in the matrix displays were optionally ordered using the angular ordering of the first two eigen vectors of the correlation matrix. The ordering places highly-correlated pairs of variables nearby, making it easier to quickly identify groups of variables with high mutual correlation.
 
@@ -119,81 +119,6 @@ An association measure is defined as a numerical summary quantifying the relatio
 <!-- As these measures are limited to linear or monotonic relationships, there's a need to use association measures which are able to capture complex relationships.  -->
 
 Pearson's correlation is the most popular association measure because of its easier calculation and interpretability but its limitations such as influence of outliers on its value and measuring only linear dependencies makes it a less useful measure of association overall. The recent measures such as distance correlation [@szekely2007measuring] and MIC [@reshef2011detecting] overcome these limitations and are more suitable for datasets with both linear and non-linear patterns.
-
-```{r motivation-patterns, fig.width=5, fig.height=4, fig.align='center', fig.cap = "Multiple association measures for simulated linear and non-linear pattern. The first row of the plot shows a linear pattern, the value of Pearson's correlation, distance correlation and MIC. The second row of the plot shows a non-linear pattern along with the values for association measures. All three association measures show a high value for the linear relationship and hence are useful for linear patterns. For the non-linear pattern, distance correlation and MIC are more suitable measures than Pearson's correlation."}
-
-library(ggplot2)
-library(mvtnorm)
-library(gridExtra)
-
-MvNormal <- function(n = 200, cor = 1) {
-  for (i in cor) {
-    sd = matrix(c(1, i, i, 1), ncol = 2)
-    x = MASS::mvrnorm(n, c(0, 0), sd, empirical=T)
-    #print(plot_fun(x))
-    return(x)
-  }
-}
-# positive linear pattern
-xy <- MvNormal(cor=0.9)
-xlp <- xy[,1]; ylp <- xy[,2]
-
-data_linear <- data.frame(x = xlp, y = ylp)
-
-p1_linear <- ggplot(data = data_linear) + geom_point(aes(x=x, y=y),size=0.5) +
-  coord_fixed() + theme_void()
-
-p2_linear <- ggplot(data=data_linear) + 
-  theme_void() + 
-  geom_text(aes(0,0, label= paste0( "r = ", round(cor(data_linear[,"x"], data_linear[,"y"]), 1) ))) +
-  coord_fixed()
-
-p3_linear <- ggplot(data=data_linear) + 
-  theme_void() + 
-  geom_text(aes(0,0, label= paste0( "dcor = ", round(sqrt(energy::dcor2d(data_linear[,"x"], data_linear[,"y"])), 1)))) +
-  coord_fixed()
-
-p4_linear <-  ggplot(data=data_linear) + 
-  theme_void() +
-  geom_text(aes(0,0, label= paste0( "MIC = ", round(minerva::mine(data_linear[,"x"], data_linear[,"y"])[[1]], 1)))) +
-  coord_fixed()
-
-
-# quadratic pattern
-set.seed(123)
-x = runif(200, -1, 1)
-
-yq = 2*x^2 + runif(200, 0, 1)
-
-data_quad <- data.frame(x = x, y = yq)
-
-p1_quad <- ggplot(data = data_quad) + geom_point(aes(x=x, y=y),size=0.5) + coord_fixed() + theme_void()
-
-p2_quad <- ggplot(data=data_quad) + 
-  theme_void() + 
-  geom_text(aes(0,0, label= paste0( "r = ", round(cor(data_quad[,"x"], data_quad[,"y"]), 1) ))) +
-  coord_fixed()
-
-p3_quad <- ggplot(data=data_quad) + 
-  theme_void() + 
-  geom_text(aes(0,0, label= paste0( "dcor = ", round(sqrt(energy::dcor2d(data_quad[,"x"], data_quad[,"y"])), 1)))) +
-  coord_fixed()
-
-p4_quad <-  ggplot(data=data_quad) + 
-  theme_void() +
-  geom_text(aes(0,0, label= paste0( "MIC = ", round(minerva::mine(data_quad[,"x"], data_quad[,"y"])[[1]], 1))))+
-  coord_fixed()
-
-
-
-
-library(gridExtra)
-grid.arrange(p1_linear,p2_linear,p3_linear,p4_linear,
-             p1_quad,p2_quad,p3_quad,p4_quad, nrow=2)
-
-
-
-```
 
 Figure \@ref(fig:motivation-patterns) shows a plot of simulated linear and non-linear patterns. The first row shows a linear relationship along with the value for measures such as Pearson's correlation, distance correlation and maximal information coefficient respectively for the pattern. In a similar manner, the second row shows a quadratic relationship and its values for  Pearson's correlation, distance correlation and maximal information coefficient respectively.   
 It is clearly evident from Figure \@ref(fig:motivation-patterns) that all the three measures summarizes the pattern with linear relationship quite well. For the non-linear pattern, distance correlation and MIC are better in detecting underlying relationship than Pearson's correlation. This suggests that association measures such as distance correlation, MIC and other measures should be used along with Pearson's correlation for exploring relationships among variables in the datasets where there is no prior knowledge about the possible patterns in the data.
@@ -306,24 +231,40 @@ The functions listed in Table \@ref(tab:association-measures) for calculating as
 
 ```{r association-measures,echo=FALSE}
 
-assocMethods <- tribble(
-  ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
-  "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
-  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
-  "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
-  "tbl_ace", "numerical", "numerical", "corVis","Y", "[0,1]",
-  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
-  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
-  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[-1,1]",
-  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
-  #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
-  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
-  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
-  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
-  "tbl_nmi", "nominal", "nominal", "corVis", "Y", "[0,1]",
-  "tbl_easy", "nominal/numerical", "nominal/numerical", "correlation::correlation", "Y", "[-1,1]")
+# assocMethods <- tribble(
+#   ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
+#   "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
+#   "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
+#   "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
+#   "tbl_ace", "numerical", "numerical", "corVis","Y", "[0,1]",
+#   "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
+#   "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
+#   "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[-1,1]",
+#   "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
+#   #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
+#   "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
+#   "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
+#   "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
+#   "tbl_nmi", "nominal", "nominal", "corVis", "Y", "[0,1]",
+#   "tbl_easy", "nominal/numerical", "nominal/numerical", "correlation::correlation", "Y", "[-1,1]")
 
-kableExtra::kbl(assocMethods,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.") %>% kableExtra::kable_styling(latex_options = "scale_down")
+measures <- tribble(
+  ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
+  "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
+  "tbl_dcor", "y", " ", " ", " ", "energy::dcor2d", "[0,1]",
+  "tbl_mine", "y", " ", " ", " ", "minerva::mine", "[0,1]",
+  "tbl_ace", "y", "y", " ", "y", "corVis", "[0,1]",
+  "tbl_cancor", "y", "y", " ","y", "corVis", "[0,1]",
+  "tbl_nmi",  "y", "y", " ", "y", "linkspotter::maxNMI", "[0,1]",
+  "tbl_polycor", " ", " ","y", " ", "polycor::polychor", "[-1,1]",
+  "tbl_tau", " ", " ","y", " ", "DescTools::KendalTauA,B,C,W", "[-1,1]",
+  "tbl_gkGamma", " ", " ", "y", " ", "DescTools::GoodmanKruskalGamma", "[-1,1]",
+  "tbl_gkTau", " ", " ", "y", " ", "DescTools::GoodmanKruskalTau", "[0,1]",
+  "tbl_uncertainty", " ",  "y", " ", " ", "DescTools::UncertCoef", "[0,1]",
+  "tbl_chi", " ",  "y", " ", " ", "DescTools::ContCoef", "[0,1]"
+)
+
+kableExtra::kbl(measures,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.") %>% kableExtra::kable_styling(latex_options = "scale_down")
 #kableExtra::kable_styling(kable_input,latex_options = "striped")
 #knitr::kable(assocMethods)
 ```
@@ -367,14 +308,14 @@ updated_assoc <- update_assoc(default_measures,
                               num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
                               mixed_pair = "tbl_cancor",
-                              other_pair = "tbl_nmi")
+                              factor_pair = "tbl_nmi")
 updated_assoc
 
 ```
 
 ```{r,echo=TRUE}
 
-updated_iris_assoc <- calc_assoc(d = df, 
+updated_iris_assoc <- calc_assoc(d = iris, 
                                  types = updated_assoc)
 updated_iris_assoc
 
@@ -408,17 +349,6 @@ iris_assoc_by <- calc_assoc(d = iris,
                             by = "Species")
 iris_assoc_by
 ```
-
-<!-- The `calc_assoc_by` function also has a `types` argument which can be updated similarly to `calc_assoc`.  -->
-
-<!-- ```{r,echo=TRUE} -->
-<!-- updated_assoc <- update_assoc(num_pair = "tbl_cor", -->
-<!--                               num_pair_argList = "spearman", -->
-<!--                               mixed_pair = "tbl_cancor", -->
-<!--                               other_pair = "tbl_nmi") -->
-<!-- updated_penguin_assoc_by <- calc_assoc_by(df,by = "sex", types = updated_assoc) -->
-<!-- head(updated_penguin_assoc_by) -->
-<!-- ``` -->
 
 By default, the function `calc_assoc` calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (`overall`) when used with the `by` argument. This behavior can be changed by setting `include.overall` argument to `FALSE`.
 

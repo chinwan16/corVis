@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.21)  27 JAN 2023 10:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.21)  2 FEB 2023 13:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -702,23 +702,23 @@ Package microtype Info: Loading generic protrusion settings for font family
 [1{/Users/amitchinwan/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 127.
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 127.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 127.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 127.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 127.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -727,163 +727,168 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 127.
+(Font)              scaled to size 9.37807pt on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 127.
+(Font)              scaled to size 7.29405pt on input line 121.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 127.
+(Font)              scaled to size 5.21004pt on input line 121.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 127.
+(Font)              scaled to size 9.37807pt on input line 121.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 127.
+(Font)              scaled to size 7.29405pt on input line 121.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 127.
+(Font)              scaled to size 5.21004pt on input line 121.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 179.
+(Font)              scaled to size 10.42007pt on input line 173.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 179.
+(Font)              scaled to size 7.91925pt on input line 173.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 179.
+(Font)              scaled to size 6.25204pt on input line 173.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 179.
+(Font)              scaled to size 10.42007pt on input line 173.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 179.
+(Font)              scaled to size 7.91925pt on input line 173.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 179.
+(Font)              scaled to size 6.25204pt on input line 173.
 [2]
-<rj_paper_files/figure-latex/motivation-patterns-1.pdf, id=155, 338.26375pt x 237.88875pt>
-File: rj_paper_files/figure-latex/motivation-patterns-1.pdf Graphic file (type pdf)
-<use rj_paper_files/figure-latex/motivation-patterns-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/motivation-patterns-1.pdf  used on input line 223.
-(pdftex.def)             Requested size: 338.26291pt x 237.88815pt.
-[3 <./rj_paper_files/figure-latex/motivation-patterns-1.pdf>]
-Overfull \hbox (50.37665pt too wide) in paragraph at lines 344--355
+
+LaTeX Warning: Reference `fig:motivation-patterns' on page 3 undefined on input line 214.
+
+
+LaTeX Warning: Reference `fig:motivation-patterns' on page 3 undefined on input line 221.
+
+[3]
+Overfull \hbox (50.37665pt too wide) in paragraph at lines 327--338
  [][] 
  []
 
-[4] [5] [6] [7] [8] [9]
-<rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf, id=254, 150.5625pt x 199.74625pt>
+[4] [5] [6] [7] [8]
+<rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf, id=238, 150.5625pt x 199.74625pt>
 File: rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf  used on input line 843.
+Package pdftex.def Info: rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf  used on input line 832.
 (pdftex.def)             Requested size: 150.56212pt x 199.74576pt.
-[10 <./rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf>]
-<rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf, id=272, 459.7175pt x 313.17pt>
+[9]
+<rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf, id=250, 459.7175pt x 313.17pt>
 File: rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf  used on input line 902.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf  used on input line 891.
 (pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
-<rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf, id=273, 453.695pt x 315.1775pt>
+<rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf, id=251, 453.695pt x 315.1775pt>
 File: rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf  used on input line 902.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf  used on input line 891.
 (pdftex.def)             Requested size: 199.16928pt x 138.36111pt.
-<rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf, id=274, 453.695pt x 315.1775pt>
+<rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf, id=252, 453.695pt x 315.1775pt>
 File: rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf  used on input line 902.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf  used on input line 891.
 (pdftex.def)             Requested size: 199.16928pt x 138.36111pt.
-<rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf, id=275, 453.695pt x 313.17pt>
+<rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf, id=253, 453.695pt x 313.17pt>
 File: rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf  used on input line 902.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf  used on input line 891.
 (pdftex.def)             Requested size: 199.16928pt x 137.47983pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 902--902
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 891--891
 [][] []
  []
 
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 902--902
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 891--891
 [] [] 
  []
 
-<rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf, id=276, 283.0575pt x 310.15875pt>
+<rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf, id=254, 283.0575pt x 310.15875pt>
 File: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf  used on input line 933.
+Package pdftex.def Info: rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf  used on input line 922.
 (pdftex.def)             Requested size: 283.0568pt x 310.15799pt.
-[11 <./rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf>] [12 <./rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf>]
-<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf, id=325, 459.7175pt x 315.1775pt>
+[10 <./rj_paper_files/figure-latex/assoc-matrix-cdcdata-1.pdf>]
+<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf, id=269, 459.7175pt x 315.1775pt>
 File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf  used on input line 973.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf  used on input line 962.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf, id=326, 459.7175pt x 313.17pt>
+<rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf, id=270, 459.7175pt x 313.17pt>
 File: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf  used on input line 973.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf  used on input line 962.
 (pdftex.def)             Requested size: 199.16928pt x 135.6783pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 973--973
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 962--962
 [][] [] 
  []
 
-<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=328, 297.11pt x 310.15875pt>
+[11 <./rj_paper_files/figure-latex/int-pairs-cdcdata-1.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-2.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-3.pdf> <./rj_paper_files/figure-latex/int-pairs-cdcdata-4.pdf>] [12 <./rj_paper_files/figure-latex/compare-linear-heatmap-1.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf>]
+<rj_paper_files/figure-latex/cond-assoc-1.pdf, id=334, 297.11pt x 310.15875pt>
 File: rj_paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 1008.
+Package pdftex.def Info: rj_paper_files/figure-latex/cond-assoc-1.pdf  used on input line 997.
 (pdftex.def)             Requested size: 297.10927pt x 310.15799pt.
-[13 <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1.pdf> <./rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2.pdf>] [14 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>]
-<rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf, id=363, 453.695pt x 313.17pt>
+<rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf, id=336, 453.695pt x 313.17pt>
 File: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf  used on input line 1044.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf  used on input line 1033.
 (pdftex.def)             Requested size: 199.16928pt x 137.47983pt.
-<rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf, id=364, 459.7175pt x 315.1775pt>
+<rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf, id=337, 459.7175pt x 315.1775pt>
 File: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf  used on input line 1044.
+Package pdftex.def Info: rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf  used on input line 1033.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 1044--1044
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 1033--1033
 [][] [] 
  []
 
-<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=367, 351.3125pt x 272.01625pt>
+[13 <./rj_paper_files/figure-latex/cond-assoc-1.pdf>]
+<rj_paper_files/figure-latex/linear-cond-assoc-1.pdf, id=354, 351.3125pt x 272.01625pt>
 File: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
 <use rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>
-Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 1096.
+Package pdftex.def Info: rj_paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 1085.
 (pdftex.def)             Requested size: 351.31163pt x 272.01558pt.
-[15 <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf> <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>] (./RJwrapper.bbl (./RJwrapper.brf)
+(./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[16 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>])
+[14 <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-1.pdf> <./rj_paper_files/figure-latex/int-pairs-conditional-cdc-2.pdf>] [15 <./rj_paper_files/figure-latex/linear-cond-assoc-1.pdf>])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1133.
+(Font)              using `T1/zi4/m/n' instead on input line 1122.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1143.
-) [17] (./RJwrapper.aux)
+(Font)              scaled to size 9.18004pt on input line 1132.
+) [16] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 0B6C7B7B87E70D72F00A9320A11BA4EE;4256.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: AEDEF53A26A39AC2B41A65022163A63F;1906.
+(rerunfilecheck)             Checksum: 2E3487091C9F1A13BD71E1B5D8684887;1857.
  ) 
 Here is how much of TeX's memory you used:
- 26844 strings out of 478028
- 501711 string characters out of 5838503
- 1868793 words of memory out of 5000000
- 46102 multiletter control sequences out of 15000+600000
- 558456 words of font info for 288 fonts, out of 8000000 for 9000
+ 26827 strings out of 478028
+ 501159 string characters out of 5838503
+ 1867793 words of memory out of 5000000
+ 46094 multiletter control sequences out of 15000+600000
+ 558286 words of font info for 284 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 115i,11n,131p,1153b,841s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 115i,11n,131p,1153b,834s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (17 pages, 882968 bytes).
+Output written on RJwrapper.pdf (16 pages, 870853 bytes).
 PDF statistics:
- 511 PDF objects out of 1000 (max. 8388607)
- 432 compressed objects within 5 object streams
- 87 named destinations out of 1000 (max. 500000)
- 59086 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 495 PDF objects out of 1000 (max. 8388607)
+ 420 compressed objects within 5 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 59081 words of extra memory for PDF output out of 61914 (max. 10000000)
 
