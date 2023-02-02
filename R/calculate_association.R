@@ -9,13 +9,11 @@
 #'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
 #'              Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
 #'              other is a factor, and canonical correlation for any other variable pair.
-#'
-#' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association.
 #' @param include.overall Useful during calculation of conditional association measures. If TRUE calculates the overall measure of association for every pair of variable and
 #'                        includes it in the result.
-#'
+#' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association.
+#' @param coerce_types a list specifying the variables that to need to be coerced to different variable types
 #' @return tibble
-#' @importFrom magrittr %>%
 #' @export
 #'
 #'
@@ -27,7 +25,18 @@ calc_assoc  <- function(d,
                         by=NULL,
                         types=default_assoc(),
                         include.overall=TRUE,
-                        handle.na=TRUE){
+                        handle.na=TRUE,
+                        coerce_types=NULL){
+
+  if (!is.null(coerce_types)){
+    nums <- coerce_types$numeric
+    # d[,nums] <- as.data.frame(lapply(d[,nums], as.numeric))
+    d[,nums] <- sapply(d[,nums], as.numeric)
+    ords <- coerce_types$ordinal
+    d[,ords] <- as.data.frame(lapply(d[,ords], as.ordered))
+    facs <- coerce_types$factor
+    d[,facs] <- as.data.frame(lapply(d[,facs], factor))
+  }
 
   if(is.null(by)) {
     types1 <- types
@@ -39,11 +48,15 @@ calc_assoc  <- function(d,
       if (is.numeric(d[[u]])) "numeric"
       else if (is.ordered(d[[u]])) "ordered"
       else if (is.factor(d[[u]])) "factor"
-      else "other")
+      else stop("variables must be either numeric, ordered or nominal factor"))
 
     lookup <- function(xtype,ytype){
       entry <-dplyr::filter(types, .data$typeX==xtype, .data$typeY==ytype)
-      if (nrow(entry)==0) entry <-dplyr::filter(types, .data$typeX=="other", .data$typeY=="other")
+      if (nrow(entry)==0){
+        if(xtype == "numeric" | ytype == "numeric")
+          entry <-dplyr::filter(types, .data$typeX=="factor", .data$typeY=="numeric")
+        else entry <-dplyr::filter(types, .data$typeX=="factor", .data$typeY=="factor")
+      }
       list(funName = get(entry$funName[1]), argList = entry$argList[[1]])
     }
     utypes <- unique(vartypes)
@@ -86,16 +99,16 @@ calc_assoc  <- function(d,
   } else {
 
     if (!(by %in% names(d))) stop("by variable not present in data")
-    result <- d %>%
-      dplyr::rename(by=by) %>%
-      dplyr::group_by(by) %>%
-      dplyr::group_modify(function(x,y) calc_assoc(x, types=types,handle.na=handle.na)) %>%
-      dplyr::ungroup() %>%
+    result <- d |>
+      dplyr::rename(by=by) |>
+      dplyr::group_by(by) |>
+      dplyr::group_modify(function(x,y) calc_assoc(x, types=types,handle.na=handle.na)) |>
+      dplyr::ungroup() |>
       dplyr::relocate(by, .after=.data$measure_type)
     if (include.overall){
-      overall <- d %>%
-        dplyr::select(-dplyr::all_of(by)) %>%
-        calc_assoc(types=types,handle.na=handle.na) %>%
+      overall <- d |>
+        dplyr::select(-dplyr::all_of(by)) |>
+        calc_assoc(types=types,handle.na=handle.na) |>
         dplyr::mutate(by = "overall")
       result <- rbind(result, overall)
     }
@@ -134,9 +147,9 @@ default_assoc <- function(){
   dplyr::tribble(
     ~funName, ~typeX, ~typeY, ~argList,
     "tbl_cor", "numeric", "numeric", NULL,
+    "tbl_cancor", "factor", "factor", NULL,
     "tbl_gkGamma", "ordered", "ordered", NULL,
-    "tbl_cancor",  "factor", "numeric", NULL,
-    "tbl_cancor", "other", "other",NULL)
+    "tbl_cancor",  "factor", "numeric", NULL)
 }
 
 #' A user friendly function for changing association measures
@@ -145,29 +158,30 @@ default_assoc <- function(){
 #' @param default default measure functions for different variable pairs. set to default_assoc()
 #' @param num_pair a measure(s) function for numeric pair of variables, default is NULL
 #' @param num_pair_argList a character string specifying the measure to be calculated using num_pair, default is NULL
+#' @param factor_pair a measure(s) function for factor pair of variables, default is NULL
+#' @param factor_pair_argList a character string specifying the measure to be calculated using factor_pair, default is NULL
 #' @param ordered_pair a measure(s) function for ordered pair of variables, default is NULL
 #' @param ordered_pair_argList a character string specifying the measure to be calculated using ordered_pair, default is NULL
 #' @param mixed_pair a measure(s) function for mixed pair of variables, default is NULL
 #' @param mixed_pair_argList a character string specifying the measure to be calculated using mixed_pair, default is NULL
-#' @param other_pair a measure(s) function for other pair of variables, default is NULL
-#' @param other_pair_argList a character string specifying the measure to be calculated using other_pair, default is NULL
 #' @param ... other arguments
 #' @return tibble
 #' @export
 #' @examples
 #' updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_argList="spearman",
-#' ordered_pair="tbl_tau",mixed_pair="tbl_nmi",other_pair="tbl_cancor")
+#' ordered_pair="tbl_tau",mixed_pair="tbl_nmi",factor_pair="tbl_cancor")
 #' calc_assoc(iris,types=updated_assoc)
 
 update_assoc <- function(default=default_assoc(),
-                              num_pair=NULL, num_pair_argList=NULL,
-                              ordered_pair=NULL, ordered_pair_argList=NULL,
-                              mixed_pair=NULL, mixed_pair_argList=NULL,
-                              other_pair=NULL, other_pair_argList=NULL,
-                              ...){
-  funName_list <- list(num_pair,ordered_pair,mixed_pair,other_pair)
-  argList_list <- list(num_pair_argList,ordered_pair_argList,mixed_pair_argList,
-                       other_pair_argList)
+                         num_pair=NULL, num_pair_argList=NULL,
+                         factor_pair=NULL, factor_pair_argList=NULL,
+                         ordered_pair=NULL, ordered_pair_argList=NULL,
+                         mixed_pair=NULL, mixed_pair_argList=NULL,
+                        ...){
+
+  funName_list <- list(num_pair,factor_pair,ordered_pair,mixed_pair)
+  argList_list <- list(num_pair_argList,factor_pair_argList,ordered_pair_argList,
+                       mixed_pair_argList)
   check_funName <- all(sapply(funName_list,is.null))
   check_argList <- all(sapply(argList_list,is.null))
 
@@ -176,7 +190,7 @@ update_assoc <- function(default=default_assoc(),
   } else {
     updated <- default
     fun_ind_notnull <- which(!sapply(funName_list,is.null))
-    updated_fun <- c(num_pair,ordered_pair,mixed_pair,other_pair)
+    updated_fun <- c(num_pair,factor_pair,ordered_pair,mixed_pair)
     if(!is.null(updated_fun)){
       for (i in 1:length(fun_ind_notnull)){
         fun_ind <- fun_ind_notnull[i]
@@ -185,8 +199,8 @@ update_assoc <- function(default=default_assoc(),
     }
 
     argList_ind_notnull <- which(!sapply(argList_list,is.null))
-    updated_argList <- c(num_pair_argList,ordered_pair_argList,mixed_pair_argList,
-                         other_pair_argList)
+    updated_argList <- c(num_pair_argList,factor_pair_argList,ordered_pair_argList,
+                         mixed_pair_argList)
     if(!is.null(updated_argList)){
       for (i in 1:length(argList_ind_notnull)){
         argList_ind <- argList_ind_notnull[i]

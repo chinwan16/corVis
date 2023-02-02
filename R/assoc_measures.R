@@ -222,7 +222,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #' @param handle.na If TRUE uses pairwise complete observations to calculate normalized mutual information
 #' @param ... other arguments
 #'
-#' @details The normalized mutual information is calculated using \code{\link[DescTools]{MutInf}} and  \code{\link[DescTools]{Entropy}} from DescTools
+#' @details The normalized mutual information is calculated using \code{\link[linkspotter]{maxNMI}} from linkpotter package
 #' @return A tibble
 #' @export
 #'
@@ -241,44 +241,13 @@ tbl_nmi <- function(d,handle.na=T,...){
       x <- x[pick]
       y <- y[pick]
     }
-    if(is.numeric(x) & is.numeric(y)){
-      DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(x) * DescTools::Entropy(y) ))
-    }else
-      DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y)) ))
-
+    mi <- linkspotter::maxNMI(x,y)
   }
   nmi$measure <-  mapply(fn, nmi$x,nmi$y)
   nmi
 
 }
 
-# tbl_nmi <- function(d,handle.na=T,...){
-#
-#   nmi <- assoc_tibble(d, measure_type="nmi")
-#   fn <- function(x,y){
-#     x <- d[[x]]
-#     y <- d[[y]]
-#     if(handle.na){
-#       pick <- stats::complete.cases(x, y)
-#       x <- x[pick]
-#       y <- y[pick]
-#     }
-#     if(is.numeric(x) & is.numeric(y)){
-#       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(x) * DescTools::Entropy(y) ))
-#     }else if (is.factor(x) & is.factor(y)){
-#       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y)) ))
-#     }else{
-#
-#       data <- dplyr::tibble(x=x,y=y)
-#       x <- dplyr::pull(dplyr::select(data,where(is.numeric)))
-#       y <- dplyr::pull(dplyr::select(data,where(is.factor)))
-#       DescTools::MutInf(x,y)/(sqrt( DescTools::Entropy(table(x)) * DescTools::Entropy(table(y) )))
-#     }
-#   }
-#   nmi$measure <-  mapply(fn, nmi$x,nmi$y)
-#   nmi
-#
-#}
 
 #' Polychoric correlation
 #'
@@ -390,7 +359,7 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 
 #' Goodman Kruskal's Tau
 #'
-#' Calculates Goodman Kruskal's Tau coefficient for every nominal variable pair in a dataset.
+#' Calculates Goodman Kruskal's Tau coefficient for every ordinal variable pair in a dataset.
 #'
 #' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations.
@@ -407,7 +376,8 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 tbl_gkTau <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="gkTau")
-  a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalTau(d[[x]],d[[y]],...), a$x,a$y)
+  fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
+  a$measure <- mapply(fnlocal, a$x,a$y)
   a
 }
 
@@ -506,14 +476,14 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 
 #' Alternating conditional expectations correlation
 #'
-#' Calculates the maximal correlation coefficient for every numeric variable pair in a dataset.
+#' Calculates the maximal correlation coefficient from alternating conditional expectations algorithm for every variable pair in a dataset.
 #'
 #' @param d A dataframe
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
 #' @return A tibble with a correlation coefficient from alternating conditional expectations
-#' algorithm for every numeric variable pair
+#' algorithm for every variable pair
 #'
 #' @details The maximal correlation is calculated using alternating conditional expectations
 #' algorithm which find the transformations of variables such that the proportion of variance
@@ -529,7 +499,6 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 
 tbl_ace <- function(d, handle.na = T, ...) {
 
-  d <- dplyr::select(d, where(is.numeric))
   ace_assoc <- assoc_tibble(d, measure_type = "ace")
   ace_fn <- function(x,y) {
 
@@ -540,8 +509,16 @@ tbl_ace <- function(d, handle.na = T, ...) {
       x <- x[pick]
       y <- y[pick]
     }
-
-    ace_assoc <- sqrt(acepack::ace(x=x, y=y)[["rsq"]])
+    cat <- NULL
+    if (is.factor(x)) {
+      x <- as.numeric(x)
+      cat <- 1
+    }
+    if (is.factor(y)) {
+      y <- as.numeric(y)
+      cat <- c(cat,0)
+    }
+    ace_assoc <- sqrt(acepack::ace(x,y, cat=cat)[["rsq"]])
     ace_assoc
   }
 
@@ -557,17 +534,18 @@ tbl_ace <- function(d, handle.na = T, ...) {
 #' @export
 
 
-assocMethods <- dplyr::tribble(
-  ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
-  "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
-  "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
-  "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
-  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
-  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
-  "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[0,1]",
-  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
-  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
-  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
-  "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
-  "tbl_nmi", "nominal", "nominal", "corVis", "Y", "[0,1]",
-  "tbl_easy", "nominal/numerical", "nominal/numerical", "correlation::correlation", "Y", "[-1,1]")
+measures <- tribble(
+  ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
+  "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
+  "tbl_dcor", "y", " ", " ", " ", "energy::dcor2d", "[0,1]",
+  "tbl_mine", "y", " ", " ", " ", "minerva::mine", "[0,1]",
+  "tbl_ace", "y", "y", " ", "y", "corVis", "[0,1]",
+  "tbl_cancor", "y", "y", " ","y", "corVis", "[0,1]",
+  "tbl_nmi",  "y", "y", " ", "y", "linkspotter::maxNMI", "[0,1]",
+  "tbl_polycor", " ", " ","y", " ", "polycor::polychor", "[-1,1]",
+  "tbl_tau", " ", " ","y", " ", "DescTools::KendalTauA,B,C,W", "[-1,1]",
+  "tbl_gkGamma", " ", " ", "y", " ", "DescTools::GoodmanKruskalGamma", "[-1,1]",
+  "tbl_gkTau", " ", " ", "y", " ", "DescTools::GoodmanKruskalTau", "[0,1]",
+  "tbl_uncertainty", " ",  "y", " ", " ", "DescTools::UncertCoef", "[0,1]",
+  "tbl_chi", " ",  "y", " ", " ", "DescTools::ContCoef", "[0,1]"
+)
