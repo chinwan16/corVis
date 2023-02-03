@@ -46,6 +46,14 @@ You could use corplot on the assocs. (use of matrix_assoc)
 You could use linkspotter on our measures also I assume (check this). We do not need to re-invent the wheel here.
 Do we need a conversion of our assoc structure to that used by linkspotter?
 
+Discuss rationale behind design choices.
+Looked pie/wedges, (someone else use this), harder to compare radii, sign had to be encoded by color, or zero at mid point, but did not give proper attention to negative values.
+
+network plots done in linkspotter or corrr. 
+Does facetting work in either of these?  We would need the same node positions across the facets.
+(You could use vivid for this.)
+This could be done with multiple measures or subgroups.
+Try doing a vignette using linkspotter.
 
 ## Discussion
 
