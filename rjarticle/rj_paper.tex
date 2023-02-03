@@ -93,11 +93,7 @@ display for large correlation matrices which uses a matrix layout of
 ellipses where the parameters of the ellipses are scaled to the
 correlation values. \citet{friendly2002corrgrams} expanded on this idea
 by rendering correlation values as shaded squares, bars, ellipses, or
-circular `pac-man' symbols. The variables in the matrix displays were
-optionally ordered using the angular ordering of the first two eigen
-vectors of the correlation matrix. The ordering places highly-correlated
-pairs of variables nearby, making it easier to quickly identify groups
-of variables with high mutual correlation.
+circular `pac-man' symbols.
 
 Nowadays, there are many R packages devoted to correlation
 visualisation. Table \ref{tab:corrdisplay-packages} provides a summary,
@@ -105,13 +101,12 @@ listing the displays offered, and whether these extend to factor
 variables or mixed numeric-factor pairs.
 
 The R package \CRANpkg{corrplot} \citep{corrplot2021} provides an
-implementation of the methods in \citet{friendly2002corrgrams}. The
-package \CRANpkg{corrr} \citep{corrr2020} organises correlations as tidy
-data, so leveraging the data manipulation and visualisation tools of the
-\CRANpkg{tidyverse} \citep{tidyverse}. In addition to various matrix
-displays, the package offers network displays where line-thickness
-encodes correlation magnitude, with a filtering option to discard
-low-correlation edges.
+implementation of the methods in \citet{friendly2002corrgrams} and
+produces displays in matrix layout. The package \CRANpkg{corrr}
+\citep{corrr2020} organises correlations as tidy data first, so
+leveraging the data manipulation and visualisation tools of the
+\CRANpkg{tidyverse} \citep{tidyverse}, which then can be displayed in a
+matrix format.
 
 The package \CRANpkg{corrgrapher} \citep{corrgrapher} uses a network
 plot for exploring correlations, where the nodes close to each other
@@ -121,14 +116,25 @@ package also handles mixed type variables by using association measures
 obtained as transformations of \(p\)-values obtained from Pearson's
 correlation test in the case of two numeric variables, Kruskal's test
 for numerical and factor variables, and a chi-squared test for two
-categorical variables.
-
-The package \CRANpkg{linkspotter} \citep{linkspotter} offers a variety
-of association measures (distance correlation, MIC, maximum normalized
+categorical variables. The package \CRANpkg{corrr} \citep{corrr2020}
+also offers network displays where line-thickness encodes correlation
+magnitude, with a filtering option to discard low-correlation edges.
+Another package for plotting correlations in a network layout is
+\CRANpkg{linkspotter} \citep{linkspotter} which offers a variety of
+association measures (distance correlation, MIC, maximum normalized
 mutual information) in addition to correlation, where the measure used
 depends on whether the variables are both numerical, categorical or
 mixed. The results are visualized in a network plot, which may be
 packaged into an interactive shiny application.
+
+\citet{friendly2002corrgrams} also focused on ordering of the variables
+for correlation displays where the variables were ordered using the
+angular ordering of the first two eigen vectors of the correlation
+matrix. The ordering places highly-correlated pairs of variables nearby,
+making it easier to quickly identify groups of variables with high
+mutual correlation. The package \CRANpkg{corrplot} \citep{corrplot2021}
+provides various ordering techniques for matrix displays along with the
+method implemented in \citet{friendly2002corrgrams}.
 
 Our own package \CRANpkg{corVis} offers a variety of displays, and has
 new features not available elsewhere, in particular simultaneous display
@@ -202,30 +208,13 @@ coefficient are other popular measures which assess monotonic
 relationship in interval \([-1,1]\) among two numeric variables and are
 symmetric measures.
 
-Pearson's correlation is the most popular association measure because of
-its easier calculation and interpretability but its limitations such as
-influence of outliers on its value and measuring only linear
-dependencies makes it a less useful measure of association overall. The
-recent measures such as distance correlation
-\citep{szekely2007measuring} and MIC \citep{reshef2011detecting}
-overcome these limitations and are more suitable for datasets with both
-linear and non-linear patterns.
-
-Figure \ref{fig:motivation-patterns} shows a plot of simulated linear
-and non-linear patterns. The first row shows a linear relationship along
-with the value for measures such as Pearson's correlation, distance
-correlation and maximal information coefficient respectively for the
-pattern. In a similar manner, the second row shows a quadratic
-relationship and its values for Pearson's correlation, distance
-correlation and maximal information coefficient respectively.\\
-It is clearly evident from Figure \ref{fig:motivation-patterns} that all
-the three measures summarizes the pattern with linear relationship quite
-well. For the non-linear pattern, distance correlation and MIC are
-better in detecting underlying relationship than Pearson's correlation.
-This suggests that association measures such as distance correlation,
-MIC and other measures should be used along with Pearson's correlation
-for exploring relationships among variables in the datasets where there
-is no prior knowledge about the possible patterns in the data.
+Pearson's correlation is a popular association measure because of its
+easier interpretability but its limitations such as influence of
+outliers on its magnitude and measuring only linear dependencies makes
+it a less useful measure. The recently developed measures such as
+distance correlation \citep{szekely2007measuring} and MIC
+\citep{reshef2011detecting} overcome these limitations and are more
+suitable for datasets with both linear and non-linear patterns.
 
 The distance correlation coefficient \citep{szekely2007measuring} is an
 association measure which looks for any relationship among two numeric
@@ -243,7 +232,7 @@ two variables. A normalisation technique is used to make the mutual
 information from different grids comparable. Referred as `a correlation
 of 21st century' \citep{speed2011correlation}, MIC is capable of
 summarizing different types of relationships, not just linear or
-monotonous, between numeric variables and is in range \([0,1]\).
+monotonic, between numeric variables and is in range \([0,1]\).
 \citet{reshef2011detecting} used MIC and other related statistics to
 explore pairwise relationships in large data sets such as major-league
 baseball, gene expression, global health, and the human gut microbiota.
@@ -265,24 +254,24 @@ association measures for other variable types.
 \citet{agresti2010analysis} provides an overview of the association
 measures which are used for exploring association between ordinal
 variables. Kendall's tau-b \citep{kendall1945treatment} is an
-association measure useful in summarizing the relationship in range
-\([-1,1]\) between two ordinal variables. It is a relatively stable
-measure than Goodman and Kruskal's gamma with respect to the changes in
-categories of any variable i.e.~if two categories are merged to make a
-single category. The polychoric correlation \citep{olsson1979maximum}
-measures the correlation between two ordinal variables by assuming two
-normally distributed latent variables for a contingency table of two
-ordinal variables and summarizes the association in \([-1,1]\).
+association measure which summarizes the relationship in range
+\([-1,1]\) between two ordinal variables. The polychoric correlation
+\citep{olsson1979maximum} measures the correlation between two ordinal
+variables by assuming two normally distributed latent variables and
+summarizes the association in \([-1,1]\).
 
 The association measures for the case of nominal pair of variables
 should be invariant to the order in which the categories appear.
 Pearson's contingency coefficient uses the \({\chi}^2\) value from the
-Pearson's \({\chi}^2\) test for independence and is a useful measure to
-summarize the association in \([0,1]\) between two nominal variables.
-Another measure for nominal variable pair is the Uncertainty coefficient
+Pearson's \({\chi}^2\) test for independence and scale it to summarize
+the association in \([0,1]\) between two nominal variables. Another
+measure for nominal variable pair is the Uncertainty coefficient
 \citep{theil1970estimation} measuring the proportion of uncertainty in
-one variable which is explained by the other variable. The uncertainty
-coefficient measure is in the range \([0,1]\) and is not symmetric.
+one variable which is explained by the other. The uncertainty
+coefficient measure is in the range \([0,1]\) and is not symmetric. A
+symmetric version is used by taking the mean of the uncertainty
+coefficients obtained by treating each variable as independent variable
+once.
 
 \hypertarget{section-3-introducing-corvis}{%
 \section{Section 3: Introducing
