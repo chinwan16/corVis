@@ -101,7 +101,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   if(is.null(group_var)){
 
     p <- p +
-      ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text),hjust=0,size=2) +
+      ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text),hjust=0,size=2) +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank(),
                      axis.ticks.y = ggplot2::element_blank())
@@ -121,22 +121,25 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
     }
   } else if (isTRUE(group_var %in% names(assoc))) {
+
+    if (!is.null(overall))
+      p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),color="pink")
     p <- p +
       ggplot2::geom_text(ggplot2::aes(x=-Inf,y=0,label=.data$text),hjust=0,size=2) +
       ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
-      ggplot2::scale_y_continuous(limits=limits)
+      ggplot2::scale_y_continuous(limits=limits) +
+      ggplot2::theme(panel.spacing = unit(0.05, "lines"))
 
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
       p <- p+
-      {if(fillvar == "by") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], y=0, yend=.data$measure))} +
-      {if(fillvar == "by") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$measure,group=.data[[group_var]],color=.data[[fillvar]]))} +
-      {if(fillvar == "measure_type") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], y=0, yend=.data$abs_measure))} +
-      {if(fillvar == "measure_type") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$abs_measure,group=.data[[group_var]],color=.data[[fillvar]]))} +
+      {if(fillvar == "by") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], color=.data[[fillvar]], y=0, yend=.data$measure))} +
+      {if(fillvar == "by") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$measure,group=.data[[group_var]],color=.data[[fillvar]]), size=1)} +
+      {if(fillvar == "measure_type") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], color=.data[[fillvar]], y=0, yend=.data$abs_measure))} +
+      {if(fillvar == "measure_type") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$abs_measure,group=.data[[group_var]],color=.data[[fillvar]]), size=1)} +
       {if(group_var!="measure_type") ggplot2::labs(color = by_var)} # ch comments updated
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
-    if (!is.null(overall))
-      p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dotted")
+
 
     # else {
     #     p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]])) #ch comments updated
