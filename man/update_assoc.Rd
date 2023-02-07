@@ -8,12 +8,12 @@ update_assoc(
   default = default_assoc(),
   num_pair = NULL,
   num_pair_argList = NULL,
+  factor_pair = NULL,
+  factor_pair_argList = NULL,
   ordered_pair = NULL,
   ordered_pair_argList = NULL,
   mixed_pair = NULL,
   mixed_pair_argList = NULL,
-  other_pair = NULL,
-  other_pair_argList = NULL,
   ...
 )
 }
@@ -24,6 +24,10 @@ update_assoc(
 
 \item{num_pair_argList}{a character string specifying the measure to be calculated using num_pair, default is NULL}
 
+\item{factor_pair}{a measure(s) function for factor pair of variables, default is NULL}
+
+\item{factor_pair_argList}{a character string specifying the measure to be calculated using factor_pair, default is NULL}
+
 \item{ordered_pair}{a measure(s) function for ordered pair of variables, default is NULL}
 
 \item{ordered_pair_argList}{a character string specifying the measure to be calculated using ordered_pair, default is NULL}
@@ -31,10 +35,6 @@ update_assoc(
 \item{mixed_pair}{a measure(s) function for mixed pair of variables, default is NULL}
 
 \item{mixed_pair_argList}{a character string specifying the measure to be calculated using mixed_pair, default is NULL}
-
-\item{other_pair}{a measure(s) function for other pair of variables, default is NULL}
-
-\item{other_pair_argList}{a character string specifying the measure to be calculated using other_pair, default is NULL}
 
 \item{...}{other arguments}
 }
@@ -46,6 +46,6 @@ Creates a tibble for different measures of association for different variable ty
 }
 \examples{
 updated_assoc <- update_assoc(num_pair="tbl_cor", num_pair_argList="spearman",
-ordered_pair="tbl_tau",mixed_pair="tbl_nmi",other_pair="tbl_cancor")
+ordered_pair="tbl_tau",mixed_pair="tbl_nmi",factor_pair="tbl_cancor")
 calc_assoc(iris,types=updated_assoc)
 }

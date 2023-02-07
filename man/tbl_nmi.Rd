@@ -20,7 +20,7 @@ A tibble
 Calculates normalized mutual information for every variable pair in a dataset.
 }
 \details{
-The normalized mutual information is calculated using \code{\link[DescTools]{MutInf}} and  \code{\link[DescTools]{Entropy}} from DescTools
+The normalized mutual information is calculated using \code{\link[linkspotter]{maxNMI}} from linkpotter package
 }
 \examples{
 tbl_nmi(iris)

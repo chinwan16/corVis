@@ -9,7 +9,8 @@ calc_assoc(
   by = NULL,
   types = default_assoc(),
   include.overall = TRUE,
-  handle.na = TRUE
+  handle.na = TRUE,
+  coerce_types = NULL
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ other is a factor, and canonical correlation for any other variable pair.}
 includes it in the result.}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate measure of association.}
+
+\item{coerce_types}{a list specifying the variables that to need to be coerced to different variable types}
 }
 \value{
 tibble

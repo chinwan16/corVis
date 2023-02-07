@@ -534,7 +534,7 @@ tbl_ace <- function(d, handle.na = T, ...) {
 #' @export
 
 
-measures <- tribble(
+measures <- dplyr::tribble(
   ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
   "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
   "tbl_dcor", "y", " ", " ", " ", "energy::dcor2d", "[0,1]",

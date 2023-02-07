@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{24}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -15,10 +15,11 @@ A.~Buja, A.~M. Krieger, and E.~I. George.
 \newblock A visualization tool for mining large correlation tables: The
   association navigator., 2016.
 
-\bibitem[CDC(2000)]{cdc}
-CDC.
-\newblock Behavioral risk factor surveillance system survey data, 2000.
-\newblock URL \url{https://www.cdc.gov/brfss/}.
+\bibitem[Dancho and Vaughan(2022)]{timetk}
+M.~Dancho and D.~Vaughan.
+\newblock \emph{timetk: A Tool Kit for Working with Time Series in R}, 2022.
+\newblock URL \url{https://CRAN.R-project.org/package=timetk}.
+\newblock R package version 2.8.2.
 
 \bibitem[Emerson et~al.(2013)Emerson, Green, Schloerke, Crowley, Cook, Hofmann,
   and Wickham]{emerson2013generalized}
@@ -27,6 +28,12 @@ J.~W. Emerson, W.~A. Green, B.~Schloerke, J.~Crowley, D.~Cook, H.~Hofmann, and
 \newblock The generalized pairs plot.
 \newblock \emph{Journal of Computational and Graphical Statistics}, 22\penalty0
   (1):\penalty0 79--91, 2013.
+
+\bibitem[Fanaee-T and Gama(2014)]{bikeref}
+H.~Fanaee-T and J.~Gama.
+\newblock Event labeling combining ensemble detectors and background knowledge.
+\newblock \emph{Progress in Artificial Intelligence}, 2:\penalty0 113--127,
+  2014.
 
 \bibitem[Friendly(2002)]{friendly2002corrgrams}
 M.~Friendly.

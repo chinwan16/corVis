@@ -2,8 +2,8 @@
 \backcite {friendly2002corrgrams}{{1}{2.1}{section.2.1}}
 \backcite {szekely2007measuring}{{1}{2.1}{section.2.1}}
 \backcite {reshef2011detecting}{{1}{2.1}{section.2.1}}
-\backcite {hills1969looking}{{2}{2.2.1}{subsection.2.2.1}}
-\backcite {murdoch1996graphical}{{2}{2.2.1}{subsection.2.2.1}}
+\backcite {hills1969looking}{{1}{2.2.1}{subsection.2.2.1}}
+\backcite {murdoch1996graphical}{{1}{2.2.1}{subsection.2.2.1}}
 \backcite {friendly2002corrgrams}{{2}{2.2.1}{subsection.2.2.1}}
 \backcite {corrplot2021}{{2}{2.2.1}{subsection.2.2.1}}
 \backcite {friendly2002corrgrams}{{2}{2.2.1}{subsection.2.2.1}}
@@ -29,8 +29,9 @@
 \backcite {kendall1945treatment}{{3}{2.2.2}{subsection.2.2.2}}
 \backcite {olsson1979maximum}{{3}{2.2.2}{subsection.2.2.2}}
 \backcite {theil1970estimation}{{3}{2.2.2}{subsection.2.2.2}}
-\backcite {tidyverse}{{5}{2.4.2}{subsection.2.4.2}}
-\backcite {cdc}{{8}{2.5}{table.caption.5}}
-\backcite {tukey1985computer}{{15}{2.6}{section.2.6}}
-\backcite {wilkinson2005graph}{{15}{2.6}{section.2.6}}
-\backcite {kuhn2013applied}{{15}{2.6}{section.2.6}}
+\backcite {bikeref}{{4}{2.4}{section.2.4}}
+\backcite {timetk}{{4}{2.4}{section.2.4}}
+\backcite {tidyverse}{{5}{2.5.1}{subsection.2.5.1}}
+\backcite {tukey1985computer}{{16}{2.7}{section.2.7}}
+\backcite {wilkinson2005graph}{{16}{2.7}{section.2.7}}
+\backcite {kuhn2013applied}{{16}{2.7}{section.2.7}}

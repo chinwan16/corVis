@@ -15,10 +15,10 @@ tbl_ace(d, handle.na = T, ...)
 }
 \value{
 A tibble with a correlation coefficient from alternating conditional expectations
-algorithm for every numeric variable pair
+algorithm for every variable pair
 }
 \description{
-Calculates the maximal correlation coefficient for every numeric variable pair in a dataset.
+Calculates the maximal correlation coefficient from alternating conditional expectations algorithm for every variable pair in a dataset.
 }
 \details{
 The maximal correlation is calculated using alternating conditional expectations

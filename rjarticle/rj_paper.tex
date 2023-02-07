@@ -6,17 +6,16 @@ Associations}
 \maketitle
 
 \abstract{%
-Correlation matrix displays are important tools to explore multivariate
-datasets. These displays with other measures of association can
-summarize interesting patterns to an analyst and assist them in framing
-questions while performing exploratory data analysis. In this paper, we
-present new visualisation techniques to visualise association between
-all the variable pairs in a dataset in a single plot, which is something
-existing displays lack. Also, we propse new methods to visualise
-relationship among variable pairs using conditioning. We use different
-layouts like matrix or linear for our displays. We use seriation in our
-displays which helps in highlighting interesting patterns easily. The R
-package \texttt{corVis} provides an implementation.
+We present \CRANpkg{corVis}, an R package for visualizing association
+and conditional association while exploring patterns in a dataset. The
+package provides matrix and linear layout for displaying bivariate
+association and bivariate association grouped by levels of a categorical
+variable, using measures suitable for numerical, ordinal and nominal
+variables. With these displays, an analyst can gain a quick overview
+about the interesting structure and underlying relationships in the
+data. We provide a detailed look at the package functions and discuss
+the implemented design choices. We also provide an illustration of the
+package on an example dataset.
 }
 
 \hypertarget{section-1-introduction}{%
@@ -289,7 +288,7 @@ pairs which shows a type of relationship or pattern in a dataset with
 large number of variables.
 
 While designing these displays we consider matrix and linear layouts. A
-matrix layout reduces the effort in looking up for variable pairs
+matrix layout reduces the effort in looking up for a variable pair
 corresponding to a cell or panel, and different measures may be
 displayed on the upper and lower triangle of the matrix. On the other
 hand, the filtering of variable pairs, for example pairs having measure
@@ -328,68 +327,80 @@ Function & Usage & Description\\
 
 \end{Schunk}
 
+\hypertarget{example-data}{%
+\section{Example: Data}\label{example-data}}
+
+We use the Daily Bike Sharing dataset \citep{bikeref} from the R package
+\CRANpkg{timetk} \citep{timetk} which contains daily count of rental
+bike transactions between years 2011 and 2012 in Capital bikeshare
+system. The dataset also includes corresponding daily weather
+information such as humidity, temperature and windspeed, and seasonal
+information such as season, whether the day is a holiday and whether the
+day is a working day.
+
+\begin{Schunk}
+\begin{table}
+
+\caption{\label{tab:bikedata}Variable description of the Daily Bike Sharing dataset}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lll}
+\toprule
+Variable & Description & VariableType\\
+\midrule
+dteday & date & date\\
+season & season with categories Winter, Spring, Summer and Fall & nominal\\
+yr & year of day with categories 2011 and 2012 & nominal\\
+mnth & month of day with months as categories & nominal\\
+holiday & whether day is a holiday or not & nominal\\
+\addlinespace
+weekday & day of the week & nominal\\
+workingday & if day is neither weekend nor holiday it is Yes, otherwise is No & nominal\\
+weathersit & weather situation of the day with categories clear, cloudy, lightP & nominal\\
+temp & normalized temperature in Celsius & numeric\\
+atemp & normalized feeling temperature in Celsius & numeric\\
+\addlinespace
+hum & normalized humidity & numeric\\
+windspeed & normalized windspeed & numeric\\
+casual & count of casual users & numeric\\
+registered & count of registered users & numeric\\
+cnt & count of total rental bikes including both casual and registered & numeric\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\end{Schunk}
+
+Table \ref{tab:bikedata} provides a brief description of Daily Bike
+Sharing data along with the types of variables present in the dataset.
+We use the dataset throughout this paper for illustrative usage of the
+package.
+
 \hypertarget{section-4-corvis-calculating-association}{%
 \section{Section 4: corVis: Calculating
 Association}\label{section-4-corvis-calculating-association}}
 
-This section describes the calculation of association measures in our
+This section describes the calculation of association measures in
 package \CRANpkg{corVis}. The package provides a standard interface for
-calculating a collection of various measures of association which
-quantifies the relationship between two variables. The association
-measures available in the package are not limited to numeric variables
-and are used with nominal, ordinal and mixed variable pairs as well. The
-package also provides a functionality for handling missing value or
-\texttt{NA} while calculating the association measures.
+calculating a collection of measures which quantifies the relationship
+between two variables. The measures available in the package are not
+limited to numeric variables and are used with nominal, ordinal and
+mixed variable pairs as well. The package also provides a functionality
+for handling missing value or \texttt{NA} while calculating these
+association measures.
 
 Table \ref{tab:association-measures} lists different functions provided
-in the package to calculate varoius measures of association. The
-\texttt{Function} column represents \texttt{tbl\_*} functions which are
-used to calculate a single association measure. The \texttt{typeX} and
-\texttt{typeY} columns provide the information on types of variables
-which can be used with the corresponding functions. The \texttt{X} or
-\texttt{Y} variable is one of the numeric, nominal or ordinal type. The
-\texttt{from} column corresponds to the external package functions used
-to calculate the association measures by \texttt{tbl\_*} functions. The
-\texttt{symmetric} column represents if the measure is symmetric i.e.~if
-its value doesn't change by the choice of independent or dependent
-variable during its calculation. The last column provides the range of
-values for these measures. The function \texttt{tbl\_easy} calculates
-association measures available in the R package \CRANpkg{correlation}
-and is suitable for different variable types.
-
-The functions in Table \ref{tab:association-measures} such as
-\texttt{tbl\_ace}, \texttt{tbl\_cancor} and \texttt{tbl\_nmi} which
-calculates maximal correlation coefficient, canonical correlationa and
-normailzed mutual information respectively, have been implemented in
-\CRANpkg{corVis}.
-
-For numeric pairs of variables, the package provides a range of
-association measures. The popular correlation coefficients like
-Pearson's, Spearman's or Kendall's are calculated using
-\texttt{tbl\_cor} function. The measures such as distance correlation or
-MIC are calculated using \texttt{tbl\_dcor} or \texttt{tbl\_mine}
-respectively. The association measures available in the package for the
-ordinal pairs of variables are polychoric correlation and Kendall's
-coefficients which are calculated using \texttt{tbl\_polycor} or
-\texttt{tbl\_tau} respectively. For nominal pairs of variables, the
-functions like \texttt{tbl\_gkTau}, \texttt{tbl\_gkGamma},
-\texttt{tbl\_uncertainty}, \texttt{tbl\_chi}, \texttt{tbl\_cancor} are
-used for exploring association among the variables.
-
-The function \texttt{tbl\_cancor} calculates a measure of association
-based on canonical correlations for mixed pairs of variables. Nominal
-variables are converted into sets of dummy variables, which are then
-assigned score to find the maximal correlation. For two numeric
-variables this measure is identical to absolute correlation, for two
-factors the correlation is identical to that obtained from
-correspondence analysis.
-
-The functions listed in Table \ref{tab:association-measures} for
-calculating association measures provide a functionality for handling
-missing value or \texttt{NA} in the dataset. Each of these functions
-either have a \texttt{handle.na} argument or automatically uses pairwise
-complete observations (depending on the package used for calculation)
-for taking care of missing values present in the data.
+in the package to calculate measures along with the information on type
+of variable pairs they can be used with. It also include details about
+the external package functions used to calculate and the range for these
+measures. The association measures available in \CRANpkg{corVis} are
+symmetric. We convert asymmetric measures to symmetric by taking either
+the mean or the maximum of the measures calculated by treating each
+variable from the pair as independent variable. The functions in Table
+\ref{tab:association-measures} such as \texttt{tbl\_ace} and
+\texttt{tbl\_cancor} which calculates maximal correlation coefficient
+among the transformed variables and canonical correlation respectively,
+have been implemented in \CRANpkg{corVis}.
 
 \begin{Schunk}
 \begin{table}
@@ -421,71 +432,105 @@ tbl\_chi &  & y &  &  & DescTools::ContCoef & {}[0,1]\\
 
 \end{Schunk}
 
-\hypertarget{calculating-association-for-a-single-type-of-variable-pairs}{%
-\subsection{Calculating association for a single type of variable
-pairs}\label{calculating-association-for-a-single-type-of-variable-pairs}}
+For numeric pairs, the package provides popular correlation coefficients
+like Pearson, Spearman or Kendall and are calculated using
+\texttt{tbl\_cor} function. The measures such as distance correlation or
+MIC for detecting non-linear patterns are implemented using
+\texttt{tbl\_dcor} or \texttt{tbl\_mine} respectively. For ordinal
+pairs, the measures such as polychoric correlation and Kendall's
+coefficients are used to find association and are computed by
+\texttt{tbl\_polycor} or \texttt{tbl\_tau} respectively. For nominal
+pairs , the functions \texttt{tbl\_uncertainty}, \texttt{tbl\_chi} or
+\texttt{tbl\_cancor} are used for exploring association among the
+variables.
 
-We have a function which creates a tibble structure for the variable
-pairs in a dataset along with calculated association measure. The
-package contains various functions (shown in Table
-\ref{tab:association-measures}) for different association measures in
-the form \texttt{tbl\_*} to calculate them. For example, in order to
-calculate distance correlation for numeric pair of variables in a
-dataset, the function \texttt{tbl\_dcor} is used.
+The function \texttt{tbl\_cancor} calculates a measure of association
+based on canonical correlations for mixed pairs of variables. Nominal
+variables are converted into sets of dummy variables, which are then
+assigned score to find the maximal correlation. For two numeric
+variables this measure is identical to absolute correlation, for two
+factors the correlation is identical to that obtained from
+correspondence analysis.
 
-\begin{Schunk}
-\begin{Sinput}
-distance <- tbl_dcor(iris)
-distance
-\end{Sinput}
-\begin{Soutput}
-#> # A tibble: 6 x 4
-#>   x            y            measure measure_type
-#>   <chr>        <chr>          <dbl> <chr>       
-#> 1 Sepal.Width  Sepal.Length   0.311 dcor        
-#> 2 Petal.Length Sepal.Length   0.859 dcor        
-#> 3 Petal.Width  Sepal.Length   0.827 dcor        
-#> 4 Petal.Length Sepal.Width    0.542 dcor        
-#> 5 Petal.Width  Sepal.Width    0.513 dcor        
-#> 6 Petal.Width  Petal.Length   0.974 dcor
-\end{Soutput}
-\end{Schunk}
+The functions listed in Table \ref{tab:association-measures} for
+calculating association measures provide a functionality for handling
+missing value or \texttt{NA} in the dataset. Each of these functions
+either have a \texttt{handle.na} argument or automatically uses pairwise
+complete observations (depending on the package used for calculation)
+for taking care of missing values present in the data.
 
-In the tibble output for the functions mentioned in Table
-\ref{tab:association-measures} \texttt{x} and \texttt{y} represents a
-pair of variables. The \texttt{measure} variable represents the
-calculated value for association measure. And the \texttt{measure\_type}
-variable represents the association measure calculated for \texttt{x}
-and \texttt{y} pair.
+We do not handle date times, or circular variables (usually time
+related). The only association measure which handles circular variables
+is ace, but we are not so far using this feature. In the bike data the
+circular variables are \texttt{season}, \texttt{month} and
+\texttt{weekday}.
 
 \hypertarget{calculating-association-measures-for-whole-dataset}{%
 \subsection{Calculating association measures for whole
 dataset}\label{calculating-association-measures-for-whole-dataset}}
 
-\texttt{calc\_assoc} is used to calculate association measures for all
-variable pairs in a dataset at once in a tibble structure. The variable
-pairs in the output are unique pairs in the dataset where \texttt{x}
-\(\neq\) \texttt{y}. Because of the tidy structure of the output, the
-data manipulation and visualisation tools of \CRANpkg{tidyverse}
-\citep{tidyverse} are applicable and are useful for further exploration
-of pairwise associations. In addition to tibble structure, the output
-also has \texttt{pairwise} and \texttt{data.frame} class which are
-important class attributes for producing visual summaries in this
-package.
+The \texttt{calc\_assoc} function calculates association measures for
+every variable pair in a dataset. The variable pairs in the output are
+unique pairs in the dataset where \texttt{x} \(\neq\) \texttt{y}.
+Because of the tidy structure of the output, the data manipulation and
+visualization tools of \CRANpkg{tidyverse} \citep{tidyverse} are
+applicable and are useful for further exploration of pairwise
+associations. In addition to tibble structure, the output also has
+\texttt{pairwise} and \texttt{data.frame} class which are important
+class attributes for producing visual summaries in this package.
 
-The function \texttt{calc\_assoc} has a \texttt{types} argument which is
-a tibble of the \texttt{tbl\_*} functions for different types of
-variable pairs. The default tibble is \texttt{default\_assoc()} which
-includes \texttt{tbl\_cor} if both the variables are numeric and
-calculates Pearson's correlation , \texttt{tbl\_gkGamma} if both the
-variables are ordinal and calculates Goodman and Kruskal's gamma ,
-\texttt{tbl\_cancor} if one is factor and other is numeric and
-calculates canonical correlation, and canonical correlation for the rest
-of the variable pairs.
+The code snippet below shows the calculation of association measures for
+a subset of the bike sharing data. We select three numeric (temp,
+windspeed, registered) and two nominal variables (weathersit,
+workingday) from the original dataset to demostrate the usage of
+\texttt{calc\_assoc}. We include all of the function arguments for the
+below example and describe how these are useful. The inputs such as
+\texttt{by} and \texttt{include.overall} will be described in the
+section
+\protect\hyperlink{calculating-conditional-association}{Calculating
+conditional association}.
+
+\begin{Schunk}
+\begin{Sinput}
+bike_s <- bike |> 
+  dplyr::select(temp, windspeed, registered,weathersit, workingday)
+bike_s_assoc <- calc_assoc(d = bike_s,
+                           by = NULL,
+                           types = default_assoc(),
+                           include.overall = NULL,
+                           handle.na = TRUE,
+                           coerce_types = NULL)
+bike_s_assoc
+\end{Sinput}
+\begin{Soutput}
+#> # A tibble: 10 x 4
+#>    x          y          measure measure_type
+#>    <chr>      <chr>        <dbl> <chr>       
+#>  1 windspeed  temp       -0.158  pearson     
+#>  2 registered temp        0.540  pearson     
+#>  3 weathersit temp        0.121  cancor      
+#>  4 workingday temp        0.0527 cancor      
+#>  5 registered windspeed  -0.217  pearson     
+#>  6 weathersit windspeed   0.120  cancor      
+#>  7 workingday windspeed   0.0188 cancor      
+#>  8 weathersit registered  0.282  cancor      
+#>  9 workingday registered  0.304  cancor      
+#> 10 workingday weathersit  0.0613 cancor
+\end{Soutput}
+\end{Schunk}
+
+The \texttt{types} argument is a tibble of the \texttt{tbl\_*} functions
+for different types of variable pairs. The default is
+\texttt{default\_assoc()} which includes \texttt{tbl\_cor} if both the
+variables are numeric and calculates Pearson's correlation ,
+\texttt{tbl\_gkGamma} if both the variables are ordinal and computes
+Goodman and Kruskal's gamma and \texttt{tbl\_cancor} for a factor pair
+and mixed pair and calculates canonical correlation.
 
 \begin{Schunk}
 \begin{Sinput}
 default_measures <- default_assoc()
+
 default_measures
 \end{Sinput}
 \begin{Soutput}
@@ -497,43 +542,13 @@ default_measures
 #> 3 tbl_gkGamma ordered ordered <NULL> 
 #> 4 tbl_cancor  factor  numeric <NULL>
 \end{Soutput}
-\begin{Sinput}
-iris_assoc <- calc_assoc(d = iris,
-                         types = default_measures)
-iris_assoc
-\end{Sinput}
-\begin{Soutput}
-#> # A tibble: 10 x 4
-#>    x            y            measure measure_type
-#>    <chr>        <chr>          <dbl> <chr>       
-#>  1 Sepal.Width  Sepal.Length  -0.118 pearson     
-#>  2 Petal.Length Sepal.Length   0.872 pearson     
-#>  3 Petal.Width  Sepal.Length   0.818 pearson     
-#>  4 Species      Sepal.Length   0.787 cancor      
-#>  5 Petal.Length Sepal.Width   -0.428 pearson     
-#>  6 Petal.Width  Sepal.Width   -0.366 pearson     
-#>  7 Species      Sepal.Width    0.633 cancor      
-#>  8 Petal.Width  Petal.Length   0.963 pearson     
-#>  9 Species      Petal.Length   0.970 cancor      
-#> 10 Species      Petal.Width    0.964 cancor
-\end{Soutput}
-\begin{Sinput}
-class(iris_assoc)
-\end{Sinput}
-\begin{Soutput}
-#> [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"
-\end{Soutput}
 \end{Schunk}
 
 The default tibble of measures is updated using the
-\texttt{update\_assoc} function which has arguments for updating the
-\texttt{tbl\_*} functions to calculate association measures depending on
-the type variable pair in the dataset and a method for \texttt{tbl\_*}
-functions which calculates more than one measure. The
-\texttt{update\_assoc} function has an argument \texttt{default} which
-has the \texttt{default\_assoc()} tibble as its default value and is
-useful when \texttt{tbl\_*} functions need to be updated for a few types
-of variable pairs.
+\texttt{update\_assoc} function. The argument \texttt{default} has
+\texttt{default\_assoc()} tibble as its default value and is useful when
+\texttt{tbl\_*} functions need to be updated for a few types of variable
+pairs.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -553,65 +568,64 @@ updated_assoc
 #> 3 tbl_gkGamma ordered ordered <NULL>   
 #> 4 tbl_cancor  factor  numeric <NULL>
 \end{Soutput}
-\end{Schunk}
-
-\begin{Schunk}
 \begin{Sinput}
-updated_iris_assoc <- calc_assoc(d = iris, 
+updated_bike_s_assoc <- calc_assoc(d = bike_s, 
                                  types = updated_assoc)
-updated_iris_assoc
+updated_bike_s_assoc
 \end{Sinput}
 \begin{Soutput}
 #> # A tibble: 10 x 4
-#>    x            y            measure measure_type
-#>    <chr>        <chr>          <dbl> <chr>       
-#>  1 Sepal.Width  Sepal.Length  -0.167 spearman    
-#>  2 Petal.Length Sepal.Length   0.882 spearman    
-#>  3 Petal.Width  Sepal.Length   0.834 spearman    
-#>  4 Species      Sepal.Length   0.787 cancor      
-#>  5 Petal.Length Sepal.Width   -0.310 spearman    
-#>  6 Petal.Width  Sepal.Width   -0.289 spearman    
-#>  7 Species      Sepal.Width    0.633 cancor      
-#>  8 Petal.Width  Petal.Length   0.938 spearman    
-#>  9 Species      Petal.Length   0.970 cancor      
-#> 10 Species      Petal.Width    0.964 cancor
+#>    x          y           measure measure_type
+#>    <chr>      <chr>         <dbl> <chr>       
+#>  1 windspeed  temp       -0.147   spearman    
+#>  2 registered temp        0.531   spearman    
+#>  3 weathersit temp        0.121   cancor      
+#>  4 workingday temp        0.0527  cancor      
+#>  5 registered windspeed  -0.203   spearman    
+#>  6 weathersit windspeed   0.120   cancor      
+#>  7 workingday windspeed   0.0188  cancor      
+#>  8 weathersit registered  0.282   cancor      
+#>  9 workingday registered  0.304   cancor      
+#> 10 workingday weathersit  0.00275 nmi
 \end{Soutput}
 \end{Schunk}
 
-\texttt{calc\_assoc} also has a \texttt{handle.na} argument for handling
-the \texttt{NA} or missing values which is fed into the \texttt{tbl\_*}
-functions used with the \texttt{types} argument for different types of
-variable pairs. The default value is set to \texttt{TRUE} for using
-pairwise complete observations for calculating a measure of association
-between two variables.
+The input \texttt{handle.na} for \texttt{calc\_assoc} manages the
+\texttt{NA} or missing values in the data. The default value is set to
+\texttt{TRUE} for using pairwise complete observations for calculating a
+measure of association between two variables.
 
-\hypertarget{calculating-multiple-association-measures}{%
-\subsection{Calculating multiple association
-measures}\label{calculating-multiple-association-measures}}
-
-The multiple association measures are calculated using
-\texttt{calc\_assoc\_all} function in the package. The function takes a
-dataset and a list of measures as input and outputs a tibble structure
-with multiple measures of association for every variable pair. This
-output serves as input to the multiple association measures plot
-function for comparison of measures for variable pairs.
+Sometimes an analyst might want to treat a factor as ordered. This will
+also be useful for pairs of binary variables where it will then be
+possible to see the direction of association. Alternatively, binary
+variables are treated as numerical. The input \texttt{coerce\_types} is
+used to convert variable types. The code segment below demonstrates how
+nominal factors can be converted into ordinal.
 
 \begin{Schunk}
+\begin{Sinput}
+bike_s_assoc <- calc_assoc(d = bike_s,
+                           by = NULL,
+                           types = default_assoc(),
+                           include.overall = NULL,
+                           handle.na = TRUE,
+                           coerce_types = list(ordinal=c("workingday", "weathersit")))
+bike_s_assoc
+\end{Sinput}
 \begin{Soutput}
-#> # A tibble: 22 x 4
-#>    x            y            measure measure_type
-#>    <chr>        <chr>          <dbl> <chr>       
-#>  1 Sepal.Width  Sepal.Length  -0.118 pearson     
-#>  2 Petal.Length Sepal.Length   0.872 pearson     
-#>  3 Petal.Width  Sepal.Length   0.818 pearson     
-#>  4 Petal.Length Sepal.Width   -0.428 pearson     
-#>  5 Petal.Width  Sepal.Width   -0.366 pearson     
-#>  6 Petal.Width  Petal.Length   0.963 pearson     
-#>  7 Sepal.Width  Sepal.Length   0.118 cancor      
-#>  8 Petal.Length Sepal.Length   0.872 cancor      
-#>  9 Petal.Width  Sepal.Length   0.818 cancor      
-#> 10 Species      Sepal.Length   0.787 cancor      
-#> # ... with 12 more rows
+#> # A tibble: 10 x 4
+#>    x          y          measure measure_type
+#>    <chr>      <chr>        <dbl> <chr>       
+#>  1 windspeed  temp       -0.158  pearson     
+#>  2 registered temp        0.540  pearson     
+#>  3 weathersit temp        0.121  cancor      
+#>  4 workingday temp        0.0527 cancor      
+#>  5 registered windspeed  -0.217  pearson     
+#>  6 weathersit windspeed   0.120  cancor      
+#>  7 workingday windspeed   0.0188 cancor      
+#>  8 weathersit registered  0.282  cancor      
+#>  9 workingday registered  0.304  cancor      
+#> 10 workingday weathersit  0.133  gkGamma
 \end{Soutput}
 \end{Schunk}
 
@@ -619,34 +633,50 @@ function for comparison of measures for variable pairs.
 \subsection{Calculating conditional
 association}\label{calculating-conditional-association}}
 
-\texttt{calc\_assoc} is also used to calculate association measures for
-all the variable pairs at different levels of a categorical variable.
-This helps in exploring the conditional associations and find out the
-differences between the groups of the conditioning variable. The
-function has a \texttt{by} argument which is used as the grouping
-variable and needs to be categorical.
+The function \texttt{calc\_assoc} is also used to calculate association
+measures for all the variable pairs at different levels of a categorical
+variable. This helps in exploring the conditional associations and
+finding out variable pairs showing different associations at different
+levels of the conditioning variable. The function has a \texttt{by}
+argument which is used as the grouping variable and needs to be
+categorical. The tibble output in the conditional setting has a similar
+structure as \texttt{calc\_assoc} without a \texttt{by} argument. An
+additional \texttt{by} column representing the levels of the categorical
+variable is added to the tibble output. The \texttt{x} and \texttt{y}
+variables in the output are repeated for every level of \texttt{by}
+variable. In order to have multiple \texttt{by} variables, the function
+\texttt{calc\_assoc} is used multiple times with a different \texttt{by}
+variable each time and then the multiple outputs are binded row wise.
 
 \begin{Schunk}
 \begin{Sinput}
-iris_assoc_by <- calc_assoc(d = iris,
-                            by = "Species")
-iris_assoc_by
+bike_s_assoc_by <- calc_assoc(d = bike_s,
+                            by = "workingday",
+                            include.overall = TRUE)
+bike_s_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 24 x 5
-#>    x            y            measure measure_type by        
-#>    <chr>        <chr>          <dbl> <chr>        <fct>     
-#>  1 Sepal.Width  Sepal.Length   0.743 pearson      setosa    
-#>  2 Petal.Length Sepal.Length   0.267 pearson      setosa    
-#>  3 Petal.Width  Sepal.Length   0.278 pearson      setosa    
-#>  4 Petal.Length Sepal.Width    0.178 pearson      setosa    
-#>  5 Petal.Width  Sepal.Width    0.233 pearson      setosa    
-#>  6 Petal.Width  Petal.Length   0.332 pearson      setosa    
-#>  7 Sepal.Width  Sepal.Length   0.526 pearson      versicolor
-#>  8 Petal.Length Sepal.Length   0.754 pearson      versicolor
-#>  9 Petal.Width  Sepal.Length   0.546 pearson      versicolor
-#> 10 Petal.Length Sepal.Width    0.561 pearson      versicolor
-#> # ... with 14 more rows
+#> # A tibble: 18 x 5
+#>    x          y          measure measure_type by     
+#>    <chr>      <chr>        <dbl> <chr>        <fct>  
+#>  1 windspeed  temp       -0.198  pearson      No     
+#>  2 registered temp        0.564  pearson      No     
+#>  3 weathersit temp        0.108  cancor       No     
+#>  4 registered windspeed  -0.259  pearson      No     
+#>  5 weathersit windspeed   0.228  cancor       No     
+#>  6 weathersit registered  0.214  cancor       No     
+#>  7 windspeed  temp       -0.137  pearson      Yes    
+#>  8 registered temp        0.550  pearson      Yes    
+#>  9 weathersit temp        0.136  cancor       Yes    
+#> 10 registered windspeed  -0.210  pearson      Yes    
+#> 11 weathersit windspeed   0.0795 cancor       Yes    
+#> 12 weathersit registered  0.349  cancor       Yes    
+#> 13 windspeed  temp       -0.158  pearson      overall
+#> 14 registered temp        0.540  pearson      overall
+#> 15 weathersit temp        0.121  cancor       overall
+#> 16 registered windspeed  -0.217  pearson      overall
+#> 17 weathersit windspeed   0.120  cancor       overall
+#> 18 weathersit registered  0.282  cancor       overall
 \end{Soutput}
 \end{Schunk}
 
@@ -654,50 +684,70 @@ By default, the function \texttt{calc\_assoc} calculates the association
 measures for all the variable pairs at different levels of the grouping
 variable and the pairwise association measures for the ungrouped data
 (\texttt{overall}) when used with the \texttt{by} argument. This
-behavior can be changed by setting \texttt{include.overall} argument to
-\texttt{FALSE}.
+behavior can be changed by setting the \texttt{include.overall} argument
+to \texttt{FALSE}.
 
 \begin{Schunk}
 \begin{Sinput}
-iris_assoc_by <- calc_assoc(d = iris,
-                            by = "Species",
+bike_s_assoc_by <- calc_assoc(d = bike_s,
+                            by = "workingday",
                             include.overall = FALSE)
-iris_assoc_by
+bike_s_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 18 x 5
-#>    x            y            measure measure_type by        
-#>    <chr>        <chr>          <dbl> <chr>        <fct>     
-#>  1 Sepal.Width  Sepal.Length   0.743 pearson      setosa    
-#>  2 Petal.Length Sepal.Length   0.267 pearson      setosa    
-#>  3 Petal.Width  Sepal.Length   0.278 pearson      setosa    
-#>  4 Petal.Length Sepal.Width    0.178 pearson      setosa    
-#>  5 Petal.Width  Sepal.Width    0.233 pearson      setosa    
-#>  6 Petal.Width  Petal.Length   0.332 pearson      setosa    
-#>  7 Sepal.Width  Sepal.Length   0.526 pearson      versicolor
-#>  8 Petal.Length Sepal.Length   0.754 pearson      versicolor
-#>  9 Petal.Width  Sepal.Length   0.546 pearson      versicolor
-#> 10 Petal.Length Sepal.Width    0.561 pearson      versicolor
-#> 11 Petal.Width  Sepal.Width    0.664 pearson      versicolor
-#> 12 Petal.Width  Petal.Length   0.787 pearson      versicolor
-#> 13 Sepal.Width  Sepal.Length   0.457 pearson      virginica 
-#> 14 Petal.Length Sepal.Length   0.864 pearson      virginica 
-#> 15 Petal.Width  Sepal.Length   0.281 pearson      virginica 
-#> 16 Petal.Length Sepal.Width    0.401 pearson      virginica 
-#> 17 Petal.Width  Sepal.Width    0.538 pearson      virginica 
-#> 18 Petal.Width  Petal.Length   0.322 pearson      virginica
+#> # A tibble: 12 x 5
+#>    x          y          measure measure_type by   
+#>    <chr>      <chr>        <dbl> <chr>        <fct>
+#>  1 windspeed  temp       -0.198  pearson      No   
+#>  2 registered temp        0.564  pearson      No   
+#>  3 weathersit temp        0.108  cancor       No   
+#>  4 registered windspeed  -0.259  pearson      No   
+#>  5 weathersit windspeed   0.228  cancor       No   
+#>  6 weathersit registered  0.214  cancor       No   
+#>  7 windspeed  temp       -0.137  pearson      Yes  
+#>  8 registered temp        0.550  pearson      Yes  
+#>  9 weathersit temp        0.136  cancor       Yes  
+#> 10 registered windspeed  -0.210  pearson      Yes  
+#> 11 weathersit windspeed   0.0795 cancor       Yes  
+#> 12 weathersit registered  0.349  cancor       Yes
 \end{Soutput}
 \end{Schunk}
 
-The tibble output in the conditional setting has a similar structure as
-\texttt{calc\_assoc} used with no \texttt{by} argument. When used with
-the \texttt{by} argument, an additional \texttt{by} column representing
-the levels of the categorical variable is added to the tibble output.
-The \texttt{x} and \texttt{y} variables in the output are repeated for
-every level of \texttt{by} variable. In order to have multiple
-\texttt{by} variables, the function \texttt{calc\_assoc} is used
-multiple times with a different \texttt{by} variable each time and then
-the multiple outputs are binded row wise.
+\hypertarget{calculating-multiple-association-measures}{%
+\subsection{Calculating multiple association
+measures}\label{calculating-multiple-association-measures}}
+
+The comparison of multiple association measures help discover patterns
+other than linear. We calculate multiple measures with
+\texttt{calc\_assoc\_all} function in the package. The function takes a
+dataset and a list of measures as input and outputs a tibble structure
+with multiple measures of association for every variable pair. This
+output is used by the plotting functions to produce multiple measures
+display in different layout.
+
+\begin{Schunk}
+\begin{Soutput}
+#> # A tibble: 16 x 4
+#>    x          y          measure measure_type
+#>    <chr>      <chr>        <dbl> <chr>       
+#>  1 windspeed  temp       -0.158  pearson     
+#>  2 registered temp        0.540  pearson     
+#>  3 registered windspeed  -0.217  pearson     
+#>  4 windspeed  temp        0.158  cancor      
+#>  5 registered temp        0.540  cancor      
+#>  6 weathersit temp        0.121  cancor      
+#>  7 workingday temp        0.0527 cancor      
+#>  8 registered windspeed   0.217  cancor      
+#>  9 weathersit windspeed   0.120  cancor      
+#> 10 workingday windspeed   0.0188 cancor      
+#> 11 weathersit registered  0.282  cancor      
+#> 12 workingday registered  0.304  cancor      
+#> 13 workingday weathersit  0.0613 cancor      
+#> 14 windspeed  temp        0.181  dcor        
+#> 15 registered temp        0.531  dcor        
+#> 16 registered windspeed   0.208  dcor
+\end{Soutput}
+\end{Schunk}
 
 \hypertarget{section-5-corvis-visualising-association}{%
 \section{Section 5: corVis: Visualising
@@ -710,125 +760,43 @@ in a dataset in a single plot and show multiple bivariate measures of
 association simultaneously. The package includes functions such as
 \texttt{plot\_assoc\_matrix} and \texttt{plot\_assoc\_linear} to produce
 these displays in matrix and linear layout respectively. In addition,
-the package also provides a function \texttt{show\_assoc} to display a
-scatterplot for a numeric variable pair input, a box plot for mixed
-variable pair input and bar plot for other variable pair input.
-
-We use two datasets to provide illustrative examples. The first dataset
-is \texttt{de\_elect} (German Election Data from 2002 and 2005) from
-\CRANpkg{zenplots} package which includes numeric variables only. The
-German Election dataset provides the information on election results for
-two German elections held in 2002 and 2005. The dataset includes \(299\)
-constituencies and \(68\) variables providing information on these
-constituencies. For our analysis, we use a subset of variables from
-German election dataset which are described in Table
-\ref{tab:germanelection}. The poor economic performance of the country
-was one of the dominant issues during 2002 German election. To analyse
-the same, we use variables including vote proportion for three major
-parties in 2002 election, population percentages for different age
-groups, percentage of employees in different sectors subjected to social
-insurance contribution and percentage unemployment.
-
-\begin{Schunk}
-\begin{table}
-
-\caption{\label{tab:germanelection}Variable description of a subset of the German election result dataset from 2002 and 2005.}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{ll}
-\toprule
-Variable & Description\\
-\midrule
-SPD.02 & Proportion of votes for SPD in 2002\\
-CDU.CSU.02 & Proportion of votes for CDU/CSU in 2002\\
-Gruene.02 & Proportion of votes for Gruene in 2002\\
-Pop.18.25 & population between 18 and 25 years old 2002-12-31 (in percent)\\
-Pop.25.35 & population between 25 and 35 years old 2002-12-31 (in percent)\\
-\addlinespace
-Pop.35.60 & population between 35 and 60 years old 2002-12-31 (in percent)\\
-Industry & industry employees subject to social insurance contribution (in percent)\\
-CTT & commerce, transportation and telecommunication employees subject to social insurance contribution (in percent)\\
-Unemployment.03 & unemployment 2003-12-31 (in percent)\\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\end{Schunk}
-
-\texttt{cdc} (Behavioral survey data) is the second dataset from
-\citet{cdc} which includes numeric, nominal and ordered variables. The
-dataset is a random sample of 20,000 people from Behavioral Risk Factor
-Surveillance System (BRFSS) survey, which is an annual telephonic survey
-of 350,000 people, in United States collected by the Centers for Disease
-Control and Prevention (CDC) conducted in 2000. The respondents of the
-survey are asked questions related to their diet, weekly physical
-activity and even their level of health coverage. The goal of the survey
-is to identify risk factors in adult population and report the health
-trends. The dataset used here has only 9 questions or variables as
-compared to the original dataset which includes more than 200
-variables.Table \ref{tab:cdcdata} provides a brief description of the
-variables in \texttt{cdc} dataset along with the variable type. The
-variables \texttt{genhlth}, \texttt{exerany}, \texttt{smoke100} and
-\texttt{age} in the dataset were converted to ordinal factors as they
-had a natural ordering. \texttt{hlthplan} and \texttt{gender} were
-considered as nominal factors for the analysis. During the association
-analysis, we found some individuals with very high values for
-\texttt{height}, \texttt{weight} and \texttt{wtdesire}, and filtered out
-these cases for further analysis.
-
-\begin{Schunk}
-\begin{table}
-
-\caption{\label{tab:cdcdata}Variable description of the CDC dataset}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{lll}
-\toprule
-Variable & Description & VariableType\\
-\midrule
-genhlth & General health, with categories excellent, very good, good, fair, and poor & ordinal\\
-exerany & Respondent exercised in the past month with category 0 and 1 & ordinal\\
-hlthplan & Respondent has some form of health coverage & nominal\\
-smoke100 & Respondent has smoked at least 100 cigarettes in their entire life with category 0 and 1 & ordinal\\
-height & Respondent's height in inches & numerical\\
-\addlinespace
-weight & Respondent's weight in pounds & numerical\\
-wtdesire & Respondent's desired weight & numerical\\
-age & Respondent's age in categories [18,25], (25,35], (35,60], (60,99] & ordinal\\
-gender & Respondent's gender & nominal\\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\end{Schunk}
+the package also provides a function \texttt{show\_assoc} for a quick
+graphical overview of the relationship between two variables. It
+displays a scatterplot for numeric pair, bar plot for ordered and factor
+pair, and box plot for mixed variable pair.
 
 \hypertarget{association-plots}{%
 \subsection{Association plots}\label{association-plots}}
 
 For association analysis, we start with calculating the default
-association measures for the \texttt{cdc} data using
-\texttt{calc\_assoc} and then this result is plotted using
-\texttt{plot\_assoc\_matrix} in a matrix layout in Figure
-\ref{fig:assoc-matrix-cdcdata}.
+association measures for the bike sharing data (we drop variables
+dteday, weekday, atemp and cnt) using \texttt{calc\_assoc} and then plot
+this result using \texttt{plot\_assoc\_matrix} in a matrix layout in
+Figure \ref{fig:assoc-matrix-bike}.
 
 \begin{Schunk}
 \begin{Sinput}
-assoc_cdc <- calc_assoc(d = cdcdata)
-plot_assoc_matrix(lassoc = assoc_cdc)
+bike$dteday <- NULL 
+bike$weekday <- NULL
+bike$atemp <- NULL
+bike$cnt <- NULL
+
+bike_assoc <- calc_assoc(d = bike)
+plot_assoc_matrix(lassoc = bike_assoc)
 \end{Sinput}
 \begin{figure}
 
-{\centering \includegraphics{rj_paper_files/figure-latex/assoc-matrix-cdcdata-1} 
+{\centering \includegraphics{rj_paper_files/figure-latex/assoc-matrix-bike-1} 
 
 }
 
-\caption[Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs]{Association matrix display for cdc data showing Pearson's correlation for the numeric variable pairs, Goodman Kruskal's gamma measure for ordered variable pairs, canonical correlation for mixed variable pairs, nominal variable pairs and other variable pairs. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the variable pair and the area of the square is mapped by absolute measure value for the corresponding variable pair. The plot shows a strong association between desired weight and gender of the indvividuals. Also, there is an negative association between the general health and the age of the individuals suggesting the health of individuals deteriorating with age.}\label{fig:assoc-matrix-cdcdata}
+\caption[Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs]{Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the pair and the area of the square is mapped by absolute measure value for the corresponding variable pair. The plot shows many variable pairs with strong association for example (casual, temp), (registered,yr), (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased with increase in windspeed.}\label{fig:assoc-matrix-bike}
 \end{figure}
 \end{Schunk}
 
-The diagonal cells in Figure \ref{fig:assoc-matrix-cdcdata} represent
-the variables present in the data. Every off diagonal cell contains a
-glyph, square in this plot, which is filled with a divergent color scale
+The diagonal cells in Figure \ref{fig:assoc-matrix-bike} represent the
+variables present in the data. Every off diagonal cell contains a glyph,
+square in this plot, which is filled with a divergent color scale
 representing the value of corresponding association measure for a
 variable pair. The \texttt{glyph} argument can be either \texttt{square}
 or \texttt{circle}. The area of the square is mapped to absolute value
@@ -838,46 +806,73 @@ that highly-associated variables are arranged closer to each other and
 the task of detecting patterns or relations becomes easier. The argument
 \texttt{var\_order} is used for the variables in the matrix display. The
 function uses average linkage hierarchical clustering of the association
-matrix of the variables for ordering the variables, which clusters the
-highly associated variables together and arranges them nearby.
+matrix for ordering the variables, which clusters the highly associated
+variables together and arranges them nearby.
 
-Figure \ref{fig:assoc-matrix-cdcdata} shows a high positive Pearson's
-correlation for (\texttt{wtdesire}, \texttt{height}) which suggests that
-taller individuals have higher desired weights. The plot also shows a
-negative Goodman Kruskal's gamma measure for the ordered variable pairs
-(\texttt{genhlth}, \texttt{age}) and (\texttt{genhlth},
-\texttt{smoke100}) indicating that the health of individuals
-deteriorates as they age and with more smoking. The positive association
-for (\texttt{smoke100}, \texttt{age}) implies that older people tend to
-smoke more. Also, it is evident from the plot that individuals who
-exercise often are more healthier, shown by the variable pair
-(\texttt{exerany}, \texttt{genhlth}).
+Figure \ref{fig:assoc-matrix-bike} presents the novel feature of our
+display showing all the variables of a dataset in the same plot compared
+to corrgram which only shows association between numeric pairs. With
+canonical correlation as association measure for factor pairs or mixed
+pairs, we can observe from Figure \ref{fig:assoc-matrix-bike} that pairs
+such as (weathersit, humidity), (workingday, registered), (yr,casual),
+(season, casual) and (season, registered) are strongly associated.
 
-In order to explore these variable pairs in more detail, the function
-\texttt{show\_assoc} is used to plot a scatterplot and a mosaic plot for
-numeric and ordinal pairs respectively in Figure
-\ref{fig:int-pairs-cdcdata}.
+In some cases, an analyst might want to handle some factors as ordinals
+to see the direction of association. As discussed in the previous
+section, we can convert variable types by specifying the
+\texttt{coerce\_types} argument. The code below shows an implementation
+and produces a display with some factor variables as ordinals.
 
 \begin{Schunk}
 \begin{Sinput}
-show_assoc(d = cdcdata, 
-           x = "wtdesire", 
-           y = "height")
+bike_assoc_o <- calc_assoc(bike, 
+                           coerce_types=list(ordinal=c("workingday", 
+                                                       "yr", 
+                                                       "weathersit", 
+                                                       "holiday")))
 
-show_assoc(d = cdcdata, 
-           x = "age", 
-           y = "genhlth")
-
-show_assoc(d = cdcdata, 
-           x = "genhlth", 
-           y = "smoke100")
-
-show_assoc(d = cdcdata, 
-           x = "smoke100", 
-           y = "age")
+plot_assoc_matrix(bike_assoc_o, glyph="circle")
 \end{Sinput}
 \begin{figure}
-\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-3} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-cdcdata-4} \caption[Scatterplot and barplot for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables]{Scatterplot and barplot for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables.}\label{fig:int-pairs-cdcdata}
+
+{\centering \includegraphics{rj_paper_files/figure-latex/coerce_types_display-1} 
+
+}
+
+\caption[Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs]{Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs. The color of every circle is mapped with the measure value for the pair and the area of the circle is mapped by absolute measure value for the corresponding variable pair. The variables workingday, yr, weathersit and holiday have been converted to ordinals. The plot shows a strong negative association for (workingday, holiday) because no holiday is a working day. The plot also shows a negative association for (weathersit,holiday) suggesting weather wasn't good during the holidays.}\label{fig:coerce_types_display}
+\end{figure}
+\end{Schunk}
+
+Figure @ref(fig:coerce\_types\_display) shows a strong negative
+association for (workingday, holiday) as holidays are not working days.
+Also, there is a negative association for (weathersit,holiday) as many
+holidays often fall during the winters.
+
+In order to explore associated variable pairs, the function
+\texttt{show\_assoc} is used to plot a scatterplot for numeric pairs,
+bar plot for factor and ordered pairs, and boxplot for mixed pairs in
+Figure \ref{fig:int-pairs-bike}.
+
+\begin{Schunk}
+\begin{Sinput}
+show_assoc(d = bike, 
+           x = "temp", 
+           y = "registered")
+
+show_assoc(d = bike, 
+           x = "windspeed", 
+           y = "hum")
+
+show_assoc(d = bike, 
+           x = "workingday", 
+           y = "casual")
+
+show_assoc(d = bike, 
+           x = "workingday", 
+           y = "holiday")
+\end{Sinput}
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-bike-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-bike-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-bike-3} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-bike-4} \caption[Scatterplot and barplot for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables]{Scatterplot and barplot for numeric variable pair (wtdesire, height) and ordinal variable pairs (genhlth, age), (genhlth,smoke100) and (smoke100, age) showing association between these pair of variables.}\label{fig:int-pairs-bike}
 \end{figure}
 \end{Schunk}
 
@@ -885,26 +880,20 @@ show_assoc(d = cdcdata,
 \subsection{Multiple Association Measures
 Plot}\label{multiple-association-measures-plot}}
 
-The multiple association measures plot compares the multiple association
-measures for all the variable pairs in a dataset. This display is useful
-in detecting variable pairs with high difference among the measures
-which then can be explored further in more detail.
+The multiple association measures plot compares association measures for
+variable pairs in a dataset. This display is useful in detecting pairs
+of variables showing non-linear relationship which then can be explored
+further in more detail.
 
 \begin{Schunk}
 \begin{Sinput}
-assoc_german_all <- calc_assoc_all(d = german_election,
-                                   measures = c("ace",
-                                                "pearson",
-                                                "spearman",
-                                                "kendall",
-                                                "dcor",
-                                                "spearman",
-                                                "mic"))
+biken <- bike |>
+  mutate(mnth=as.numeric(mnth)) |>
+  select(where(is.numeric))
 
-plot_assoc_linear(assoc = assoc_german_all, 
-                  plot_type = "heatmap",
-                  limits = c(0,1),
-                  var_order = "max_diff")
+bn <-calc_assoc_all(biken)
+# all measures are positive, so change to
+plot_assoc_matrix(bn, limits=c(0,1)) # label position is now wrong!
 \end{Sinput}
 \begin{figure}
 
@@ -939,13 +928,8 @@ pattern.
 
 \begin{Schunk}
 \begin{Sinput}
-show_assoc(d = german_election,
-           x = "Unemployment.03",
-           y = "CTT")
-
-show_assoc(d = german_election,
-           x = "Gruene.02",
-           y = "Pop.35.60")
+show_assoc(biken, "mnth", "casual")
+show_assoc(biken, "mnth", "temp")
 \end{Sinput}
 \begin{figure}
 \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-multiple-germanelection-2} \caption[Scatterplot for variable pairs (from left to right) (Unemployment.03 and CTT) and (`Pop.35.60`, `Gruene.02`) showing relationships between these pair of variables]{Scatterplot for variable pairs (from left to right) (Unemployment.03 and CTT) and (`Pop.35.60`, `Gruene.02`) showing relationships between these pair of variables.}\label{fig:int-pairs-multiple-germanelection}
@@ -977,9 +961,12 @@ data.
 
 \begin{Schunk}
 \begin{Sinput}
-cond_assoc_cdc <- calc_assoc(d = cdcdata, 
-                             by = "genhlth")
-plot_assoc_matrix(lassoc = cond_assoc_cdc)
+bike_by_assoc <- select(bike, -workingday, -holiday, -mnth, -yr) |>
+  calc_assoc(by="season", 
+                  coerce_types=list(ordinal=c( "weathersit")))
+
+
+plot_assoc_matrix(bike_by_assoc)
 \end{Sinput}
 \begin{figure}
 
@@ -1008,18 +995,16 @@ value. We explore these variable pairs in more detail using
 
 \begin{Schunk}
 \begin{Sinput}
-show_assoc(d = cdcdata,
-           x = "smoke100",
-           y = "age",
-           by = "genhlth")
+show_assoc(bike, "temp", "hum", by="season")
 
-show_assoc(d = cdcdata,
-           x = "weight",
-           y = "gender",
-           by = "genhlth")
+show_assoc(bike, "temp", "registered", by="season")
+
+show_assoc(bike, "temp", "casual", by="season")
+
+show_assoc(bike, "registered", "casual", by="season")
 \end{Sinput}
 \begin{figure}
-\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-2} \caption[Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth]{Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth.}\label{fig:int-pairs-conditional-cdc}
+\includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-1} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-2} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-3} \includegraphics[width=0.5\linewidth]{rj_paper_files/figure-latex/int-pairs-conditional-cdc-4} \caption[Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth]{Barplot for variable pair (smoke100, age), and boxplot for variable pair (weight, gender) faceted by conditioning variable genhlth.}\label{fig:int-pairs-conditional-cdc}
 \end{figure}
 \end{Schunk}
 
@@ -1063,10 +1048,11 @@ high.
 
 \begin{Schunk}
 \begin{Sinput}
-cond_assoc_cdc <- calc_assoc(d = cdcdata, 
-                             by = "genhlth")
-cond_assoc_cdc <- dplyr::filter(cond_assoc_cdc, abs(measure) > 0.1)
-plot_assoc_linear(assoc = cond_assoc_cdc,
+bike_by_assoc <- select(bike, -workingday, -holiday, -mnth, -yr) |>
+  calc_assoc(by="season", 
+                  coerce_types=list(ordinal=c( "weathersit")))
+bike_by_assoc <- dplyr::filter(bike_by_assoc, abs(measure) > 0.2)
+plot_assoc_linear(assoc = bike_by_assoc,
                   plot_type = "dotplot")
 \end{Sinput}
 \begin{figure}
