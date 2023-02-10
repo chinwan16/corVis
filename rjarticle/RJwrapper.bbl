@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -46,6 +46,11 @@ S.~Gerber.
 \newblock \emph{scorr: s-CorrPlot: Visualizing Correlation}, 2022.
 \newblock URL \url{http://mckennapsean.com/scorrplot/}.
 \newblock R package version 1.0.
+
+\bibitem[Grimm(2017)]{grimm2017kennzahlenbasierte}
+K.~Grimm.
+\newblock Kennzahlenbasierte grafikauswahl.
+\newblock 2017.
 
 \bibitem[Hills(1969)]{hills1969looking}
 M.~Hills.

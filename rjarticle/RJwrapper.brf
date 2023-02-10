@@ -18,6 +18,7 @@
 \backcite {hills1969looking}{{2}{2.2.1}{subsection.2.2.1}}
 \backcite {buja2016visualization}{{2}{2.2.1}{subsection.2.2.1}}
 \backcite {scorr}{{2}{2.2.1}{subsection.2.2.1}}
+\backcite {grimm2017kennzahlenbasierte}{{2}{2.2.1}{subsection.2.2.1}}
 \backcite {szekely2007measuring}{{3}{2.2.2}{subsection.2.2.2}}
 \backcite {reshef2011detecting}{{3}{2.2.2}{subsection.2.2.2}}
 \backcite {szekely2007measuring}{{3}{2.2.2}{subsection.2.2.2}}
@@ -32,6 +33,6 @@
 \backcite {bikeref}{{4}{2.4}{section.2.4}}
 \backcite {timetk}{{4}{2.4}{section.2.4}}
 \backcite {tidyverse}{{5}{2.5.1}{subsection.2.5.1}}
-\backcite {tukey1985computer}{{16}{2.7}{section.2.7}}
-\backcite {wilkinson2005graph}{{16}{2.7}{section.2.7}}
-\backcite {kuhn2013applied}{{16}{2.7}{section.2.7}}
+\backcite {tukey1985computer}{{15}{2.7}{section.2.7}}
+\backcite {wilkinson2005graph}{{15}{2.7}{section.2.7}}
+\backcite {kuhn2013applied}{{15}{2.7}{section.2.7}}
