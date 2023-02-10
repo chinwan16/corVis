@@ -35,24 +35,23 @@ An association measure can be defined as a numerical summary quantifying relatio
 
 The package provides a collection of various measures of association which can be used to quantify the relationship between two variables and could be used to explore patterns prior to modeling. The measures available in the package are not limited to *numeric* variables only and can be used with *categorical* and *ordinal* variables as well. Table 1 lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure.
 ```{r,echo=FALSE}
-assocMethods <- tribble(
-  ~funName, ~typeX, ~typeY,  ~from, ~symmetric, ~min, ~max,
-  "tbl_cor", "numeric", "numeric",  "stats::cor", TRUE, -1,1,
-  "tbl_dcor", "numeric", "numeric",  "energy::dcor2d", TRUE, 0,1,
-  "tbl_mine", "numeric", "numeric", "minerva::mine",TRUE, 0,1,
-  "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", TRUE, -1,1,
-  "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", TRUE, -1,1,
-  "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", FALSE, 0,1,
-  "tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, 0,1,
-  "tbl_gkGamma", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, 0,1,
-  "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", TRUE, 0,1,
-  "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", TRUE, 0,1,
-  "tbl_cancor", "nominal", "nominal", "corVis", TRUE, 0,1,
-  "tbl_cancor", "nominal", "numerical", "corVis", TRUE, 0,1,
-  "tbl_nmi", "any", "any", "corVis", TRUE, 0,1,
-  "tbl_easy", "any", "any", "correlation::correlation", TRUE, -1, 1)
+measures <- dplyr::tribble(
+  ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
+  "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
+  "tbl_dcor", "y", " ", " ", " ", "energy::dcor2d", "[0,1]",
+  "tbl_mine", "y", " ", " ", " ", "minerva::mine", "[0,1]",
+  "tbl_ace", "y", "y", " ", "y", "corVis", "[0,1]",
+  "tbl_cancor", "y", "y", " ","y", "corVis", "[0,1]",
+  "tbl_nmi",  "y", "y", " ", "y", "linkspotter::maxNMI", "[0,1]",
+  "tbl_polycor", " ", " ","y", " ", "polycor::polychor", "[-1,1]",
+  "tbl_tau", " ", " ","y", " ", "DescTools::KendalTauA,B,C,W", "[-1,1]",
+  "tbl_gkGamma", " ", " ", "y", " ", "DescTools::GoodmanKruskalGamma", "[-1,1]",
+  "tbl_gkTau", " ", " ", "y", " ", "DescTools::GoodmanKruskalTau", "[0,1]",
+  "tbl_uncertainty", " ",  "y", " ", " ", "DescTools::UncertCoef", "[0,1]",
+  "tbl_chi", " ",  "y", " ", " ", "DescTools::ContCoef", "[0,1]"
+)
 
-knitr::kable(assocMethods)
+kableExtra::kbl(measures,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.") %>% kableExtra::kable_styling(latex_options = "scale_down")
 ```
 Table 1: Table of Association methods
 
@@ -134,7 +133,7 @@ The variable pairs in the output are unique pairs and a subset of all the variab
 
 ## Calculating conditional association
 
-`calc_assoc_by` can be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a tibble structure with _pairwise_ and _data.frame_ as additional class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
+`calc_assoc` can be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a tibble structure with _pairwise_ and _data.frame_ as additional class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
 ```{r}
 complete_assoc_by <- calc_assoc(df,by = "sex")
 ```
@@ -155,14 +154,13 @@ By default, the function calculates the association measures for all the variabl
 complete_assoc_by <- calc_assoc(df,by = "sex",include.overall = FALSE)
 ```
 
-The tibble output for `calc_assoc_by` has the following structure:
+The tibble output for `calc_assoc` with a conditioning variable has the following structure:
   - `x` and `y` representing a pair of variables
   - `measure` representing the calculated value for association measure
   - `measure_type` representing the association measure calculated for `x` and `y` pair.
   - `by` representing the levels of the categorical variable used in the function. 
  
-The variable pairs in the output are repeated for every level of `by` variable. At present the function doesn't allow multiple `by` variables to be used for conditioning but is something which can be done by using the `calc_assoc_by` function multiple times and then merging the multiple outputs.For calculating multiple measures for a specific variable type, one can use `update_assoc` with `calc_assoc_by` and then can merge these multiple tibble outputs.
-
+The variable pairs in the output are repeated for every level of `by` variable.
 
 
 
