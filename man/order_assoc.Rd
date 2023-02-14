@@ -4,17 +4,12 @@
 \alias{order_assoc}
 \title{Ordering variables}
 \usage{
-order_assoc(assoc, method = "default", group_var = NULL)
+order_assoc(assoc, group_var = group_var)
 }
 \arguments{
 \item{assoc}{A tibble with association measures for different variable pairs in the dataset.}
 
-\item{method}{a character string for the method to be used for ordering. One of "default" (default) which uses
-average linkage clustering on the overall measure values or "max_diff" which uses average
-linkage clustering on the maximum difference of the measure valuesfor variable pairs at different
-levels of a conditioning variable.}
-
-\item{group_var}{in progress}
+\item{group_var}{a character vector for grouping variable. One of NULL, "by" or "measure_type"}
 }
 \value{
 character vector representing the ordering of the variables

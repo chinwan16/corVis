@@ -492,7 +492,7 @@ biken <- bike |>
 
 biken_assoc_all <-calc_assoc_all(biken)
 # all measures are positive, so change to
-plot_assoc_matrix(biken_assoc_all, limits=c(0,1)) # label position is now wrong!
+plot_assoc_matrix(biken_assoc_all) # label position is now wrong!
 ```
 It is evident from the Figure \@ref(fig:compare-matrix) that pairs (casual,mnth) and (mnth,temp) have higher value for `ace` compared to other measures. The measures `nmi`, `dcor` and `mic` have similar values but higher than `pearson`, `spearman` and `kendall`. This suggests the presence of a non-linear pattern for these pairs. 
 

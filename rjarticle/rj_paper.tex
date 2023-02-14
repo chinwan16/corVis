@@ -508,19 +508,19 @@ bike_s_assoc <- calc_assoc(d = bike_s,
 bike_s_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 10 x 4
-#>    x          y          measure measure_type
-#>    <chr>      <chr>        <dbl> <chr>       
-#>  1 windspeed  temp       -0.158  pearson     
-#>  2 registered temp        0.540  pearson     
-#>  3 weathersit temp        0.121  cancor      
-#>  4 workingday temp        0.0527 cancor      
-#>  5 registered windspeed  -0.217  pearson     
-#>  6 weathersit windspeed   0.120  cancor      
-#>  7 workingday windspeed   0.0188 cancor      
-#>  8 weathersit registered  0.282  cancor      
-#>  9 workingday registered  0.304  cancor      
-#> 10 workingday weathersit  0.0613 cancor
+#> # A tibble: 10 x 5
+#>    x          y          measure measure_type pair_type
+#>    <chr>      <chr>        <dbl> <chr>        <chr>    
+#>  1 windspeed  temp       -0.158  pearson      numeric  
+#>  2 registered temp        0.540  pearson      numeric  
+#>  3 weathersit temp        0.121  cancor       mixed    
+#>  4 workingday temp        0.0527 cancor       mixed    
+#>  5 registered windspeed  -0.217  pearson      numeric  
+#>  6 weathersit windspeed   0.120  cancor       mixed    
+#>  7 workingday windspeed   0.0188 cancor       mixed    
+#>  8 weathersit registered  0.282  cancor       mixed    
+#>  9 workingday registered  0.304  cancor       mixed    
+#> 10 workingday weathersit  0.0613 cancor       factor
 \end{Soutput}
 \end{Schunk}
 
@@ -578,19 +578,19 @@ updated_bike_s_assoc <- calc_assoc(d = bike_s,
 updated_bike_s_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 10 x 4
-#>    x          y           measure measure_type
-#>    <chr>      <chr>         <dbl> <chr>       
-#>  1 windspeed  temp       -0.147   spearman    
-#>  2 registered temp        0.531   spearman    
-#>  3 weathersit temp        0.121   cancor      
-#>  4 workingday temp        0.0527  cancor      
-#>  5 registered windspeed  -0.203   spearman    
-#>  6 weathersit windspeed   0.120   cancor      
-#>  7 workingday windspeed   0.0188  cancor      
-#>  8 weathersit registered  0.282   cancor      
-#>  9 workingday registered  0.304   cancor      
-#> 10 workingday weathersit  0.00275 nmi
+#> # A tibble: 10 x 5
+#>    x          y           measure measure_type pair_type
+#>    <chr>      <chr>         <dbl> <chr>        <chr>    
+#>  1 windspeed  temp       -0.147   spearman     numeric  
+#>  2 registered temp        0.531   spearman     numeric  
+#>  3 weathersit temp        0.121   cancor       mixed    
+#>  4 workingday temp        0.0527  cancor       mixed    
+#>  5 registered windspeed  -0.203   spearman     numeric  
+#>  6 weathersit windspeed   0.120   cancor       mixed    
+#>  7 workingday windspeed   0.0188  cancor       mixed    
+#>  8 weathersit registered  0.282   cancor       mixed    
+#>  9 workingday registered  0.304   cancor       mixed    
+#> 10 workingday weathersit  0.00275 nmi          factor
 \end{Soutput}
 \end{Schunk}
 
@@ -617,19 +617,19 @@ bike_s_assoc <- calc_assoc(d = bike_s,
 bike_s_assoc
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 10 x 4
-#>    x          y          measure measure_type
-#>    <chr>      <chr>        <dbl> <chr>       
-#>  1 windspeed  temp       -0.158  pearson     
-#>  2 registered temp        0.540  pearson     
-#>  3 weathersit temp        0.121  cancor      
-#>  4 workingday temp        0.0527 cancor      
-#>  5 registered windspeed  -0.217  pearson     
-#>  6 weathersit windspeed   0.120  cancor      
-#>  7 workingday windspeed   0.0188 cancor      
-#>  8 weathersit registered  0.282  cancor      
-#>  9 workingday registered  0.304  cancor      
-#> 10 workingday weathersit  0.133  gkGamma
+#> # A tibble: 10 x 5
+#>    x          y          measure measure_type pair_type
+#>    <chr>      <chr>        <dbl> <chr>        <chr>    
+#>  1 windspeed  temp       -0.158  pearson      numeric  
+#>  2 registered temp        0.540  pearson      numeric  
+#>  3 weathersit temp        0.121  cancor       mixed    
+#>  4 workingday temp        0.0527 cancor       mixed    
+#>  5 registered windspeed  -0.217  pearson      numeric  
+#>  6 weathersit windspeed   0.120  cancor       mixed    
+#>  7 workingday windspeed   0.0188 cancor       mixed    
+#>  8 weathersit registered  0.282  cancor       mixed    
+#>  9 workingday registered  0.304  cancor       mixed    
+#> 10 workingday weathersit  0.133  gkGamma      ordered
 \end{Soutput}
 \end{Schunk}
 
@@ -660,27 +660,27 @@ bike_s_assoc_by <- calc_assoc(d = bike_s,
 bike_s_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 18 x 5
-#>    x          y          measure measure_type by     
-#>    <chr>      <chr>        <dbl> <chr>        <fct>  
-#>  1 windspeed  temp       -0.198  pearson      No     
-#>  2 registered temp        0.564  pearson      No     
-#>  3 weathersit temp        0.108  cancor       No     
-#>  4 registered windspeed  -0.259  pearson      No     
-#>  5 weathersit windspeed   0.228  cancor       No     
-#>  6 weathersit registered  0.214  cancor       No     
-#>  7 windspeed  temp       -0.137  pearson      Yes    
-#>  8 registered temp        0.550  pearson      Yes    
-#>  9 weathersit temp        0.136  cancor       Yes    
-#> 10 registered windspeed  -0.210  pearson      Yes    
-#> 11 weathersit windspeed   0.0795 cancor       Yes    
-#> 12 weathersit registered  0.349  cancor       Yes    
-#> 13 windspeed  temp       -0.158  pearson      overall
-#> 14 registered temp        0.540  pearson      overall
-#> 15 weathersit temp        0.121  cancor       overall
-#> 16 registered windspeed  -0.217  pearson      overall
-#> 17 weathersit windspeed   0.120  cancor       overall
-#> 18 weathersit registered  0.282  cancor       overall
+#> # A tibble: 18 x 6
+#>    x          y          measure measure_type by      pair_type
+#>    <chr>      <chr>        <dbl> <chr>        <fct>   <chr>    
+#>  1 windspeed  temp       -0.198  pearson      No      numeric  
+#>  2 registered temp        0.564  pearson      No      numeric  
+#>  3 weathersit temp        0.108  cancor       No      mixed    
+#>  4 registered windspeed  -0.259  pearson      No      numeric  
+#>  5 weathersit windspeed   0.228  cancor       No      mixed    
+#>  6 weathersit registered  0.214  cancor       No      mixed    
+#>  7 windspeed  temp       -0.137  pearson      Yes     numeric  
+#>  8 registered temp        0.550  pearson      Yes     numeric  
+#>  9 weathersit temp        0.136  cancor       Yes     mixed    
+#> 10 registered windspeed  -0.210  pearson      Yes     numeric  
+#> 11 weathersit windspeed   0.0795 cancor       Yes     mixed    
+#> 12 weathersit registered  0.349  cancor       Yes     mixed    
+#> 13 windspeed  temp       -0.158  pearson      overall numeric  
+#> 14 registered temp        0.540  pearson      overall numeric  
+#> 15 weathersit temp        0.121  cancor       overall mixed    
+#> 16 registered windspeed  -0.217  pearson      overall numeric  
+#> 17 weathersit windspeed   0.120  cancor       overall mixed    
+#> 18 weathersit registered  0.282  cancor       overall mixed
 \end{Soutput}
 \end{Schunk}
 
@@ -699,21 +699,21 @@ bike_s_assoc_by <- calc_assoc(d = bike_s,
 bike_s_assoc_by
 \end{Sinput}
 \begin{Soutput}
-#> # A tibble: 12 x 5
-#>    x          y          measure measure_type by   
-#>    <chr>      <chr>        <dbl> <chr>        <fct>
-#>  1 windspeed  temp       -0.198  pearson      No   
-#>  2 registered temp        0.564  pearson      No   
-#>  3 weathersit temp        0.108  cancor       No   
-#>  4 registered windspeed  -0.259  pearson      No   
-#>  5 weathersit windspeed   0.228  cancor       No   
-#>  6 weathersit registered  0.214  cancor       No   
-#>  7 windspeed  temp       -0.137  pearson      Yes  
-#>  8 registered temp        0.550  pearson      Yes  
-#>  9 weathersit temp        0.136  cancor       Yes  
-#> 10 registered windspeed  -0.210  pearson      Yes  
-#> 11 weathersit windspeed   0.0795 cancor       Yes  
-#> 12 weathersit registered  0.349  cancor       Yes
+#> # A tibble: 12 x 6
+#>    x          y          measure measure_type by    pair_type
+#>    <chr>      <chr>        <dbl> <chr>        <fct> <chr>    
+#>  1 windspeed  temp       -0.198  pearson      No    numeric  
+#>  2 registered temp        0.564  pearson      No    numeric  
+#>  3 weathersit temp        0.108  cancor       No    mixed    
+#>  4 registered windspeed  -0.259  pearson      No    numeric  
+#>  5 weathersit windspeed   0.228  cancor       No    mixed    
+#>  6 weathersit registered  0.214  cancor       No    mixed    
+#>  7 windspeed  temp       -0.137  pearson      Yes   numeric  
+#>  8 registered temp        0.550  pearson      Yes   numeric  
+#>  9 weathersit temp        0.136  cancor       Yes   mixed    
+#> 10 registered windspeed  -0.210  pearson      Yes   numeric  
+#> 11 weathersit windspeed   0.0795 cancor       Yes   mixed    
+#> 12 weathersit registered  0.349  cancor       Yes   mixed
 \end{Soutput}
 \end{Schunk}
 
@@ -734,25 +734,25 @@ measure is not defined is not included in the result.
 
 \begin{Schunk}
 \begin{Soutput}
-#> # A tibble: 16 x 4
-#>    x          y          measure measure_type
-#>    <chr>      <chr>        <dbl> <chr>       
-#>  1 windspeed  temp       -0.158  pearson     
-#>  2 registered temp        0.540  pearson     
-#>  3 registered windspeed  -0.217  pearson     
-#>  4 windspeed  temp        0.158  cancor      
-#>  5 registered temp        0.540  cancor      
-#>  6 weathersit temp        0.121  cancor      
-#>  7 workingday temp        0.0527 cancor      
-#>  8 registered windspeed   0.217  cancor      
-#>  9 weathersit windspeed   0.120  cancor      
-#> 10 workingday windspeed   0.0188 cancor      
-#> 11 weathersit registered  0.282  cancor      
-#> 12 workingday registered  0.304  cancor      
-#> 13 workingday weathersit  0.0613 cancor      
-#> 14 windspeed  temp        0.181  dcor        
-#> 15 registered temp        0.531  dcor        
-#> 16 registered windspeed   0.208  dcor
+#> # A tibble: 16 x 5
+#>    x          y          measure measure_type pair_type
+#>    <chr>      <chr>        <dbl> <chr>        <chr>    
+#>  1 windspeed  temp       -0.158  pearson      numeric  
+#>  2 registered temp        0.540  pearson      numeric  
+#>  3 registered windspeed  -0.217  pearson      numeric  
+#>  4 windspeed  temp        0.158  cancor       numeric  
+#>  5 registered temp        0.540  cancor       numeric  
+#>  6 weathersit temp        0.121  cancor       mixed    
+#>  7 workingday temp        0.0527 cancor       mixed    
+#>  8 registered windspeed   0.217  cancor       numeric  
+#>  9 weathersit windspeed   0.120  cancor       mixed    
+#> 10 workingday windspeed   0.0188 cancor       mixed    
+#> 11 weathersit registered  0.282  cancor       mixed    
+#> 12 workingday registered  0.304  cancor       mixed    
+#> 13 workingday weathersit  0.0613 cancor       factor   
+#> 14 windspeed  temp        0.181  dcor         numeric  
+#> 15 registered temp        0.531  dcor         numeric  
+#> 16 registered windspeed   0.208  dcor         numeric
 \end{Soutput}
 \end{Schunk}
 
@@ -914,7 +914,7 @@ biken <- bike |>
 
 biken_assoc_all <-calc_assoc_all(biken)
 # all measures are positive, so change to
-plot_assoc_matrix(biken_assoc_all, limits=c(0,1)) # label position is now wrong!
+plot_assoc_matrix(biken_assoc_all) # label position is now wrong!
 \end{Sinput}
 \begin{figure}
 

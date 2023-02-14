@@ -6,11 +6,11 @@
 \alias{assoc_tibble.data.frame}
 \title{A generic function to create a tibble structure for a measure of association}
 \usage{
-assoc_tibble(data, measure_type = "?")
+assoc_tibble(data, measure_type = "?", pair_type = "?")
 
-\method{assoc_tibble}{matrix}(data, measure_type = "?")
+\method{assoc_tibble}{matrix}(data, measure_type = "?", pair_type = "?")
 
-\method{assoc_tibble}{data.frame}(data, measure_type = NA_character_)
+\method{assoc_tibble}{data.frame}(data, measure_type = NA_character_, pair_type = NA_character_)
 }
 \arguments{
 \item{data}{A dataframe}

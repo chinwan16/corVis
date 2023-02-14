@@ -90,6 +90,7 @@ calc_assoc  <- function(d,
           m <- do.call(entry$funName, c(list(dsub, handle.na=handle.na), entry$argList))
           pcor$measure[i] <- m$measure[1]
           pcor$measure_type[i] <- m$measure_type[1]
+          pcor$pair_type[i] <- m$pair_type[1]
         }
     }
     names(vartypes) <- names(d)

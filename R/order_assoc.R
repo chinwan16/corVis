@@ -3,13 +3,7 @@
 #' Calculates an ordering for the variables in a dataset.
 #'
 #' @param assoc A tibble with association measures for different variable pairs in the dataset.
-#' @param method a character string for the method to be used for ordering. One of "default" (default) which uses
-#'               average linkage clustering on the overall measure values or "max_diff" which uses average
-#'               linkage clustering on the maximum difference of the measure valuesfor variable pairs at different
-#'               levels of a conditioning variable.
-#'
-#'
-#' @param group_var in progress
+#' @param group_var a character vector for grouping variable. One of NULL, "by" or "measure_type"
 #'
 #' @return character vector representing the ordering of the variables
 #' @export
@@ -21,18 +15,20 @@
 #' order_assoc(calc_assoc(iris,"Species"),method="max_diff")
 
 
-order_assoc <- function(assoc, method = "default", group_var = NULL){
-  if (method == "max_diff"){
-    if (isTRUE(group_var %in% names(assoc))){
-      assoc <- dplyr::filter(assoc, group_var != "overall")
-    }
-    assoc <- assoc %>%
-      dplyr::group_by(.data$x,.data$y) %>%
+order_assoc <- function(assoc, group_var = group_var){
+  if (is.null(group_var)){
+    assoc <- assoc
+  } else if (group_var == "measure_type"){
+    assoc <- assoc |>
+      dplyr::group_by(.data$x,.data$y) |>
+      dplyr::summarize(measure = max(.data$measure, na.rm=TRUE),.groups = 'drop')
+  } else {
+    assoc <- dplyr::filter(assoc, group_var != "overall")
+    assoc <- assoc |>
+      dplyr::group_by(.data$x,.data$y) |>
       dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
-  } else if (isTRUE("by" %in% names(assoc))){
-    assoc <- dplyr::filter(assoc, by == "overall")
   }
   m <- matrix_assoc(assoc)
-  h <- stats::hclust(stats::as.dist(-m), method = "average")
-  rownames(m)[h$order]
+  o <- DendSer::dser(-abs(m), 1-abs(m), cost = DendSer::costLPL)
+  rownames(m)[o]
 }

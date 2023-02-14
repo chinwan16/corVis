@@ -13,21 +13,21 @@
 #' assoc_tibble(iris)
 
 
-assoc_tibble <- function(data, measure_type="?"){
+assoc_tibble <- function(data, measure_type="?", pair_type="?"){
   UseMethod("assoc_tibble", data)
 }
 
 
 #' @describeIn assoc_tibble  assoc_tibble method
 #' @export
-assoc_tibble.matrix <- function(data, measure_type="?"){
+assoc_tibble.matrix <- function(data, measure_type="?", pair_type="?"){
   m <- data
   if (!isSymmetric(m))
     stop("Input must be a symmetric matrix")
   xindex <- as.vector(row(m))
   yindex <- as.vector(col(m))
   d <- dplyr::tibble(x=rownames(m)[xindex], y= rownames(m)[yindex],measure=as.vector(m),
-                     measure_type=measure_type)
+                     measure_type=measure_type, pair_type=pair_type)
   class(d)<-append("pairwise", class(d))
   d[xindex > yindex,]
 }
@@ -35,12 +35,12 @@ assoc_tibble.matrix <- function(data, measure_type="?"){
 
 #' @describeIn assoc_tibble  assoc_tibble method
 #' @export
-assoc_tibble.data.frame <- function(data, measure_type=NA_character_){
+assoc_tibble.data.frame <- function(data, measure_type=NA_character_, pair_type=NA_character_){
   d <- data
   dcor <- diag(ncol(d))
   dcor[]<- NA
   rownames(dcor)<- colnames(dcor) <- names(d)
-  dcor <- assoc_tibble(dcor, measure_type=measure_type)
+  dcor <- assoc_tibble(dcor, measure_type=measure_type, pair_type=pair_type)
   #class(dcor)<-append("pairwise", class(dcor))
   dcor
 }
@@ -71,7 +71,7 @@ tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
   if (handle.na)
     dcor <- stats::cor(d,method=method,use="pairwise.complete.obs")
   else dcor <- stats::cor(d,method=method,...)
-  assoc_tibble(dcor, measure_type=method)
+  assoc_tibble(dcor, measure_type=method, pair_type = "numeric")
 }
 
 
@@ -113,7 +113,17 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
     }
     )
   }
+  fn_pair_type <- function(x,y){
+    if(is.numeric(x) & is.numeric(y)) {
+      "numeric"
+    } else if(is.factor(x) & is.factor(y)){
+      "factor"
+    } else {
+      "mixed"
+    }
+  }
   a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]]), a$x,a$y)
+  a$pair_type <- mapply(function(x,y) fn_pair_type(d[[x]],d[[y]]), a$x,a$y)
   a
 }
 
@@ -133,7 +143,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 
 tbl_dcor <- function(d, handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.numeric))
-  dcor <- assoc_tibble(d, measure_type="dcor")
+  dcor <- assoc_tibble(d, measure_type="dcor", pair_type = "numeric")
   fn <- function(x,y){
     x <- d[[x]]
     y <- d[[y]]
@@ -148,40 +158,40 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
   dcor
 }
 
-#' Easystats correlations
-#'
-#' Calculates one of the many correlation coefficients available with easystats package
-#' for variable pairs in a dataset.
-#'
-#' @param d A dataframe
-#' @param method A character string for the correlation coefficient to be calculated. One of "pearson" (default),
-#'               "spearman", "kendall", "biserial", "polychoric", "tetrachoric", "biweight", "distance",
-#'               "percentage" (for percentage bend correlation), "blomqvist" (for Blomqvist's coefficient),
-#'               "hoeffding" (for Hoeffding's D), "gamma", "gaussian" (for Gaussian Rank correlation) or
-#'               "shepherd" (for Shepherd's Pi correlation). Setting "auto" will select the most most relevant
-#'               method depending on the variable types in the dataset.
-#' @param handle.na NA handling not available
-#' @param ... other arguments
-#'
-#' @return A tibble with calculated association measures
-#' @export
-#'
-#' @examples
-#' tbl_easy(iris)
-#' tbl_easy(iris,method="hoeffding")
+# Easystats correlations
+#
+# Calculates one of the many correlation coefficients available with easystats package
+# for variable pairs in a dataset.
+#
+# @param d A dataframe
+# @param method A character string for the correlation coefficient to be calculated. One of "pearson" (default),
+#               "spearman", "kendall", "biserial", "polychoric", "tetrachoric", "biweight", "distance",
+#               "percentage" (for percentage bend correlation), "blomqvist" (for Blomqvist's coefficient),
+#               "hoeffding" (for Hoeffding's D), "gamma", "gaussian" (for Gaussian Rank correlation) or
+#               "shepherd" (for Shepherd's Pi correlation). Setting "auto" will select the most most relevant
+#               method depending on the variable types in the dataset.
+# @param handle.na NA handling not available
+# @param ... other arguments
+#
+# @return A tibble with calculated association measures
 
-tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
-  # no NA handling
-  a <- assoc_tibble(d, measure_type=paste0("EZ", method))
-  ez <- correlation::correlation(d, method=method, ...)[,1:3]
-  #ez <- correlation::correlation(d, method=method)[,1:3]
-  class(ez) <- "data.frame"
-  class(a) <- class(a)[-1]
-  names(ez) <- c("y","x","measure")
-  a<-dplyr::rows_patch(a,ez,  by = c("x","y"))
-  class(a) <- append("pairwise",class(a))
-  a
- }
+#
+# @examples
+# tbl_easy(iris)
+# tbl_easy(iris,method="hoeffding")
+
+# tbl_easy <-function(d,method = "pearson", handle.na=TRUE,...){
+#   # no NA handling
+#   a <- assoc_tibble(d, measure_type=paste0("EZ", method))
+#   ez <- correlation::correlation(d, method=method, ...)[,1:3]
+#   #ez <- correlation::correlation(d, method=method)[,1:3]
+#   class(ez) <- "data.frame"
+#   class(a) <- class(a)[-1]
+#   names(ez) <- c("y","x","measure")
+#   a<-dplyr::rows_patch(a,ez,  by = c("x","y"))
+#   class(a) <- append("pairwise",class(a))
+#   a
+#  }
 
 #' MINE family measures
 #'
@@ -210,7 +220,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
   else dcor <- minerva::mine(d,...)
 
   dcor <- dcor[[toupper(method)]]
-  assoc_tibble(dcor, measure_type=method)
+  assoc_tibble(dcor, measure_type=method, pair_type = "numeric")
 }
 
 
@@ -243,7 +253,20 @@ tbl_nmi <- function(d,handle.na=T,...){
     }
     mi <- linkspotter::maxNMI(x,y)
   }
+  fn_pair_type <- function(x,y){
+    x <- d[[x]]
+    y <- d[[y]]
+    if(is.numeric(x) & is.numeric(y)) {
+      "numeric"
+    } else if(is.factor(x) & is.factor(y)){
+      "factor"
+    } else {
+      "mixed"
+    }
+  }
+
   nmi$measure <-  mapply(fn, nmi$x,nmi$y)
+  nmi$pair_type <- mapply(fn_pair_type, nmi$x,nmi$y)
   nmi
 
 }
@@ -269,7 +292,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 tbl_polycor <- function(d,handle.na=TRUE,...){
   # polycor automatically does pairwise omit
   d <- dplyr::select(d, where(is.ordered))
-  pcor <- assoc_tibble(d, measure_type="polycor")
+  pcor <- assoc_tibble(d, measure_type="polycor", pair_type = "ordered")
   pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
   pcor
 }
@@ -299,25 +322,11 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #' tbl_tau(iris, method="W")
 
 
-# tbl_tau <- function(d,method=c("B","A","C","W"),...){
-#   # automatically does pairwise omit, Kendall
-#   method <- method[1]
-#   a <- assoc_tibble(d, measure_type=paste0("tau", method))
-#   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
-#              DescTools::KendallW)
-#   fn <- fns[[method]]
-#   if (method =="W")
-#     a$measure <- mapply(function(x,y) fn(d[c(x,y)], correct=TRUE,...), a$x,a$y)
-#   else a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]],...), a$x,a$y)
-#   a
-# }
-
-
 tbl_tau <- function(d,method=c("B","A","C","W"),...){
   # automatically does pairwise omit, Kendall
   method <- method[1]
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type=paste0("tau", method))
+  a <- assoc_tibble(d, measure_type=paste0("tau", method), pair_type = "ordered")
   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
              DescTools::KendallW)
   fn <- fns[[method]]
@@ -351,7 +360,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 
 tbl_uncertainty <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="uncertainty")
+  a <- assoc_tibble(d, measure_type="uncertainty", pair_type = "factor")
   a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
@@ -375,7 +384,7 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 
 tbl_gkTau <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="gkTau")
+  a <- assoc_tibble(d, measure_type="gkTau", pair_type = "ordered")
   fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
   a$measure <- mapply(fnlocal, a$x,a$y)
   a
@@ -400,7 +409,7 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 
 tbl_gkGamma <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type="gkGamma")
+  a <- assoc_tibble(d, measure_type="gkGamma", pair_type = "ordered")
   a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
@@ -424,7 +433,7 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 
 tbl_chi <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="chi")
+  a <- assoc_tibble(d, measure_type="chi", pair_type = "factor")
   a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
@@ -454,7 +463,7 @@ tbl_chi <- function(d,handle.na=TRUE,...){
 tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 
   d <- dplyr::select(d, where(is.numeric))
-  scag <- assoc_tibble(d, measure_type = scagnostic)
+  scag <- assoc_tibble(d, measure_type = scagnostic, pair_type = "numeric")
   scag_fn <- function(x,y) {
 
     x <- d[[x]]
@@ -522,7 +531,20 @@ tbl_ace <- function(d, handle.na = T, ...) {
     ace_assoc
   }
 
+  fn_pair_type <- function(x,y){
+      x <- d[[x]]
+      y <- d[[y]]
+      if(is.numeric(x) & is.numeric(y)) {
+        "numeric"
+      } else if(is.factor(x) & is.factor(y)){
+        "factor"
+      } else {
+        "mixed"
+      }
+  }
+
   ace_assoc$measure <- mapply(ace_fn, ace_assoc$x,ace_assoc$y)
+  ace_assoc$pair_type <- mapply(fn_pair_type, ace_assoc$x,ace_assoc$y)
   ace_assoc
 }
 

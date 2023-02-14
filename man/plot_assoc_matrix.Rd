@@ -9,7 +9,6 @@ plot_assoc_matrix(
   uassoc = NULL,
   glyph = c("square", "circle"),
   fill = "default",
-  var_order = "default",
   limits = c(-1, 1)
 )
 }
@@ -23,8 +22,6 @@ If \emph{NULL} (default) the matrix plot is symmetric.}
 
 \item{fill}{a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 for using levels of conditioning variable, "measure" for displaying a gradient or a color.}
-
-\item{var_order}{a character string for the ordering of the variables. Either "default" (default) or "max_diff"}
 
 \item{limits}{a numeric vector of length 2 specifying the limits of the scale. Default is c(-1,1)}
 }
