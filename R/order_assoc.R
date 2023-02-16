@@ -7,15 +7,16 @@
 #'
 #' @return character vector representing the ordering of the variables
 #' @export
-#' @importFrom magrittr %>%
+
 #'
 #' @examples
-#' order_assoc(calc_assoc(iris))
-#' order_assoc(calc_assoc(iris,"Species"))
-#' order_assoc(calc_assoc(iris,"Species"),method="max_diff")
+#' order_assoc_var(calc_assoc(iris))
+#' order_assoc_var(calc_assoc(iris),"by")
+#' order_assoc_var(calc_assoc_all(iris),"measure_type")
 
 
-order_assoc <- function(assoc, group_var = group_var){
+
+order_assoc_var <- function(assoc, group_var = group_var){
   if (is.null(group_var)){
     assoc <- assoc
   } else if (group_var == "measure_type"){
@@ -29,6 +30,47 @@ order_assoc <- function(assoc, group_var = group_var){
       dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
   }
   m <- matrix_assoc(assoc)
-  o <- DendSer::dser(-abs(m), 1-abs(m), cost = DendSer::costLPL)
+  o <- DendSer::dser(as.dist(-abs(m)), cost = DendSer::costLPL)
   rownames(m)[o]
 }
+
+#' Ordering lollipops for the lollipop plot in matrix layout
+#'
+#' Calculates an ordering for the lollipops.
+#'
+#' @param assoc A tibble with association measures for different variable pairs in the dataset.
+#' @param group_var a character vector for grouping variable. One of "by" or "measure_type"
+#'
+#' @return character vector representing the ordering of the lollipops
+#' @export
+
+#'
+#' @examples
+#' order_assoc_lollipop(calc_assoc(iris),"by")
+#' order_assoc_lollipop(calc_assoc_all(iris),"measure_type")
+
+order_assoc_lollipop <- function(assoc, group_var = group_var){
+
+  if (group_var=="measure_type"){
+    lollipop_m <- assoc |>
+      tidyr::pivot_wider(id_cols = 1:2,names_from = "measure_type", values_from = "measure") |>
+      dplyr::select(-x,-y) |>
+      stats::cor(use = "pairwise.complete.obs")
+  } else {
+    lollipop_m <- assoc |>
+      tidyr::pivot_wider(id_cols = 1:2,names_from = "by", values_from = "measure") |>
+      dplyr::select(-x,-y,-overall) |>
+      stats::cor(use = "pairwise.complete.obs")
+  }
+
+  if (nrow(lollipop_m)==2){
+    lollipop_o <- rownames(lollipop_m)[c(1,2)]
+  } else {
+    lollipop_o <- DendSer::dser(x = as.dist(-abs(lollipop_m)), cost = DendSer::costLPL)
+  }
+
+
+  rownames(lollipop_m)[lollipop_o]
+}
+
+

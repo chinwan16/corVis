@@ -54,7 +54,7 @@ We can also calculate multiple association measures for all the variable pairs i
 
 ```{r fig.width=4, fig.height=4, fig.align='center',fig.cap="Figure 2: Comparing Pearson's and Spearman's correlation coefficient"}
 
-df_num <- select(df,where(is.numeric))
+df_num <- dplyr::select(df,where(is.numeric))
 pearson <- calc_assoc(df_num)
 
 spearman_assoc <- update_assoc(num_pair = "tbl_cor",

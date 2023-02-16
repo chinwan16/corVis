@@ -71,7 +71,7 @@ tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
   if (handle.na)
     dcor <- stats::cor(d,method=method,use="pairwise.complete.obs")
   else dcor <- stats::cor(d,method=method,...)
-  assoc_tibble(dcor, measure_type=method, pair_type = "numeric")
+  assoc_tibble(dcor, measure_type=method, pair_type = "nn")
 }
 
 
@@ -115,11 +115,11 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
   }
   fn_pair_type <- function(x,y){
     if(is.numeric(x) & is.numeric(y)) {
-      "numeric"
+      "nn"
     } else if(is.factor(x) & is.factor(y)){
-      "factor"
+      "ff"
     } else {
-      "mixed"
+      "nf"
     }
   }
   a$measure <- mapply(function(x,y) fn(d[[x]],d[[y]]), a$x,a$y)
@@ -143,7 +143,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 
 tbl_dcor <- function(d, handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.numeric))
-  dcor <- assoc_tibble(d, measure_type="dcor", pair_type = "numeric")
+  dcor <- assoc_tibble(d, measure_type="dcor", pair_type = "nn")
   fn <- function(x,y){
     x <- d[[x]]
     y <- d[[y]]
@@ -220,7 +220,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
   else dcor <- minerva::mine(d,...)
 
   dcor <- dcor[[toupper(method)]]
-  assoc_tibble(dcor, measure_type=method, pair_type = "numeric")
+  assoc_tibble(dcor, measure_type=method, pair_type = "nn")
 }
 
 
@@ -257,11 +257,11 @@ tbl_nmi <- function(d,handle.na=T,...){
     x <- d[[x]]
     y <- d[[y]]
     if(is.numeric(x) & is.numeric(y)) {
-      "numeric"
+      "nn"
     } else if(is.factor(x) & is.factor(y)){
-      "factor"
+      "ff"
     } else {
-      "mixed"
+      "nf"
     }
   }
 
@@ -292,7 +292,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 tbl_polycor <- function(d,handle.na=TRUE,...){
   # polycor automatically does pairwise omit
   d <- dplyr::select(d, where(is.ordered))
-  pcor <- assoc_tibble(d, measure_type="polycor", pair_type = "ordered")
+  pcor <- assoc_tibble(d, measure_type="polycor", pair_type = "oo")
   pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
   pcor
 }
@@ -326,7 +326,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
   # automatically does pairwise omit, Kendall
   method <- method[1]
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type=paste0("tau", method), pair_type = "ordered")
+  a <- assoc_tibble(d, measure_type=paste0("tau", method), pair_type = "oo")
   fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
              DescTools::KendallW)
   fn <- fns[[method]]
@@ -360,7 +360,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 
 tbl_uncertainty <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="uncertainty", pair_type = "factor")
+  a <- assoc_tibble(d, measure_type="uncertainty", pair_type = "ff")
   a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
@@ -384,7 +384,7 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 
 tbl_gkTau <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="gkTau", pair_type = "ordered")
+  a <- assoc_tibble(d, measure_type="gkTau", pair_type = "oo")
   fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
   a$measure <- mapply(fnlocal, a$x,a$y)
   a
@@ -409,7 +409,7 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 
 tbl_gkGamma <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type="gkGamma", pair_type = "ordered")
+  a <- assoc_tibble(d, measure_type="gkGamma", pair_type = "oo")
   a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
@@ -433,7 +433,7 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 
 tbl_chi <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="chi", pair_type = "factor")
+  a <- assoc_tibble(d, measure_type="chi", pair_type = "ff")
   a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
@@ -463,7 +463,7 @@ tbl_chi <- function(d,handle.na=TRUE,...){
 tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 
   d <- dplyr::select(d, where(is.numeric))
-  scag <- assoc_tibble(d, measure_type = scagnostic, pair_type = "numeric")
+  scag <- assoc_tibble(d, measure_type = scagnostic, pair_type = "nn")
   scag_fn <- function(x,y) {
 
     x <- d[[x]]
@@ -535,11 +535,11 @@ tbl_ace <- function(d, handle.na = T, ...) {
       x <- d[[x]]
       y <- d[[y]]
       if(is.numeric(x) & is.numeric(y)) {
-        "numeric"
+        "nn"
       } else if(is.factor(x) & is.factor(y)){
-        "factor"
+        "ff"
       } else {
-        "mixed"
+        "nf"
       }
   }
 

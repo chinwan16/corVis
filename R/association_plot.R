@@ -32,19 +32,12 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     else group_var <- "measure_type"
   }
 
-  var_order <- order_assoc(lassoc,group_var)
+
+  var_order <- order_assoc_var_test(lassoc,group_var)
 
   if(!is.null(group_var)){
-    if(group_var=="measure_type"){
-      lollipop_m <- lassoc |>
-        tidyr::pivot_wider(id_cols = 1:2,names_from = "measure_type", values_from = "measure") |>
-        dplyr::select(-x,-y) |>
-        stats::cor(use = "pairwise.complete.obs")
-      lollipop_o <- rownames(lollipop_m)[DendSer::dser(-abs(lollipop_m), 1-abs(lollipop_m), cost = DendSer::costLPL)]
-    }
+    lollipop_order <- order_assoc_lollipop_test(lassoc,group_var)
   }
-
-
 
   if (is.null(uassoc))
     assoc <- sym_assoc(lassoc) else {
@@ -66,8 +59,12 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
   assoc$x <- factor(assoc$x, levels=var_order)
   assoc$y <- factor(assoc$y, levels=var_order)
-  if(!is.null(group_var)) {if(group_var=="measure_type")
-    assoc$measure_type <- factor(assoc$measure_type, levels = lollipop_o)}
+
+  if(!is.null(group_var))
+
+    if(group_var=="measure_type"){
+      assoc[[group_var]] <- factor(assoc[[group_var]], levels = lollipop_order)
+    } else assoc[[group_var]] <- factor(assoc[[group_var]], levels = c(lollipop_order,"overall"))
 
   if ("by" %in% names(assoc)){
     overall <- dplyr::filter(assoc, by =="overall")
@@ -137,7 +134,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),color="pink")
-    p <- p + ggplot2::theme(panel.spacing = unit(0.05, "lines"))
+    p <- p + ggplot2::theme(panel.spacing = ggplot2::unit(0.05, "lines"))
 
     by_var <- attr(lassoc,"by_var")
     if (isTRUE(fillvar %in% names(assoc)))
@@ -146,11 +143,11 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
       {if(fillvar == "by") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$measure,group=.data[[group_var]],color=.data[[fillvar]]), size=1)} +
       {if(fillvar == "by") ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5)} +
       {if(fillvar == "by") ggplot2::scale_y_continuous(limits=limits)} +
-      {if(fillvar == "by") ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2,y= mean(limits),label=.data$text),size=2)} +
+      {if(fillvar == "by") ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2+0.5,y= mean(limits),label=.data$text),size=2)} +
       {if(fillvar == "measure_type") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], color=.data[[fillvar]], y=0, yend=.data$abs_measure))} +
       {if(fillvar == "measure_type") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$abs_measure,group=.data[[group_var]],color=.data[[fillvar]]), size=1)} +
       {if(fillvar == "measure_type") ggplot2::scale_y_continuous(limits=c(0,1))} +
-      {if(fillvar == "measure_type") ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2,y= 0.5,label=.data$text),size=2)} +
+      {if(fillvar == "measure_type") ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2+0.5,y= 0.5,label=.data$text),size=2)} +
       {if(group_var!="measure_type") ggplot2::labs(color = by_var)} # ch comments updated
     else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
 
