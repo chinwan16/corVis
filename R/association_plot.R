@@ -33,10 +33,10 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   }
 
 
-  var_order <- order_assoc_var_test(lassoc,group_var)
+  var_order <- order_assoc_var(lassoc,group_var)
 
   if(!is.null(group_var)){
-    lollipop_order <- order_assoc_lollipop_test(lassoc,group_var)
+    lollipop_order <- order_assoc_lollipop(lassoc,group_var)
   }
 
   if (is.null(uassoc))
