@@ -25,11 +25,11 @@ Creates a tibble for every variable pair in a dataset with a measure of associat
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{matrix}: assoc_tibble method
+\item \code{assoc_tibble(matrix)}: assoc_tibble method
 
-\item \code{data.frame}: assoc_tibble method
+\item \code{assoc_tibble(data.frame)}: assoc_tibble method
+
 }}
-
 \examples{
 assoc_tibble(cor(iris[,1:4]), measure_type="pearson")
 assoc_tibble(iris)

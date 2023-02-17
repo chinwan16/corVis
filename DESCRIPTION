@@ -8,7 +8,7 @@ Description: Correlations are really useful for screening variables prior to mod
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: stats, ggplot2, dplyr, magrittr, DescTools, forcats, 
          labeling, energy, correlation, minerva, polycor, rlang
 Suggests: 

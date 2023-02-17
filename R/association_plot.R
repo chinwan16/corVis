@@ -6,6 +6,8 @@
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
 #'               If *NULL* (default) the matrix plot is symmetric.
 #' @param glyph A character string for the glyph to be used. Either "square" or "circle"
+#' @param var_order A character string for the variable order. Either "default" for ordering
+#' using Dendser or a user provided variable order.
 #' @param fill a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 #'             for using levels of conditioning variable, "measure" for displaying a gradient or a color.
 #'
@@ -20,6 +22,7 @@
 
 
 plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
+                              var_order="default",
                               fill="default",
                               limits=c(-1,1)){
   glyph = match.arg(glyph)
@@ -32,8 +35,15 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
     else group_var <- "measure_type"
   }
 
+  if( "default" %in% var_order){
+    var_order <- order_assoc_var(lassoc,group_var)
+  }else{
+    if (length(unique(c(lassoc$y, lassoc$x))) != length(var_order))
+      stop("Length of var_order should be same as number of variables")
+    var_order <- var_order
+  }
 
-  var_order <- order_assoc_var(lassoc,group_var)
+
 
   if(!is.null(group_var)){
     lollipop_order <- order_assoc_lollipop(lassoc,group_var)

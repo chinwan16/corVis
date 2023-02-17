@@ -8,6 +8,7 @@ plot_assoc_matrix(
   lassoc,
   uassoc = NULL,
   glyph = c("square", "circle"),
+  var_order = "default",
   fill = "default",
   limits = c(-1, 1)
 )
@@ -19,6 +20,9 @@ plot_assoc_matrix(
 If \emph{NULL} (default) the matrix plot is symmetric.}
 
 \item{glyph}{A character string for the glyph to be used. Either "square" or "circle"}
+
+\item{var_order}{A character string for the variable order. Either "default" for ordering
+using Dendser or a user provided variable order.}
 
 \item{fill}{a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
 for using levels of conditioning variable, "measure" for displaying a gradient or a color.}
