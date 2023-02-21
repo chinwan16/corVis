@@ -37,13 +37,7 @@ library(corVis)
 library(palmerpenguins)
 
 penguins_df <- palmerpenguins::penguins
-names(penguins_df)
-#> [1] "species"           "island"            "bill_length_mm"   
-#> [4] "bill_depth_mm"     "flipper_length_mm" "body_mass_g"      
-#> [7] "sex"               "year"
-names(penguins_df) <- c("species", "island", "bill_l",
-                 "bill_d", "flip_l", "mass",
-                 "sex", "year")
+
 penguins_assoc <- calc_assoc(penguins_df)
 plot_assoc_matrix(penguins_assoc)
 ```
@@ -58,24 +52,13 @@ measures in order to reveal variable pairs with high difference among
 the measures.
 
 ``` r
-penguins_pearson <- tbl_cor(penguins_df)
-penguin_distance <- tbl_dcor(penguins_df)
-penguins_mic <- tbl_mine(penguins_df)
-penguins_cancor <- tbl_cancor(penguins_df)
-penguins_nmi <- tbl_nmi(penguins_df)
+penguins_num <- dplyr::select(penguins_df,where(is.numeric))
+penguins_compare <- calc_assoc_all(penguins_num)
 
-penguins_compare <- rbind(penguins_pearson, 
-                          penguin_distance, 
-                          penguins_mic, 
-                          penguins_cancor,
-                          penguins_nmi)
-penguins_compare$measure_type <- factor(penguins_compare$measure_type,
-                                        levels = c("cancor","nmi","pearson",
-                                                   "mic","dcor"))
 
-plot_assoc_linear(penguins_compare,
-                  var_order = "max_diff",
-                  limits = c(0,1))
+plot_assoc_matrix(penguins_compare,
+                  var_order = "default",
+                  limits = c(-1,1))
 ```
 
 <img src="man/figures/README-example2-1.png" width="100%" />

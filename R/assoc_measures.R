@@ -363,7 +363,8 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 tbl_uncertainty <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="uncertainty", pair_type = "ff")
-  a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
+  if (ncol(d)>0)
+    a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
 
@@ -388,7 +389,8 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="gkTau", pair_type = "oo")
   fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
-  a$measure <- mapply(fnlocal, a$x,a$y)
+  if (ncol(d)>0)
+    a$measure <- mapply(fnlocal, a$x,a$y)
   a
 }
 
@@ -437,7 +439,8 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 tbl_chi <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
   a <- assoc_tibble(d, measure_type="chi", pair_type = "ff")
-  a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
+  if (ncol(d)>0)
+    a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
 
