@@ -293,7 +293,8 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
   # polycor automatically does pairwise omit
   d <- dplyr::select(d, where(is.ordered))
   pcor <- assoc_tibble(d, measure_type="polycor", pair_type = "oo")
-  pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
+  if (ncol(d)>0)
+    pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
   pcor
 }
 
@@ -337,7 +338,8 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
       fn(d[c(x,y)], correct=TRUE,...)
     else fn(d[[x]],d[[y]],...)
   }
-  a$measure <- mapply(fnlocal, a$x,a$y)
+  if (ncol(d)>0)
+    a$measure <- mapply(fnlocal, a$x,a$y)
   a
 }
 
@@ -410,7 +412,8 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 tbl_gkGamma <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.ordered))
   a <- assoc_tibble(d, measure_type="gkGamma", pair_type = "oo")
-  a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
+  if (ncol(d)>0)
+    a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
   a
 }
 

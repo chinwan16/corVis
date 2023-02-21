@@ -30,7 +30,6 @@ calc_assoc  <- function(d,
 
   if (!is.null(coerce_types)){
     nums <- coerce_types$numeric
-    # d[,nums] <- as.data.frame(lapply(d[,nums], as.numeric))
     d[,nums] <- sapply(d[,nums], as.numeric)
     ords <- coerce_types$ordinal
     d[,ords] <- as.data.frame(lapply(d[,ords], as.ordered))
