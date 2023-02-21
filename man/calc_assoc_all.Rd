@@ -22,7 +22,7 @@ can be updated to a subset of these measures.}
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate measure of association}
 }
 \value{
-tibble
+tibble of class "multi_pairwise"
 }
 \description{
 Calculates all association measures for every variable pair in a dataset.

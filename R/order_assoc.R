@@ -30,6 +30,9 @@ order_assoc_var <- function(assoc, group_var = group_var){
       dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
   }
   m <- matrix_assoc(assoc)
+  if(nrow(assoc)!=choose(length(unique(c(assoc$y, assoc$x))), 2)){
+    m[is.na(m)] <- 0; diag(m) <- NA
+  }
   o <- DendSer::dser(as.dist(-abs(m)), cost = DendSer::costLPL)
   rownames(m)[o]
 }

@@ -5,12 +5,9 @@
 #' @param lassoc A tibble with the calculated association measures for the lower triangle of the matrix plot.
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
 #'               If *NULL* (default) the matrix plot is symmetric.
-#' @param glyph A character string for the glyph to be used. Either "square" or "circle"
+#' @param glyph A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle"
 #' @param var_order A character string for the variable order. Either "default" for ordering
 #' using Dendser or a user provided variable order.
-#' @param fill a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
-#'             for using levels of conditioning variable, "measure" for displaying a gradient or a color.
-#'
 #' @param limits a numeric vector of length 2 specifying the limits of the scale. Default is c(-1,1)
 
 #' @export
@@ -23,17 +20,20 @@
 
 plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
                               var_order="default",
-                              fill="default",
                               limits=c(-1,1)){
-  glyph = match.arg(glyph)
-  vartypes <- attr(lassoc,"vartypes")
+  for (i in 1: length(lassoc$x)) lassoc$x[i] <-
+      paste(unlist(stringi::stri_extract_all_regex(lassoc$x[i], '.{1,6}')),collapse="\n")
 
-  if ("by" %in% names(lassoc)){
+  for (i in 1: length(lassoc$x)) lassoc$y[i] <-
+      paste(unlist(stringi::stri_extract_all_regex(lassoc$y[i], '.{1,6}')),collapse="\n")
+
+  glyph = match.arg(glyph)
+
+  if(class(lassoc)[1]=="pairwise"){
+    group_var <- NULL
+  } else if(class(lassoc)[1]=="cond_pairwise"){
     group_var <- "by"
-  } else {
-    if (nrow(lassoc) == choose(length(unique(c(lassoc$y, lassoc$x))), 2)) group_var <- NULL
-    else group_var <- "measure_type"
-  }
+  } else group_var <- "measure_type"
 
   if( "default" %in% var_order){
     var_order <- order_assoc_var(lassoc,group_var)
@@ -42,8 +42,6 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
       stop("Length of var_order should be same as number of variables")
     var_order <- var_order
   }
-
-
 
   if(!is.null(group_var)){
     lollipop_order <- order_assoc_lollipop(lassoc,group_var)
@@ -54,12 +52,6 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
       names(uassoc)[1:2] <- names(uassoc)[2:1]
       assoc <-rbind(lassoc, uassoc)
     }
-
-  if (fill =="default" & !is.null(group_var) ){
-    if (group_var %in% names(assoc)) fillvar <- group_var
-    else fillvar <- "measure_type"
-  }
-  else fillvar <- fill
 
   if (is.null(limits)) {
     limits <- range(lassoc$measure, na.rm=TRUE)
@@ -87,10 +79,10 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   diag_df$measure <- NA
   diag_df$intercept <- NA
   diag_df$text <- diag_df$x
-  diag_df$var_type <- vartypes[var_order]
+  # diag_df$var_type <- vartypes[var_order]
   assoc$text <- NA
   assoc$intercept <- 0
-  assoc$var_type <- NA
+  # assoc$var_type <- NA
   assoc <- rbind(assoc, diag_df)
 
   assoc$abs_measure <- abs(assoc$measure)
@@ -121,7 +113,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   if(is.null(group_var)){
 
     p <- p +
-      ggplot2::geom_text(ggplot2::aes(x=0.1,y=0,label=.data$text),size=3) +
+      ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text),size=3) +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank(),
                      axis.ticks.y = ggplot2::element_blank())
@@ -144,30 +136,21 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
     if (!is.null(overall))
       p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),color="pink")
-    p <- p + ggplot2::theme(panel.spacing = ggplot2::unit(0.05, "lines"))
+
+    p <- p +
+      ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], color=.data[[group_var]], y=0, yend=.data$measure)) +
+      ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$measure,group=.data[[group_var]],color=.data[[group_var]]), size=1) +
+      ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2+0.5,y= mean(limits),label=.data$text),size=3) +
+      ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
+      ggplot2::scale_y_continuous(limits=limits) +
+      ggplot2::theme(panel.spacing = ggplot2::unit(0.05, "lines"))
 
     by_var <- attr(lassoc,"by_var")
-    if (isTRUE(fillvar %in% names(assoc)))
-      p <- p+
-      {if(fillvar == "by") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], color=.data[[fillvar]], y=0, yend=.data$measure))} +
-      {if(fillvar == "by") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$measure,group=.data[[group_var]],color=.data[[fillvar]]), size=1)} +
-      {if(fillvar == "by") ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5)} +
-      {if(fillvar == "by") ggplot2::scale_y_continuous(limits=limits)} +
-      {if(fillvar == "by") ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2+0.5,y= mean(limits),label=.data$text),size=3)} +
-      {if(fillvar == "measure_type") ggplot2::geom_segment(ggplot2::aes(x=.data[[group_var]],xend=.data[[group_var]], color=.data[[fillvar]], y=0, yend=.data$abs_measure))} +
-      {if(fillvar == "measure_type") ggplot2::geom_point(ggplot2::aes(x=.data[[group_var]],y=.data$abs_measure,group=.data[[group_var]],color=.data[[fillvar]]), size=1)} +
-      {if(fillvar == "measure_type") ggplot2::scale_y_continuous(limits=c(0,1))} +
-      {if(fillvar == "measure_type") ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2+0.5,y= 0.5,label=.data$text),size=3)} +
-      {if(group_var!="measure_type") ggplot2::labs(color = by_var)} # ch comments updated
-    else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
+    p <- p+ {if(group_var=="by") ggplot2::labs(color = by_var)} # ch comments update
 
-
-    # else {
-    #     p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]])) #ch comments updated
-    # }
   }
 
-  suppressWarnings(print(p))
+  suppressWarnings(p)
 }
 
 

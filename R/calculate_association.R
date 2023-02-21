@@ -13,7 +13,8 @@
 #'                        includes it in the result.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association.
 #' @param coerce_types a list specifying the variables that to need to be coerced to different variable types
-#' @return tibble
+#' @return A tibble with class "pairwise" when by argument is set to NULL. Else a tibble with class
+#' "cond_pairwise"
 #' @export
 #'
 #'
@@ -92,8 +93,6 @@ calc_assoc  <- function(d,
           pcor$pair_type[i] <- m$pair_type[1]
         }
     }
-    names(vartypes) <- names(d)
-    attr(pcor,"vartypes") <- vartypes
     class(pcor)<-append("pairwise", class(pcor))
     pcor
   } else {
@@ -112,16 +111,7 @@ calc_assoc  <- function(d,
         dplyr::mutate(by = "overall")
       result <- rbind(result, overall)
     }
-    d_new <- d %>% dplyr::select(-by)
-    vartypes <- sapply(names(d_new), function(u)
-      if (is.numeric(d[[u]])) "numeric"
-      else if (is.ordered(d[[u]])) "ordered"
-      else if (is.factor(d[[u]])) "factor"
-      else "other")
-    names(vartypes) <- names(d_new)
-    attr(result,"vartypes") <- vartypes
-    #print(attr(result,"vartypes"))
-    class(result)<-append("pairwise", class(result))
+    class(result)<-append("cond_pairwise", class(result))
     attr(result,"by_var") <- by
     result
 
@@ -225,7 +215,7 @@ update_assoc <- function(default=default_assoc(),
 #'
 #' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association
 #'
-#' @return tibble
+#' @return tibble of class "multi_pairwise"
 #' @export
 #'
 #' @examples
@@ -236,13 +226,6 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
                                         "dcor", "mic", "ace", "polycor", "tau_b",
                                         "uncertainty","gkTau", "gkGamma", "chi"),
                            handle.na=T) {
-
-  vartypes <- sapply(names(d), function(u)
-    if (is.numeric(d[[u]])) "numeric"
-    else if (is.ordered(d[[u]])) "ordered"
-    else if (is.factor(d[[u]])) "factor"
-    else "other")
-  names(vartypes) <- names(d)
 
   pearson = NULL; spearman = NULL; kendall = NULL; cancor = NULL
   nmi = NULL; dcor = NULL; mic = NULL;  ace = NULL;polycor = NULL; tau_b = NULL
@@ -336,9 +319,9 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
                  uncertainty, gkTau, gkGamma, chi)
 
 
-  attr(assoc,"vartypes") <- vartypes
-
+  class(assoc)<-append("multi_pairwise", class(assoc))
   return(assoc)
+
 
 }
 

@@ -31,7 +31,8 @@ includes it in the result.}
 \item{coerce_types}{a list specifying the variables that to need to be coerced to different variable types}
 }
 \value{
-tibble
+A tibble with class "pairwise" when by argument is set to NULL. Else a tibble with class
+"cond_pairwise"
 }
 \description{
 Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
