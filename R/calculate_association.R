@@ -231,89 +231,48 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
   nmi = NULL; dcor = NULL; mic = NULL;  ace = NULL;polycor = NULL; tau_b = NULL
   uncertainty = NULL; gkTau = NULL; gkGamma = NULL; chi = NULL
 
-  if ("pearson" %in% measures) {
+  d_num <- dplyr::select(d,where(is.numeric))
+  d_fac <- dplyr::select(d,where(is.factor))
+  d_ord <- dplyr::select(d,where(is.ordered))
 
-    pearson <- tbl_cor(d,handle.na = handle.na)
+  if(ncol(d_num) > 1){
+
+    if ("pearson" %in% measures) pearson <- tbl_cor(d,handle.na = handle.na)
+
+    if ("spearman" %in% measures) spearman <- tbl_cor(d,handle.na = handle.na,"spearman")
+
+    if ("kendall" %in% measures)  kendall <- tbl_cor(d,handle.na = handle.na,"kendall")
+
+    if ("dcor" %in% measures) dcor <- tbl_dcor(d,handle.na = handle.na)
+
+    if ("mic" %in% measures) mic <- tbl_mine(d,handle.na = handle.na)
+  }
+
+  if (ncol(d_fac) > 1){
+
+    if ("uncertainty" %in% measures) uncertainty <- tbl_uncertainty(d,handle.na = handle.na)
+
+    if ("chi" %in% measures) chi <- tbl_chi(d, handle.na = handle.na)
 
   }
 
-  if ("spearman" %in% measures) {
+  if(ncol(d_ord) > 1){
 
-    spearman <- tbl_cor(d,handle.na = handle.na,"spearman")
+    if ("polycor" %in% measures) polycor <- tbl_polycor(d,handle.na = handle.na)
 
-  }
+    if ("tau_b" %in% measures) tau_b <- tbl_tau(d)
 
-  if ("kendall" %in% measures) {
+    if ("gkGamma" %in% measures) gkGamma <- tbl_gkGamma(d, handle.na = handle.na)
 
-    kendall <- tbl_cor(d,handle.na = handle.na,"kendall")
-
-  }
-
-  if ("cancor" %in% measures) {
-
-    cancor <- tbl_cancor(d,handle.na = handle.na)
+    if ("gkTau" %in% measures) gkTau <- tbl_gkTau(d, handle.na = handle.na)
 
   }
 
-  if ("nmi" %in% measures) {
+  if ("cancor" %in% measures) cancor <- tbl_cancor(d,handle.na = handle.na)
 
-    nmi <- tbl_nmi(d,handle.na = handle.na)
+  if ("nmi" %in% measures) nmi <- tbl_nmi(d,handle.na = handle.na)
 
-  }
-
-  if ("dcor" %in% measures) {
-
-    dcor <- tbl_dcor(d,handle.na = handle.na)
-
-  }
-
-  if ("mic" %in% measures) {
-
-    mic <- tbl_mine(d,handle.na = handle.na)
-
-  }
-
-  if ("ace" %in% measures) {
-
-    ace <- tbl_ace(d,handle.na = handle.na)
-
-  }
-
-  if ("polycor" %in% measures) {
-
-    polycor <- tbl_polycor(d,handle.na = handle.na)
-
-  }
-
-  if ("tau_b" %in% measures) {
-
-    tau_b <- tbl_tau(d)
-
-  }
-
-  if ("uncertainty" %in% measures) {
-
-    uncertainty <- tbl_uncertainty(d,handle.na = handle.na)
-
-  }
-
-  if ("gkTau" %in% measures) {
-
-    gkTau <- tbl_gkTau(d, handle.na = handle.na)
-
-  }
-
-  if ("gkGamma" %in% measures) {
-
-    gkGamma <- tbl_gkGamma(d, handle.na = handle.na)
-
-  }
-
-  if ("chi" %in% measures) {
-
-    chi <- tbl_chi(d, handle.na = handle.na)
-
-  }
+  if ("ace" %in% measures) ace <- tbl_ace(d,handle.na = handle.na)
 
   assoc <- rbind(pearson, spearman, kendall, cancor, nmi, dcor, mic, ace, polycor, tau_b,
                  uncertainty, gkTau, gkGamma, chi)
@@ -321,7 +280,6 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
 
   class(assoc)<-append("multi_pairwise", class(assoc))
   return(assoc)
-
 
 }
 

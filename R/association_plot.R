@@ -79,22 +79,16 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   diag_df$measure <- NA
   diag_df$intercept <- NA
   diag_df$text <- diag_df$x
-  # diag_df$var_type <- vartypes[var_order]
   assoc$text <- NA
   assoc$intercept <- 0
-  # assoc$var_type <- NA
   assoc <- rbind(assoc, diag_df)
 
   assoc$abs_measure <- abs(assoc$measure)
 
   p <- ggplot2::ggplot(assoc) +
-    #ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-    #data=simpson[,1:2],
-    #fill = 'red', alpha = 0.1) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
     ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
                        color="grey",alpha=0) +
-    #ggplot2::scale_color_hue(guide = "none") +
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.text = ggplot2::element_text(size = 5),
                    panel.background = ggplot2::element_rect(fill="white"),
@@ -146,7 +140,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
       ggplot2::theme(panel.spacing = ggplot2::unit(0.05, "lines"))
 
     by_var <- attr(lassoc,"by_var")
-    p <- p+ {if(group_var=="by") ggplot2::labs(color = by_var)} # ch comments update
+    p <- p+ {if(group_var=="by") ggplot2::labs(color = by_var)}
 
   }
 

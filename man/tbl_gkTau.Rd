@@ -14,7 +14,7 @@ tbl_gkTau(d, handle.na = TRUE, ...)
 \item{...}{other arguments}
 }
 \value{
-A tibble with Goodman Kruskal's Tau for every nominal variable pair
+A tibble with Goodman Kruskal's Tau for every ordinal variable pair
 }
 \description{
 Calculates Goodman Kruskal's Tau coefficient for every ordinal variable pair in a dataset.
