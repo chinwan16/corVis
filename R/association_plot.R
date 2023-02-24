@@ -3,15 +3,16 @@
 #' Plots the calculated measures of association among different variable pairs for a dataset in a matrix layout.
 #'
 #' @param lassoc A tibble with the calculated association measures for the lower triangle of the matrix plot.
+#' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
-#'               If *NULL* (default) the matrix plot is symmetric.
-#' @param glyph A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle"
+#' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.  If *NULL* (default) the matrix plot is symmetric.
+#' @param glyph A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle".
 #' @param var_order A character string for the variable order. Either "default" for ordering
 #' using Dendser or a user provided variable order.
-#' @param limits a numeric vector of length 2 specifying the limits of the scale. Default is c(-1,1)
+#' @param limits a numeric vector of length specifying the limits of the scale. Default is c(-1,1)
 
 #' @export
-#' @importFrom magrittr %>%
+#' @return A static `ggplot2` plot
 #' @examples
 #' plot_assoc_matrix(calc_assoc(iris))
 #' plot_assoc_matrix(calc_assoc(iris,"Species"))
@@ -24,11 +25,16 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
   glyph = match.arg(glyph)
 
+  # defining a grouping variable vector depedning on class of assoc
   if(class(lassoc)[1]=="pairwise"){
     group_var <- NULL
   } else if(class(lassoc)[1]=="cond_pairwise"){
     group_var <- "by"
-  } else group_var <- "measure_type"
+  } else if(class(lassoc)[1]=="multi_pairwise") {
+    group_var <- "measure_type"
+  } else {
+    stop("'lassoc' must be of class pairwise, cond_pairwise or multi_pairwise")
+  }
 
   if( "default" %in% var_order){
     var_order <- order_assoc_var(lassoc,group_var)
@@ -147,10 +153,17 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 #'
 #' Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
 #'
-#' @param assoc A tibble with the calculated association measures for every variable pair in the dataset..
-#' @param var_order a character string for the ordering of the variables. Either "default" (default) or "max_diff"
-#' @param plot_type a character string for specifying the plot type. One of "hearmap" or "dotplot"
-#' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
+#' @param assoc A tibble with the calculated association measures for every variable pair in the dataset.
+#' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.
+#'
+#' @param pair_order a character string for ordering of the pairs of variables in linear layout. One of "default" (default) or "max_diff".
+#'  When set to "default", pairs are arranged in decreasing order of the absolute value of measure or measures (when multiple measure per pair are present).
+#'  When set to "max_diff", the ordering is only applicable to assoc with class cond_pairwise or multi_pairwise and the pairs are ordered in descending order of the maximum difference calculated among the measures.
+#'
+#' @param plot_type a character string for specifying the type of plot an analyst wants. One of "heatmap" or "dotplot".
+#' @param limits a numeric vector specifying the limits of the scale. Default is c(-1,1)
+#' @return A static `ggplot2` plot
+#'
 #'
 #' @export
 #'
@@ -161,20 +174,24 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
 
 plot_assoc_linear <- function(assoc,
-                              var_order = "default",
+                              pair_order = "default",
                               plot_type = c("heatmap","dotplot"),
                               limits=c(-1,1)){
 
   plot_type = match.arg(plot_type)
 
-  if ("by" %in% names(assoc)){
+  # defining a grouping variable vector depending on class of assoc
+  if(class(assoc)[1]=="pairwise"){
+    group_var <- NULL
+  } else if(class(assoc)[1]=="cond_pairwise"){
     group_var <- "by"
+  } else if(class(assoc)[1]=="multi_pairwise") {
+    group_var <- "measure_type"
   } else {
-    if (nrow(assoc) == choose(length(unique(c(assoc$y, assoc$x))), 2)) group_var <- NULL
-    else group_var <- "measure_type"
+    stop("'assoc' must be of class pairwise, cond_pairwise or multi_pairwise")
   }
 
-  if (isTRUE(var_order == "default")){
+  if (isTRUE(pair_order == "default")){
     assoc$z <- paste0(assoc$x, sep=":", assoc$y)
     assoc <- dplyr::arrange(assoc,dplyr::desc(abs(.data$measure)))
     assoc$z <- forcats::fct_inorder(assoc$z)
@@ -182,18 +199,18 @@ plot_assoc_linear <- function(assoc,
   } else {
 
     if ("by" %in% names(assoc)){
-      assoc <- assoc %>%
-        dplyr::group_by(.data$x,.data$y) %>%
+      assoc <- assoc |>
+        dplyr::group_by(.data$x,.data$y) |>
         dplyr::summarize(.data$measure,.data$measure_type,.data$by,max_diff = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
       assoc$z <- paste0(assoc$x, sep=":", assoc$y)
-      assoc <- dplyr::arrange(assoc,dplyr::desc(.data$max_diff))
+      assoc <- dplyr::arrange(assoc,.data$max_diff)
       assoc$z <- forcats::fct_inorder(assoc$z)
     } else{
       assoc$z <- paste0(assoc$x, sep=":", assoc$y)
-      var_order <- assoc %>% dplyr::group_by(.data$z) %>%
-        dplyr::summarise(max_diff=diff(range(abs(.data$measure)))) %>%
-        dplyr::arrange(.data$max_diff) %>% dplyr::pull(.data$z)
-      assoc$z <- factor(assoc$z,levels = var_order)
+      pair_order_m <- assoc |> dplyr::group_by(.data$z) |>
+        dplyr::summarise(max_diff=diff(range(abs(.data$measure)))) |>
+        dplyr::arrange(.data$max_diff) |> dplyr::pull(.data$z)
+      assoc$z <- factor(assoc$z,levels = pair_order_m)
     }
 
   }
@@ -203,25 +220,20 @@ plot_assoc_linear <- function(assoc,
     limits <- range(labeling::rpretty(limits[1], limits[2]))
   }
 
-  by_var <- attr(assoc,"by_var")
-
-  assoc$abs_measure <- abs(assoc$measure)
-
-
   p <- ggplot2::ggplot(assoc) +
     ggplot2::theme(legend.position = "top",
                    axis.title.y  = ggplot2::element_blank())
 
+  by_var <- attr(assoc,"by_var")
+
   if (plot_type == "heatmap"){
 
     p <- p +
-      {if(group_var=="NULL") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$measure))} +
-      {if(group_var=="measure_type") ggplot2::geom_tile(ggplot2::aes(x=.data$measure_type,y=.data$z,fill=.data$abs_measure))} +
-      {if(group_var=="measure_type") ggplot2::scale_fill_gradient(low="white", high="brown",na.value="grey95",limits=c(0,1))} +
-      {if(group_var=="by") ggplot2::geom_tile(ggplot2::aes(x=.data$by,y=.data$z,fill=.data$measure))} +
-      {if(group_var=="by") ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits)} +
+      {if(is.null(group_var)) ggplot2::geom_tile(ggplot2::aes(x=.data[["measure_type"]],y=.data[["z"]],fill=.data[["measure"]]))} +
+      {if(!is.null(group_var)) ggplot2::geom_tile(ggplot2::aes(x=.data[[group_var]],y=.data[["z"]],fill=.data[["measure"]]))} +
+      ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits) +
       ggplot2::scale_x_discrete(position = "top") +
-      #ggplot2::scale_y_discrete(limits=rev) +
+      {if(pair_order=="default") ggplot2::scale_y_discrete(limits=rev)} +
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0),
                      axis.text = ggplot2::element_text(size = 8),
@@ -233,15 +245,14 @@ plot_assoc_linear <- function(assoc,
 
     p <- p +
       ggplot2::geom_hline(yintercept = 0) +
-      {if(group_var=="NULL") ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$measure_type))} +
-      {if(group_var=="measure_type") ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$measure_type))} +
-      {if(group_var=="by") ggplot2::geom_point(ggplot2::aes(x=.data$z,y=.data$measure,colour=.data$by)) } +
+      {if(is.null(group_var)) ggplot2::geom_point(ggplot2::aes(x=.data[["z"]],y=.data[["measure"]],colour=.data[["measure_type"]]))} +
+      {if(!is.null(group_var)) ggplot2::geom_point(ggplot2::aes(x=.data[["z"]],y=.data[["measure"]],colour=.data[[group_var]]))} +
       ggplot2::ylim(limits[1],limits[2]) +
       ggplot2::coord_flip() +
-      ggplot2::scale_x_discrete(limits=rev) +
+      {if(pair_order=="default") ggplot2::scale_x_discrete(limits=rev)} +
       ggplot2::labs(colour = by_var)
   }
-  suppressWarnings(print(p))
+  suppressWarnings(p)
 }
 
 

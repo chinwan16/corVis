@@ -83,18 +83,13 @@ In some applications, a matrix structure for a measure is more useful than dataf
 ```{r}
 head(matrix_assoc(distance))
 ```
-The function outputs a matrix even if any variable pair is missing in the input tibble with  *NA* for corresponding variable pair cell in the matrix output.
-```{r}
-distance <- distance[-1,]
-matrix_assoc(distance)
-```
 
 The function has an additional argument called *group* which represents the level of the grouping categorical variable for which the matrix output needs to be calculated and is set to *overall* as default. 
 
 
 ## Calculating association measures for whole dataset
 
-`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. In addition to tibble structure, the output also has *paiwise* and *data.frame* class which are important class attributes for producing visual summaries in this package. 
+`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. In addition to tibble structure, the output also has *pairwise* and *data.frame* class which are important class attributes for producing visual summaries in this package. 
 
 ```{r}
 complete_assoc <- calc_assoc(df)
@@ -133,7 +128,7 @@ The variable pairs in the output are unique pairs and a subset of all the variab
 
 ## Calculating conditional association
 
-`calc_assoc` can be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a tibble structure with _pairwise_ and _data.frame_ as additional class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
+`calc_assoc` can also be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a data structure with *cond_pairwise*, *data.frame*, *tibble* as  class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
 ```{r}
 complete_assoc_by <- calc_assoc(df,by = "sex")
 ```
@@ -154,13 +149,17 @@ By default, the function calculates the association measures for all the variabl
 complete_assoc_by <- calc_assoc(df,by = "sex",include.overall = FALSE)
 ```
 
-The tibble output for `calc_assoc` with a conditioning variable has the following structure:
-  - `x` and `y` representing a pair of variables
-  - `measure` representing the calculated value for association measure
-  - `measure_type` representing the association measure calculated for `x` and `y` pair.
-  - `by` representing the levels of the categorical variable used in the function. 
- 
 The variable pairs in the output are repeated for every level of `by` variable.
 
+## Calculating mutliple association measures
 
+We calculate multiple assocaition measures with `calc_assoc_all` function in the package. The function takes a dataset and a list of measures as input and outputs a tibble structure with multiple measures of association for every variable pair. The output data structure has class attribute *multi_pairwise* which is used for producing multiple measures display. It also has additional class attributes such as *data.frame* or *tibble* which are useful for leveraging tools in _dplyr_ or _ggplot2_.
 
+This output is used by the plotting functions to produce multiple measures display in different layout. The code section below calculates `pearson`, `dcor` and `ace` measures for the variable pairs in penguins data. The pairs for which a measure is not defined is not included in the result.
+
+```{r}
+penguin_assoc_multi <- calc_assoc_all(d = df,
+                                   measures = c("pearson",
+                                                "dcor",
+                                                "ace"))
+penguin_assoc_multi

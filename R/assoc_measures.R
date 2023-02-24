@@ -51,7 +51,7 @@ assoc_tibble.data.frame <- function(data, measure_type=NA_character_, pair_type=
 #'
 #' Calculates one of either pearson, spearman or kendall correlation for every numeric variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param method A character string for the correlation coefficient to be calculated. Either "pearson" (default),
 #'               "spearman", or "kendall"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
@@ -79,7 +79,7 @@ tbl_cor <- function(d, method="pearson", handle.na=TRUE,...){
 #'
 #' Calculates canonical correlation for every variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -131,7 +131,7 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates distance correlation for every numeric variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #' @details The distance correlation is calculated using \code{\link[energy]{dcor2d}} from \code{energy} package
@@ -163,7 +163,7 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 # Calculates one of the many correlation coefficients available with easystats package
 # for variable pairs in a dataset.
 #
-# @param d A dataframe
+# @param d A dataframe or tibble
 # @param method A character string for the correlation coefficient to be calculated. One of "pearson" (default),
 #               "spearman", "kendall", "biserial", "polychoric", "tetrachoric", "biweight", "distance",
 #               "percentage" (for percentage bend correlation), "blomqvist" (for Blomqvist's coefficient),
@@ -197,7 +197,7 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 #'
 #' Calculates MINE family measures for every numeric variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param method character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 #'               "mcn", or "mic-r2"
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
@@ -228,7 +228,7 @@ tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
 #'
 #' Calculates normalized mutual information for every variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations to calculate normalized mutual information
 #' @param ... other arguments
 #'
@@ -276,7 +276,7 @@ tbl_nmi <- function(d,handle.na=T,...){
 #'
 #' Calculates Polychoric correlation using from polycor for every ordinal variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -301,7 +301,7 @@ tbl_polycor <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates one of either Kendall's tau A, B, C or Kendall's W for every ordinal variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param method A character string for the correlation coefficient to be calculated. Either "B" (default),
 #'               "A", "C" or "W"
 #' @param ... other arguments
@@ -345,7 +345,7 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 #'
 #' Calculates uncertainty coefficient for every nominal variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations to calculate correlation coefficient
 #' @param ... other arguments
 #'
@@ -370,7 +370,7 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates Goodman Kruskal's Tau coefficient for every ordinal variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
@@ -395,7 +395,7 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates Goodman Kruskal's Gamma coefficient for every ordinal variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
@@ -418,7 +418,7 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates Pearson's Contingency coefficient for every nominal variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'
@@ -443,7 +443,7 @@ tbl_chi <- function(d,handle.na=TRUE,...){
 #'
 #' Calculates scagnostic measure for every numeric variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param scagnostic a character string for the scagnostic to be calculated. One of "Outlying",
 #' "Stringy", "Striated", "Clumpy", "Sparse", "Skewed", "Convex", "Skinny" or "Monotonic"
 #' @param handle.na If TRUE uses pairwise complete observations.
@@ -487,7 +487,7 @@ tbl_scag <- function(d, scagnostic = "Outlying", handle.na = T, ...) {
 #'
 #' Calculates the maximal correlation coefficient from alternating conditional expectations algorithm for every variable pair in a dataset.
 #'
-#' @param d A dataframe
+#' @param d A dataframe or tibble
 #' @param handle.na If TRUE uses pairwise complete observations.
 #' @param ... other arguments
 #'

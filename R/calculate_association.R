@@ -3,7 +3,7 @@
 #' Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
 #' variable in a dataset.
 #'
-#' @param d dataframe
+#' @param d dataframe or tibble
 #' @param by a character string for the name of the conditional variable. Set to *NULL* by default.
 #' @param types a tibble for the measures to be calculated for different variable types. The default is
 #'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
@@ -203,9 +203,9 @@ update_assoc <- function(default=default_assoc(),
   updated
 }
 
-#' Calculates all association measures in the package for a dataset
+#' Multiple association measures
 #'
-#' Calculates all association measures for every variable pair in a dataset.
+#' Calculates multiple association measures for every variable pair in a dataset.
 #'
 #' @param d dataframe
 #' @param measures a set of all the measures such as "pearson","spearman","kendall",

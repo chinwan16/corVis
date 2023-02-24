@@ -1,12 +1,12 @@
 ---
-title: "Using assocs with other packages"
+title: "Integrating corVis with other packages"
 author: "Amit Chinwan and Catherine Hurley"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
      toc: true
 vignette: >
-  %\VignetteIndexEntry{Using assocs with other packages}
+  %\VignetteIndexEntry{Integrating corVis with other packages}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -18,7 +18,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE,echo=FALSE,fig.height = 5, fi
                       fig.align = 'left')
 ```
 
-corVis is an R package which calculates measures of association for variable pairs in a dataset and visualizes these measures using matrix and linear layouts. The package also offers to calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette focuses on using the calculated association measures with other R packages which provide correlation displays.
+This vignette provides information on how data structures or display methods in _corVis_ can be used with other R packages. We separate out the calculation and visualisation steps in _corVis_, which makes it an open ended package for both data structures and displays.
+
 
 
 ```{r, setup}
@@ -32,9 +33,7 @@ library(kableExtra)
 library(ggplot2)
 ```
 
-
-## Calculating association measures
-
+## Using data structures from corVis with other packages
 
 The package provides a collection of various measures of association which can be used to quantify the relationship between two variables and could be used to explore patterns prior to modeling. The measures available in the package are not limited to *numeric* variables only and can be used with *categorical* and *ordinal* variables as well. Table 1 lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure.
 
@@ -60,30 +59,13 @@ kableExtra::kbl(measures,booktabs = T) %>% kableExtra::kable_styling(latex_optio
 ```
 Table 1: Table of association measures available in the package corVis
 
-We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table 1) for different association measures in the form `tbl_*`. For example, a user might be interested in calculating distance correlation for numeric pair of variables in a dataset. This can be done by using `tbl_dcor`. 
+An analyst can follow *Calculating associations using corVis* vignette for calculating association measures. These data structures are then used with other packages to display association measures.
 
-```{r, echo=TRUE}
-df <- penguins
-names(df) <- c("species","island", "bill_l", "bill_d", "flipper_l", "body_m", "sex", "year" )
-distance <- tbl_dcor(df)
-glimpse(distance)
-```
 
-## Calculating association measures for whole dataset
 
-`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset in a tibble structure. In addition to tibble structure, the output also has *paiwise* and *data.frame* class which are important for producing visual summaries in this package. 
+### Visualising association measures using `corrplot`
 
-```{r,echo=TRUE}
-complete_assoc <- calc_assoc(df)
-glimpse(complete_assoc)
-class(complete_assoc)
-```
-
-More details on calculating association measures and conditional association measures can be found in vignette **Calculating associations using corVis** accompanying the package.
-
-## Visualising association using `corrplot`
-
-The package \CRANpkg{corrplot} provides an implementation of the methods in Friendly (2002) and produces displays in matrix layout. The correlation displays in the package are only applicable to numeric variables in a dataset. Figure 1 shows the correlation plot of the numeric variables in penguins data.
+The package \CRANpkg{corrplot} provides an implementation of the methods in Friendly (2002) and produces correlation display in matrix layout. The correlation displays in the package are only applicable to numeric variables in a dataset. Figure 1 shows the correlation plot of the numeric variables in penguins data.
 
 ```{r , corrplot,echo=TRUE }
 library(corrplot)
@@ -110,9 +92,9 @@ Figure 2: Association plot for penguins data using association measures calculat
 
 
 
-## Visualising association using `linkspotter`
+### Visualising association measures using `linkspotter`
 
-The \CRANpkg{linkspotter} calculates and visualizes association for numeric and factor variables using a network layout plot. The nodes show the variables and the edges represent the measure of association between pair of variables. The width of edge maps to absolute correlation among the nodes. Two nodes are connected if the `corMethod` is defined for the variable pairs.
+The `linkspotter` package calculates and visualizes association for numeric and factor variables using a network layout plot. The nodes show the variables and the edges represent the measure of association between pair of variables. The width of edge maps to absolute correlation among the nodes. Two nodes are connected if the `corMethod` is defined for the variable pairs.
 ```{r, linkspotter, echo=TRUE}
 library(linkspotter)
 
@@ -122,7 +104,6 @@ linkspotterGraph(corDF = corCouples, corMethod = "pearson", smoothEdges = FALSE,
 ```
 
 Figure 3: Association display for penguins data in a network layout.
-
 
 
 ```{r, linkspotter_assoc,echo=TRUE, eval=FALSE}

@@ -22,7 +22,7 @@ sym_assoc <- function(assoc){
 
 #' Symmetric association matrix
 #'
-#' Creates a symmetric association matrix of calcualted association measures among pairs of variables.
+#' Creates a symmetric association matrix of calculated association measures among pairs of variables.
 #'
 #'
 #' @param assoc A tibble or dataframe with calculated association measures for variable pairs.

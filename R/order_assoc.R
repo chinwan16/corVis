@@ -1,8 +1,9 @@
-#' Ordering variables
+#' Ordering variables for matrix layout
 #'
-#' Calculates an ordering for the variables in a dataset.
+#' Calculates an ordering for the variables for matrix layout displays.
 #'
 #' @param assoc A tibble with association measures for different variable pairs in the dataset.
+#' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.
 #' @param group_var a character vector for grouping variable. One of NULL, "by" or "measure_type"
 #'
 #' @return character vector representing the ordering of the variables
@@ -30,18 +31,16 @@ order_assoc_var <- function(assoc, group_var = group_var){
       dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
   }
   m <- matrix_assoc(assoc)
-  if(nrow(assoc)!=choose(length(unique(c(assoc$y, assoc$x))), 2)){
-    m[is.na(m)] <- 0; diag(m) <- NA
-  }
   o <- DendSer::dser(as.dist(-abs(m)), cost = DendSer::costLPL)
   rownames(m)[o]
 }
 
-#' Ordering lollipops for the lollipop plot in matrix layout
+#' Ordering lollipops for the lollipop plot
 #'
-#' Calculates an ordering for the lollipops.
+#' Calculates an ordering for the lollipops in matrix layout displays
 #'
 #' @param assoc A tibble with association measures for different variable pairs in the dataset.
+#' Must be of class `cond_pairwise` or `multi_pairwise`.
 #' @param group_var a character vector for grouping variable. One of "by" or "measure_type"
 #'
 #' @return character vector representing the ordering of the lollipops
@@ -54,25 +53,20 @@ order_assoc_var <- function(assoc, group_var = group_var){
 
 order_assoc_lollipop <- function(assoc, group_var = group_var){
 
-  if (group_var=="measure_type"){
-    lollipop_m <- assoc |>
-      tidyr::pivot_wider(id_cols = 1:2,names_from = "measure_type", values_from = "measure") |>
-      dplyr::select(-x,-y) |>
-      stats::cor(use = "pairwise.complete.obs")
-  } else {
-    lollipop_m <- assoc |>
-      tidyr::pivot_wider(id_cols = 1:2,names_from = "by", values_from = "measure") |>
-      dplyr::select(-x,-y,-overall) |>
-      stats::cor(use = "pairwise.complete.obs")
+  assoc <- assoc |>
+    tidyr::pivot_wider(id_cols = 1:2,names_from = group_var, values_from = "measure")
+  if (group_var=="by"){
+    assoc <- dplyr::select(assoc,-x,-y,-overall)
+  } else{
+    assoc <- dplyr::select(assoc,-x,-y)
   }
+  lollipop_m <- stats::cor(assoc, use = "pairwise.complete.obs")
 
   if (nrow(lollipop_m)==2){
     lollipop_o <- rownames(lollipop_m)[c(1,2)]
   } else {
     lollipop_o <- DendSer::dser(x = as.dist(-abs(lollipop_m)), cost = DendSer::costLPL)
   }
-
-
   rownames(lollipop_m)[lollipop_o]
 }
 

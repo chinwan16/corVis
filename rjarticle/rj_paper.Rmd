@@ -36,7 +36,7 @@ library(kableExtra)
 library(magrittr)
 ```
 
-# Section 1: Introduction
+# Introduction
 
 As a first stage in an analysis, numerical and graphical variable summaries are explored. Bivariate patterns can be explored with correlation matrices and scatterplot matrices. Typically these are applied to numerical variables only, though there are generalisations of scatterplot matrices [@emerson2013generalized], implemented in \CRANpkg{GGally}, where both numerical and categorical variables are used. For correlation matrices, popularized by @friendly2002corrgrams as corrgram, an analyst would remove the non-numeric variables and then calculate and plot correlations in a matrix.   Many datasets include a mix of variable types, and our goal is to investigate and visualise associations among these. The new package \CRANpkg{corVis} fills this gap and extends the correlation matrix for different variable types.
 
@@ -50,12 +50,12 @@ We also present displays of bivariate association grouped by levels of a categor
 
 In this paper, we introduce the R package \CRANpkg{corVis} where these displays are implemented. The next section provides a review of existing packages which deal with correlation displays and a quick background on association measures and the packages used for calculating them. Then we describe our approach to calculate the association measures, followed by visualizations of multiple association measures and conditional associations. We conclude with a discussion and future work.
 
-# Section 2: Background
+# Background
 
 In this section we provide a brief review of  existing packages used for correlation displays and  association measure used in the package \CRANpkg{corVis}. 
 
 
-## Section 2.1: Literature Review on Correlation Displays
+## Literature Review on Correlation Displays
 
 According to @hills1969looking, "the first and sometimes only impression gained by looking at a large correlation matrix is its largeness". To overcome this, @murdoch1996graphical proposed a  display for  large correlation matrices which uses a matrix layout of ellipses where the parameters of the ellipses  are  scaled to the correlation values. @friendly2002corrgrams  expanded on this idea by rendering correlation values as shaded squares, bars, ellipses, or circular ‘pac-man’ symbols. 
 
@@ -107,7 +107,7 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with
 
 
 
-## Section 2.2: Literature Review on Association Measures
+## Literature Review on Association Measures
 
 An association measure is defined as a numerical summary quantifying the relationship between two or more variables. The measure is called symmetric if its value is invariant to the choice of independent or dependent variable during the calculation. For example, Pearson's correlation coefficient summarizes the strength and direction in the range $[-1,1]$ of the linear relationship present between two numeric variables and is symmetric. Kendall's or Spearman's rank correlation coefficient are other popular measures which assess monotonic relationship in interval $[-1,1]$ among two numeric variables and are symmetric measures. 
 
@@ -136,7 +136,7 @@ The association measures for the case of nominal pair of variables should be inv
 
 
 
-# Section 3: Introducing corVis
+# Introducing corVis
 
 Many of the existing correlation displays are limited to numeric pairs of variables. The package \CRANpkg{corVis} extends these displays to every variable pair. The main goal of our work is to propose displays for multiple association measures and conditional associations which are useful for uncovering interesting patterns in the data. This will help in identifying variable pairs which shows a type of relationship or pattern in a dataset with large number of variables.
 
@@ -256,7 +256,7 @@ kableExtra::kbl(df, booktabs = T, caption = "Variable description of the Daily B
 
 Table \@ref(tab:bikedata) provides a brief description of Daily Bike Sharing data along with the types of variables present in the dataset. We use the dataset throughout this paper for illustrative usage of the package.
 
-# Section 4: corVis: Calculating Association
+# corVis: Calculating Association
 
 This section describes the calculation of association measures in  package \CRANpkg{corVis}. The package  provides a standard interface for calculating a collection of measures which quantifies the relationship between two variables. The measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. The package also provides a functionality for handling missing value or `NA` while calculating these association measures. 
 
@@ -417,12 +417,12 @@ bike_s_assoc_multi
 
 
 
-# Section 5: corVis: Visualising Association
+# corVis: Visualising Association
 
 This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display measures of association and conditional association for every variable pair in a dataset and show multiple bivariate measures of association simultaneously. The package includes functions such as `plot_assoc_matrix` and `plot_assoc_linear` to produce these displays in matrix and linear layout respectively. In addition, the package also provides a function `show_assoc` for a quick graphical overview of the relationship between two variables. It displays a scatterplot for numeric pair, bar plot for ordered and factor pair, and box plot for mixed variable pair.
 
 
-## Association plots
+## Association Measures Plots
 
 For association analysis, we start with calculating the default association measures for the bike sharing data (we drop variables dteday, weekday, atemp and cnt) using `calc_assoc` and then plot this result using `plot_assoc_matrix` in a matrix layout in Figure \@ref(fig:assoc-matrix-bike). 
 ```{r assoc-matrix-bike,fig.width=3, fig.height=3, fig.align='center', fig.cap="Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs and canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the pair and the area of the square is mapped to absolute measure value for the corresponding variable pair. The plot shows many pairs with strong association, for example (casual, temp), (registered,yr) and (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased during windy days.",echo=TRUE}
@@ -509,7 +509,7 @@ show_assoc(biken, "mnth", "temp")
 <!-- The function `plot_assoc_linear` is used to display Figure \@ref(fig:compare-linear-heatmap). The function takes tibble of association measures calculated by `calc_assoc_all` as input and outputs a multiple association measures plot in linear layout. `group_var` argument is set to `measure_type` for a multiple measures plot. A maximum difference ordering is used for the plot by setting the `var_order` argument to `max_diff`. The `plot_type` argument is used for the type of plot for plotting the association measures. It is set to `heatmap` for rendering the color intensity to measure value or `dotplot` when points are used to represent the measure value. The `limits` argument is set to `c(0,1)` for multiple measures plot. -->
 
 
-## Conditional Association Plot
+## Conditional Association Measures Plot
 
 The conditional association plot explores bivariate association at different levels of a categorical variable. This display is useful for identifying pairs of variables showing different patterns at different levels of a conditioning variable. To produce this display, the first step is to calculate association measures for the variable pairs using `calc_assoc` function at each level of conditioning variable which is specified using the `by` argument. The calculated association measures are then used as inputs to `plot_assoc_matrix` or `plot_assoc_linear` to produce a display with matrix or linear layout. 
 
@@ -560,7 +560,7 @@ plot_assoc_linear(assoc = bike_by_assoc,
 
 
 
-# Section 5: Discussion
+# Discussion
 
 
 We use multiple association measures in a single display for different variable pairs which serves as a comparison tool while exploring association in a dataset and assist in identifying unusual variable pairs. These multiple measures can be displayed in a scatterplot matrix similar to what @tukey1985computer proposed. They suggested that scatterplot matrix of the scagnostics measures, which are measures summarizing a scatterplot, can be used to identify unusual scatterplots or variable pairs. @wilkinson2005graph used this idea with their graph-theoretic scagnostic measures to highlight unusual scatterplots. Similarly, @kuhn2013applied have used this idea in a predictive modeling context. They have produced a scatterplot matrix of the measures between the response and continuous predictors such as Pearson's correlation coefficient, pseudo-$R^2$ from the locally weighted regression model, MIC and Spearman's rank correlation coefficient to explore the predictor importance during feature selection step. These displays show the importance of comparing multiple association measures at once for different variable pairs. 
