@@ -6,7 +6,6 @@
 \usage{
 plot_assoc_linear(
   assoc,
-  fill = "default",
   var_order = "default",
   plot_type = c("heatmap", "dotplot"),
   limits = c(-1, 1)
@@ -14,9 +13,6 @@ plot_assoc_linear(
 }
 \arguments{
 \item{assoc}{A tibble with the calculated association measures for every variable pair in the dataset..}
-
-\item{fill}{a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
-for using levels of conditioning variable, "measure" for displaying a gradient or a color.}
 
 \item{var_order}{a character string for the ordering of the variables. Either "default" (default) or "max_diff"}
 

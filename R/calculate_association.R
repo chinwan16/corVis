@@ -111,7 +111,7 @@ calc_assoc  <- function(d,
         dplyr::mutate(by = "overall")
       result <- rbind(result, overall)
     }
-    class(result)<-append("cond_pairwise", class(result))
+    class(result)<-append(c("cond_pairwise", "pairwise"), class(result))
     attr(result,"by_var") <- by
     result
 

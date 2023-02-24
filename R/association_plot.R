@@ -21,11 +21,6 @@
 plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
                               var_order="default",
                               limits=c(-1,1)){
-  for (i in 1: length(lassoc$x)) lassoc$x[i] <-
-      paste(unlist(stringi::stri_extract_all_regex(lassoc$x[i], '.{1,6}')),collapse="\n")
-
-  for (i in 1: length(lassoc$x)) lassoc$y[i] <-
-      paste(unlist(stringi::stri_extract_all_regex(lassoc$y[i], '.{1,6}')),collapse="\n")
 
   glyph = match.arg(glyph)
 
@@ -153,9 +148,6 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 #' Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.
 #'
 #' @param assoc A tibble with the calculated association measures for every variable pair in the dataset..
-#' @param fill a character string specifying the fill for the bars in the matrix plot. One of "default" (default)
-#'             for using levels of conditioning variable, "measure" for displaying a gradient or a color.
-#'
 #' @param var_order a character string for the ordering of the variables. Either "default" (default) or "max_diff"
 #' @param plot_type a character string for specifying the plot type. One of "hearmap" or "dotplot"
 #' @param limits a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)
@@ -168,8 +160,10 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 #' plot_assoc_linear(calc_assoc_all(iris))
 
 
-plot_assoc_linear <- function(assoc,fill="default",
-                              var_order = "default",plot_type = c("heatmap","dotplot"), limits=c(-1,1)){
+plot_assoc_linear <- function(assoc,
+                              var_order = "default",
+                              plot_type = c("heatmap","dotplot"),
+                              limits=c(-1,1)){
 
   plot_type = match.arg(plot_type)
 
@@ -203,13 +197,6 @@ plot_assoc_linear <- function(assoc,fill="default",
     }
 
   }
-
-  if (fill =="default" & !is.null(group_var)){
-    if (group_var %in% names(assoc)) fillvar <- group_var
-    else fillvar <- "measure_type"
-  }
-  else fillvar <- fill
-  if(is.null(group_var)) group_var<-"NULL"
 
   if (is.null(limits)) {
     limits <- range(.data$lassoc$measure, na.rm=TRUE)

@@ -1,10 +1,10 @@
 Package: corVis
-Title: Visualising correlation matrices efficiently
+Title: Visualising association measures and conditional association measures
 Version: 0.0.0.9000
 Authors@R: 
-    person("Amit", "Chinwan", , "amit.chinwan.2019@mumail.ie", role = c("aut", "cre"))
-    person("Catherine", "Hurley", , "catherine.hurley@mu.ie", role = c("aut", "cre"))
-Description: Correlations are really useful for screening variables prior to modelling. But visualizing correrlations for a high dimensional dataset has always been a challenge. Here we propose new visualisation techniques for correlations which are efficient and each has its own advantages.
+    c(person(given = "Amit", family = "Chinwan", email = "amit.chinwan.2019@mumail.ie", role = c("aut", "cre")),
+    person(given = "Catherine", family = "Hurley", email = "catherine.hurley@mu.ie", role = "aut"))
+Description: An R package for visualizing association and conditional association using measures of association. The package provides matrix and linear layout for displaying bivariate association (and grouped by levels of a categorical variable) , using measures suitable for numerical, ordinal and nominal variables.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
