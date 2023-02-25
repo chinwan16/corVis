@@ -41,8 +41,8 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/assocs_other_packages.html">Using assocs with other packages</a>
     <a class="dropdown-item" href="../articles/calc_association.html">Calculating associations using corVis</a>
+    <a class="dropdown-item" href="../articles/integrating_corVis.html">Integrating corVis with other packages</a>
     <a class="dropdown-item" href="../articles/scagnostic_corVis.html">Exploring pairwise associations with scagnostics and corVis</a>
     <a class="dropdown-item" href="../articles/vis_association.html">Visualising associations using corVis</a>
   </div>
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Amit Chinwan
 and Catherine Hurley</h4>
             
-            <h4 data-toc-skip class="date">2023-02-24</h4>
+            <h4 data-toc-skip class="date">2023-02-25</h4>
       
       
       <div class="d-none name"><code>calc_association.Rmd</code></div>
@@ -453,24 +453,6 @@ symmetric matrix of the variables.</p>
 <span><span class="co">## flipper_length_mm 0.16438763</span></span>
 <span><span class="co">## body_mass_g       0.07905600</span></span>
 <span><span class="co">## year                      NA</span></span></code></pre>
-<p>The function outputs a matrix even if any variable pair is missing in
-the input tibble with <em>NA</em> for corresponding variable pair cell
-in the matrix output.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">distance</span> <span class="op">&lt;-</span> <span class="va">distance</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span>,<span class="op">]</span></span>
-<span><span class="fu"><a href="../reference/matrix_assoc.html">matrix_assoc</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span></span>
-<span><span class="co">## bill_length_mm                NA            NA         0.6664558   0.5871319</span></span>
-<span><span class="co">## bill_depth_mm                 NA            NA         0.7039636   0.6141631</span></span>
-<span><span class="co">## flipper_length_mm     0.66645577     0.7039636                NA   0.8674122</span></span>
-<span><span class="co">## body_mass_g           0.58713186     0.6141631         0.8674122          NA</span></span>
-<span><span class="co">## year                  0.07842516     0.1117057         0.1643876   0.0790560</span></span>
-<span><span class="co">##                         year</span></span>
-<span><span class="co">## bill_length_mm    0.07842516</span></span>
-<span><span class="co">## bill_depth_mm     0.11170568</span></span>
-<span><span class="co">## flipper_length_mm 0.16438763</span></span>
-<span><span class="co">## body_mass_g       0.07905600</span></span>
-<span><span class="co">## year                      NA</span></span></code></pre>
 <p>The function has an additional argument called <em>group</em> which
 represents the level of the grouping categorical variable for which the
 matrix output needs to be calculated and is set to <em>overall</em> as
@@ -481,10 +463,10 @@ default.</p>
 </h2>
 <p><code>calc_assoc</code> can be used to calculate association measures
 for all the variable pairs in the dataset at once in a tibble structure.
-In addition to tibble structure, the output also has <em>paiwise</em>
+In addition to tibble structure, the output also has <em>pairwise</em>
 and <em>data.frame</em> class which are important class attributes for
 producing visual summaries in this package.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">complete_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">complete_assoc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Rows: 28</span></span>
@@ -494,7 +476,7 @@ producing visual summaries in this package.</p>
 <span><span class="co">## $ measure      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.81328762, 0.84131393, 0.82447508, 0.88217284, 0.8183348…</span></span>
 <span><span class="co">## $ measure_type <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "cancor", "cancor", "cancor", "cancor", "cancor", "cancor…</span></span>
 <span><span class="co">## $ pair_type    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ff", "nf", "nf", "nf", "nf", "ff", "nf", "nf", "nf", "nf…</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">complete_assoc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "pairwise"   "tbl_df"     "tbl"        "data.frame"</span></span></code></pre>
 <p>The function has a <em>types</em> argument which is basically a
@@ -504,7 +486,7 @@ variable pairs. The default tibble of measures is
 both the variables are numeric, Kendall’s tau-b if both the variables
 are ordinal, canonical correlation if one is factor and other is numeric
 and canonical correlation for the rest of the variable pairs.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">default_measures</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/update_assoc.html">update_assoc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">default_measures</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
@@ -519,7 +501,7 @@ and canonical correlation for the rest of the variable pairs.</p>
 <code>tbl_*</code> function to calculate association measure depending
 on the variable pair in the dataset and a method if it calculates more
 than one measure.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">updated_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/update_assoc.html">update_assoc</a></span><span class="op">(</span>num_pair <span class="op">=</span> <span class="st">"tbl_cor"</span>,</span>
 <span>                              num_pair_argList <span class="op">=</span> <span class="st">"spearman"</span>,</span>
 <span>                              mixed_pair <span class="op">=</span> <span class="st">"tbl_cancor"</span>,</span>
@@ -532,7 +514,7 @@ than one measure.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">2</span> tbl_cancor  factor  factor  <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span> tbl_gkGamma ordered ordered <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> tbl_cancor  factor  numeric <span style="color: #949494;">&lt;NULL&gt;</span></span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">updated_complete_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>, types <span class="op">=</span> <span class="va">updated_assoc</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">updated_complete_assoc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Rows: 28</span></span>
@@ -567,19 +549,19 @@ measures and then merging the output tibbles.</p>
 <div class="section level2">
 <h2 id="calculating-conditional-association">Calculating conditional association<a class="anchor" aria-label="anchor" href="#calculating-conditional-association"></a>
 </h2>
-<p><code>calc_assoc</code> can be used to calculate association measures
-for all the variable pairs at different levels of a categorical
+<p><code>calc_assoc</code> can also be used to calculate association
+measures for all the variable pairs at different levels of a categorical
 variable. This can help in exploring the conditional associations and
 find out interesting patterns in the data prior to modeling. The output
-of this function is a tibble structure with <em>pairwise</em> and
-<em>data.frame</em> as additional class attributes. The <code>by</code>
-argument is used for the grouping variable which needs to be
-categorical.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+of this function is a data structure with <em>cond_pairwise</em>,
+<em>data.frame</em>, <em>tibble</em> as class attributes. The
+<code>by</code> argument is used for the grouping variable which needs
+to be categorical.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">complete_assoc_by</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>,by <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span></span></code></pre></div>
 <p>The function also has a <code>types</code> argument which can be
 updated similarly to <code>calc_assoc</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">updated_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/update_assoc.html">update_assoc</a></span><span class="op">(</span>num_pair <span class="op">=</span> <span class="st">"tbl_cor"</span>,</span>
 <span>                              num_pair_argList <span class="op">=</span> <span class="st">"spearman"</span>,</span>
 <span>                              mixed_pair <span class="op">=</span> <span class="st">"tbl_cancor"</span>,</span>
@@ -599,18 +581,48 @@ the variable pairs at different levels of the grouping variable and the
 pairwise association measures for the ungrouped data (<em>overall</em>).
 This behavior can be changed by setting <code>include.overall</code> to
 <em>FALSE</em>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">complete_assoc_by</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>,by <span class="op">=</span> <span class="st">"sex"</span>,include.overall <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>The tibble output for <code>calc_assoc</code> with a conditioning
-variable has the following structure: - <code>x</code> and
-<code>y</code> representing a pair of variables - <code>measure</code>
-representing the calculated value for association measure -
-<code>measure_type</code> representing the association measure
-calculated for <code>x</code> and <code>y</code> pair. - <code>by</code>
-representing the levels of the categorical variable used in the
-function.</p>
 <p>The variable pairs in the output are repeated for every level of
 <code>by</code> variable.</p>
+</div>
+<div class="section level2">
+<h2 id="calculating-mutliple-association-measures">Calculating mutliple association measures<a class="anchor" aria-label="anchor" href="#calculating-mutliple-association-measures"></a>
+</h2>
+<p>We calculate multiple assocaition measures with
+<code>calc_assoc_all</code> function in the package. The function takes
+a dataset and a list of measures as input and outputs a tibble structure
+with multiple measures of association for every variable pair. The
+output data structure has class attribute <em>multi_pairwise</em> which
+is used for producing multiple measures display. It also has additional
+class attributes such as <em>data.frame</em> or <em>tibble</em> which
+are useful for leveraging tools in <em>dplyr</em> or
+<em>ggplot2</em>.</p>
+<p>This output is used by the plotting functions to produce multiple
+measures display in different layout. The code section below calculates
+<code>pearson</code>, <code>dcor</code> and <code>ace</code> measures
+for the variable pairs in penguins data. The pairs for which a measure
+is not defined is not included in the result.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguin_assoc_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc_all.html">calc_assoc_all</a></span><span class="op">(</span>d <span class="op">=</span> <span class="va">df</span>,</span>
+<span>                                   measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pearson"</span>,</span>
+<span>                                                <span class="st">"dcor"</span>,</span>
+<span>                                                <span class="st">"ace"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">penguin_assoc_multi</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 48 × 5</span></span></span>
+<span><span class="co">##    x                 y                 measure measure_type pair_type</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> bill_depth_mm     bill_length_mm    -<span style="color: #BB0000;">0.235</span>  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> flipper_length_mm bill_length_mm     0.656  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> body_mass_g       bill_length_mm     0.595  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> year              bill_length_mm     0.054<span style="text-decoration: underline;">5</span> pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> flipper_length_mm bill_depth_mm     -<span style="color: #BB0000;">0.584</span>  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> body_mass_g       bill_depth_mm     -<span style="color: #BB0000;">0.472</span>  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> year              bill_depth_mm     -<span style="color: #BB0000;">0.060</span><span style="color: #BB0000; text-decoration: underline;">4</span> pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> body_mass_g       flipper_length_mm  0.871  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> year              flipper_length_mm  0.170  pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> year              body_mass_g        0.042<span style="text-decoration: underline;">2</span> pearson      nn       </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 38 more rows</span></span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

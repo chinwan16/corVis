@@ -69,8 +69,9 @@ The package \CRANpkg{corrplot} provides an implementation of the methods in Frie
 
 ```{r , corrplot,echo=TRUE }
 library(corrplot)
+df <- penguins
 df_num <- df |>
-  select(where(is.numeric))
+  dplyr::select(where(is.numeric))
   
 corrplot(cor(df_num,use = "pairwise.complete.obs"))
 ```
@@ -80,7 +81,7 @@ Figure 1: Correlation plot for penguins data using `corrplot`.
 In \CRANpkg{corVis}, we calculate association measures for all variables irrespective of their type and then display these measures with different layouts. After calculating measures we can use other packages which provide correlation displays and support tidy structure of association measures to visualize association in a dataset. Figure 2 provides an example where the association measures are first calculated using \CRANpkg{corVis} and then displayed using \CRANpkg{corrplot}. The plot show strong association for species and other numeric variables suggesting the body measurements differ for different species of penguins.
 
 ```{r, corrplot_assoc, echo=TRUE}
-library(corrplot)
+
 penguins_assoc <- calc_assoc(df)
 
 penguins_assoc_mat <- matrix_assoc(penguins_assoc)

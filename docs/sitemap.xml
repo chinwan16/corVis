@@ -7,13 +7,13 @@
     <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/articles/assocs_other_packages.html</loc>
-  </url>
-  <url>
     <loc>/articles/calc_association.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/integrating_corVis.html</loc>
   </url>
   <url>
     <loc>/articles/scagnostic_corVis.html</loc>
