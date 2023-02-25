@@ -1,0 +1,18 @@
+Minutes of Meeting (21/12/2022):
+
+Points discussed:
+
+- look at what does Kendall's correlation do for ties, online discussion for wrong calculation of MIC
+
+- look for different datasets and examples where finding outliers using multiple association measures would result in interesting variable pairs
+
+- names of functions in the package need to be changed.
+
+- discussion on paper
+
+
+Need to work on:
+
+- discussion on paper. update the paper
+- a document comparing the timelines from the progress report. comparing what was stated by myself and Catherine with what has been done till now.
+- different examples for finding interesting variable pairs.

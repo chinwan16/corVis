@@ -1,0 +1,161 @@
+association_heatmap_test <- function(lassoc, uassoc=NULL, glyph = c("square","circle"), 
+                                var_order = "default", limits=c(-1,1)){
+  
+  glyph = match.arg(glyph)
+  vartypes <- attr(lassoc,"vartypes")
+  
+  if (isTRUE(var_order == "default")){
+    var_order <- order_assoc(lassoc, method=var_order)
+  } else var_order <- unique(c(lassoc$y, lassoc$x))
+  if (is.null(uassoc))
+    assoc <- sym_assoc(lassoc) else {
+      names(uassoc)[1:2] <- names(uassoc)[2:1]
+      assoc <-rbind(lassoc, uassoc)
+    }
+  
+  
+  if (is.null(limits)) {
+    limits <- range(lassoc$measure, na.rm=TRUE)
+    limits <- range(labeling::rpretty(limits[1], limits[2]))
+  }
+  
+  assoc$x <- factor(assoc$x, levels=var_order)
+  assoc$y <- factor(assoc$y, levels=var_order)
+  
+  diag_df <- assoc[1:length(var_order),]
+  diag_df$x <- diag_df$y <- var_order
+  diag_df$measure <- NA
+  diag_df$intercept <- NA
+  diag_df$text <- diag_df$x
+  diag_df$var_type <- vartypes[var_order]
+  assoc$text <- NA
+  assoc$intercept <- 0
+  assoc$var_type <- NA
+  assoc <- rbind(assoc, diag_df)
+  
+  p <- ggplot2::ggplot(assoc) +
+    
+    ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
+    ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text,color=.data$var_type),size=3)+
+    ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+                       color="grey",alpha=0) +
+    #ggplot2::geom_hline(ggplot2::aes(yintercept=intercept), size=0.5) +
+    #viridis::scale_fill_viridis(option="inferno",direction = -1,na.value=NA,limits=limits) +
+    ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
+    ggplot2::scale_color_hue(guide = "none") +
+    ggplot2::theme(axis.text.x = ggplot2::element_blank(),
+                   axis.text.y = ggplot2::element_blank(),
+                   axis.text = ggplot2::element_text(size = 5),
+                   panel.background = ggplot2::element_rect(fill="white"),
+                   panel.grid.major = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   panel.spacing = ggplot2::unit(0,'lines'),
+                   axis.ticks.x = ggplot2::element_blank(),
+                   axis.ticks.y = ggplot2::element_blank(),
+                   legend.position = "bottom",
+                   axis.title.x = ggplot2::element_blank(),
+                   strip.background = ggplot2::element_blank(),
+                   strip.text.y = ggplot2::element_blank(),
+                   strip.text.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_blank(),
+                   aspect.ratio = 1)
+  
+  if (glyph=="square"){
+    p <- p+
+      ggplot2::coord_cartesian(xlim = c(-0.5,0.5), ylim = c(-0.5,0.5)) +
+      ggplot2::geom_rect(ggplot2::aes(xmin = -sqrt(abs(.data[["measure"]]))/2,
+                                      xmax = sqrt(abs(.data[["measure"]]))/2,
+                                      ymin = -sqrt(abs(.data[["measure"]]))/2,
+                                      ymax = sqrt(abs(.data[["measure"]]))/2,
+                                      fill = .data[["measure"]]),na.rm = TRUE)
+  } else {
+    p <- p +
+      ggforce::geom_circle(ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]])/pi),
+                                        fill = .data[["measure"]]))
+  }
+  
+  
+  suppressWarnings(print(p))
+}
+
+
+#################################################################################################
+
+
+
+pairwise_2d_plot <- function(lassoc, uassoc=NULL, group_var = "by",fill="default",
+                             var_order = "default", limits=c(-1,1), sp=TRUE){
+  
+  
+  if (isTRUE(var_order %in% c("default", "max_diff"))){
+    var_order <- order_assoc(lassoc, method=var_order, group_var=group_var)
+  } else var_order <- unique(c(lassoc$y, lassoc$x))
+  if (is.null(uassoc))
+    assoc <- sym_assoc(lassoc) else {
+      names(uassoc)[1:2] <- names(uassoc)[2:1]
+      assoc <-rbind(lassoc, uassoc)
+    }
+  
+  if (fill =="default"){
+    if (group_var %in% names(assoc)) fillvar <- group_var
+    else fillvar <- "measure_type"
+  }
+  else fillvar <- fill
+  
+  if (is.null(limits)) {
+    limits <- range(lassoc$measure, na.rm=TRUE)
+    limits <- range(labeling::rpretty(limits[1], limits[2]))
+  }
+  
+  assoc$x <- factor(assoc$x, levels=var_order)
+  assoc$y <- factor(assoc$y, levels=var_order)
+  if ("by" %in% names(assoc)){
+    overall <- dplyr::filter(assoc, by =="overall")
+    assoc <- dplyr::filter(assoc, by != "overall")
+  }
+  else overall <- NULL
+  
+  diag_df <- assoc[1:length(var_order),]
+  diag_df$x <- diag_df$y <- var_order
+  diag_df$measure <- NA
+  diag_df$intercept <- NA
+  diag_df$text <- diag_df$x
+  assoc$text <- NA
+  assoc$intercept <- 0
+  assoc <- rbind(assoc, diag_df)
+  
+  p <- ggplot2::ggplot(assoc) +
+    #ggplot2::geom_rect(mapping=ggplot2::aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+    #data=simpson[,1:2],
+    #fill = 'red', alpha = 0.1) +
+    ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
+    ggplot2::geom_text(ggplot2::aes(x=1,y=0,label=.data$text),size=2.5)+
+    ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
+    ggplot2::scale_y_continuous(limits=limits) +
+    ggplot2::theme(axis.text.x = ggplot2::element_blank(),
+                   axis.text = ggplot2::element_text(size = 5),
+                   panel.background = ggplot2::element_rect(),
+                   panel.grid.major = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   axis.ticks.x = ggplot2::element_blank(),
+                   legend.position = "bottom",
+                   axis.title.x = ggplot2::element_blank(),
+                   strip.background = ggplot2::element_blank(),
+                   strip.text.y = ggplot2::element_blank(),
+                   strip.text.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_blank())
+  
+  if (isTRUE(group_var %in% names(assoc))){
+    by_var <- attr(lassoc,"by_var")
+    if (isTRUE(fillvar %in% names(assoc)))
+      p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure,group=.data[[group_var]],fill=.data[[fillvar]]),position = "dodge")+
+        {if(group_var!="measure_type") ggplot2::labs(fill = by_var)} # ch comments updated
+    else  p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, group=.data[[group_var]]),fill=fillvar, position = "dodge")
+    if (!is.null(overall))
+      p <- p+ ggplot2::geom_hline(data=overall,ggplot2::aes(yintercept=.data$measure),linetype="dotted")
+  }
+  else {
+    p <- p+ ggplot2::geom_col(ggplot2::aes(x=1,y=.data$measure, fill=.data[[fillvar]])) #ch comments updated
+  }
+  suppressWarnings(print(p))
+}

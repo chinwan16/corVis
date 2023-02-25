@@ -1,0 +1,26 @@
+pairwise_1d_compare <- function(assoc, var_order = "max_diff",
+                                limits=c(-1,1), group_var=NULL){
+  
+  assoc$var3 <- paste0(assoc$x,",",assoc$y)
+  
+  if (isTRUE(var_order %in% c( "max_diff"))){
+    var_order <- assoc %>% dplyr::group_by(.data$var3) %>%
+      dplyr::summarise(max_diff=diff(range(.data$measure))) %>%
+      dplyr::arrange(.data$max_diff) %>% dplyr::pull(.data$var3)
+  } else var_order <- unique(assoc$var3)
+  
+  
+  if (is.null(limits)) {
+    limits <- range(.data$lassoc$measure, na.rm=TRUE)
+    limits <- range(labeling::rpretty(limits[1], limits[2]))
+  }
+  
+  assoc$var3 <- factor(assoc$var3, levels=var_order)
+  
+  
+  p <- ggplot2::ggplot(assoc) +
+    
+  
+  
+  suppressWarnings(print(p))
+}

@@ -1,0 +1,168 @@
+---
+title: "Explore univariate and bivariate structures of new datatsets with the package mbgraphic"
+author: "Katrin Grimm"
+date: "`r Sys.Date()`"
+bibliography: bibliography.bib
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+#runtime: shiny
+vignette: >
+  %\VignetteIndexEntry{Explore univariate and bivariate structures of new datatsets with the package mbgraphic}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+
+## Introduction 
+This vignette demonstrates how to use the package **mbgraphic** to explore new and unknown data sets with the help of interactive apps. The documentation focuses on the exploration of single variables and bivariate structures of numeric variables.  
+
+The idea of characterising graphics by different measures was mentioned by Paul and John Tukey in the middle of the 1980’s [see @tuk]. They suggested criteria they called _cognostics_ to handle huge data sets. For scatterplots the idea was concretized in the form of _scagnostics_ (a neologism built from _scatterplot_ and _diagnostics_). The Tukeys themself never published any details on cognostics and scagnostics. The topic was revived by @Wilk.  They proposed specific measures for scatterplots and implemented them in the package **scagnostics** [see @scagp].
+
+The gneral approach in the package **mbgraphic** is to calculate measures to describe univariate and bivariate behavior of the variables in a first step and to select plots based on the measures in a second step. We concentrate more on presenting flexible ways of selecting graphics based on the measures than on the criteria themselves.  In this vignette criteria from the package **mbgraphic**  as well as scagnostics from the package **scagnostics** are used.
+
+
+The package's interactive functions are programmed using **shiny** [see @shiny]. 
+
+
+### Load the package
+```{r, fig.show='hold'}
+library(mbgraphic)
+```
+
+### The data
+For demonstrating what the package does, data from the German 'Bundestag' election in 2013 are used. **Election2013** contains 299 observations on 114 variables.  It includes information about the elections in 2013 and in 2009 separately for each of the 299 constituencies and also additional information about the constituencies themselves. For details see `?Election2013`. 
+
+```{r,echo=TRUE,cache = TRUE,fig.width=1000}
+data(Election2013)
+dim(Election2013)
+```
+
+## Explore individual variables
+By calling function `iaunivariate` we can explore the variables interactively. The output includes measures for discreteness, skewness and multimodality calculated by the functions
+ <tt>`discrete1d`</tt>, <tt>`skew1d`</tt> and <tt>`multimod1d`</tt>. 
+ 
+We can interactively choose variables based on their values on the three criteria. A  categorical variable can also be chosen and is then displayed in a barplot. Selecting a bar means that cases in the selected category are highlighted in the other plots. 
+
+
+```{r,,echo=TRUE,eval=FALSE}
+iaunivariate(Election2013)
+```
+
+
+```{r fig.width=7, fig.height=4.5,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("iaunivariate.png")
+ grid.raster(img)
+```
+
+
+In the example choosing variable _Name_ is not advisable, because every constituency has a unique name. _Land_ tells us in which Bundesland the constituency is located. Through different selections the Bundesländer can be compared. The barplot displays the number of constituencies in the 16 Bundesländer. 'Nordrhein-Westfalen' has the most constituencies by far. 
+
+
+## Explore bivariate structures of numeric variables
+We only consider numeric variables.
+```{r,echo=TRUE}
+election_num <- Election2013[,sapply(Election2013,is.numeric)] 
+dim(election_num)
+```
+If categorical variables are not excluded explicitly, they are ignored by the following functions. 
+
+### Interactive corrgrams 
+First we explore the correlation structure of the numeric variables.
+```{r, eval=FALSE}
+iacorrgram(election_num)
+```
+```{r fig.width=7, fig.height=3.5,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("iacorrgram.png")
+ grid.raster(img)
+```
+There are a large number of variables in this example. 
+With the help of interactive corrgrams we can explore if any variables are highly correlated and what might be a good number of clusters to group variables. With optimal leaf reordering (OLO) 'cluster lines' can be added. These lines show the clusters for a fixed chosen number of clusters. The number can also be set by choosing a 'minimal correlation within the clusters'. This is the minimum correlation every single pair of variables within a cluster must exceed. 
+
+Additionally a 'range of absolute correlation' can be determined: only correlations with absolute value within the range are drawn in color. Selections of single scatterplots and scatterplot matrices can be made by clicking and drawing boxes in the corrgram.
+
+### Cluster variables by function 'varclust'
+The function `varclust` does a clustering based on an optimal leaf ordering of the variables. The number of clusters is determined by specifying the number directly or by choosing the 'minimal correlation' (`mincor`). 
+```{r,eval=TRUE}
+vc <- varclust(Election2013,mincor=0.8)
+summary(vc)
+# the reduced data set
+election_reduced <- vc$dfclusrep
+dim(election_reduced)
+```
+### Further scagnostics and plots for them
+We can use the reduced data set for exploring further bivariate structures faster. First we calculate the nine scagnostics from the package **scagnostics** with the function <tt>`sdf`</tt>. It calls the function <tt>`scagnostics`</tt>  and stores the results in a list which holds the scagnostics and a data frame (the original data frame or only the numeric variables of the original data frame). 
+```{r,eval=TRUE}
+scagdf <- sdf(election_reduced)
+# List of class "sdfdata"
+class(scagdf)
+# Entries 
+summary(scagdf)
+```
+Additional and self defined scagnostics can be use and integrated with the function <tt>`scag2sdf`</tt>.  
+```{r,eval=TRUE}
+addscag <- scag2sdf(election_reduced,scagfun.list=list(dcor2d=dcor2d,splines2d=splines2d))
+# merge 'addscag' and 'scagsdf'
+scagdf2 <- mergesdfdata(scagdf,addscag)
+# merged list contains	11 scagnostics
+names(scagdf2$sdf)
+```
+### Interactive parallel coordinate plot (pcp)
+```{r,eval=FALSE}
+iascagpcp(scagdf2)
+```
+All scagnostics stored in _scagdf2_ are drawn in a parallel coordinate plot. For selecting a line within the pcp draw a box on one of the axis around the selected line. The line will be highlighted and the corresponding scatterplot drawn. If you use the function  `sdf` to calculate the scagnostics from package **scagnostics** you can decide if you want to consider all plots or only the defined _Outliers_ and _Exemplars_. 
+
+```{r fig.width=7, fig.height=4.5,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("iascagpcp.png")
+grid.raster(img)
+```
+
+
+
+## Interactive scaggram
+The package includes so called scaggrams (function `scaggram`). These graphics are a generalization of corrgrams. The idea is to represent scatter plots through different colors. By using the RGB color space, three different measures can be applied at the same time. That means that (up to) three measures are represented using the colors red, green and blue. The mixture of colors determines the color of the boxes in the scaggram. Using scaggrams within interactive enviroments allows user to select scatterplots and scatterplot matrices using the measures.
+
+```{r,results='hide',eval=FALSE}
+iascaggram(scagdf)
+```
+
+```{r fig.width=7, fig.height=4.5,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("iascaggram.png")
+grid.raster(img)
+```
+Reordering can be carried out by the functions `sdf_sort` (reordering based on similarity of scatterplots) and `sdf_quicksort` (reordering basad on similarity of variables). `sdf_sort` can be slow if there are many variables. 'Quick' reordering based on the OLO algorithm or ordering based on the algorithm from `sdf_sort` with a time break might be good choices.
+
+For smaller data frames the option 'Add -> Glyphs' can be interessting. 
+
+```{r fig,echo=FALSE, results='hide',eval=FALSE}
+set.seed(4768987)
+# choose some of the demographic and structural variables of the reduced data frame
+election_ds <- election_reduced[,sample(1:35,20)]
+scagdf_ds <- sdf(election_ds)
+addscag_ds <- scag2sdf(election_ds,scagfun.list=list(dcor2d=dcor2d,splines2d=splines2d))
+scagdf2_ds <- mergesdfdata(scagdf_ds,addscag_ds)
+iascaggram(scagdf2_ds)
+```
+
+```{r fig.width=7, fig.height=4,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("iascaggram2.png")
+grid.raster(img)
+```
+The glyphs representing all scagnostics which are stored in `scagdf2_ds` are added above the diagonal of the scaggram. The shadings of the boxes are drawn using transparency. It's also possible to add the scatterplots for each pair of variables. 
+
+
+## References
+

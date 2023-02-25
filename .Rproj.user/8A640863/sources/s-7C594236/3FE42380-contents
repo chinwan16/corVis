@@ -1,0 +1,17 @@
+Minutes of Meeting (03/02/2023):
+
+Points discussed:
+
+- good idea to look at cassowaryr, mbgraphic and extracat package
+- Lollipop should be of same color. Change the point size, fix the gridlines and fix the labels.
+- Discussion on the displays for interesting pairs of variables with a response or innteresting triples.
+- A vignette using linkspotter or corr or corrplot packages with assoc measures calculated from our package
+- update section 3 and section 4 of paper using "paper reorg.Rmd"
+
+Need to work on:
+
+- complete section 3 and section 4 of the paper. Add about how variables can be converted to different types.
+- Look up work of Grimm. Probably include as a reference.
+- Do another look at cassowaryr
+- Work on vignette using linkspotter or similar with assoc measures
+- Improve the matrix layout plots

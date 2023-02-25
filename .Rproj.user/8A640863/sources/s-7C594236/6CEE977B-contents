@@ -1,0 +1,18 @@
+Minutes of Meeting (07/02/2023):
+
+Points discussed:
+
+- look at cassowaryr package
+- add a pair_type column into assoc structure
+- think about what can be plotted along the diagonal if variable names are put in default way
+- complete the vignette with linkspotter or similar package such as corrr
+- update Introduction as per the feedback and finish Section 4
+
+Need to work on:
+
+- complete section 4 of the paper.
+- Include work of Grimm as reference.
+- Do another look at cassowaryr
+- Finish vignette using linkspotter or similar with assoc measures.
+- Other tidy structures for association measures in other packages.
+- Seriation

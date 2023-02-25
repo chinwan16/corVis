@@ -1,0 +1,19 @@
+Minutes of Meeting (27/01/2023):
+
+Points discussed:
+
+- Need to fix tbl_Ace, tbl_nmi, tbl_gktau
+- check if the max or mean is used consistently for symmetric measure
+- Lollipop instead of bars for conditional display
+- Introduction in the paper is irrelevant at the minute. Follow the "paper reorg.Rmd".
+- Try reorganising the paper using "paper reorg.Rmd".
+- Use the bike dataset provided by Catherine in "chbike1.Rmd".
+- Mention about how our assoc can be used with other packages for prducing the displays.
+
+- create a folder for SP and scagnostics with all the files associated with these projects. Put up a Readme for each folder about what each file does.
+
+Need to work on:
+
+- reorganise the paper "paper reorg.Rmd"
+- bike dataset for analysis
+

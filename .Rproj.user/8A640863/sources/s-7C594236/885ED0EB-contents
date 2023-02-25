@@ -1,0 +1,21 @@
+Package: corVis
+Title: Visualising correlation matrices efficiently
+Version: 0.0.0.9000
+Authors@R: 
+    person("Amit", "Chinwan", , "amit.chinwan.2019@mumail.ie", role = c("aut", "cre"))
+    person("Catherine", "Hurley", , "catherine.hurley@mu.ie", role = c("aut", "cre"))
+Description: Correlations are really useful for screening variables prior to modelling. But visualizing correrlations for a high dimensional dataset has always been a challenge. Here we propose new visualisation techniques for correlations which are efficient and each has its own advantages.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: stats, ggplot2, dplyr, magrittr, DescTools, forcats, 
+         labeling, energy, correlation, minerva, polycor, rlang
+Suggests: 
+    rmarkdown,
+    knitr,
+    palmerpenguins,
+    NHANES,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3

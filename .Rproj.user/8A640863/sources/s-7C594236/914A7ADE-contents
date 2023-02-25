@@ -1,0 +1,19 @@
+Minutes of Meeting (10/02/2023):
+
+Points discussed:
+
+- With linkspotter, good idea to take their code and make it more flexible
+- For corrgrapher, take a look at their code
+- mention about corrgrapher do not separate out calculation and visualisation in the paper.
+- include package mbgraphic in the package
+- store the pair type as a variable in assoc
+- think about what can be plotted along the diagonal if variable names are put in default way
+- use lazypath length ordering from Dendser package
+- For ordering the multiple measures plot in matrix layout, maybe take maximum not max_diff for ordering. For conditioning, max_diff is okay.
+- can use clustering on correlation of multiple association measures for ordering the lollipops
+
+Need to work on:
+
+- use lazypath length ordering from Dendser package
+- For ordering the multiple measures plot in matrix layout, maybe take maximum not max_diff for ordering. For conditioning, max_diff is okay.
+- use clustering on correlation of multiple association measures for ordering the lollipops

@@ -1,0 +1,21 @@
+Package: corVis
+Title: Visualising association measures and conditional association measures
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Amit", family = "Chinwan", email = "amit.chinwan.2019@mumail.ie", role = c("aut", "cre")),
+    person(given = "Catherine", family = "Hurley", email = "catherine.hurley@mu.ie", role = "aut"))
+Description: An R package for visualizing association and conditional association using measures of association. The package provides matrix and linear layout for displaying bivariate association (and grouped by levels of a categorical variable) , using measures suitable for numerical, ordinal and nominal variables.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: stats, ggplot2, dplyr, magrittr, DescTools, forcats, 
+         labeling, energy, correlation, minerva, polycor, rlang
+Suggests: 
+    rmarkdown,
+    knitr,
+    palmerpenguins,
+    NHANES,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3

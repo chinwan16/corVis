@@ -1,0 +1,54 @@
+a <-calc_assoc(iris)
+b<- calc_assoc_all(iris)
+d <- calc_assoc(iris, by="Species")
+plot_assoc_matrix(a)
+plot_assoc_matrix(b)
+plot_assoc_matrix(d)
+plot_assoc_linear(a)
+plot_assoc_linear(b)
+plot_assoc_linear(d)
+plot_assoc_linear(a, plot_type = "dotplot")
+plot_assoc_linear(b, plot_type = "dotplot")
+plot_assoc_linear(d, plot_type = "dotplot")
+
+
+#### german election data
+selected_vars_new <- c("SPD.02",
+                   "CDU.CSU.02",
+                   "Gruene.02", 
+                   "Pop.18.25", 
+                   "Pop.25.35",
+                   "Pop.35.60",
+                   "Industry",
+                   "CTT", 
+                   "Unemployment.03")
+
+german_election <- de_elect[selected_vars_new]
+
+assoc_german_all <- calc_assoc_all(d = german_election,
+                                   measures = c("ace",
+                                                "pearson",
+                                                "spearman",
+                                                "kendall",
+                                                "dcor",
+                                                "spearman",
+                                                "mic"))
+
+plot_assoc_linear(assoc = assoc_german_all, 
+                  plot_type = "heatmap",
+                  limits = c(0,1),
+                  var_order = "max_diff")
+
+# int pair 1
+show_assoc(german_election,"Unemployment.03","CTT") 
+
+# int pair 2
+show_assoc(german_election,"Pop.35.60","Gruene.02")
+show_assoc(german_election,"Pop.25.35","CDU.CSU.02") + xlim(c(10,17.5))
+
+
+cond_assoc_cdc <- calc_assoc(d = cdcdata, 
+                             by = "genhlth")
+cond <- dplyr::filter(cond_assoc_cdc, abs(measure) > 0.1)
+plot_assoc_linear(assoc = cond,
+                  plot_type = "dotplot")

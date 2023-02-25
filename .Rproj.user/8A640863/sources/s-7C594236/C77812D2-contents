@@ -1,0 +1,28 @@
+Minutes of Meeting (20/01/2023):
+
+Points discussed:
+
+- discussion on the paper:
+  - cdc data:
+      - some observations are outlying in the cdc data. remove those cases.
+      - better intervals for age
+      - make the binary variables ordinal
+      - maybe a better survey dataset
+
+  - German election data:
+      - better subset of variables
+      - select a variable pair from multiple measures plot and zoom in to show possible relationships
+
+  - functions need to tidied up
+  - work on examples
+  - update the documentation
+
+- write a paragraph for every display describing it for workings on Interesting pairs
+
+- writeup a plan of action
+
+
+
+Need to work on:
+
+- finish the paper as per the recent feedback

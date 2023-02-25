@@ -1,0 +1,34 @@
+#' Ordering variables
+#'
+#' Calculates an ordering for the variables in a dataset.
+#'
+#' @param assoc A tibble with association measures for different variable pairs in the dataset.
+#' @param group_var a character vector for grouping variable. One of NULL, "by" or "measure_type"
+#'
+#' @return character vector representing the ordering of the variables
+#' @export
+#' @importFrom magrittr %>%
+#'
+#' @examples
+#' order_assoc(calc_assoc(iris))
+#' order_assoc(calc_assoc(iris,"Species"))
+#' order_assoc(calc_assoc(iris,"Species"),method="max_diff")
+
+
+order_assoc <- function(assoc, group_var = group_var){
+  if (is.null(group_var)){
+    assoc <- assoc
+  } else if (group_var == "measure_type"){
+    assoc <- assoc |>
+      dplyr::group_by(.data$x,.data$y) |>
+      dplyr::summarize(measure = max(.data$measure, na.rm=TRUE),.groups = 'drop')
+  } else {
+    assoc <- dplyr::filter(assoc, group_var != "overall")
+    assoc <- assoc |>
+      dplyr::group_by(.data$x,.data$y) |>
+      dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')
+  }
+  m <- matrix_assoc(assoc)
+  o <- DendSer::dser(as.dist(-abs(m)), cost = DendSer::costLPL)
+  rownames(m)[o]
+}

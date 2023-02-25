@@ -1,0 +1,415 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-01-23"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(timetk)
+library(corVis)
+
+```
+
+
+```{r, fixdata}
+
+bike <- bike_sharing_daily[,-1] |>
+  mutate(season= recode_factor(season,
+                               `1`="Winter", `2`="Spring", `3`="Summer", `4`="Fall"),
+         weathersit= recode_factor(weathersit, 
+                         `1`="clear", `2`="cloudy", `3`="lightP", `4`="heavyP"),
+         holiday=recode_factor(holiday, `0` = "No", `1`="Yes"),
+         workingday = recode_factor(workingday, `0` = "No", `1`="Yes"),
+         yr = recode_factor(yr,`0` = 2011, `1`=2012),
+         weekday = recode_factor(weekday,`0` = "sun", `1` = "mon", `2`="tue", `3` = "wed", `4`="thu", `5`="fri", `6`="sat"),
+         mnth = factor(month.abb[mnth], levels=month.abb)
+         )
+glimpse(bike)
+
+levels(bike$weathersit)<- rev(levels(bike$weathersit))
+# 
+# 
+# bike |> count(workingday, weekday)
+# bike |> count(holiday, workingday)
+# bike |> count(holiday, weathersit)
+```
+
+
+## Factors
+
+The order of factor levels affect model fitting output and visualisations. In modelling software, different sets of contrasts are used if a factor is ordered as opposed to un-ordered. As far as I know, R visualisation software does not do anything special for ordered factors. This is an unusual feature of corVis, that it treats ordered factors specially.
+
+
+## Association measures
+
+We have association measures for pairs of numeric, factor and ordered-factor (ordinal) variables.
+We also have association measures for mixed pairs where one variable is numeric and the other is a factor. There are no association measures that we know of that are appropriate for a numeric-ordinal pair of variables, or a nominal-ordinal pair. For these we ignore the ordinal specification and revert.
+
+
+
+Change default_assoc function to 
+
+```{r, eval=F}
+default_assoc <- function(){
+  dplyr::tribble(
+    ~funName, ~typeX, ~typeY, ~argList,
+    "tbl_cor", "numeric", "numeric", NULL,
+    "tbl_cancor", "factor", "factor", NULL,
+    "tbl_gkGamma", "ordered", "ordered", NULL,
+    "tbl_cancor",  "factor", "numeric", NULL)
+}
+
+```
+similarly update_assoc.
+
+The line for other can be removed, and handled by the lookup function in calc.assoc.
+
+We are not handling date times, or circular variables (usually time related).
+
+The only association measure which handles circular variables is ace, but we are not so far using this feature.
+In the bike data the circular variables are yday, season, weekday
+
+
+
+
+
+### Proposed reorganisation of table 2
+
+Add a column for from.
+
+Add a column for range.
+
+Are we using symmetric measures throughout? Yes.
+for ghtau we use the max of the row and column measure.
+
+check that we use max/mean consistently throughout where a measure is made symmetric.
+
+Could also use as `assocMethods`
+
+
+```{r}
+
+
+measures <- tribble(
+  ~name, ~nn, ~ff, ~oo, ~nf,
+  "tbl_cor", "y", " ", " " ," ",
+  "tbl_dcor", "y", " ", " ", " ",
+  "tbl_mine", "y", " ", " ", " ",
+  "tbl_ace", "y", "y", "", "y", # fix this one to handle factors
+ 
+  "tbl_cancor", "y", "y", "","y",
+  "tbl_nmi",  "y", "y", "", "y", # Amit's table wrongly says nominal, should be numerical/factor
+   "tbl_polycor", " ", " ","y", "", 
+  "tbl_tau", " ", "","y", "",
+  "tbl_gkGamma", " ", "", "y", "", 
+  "tbl_gkTau", " ", "", "y", "", # uses factor order (Amit's table wrongly says nominal)
+  "tbl_uncertainty", " ",  "", "y", "",
+  "tbl_easy", "y", "y","y", "y", # not sure this one fits in the table??
+)
+
+tbl_gkTau<-
+function(d,handle.na=TRUE,...){
+  d <- dplyr::select(d, where(is.factor))
+  a <- assoc_tibble(d, measure_type="gkTau")
+  fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
+  a$measure <- mapply( fnlocal, a$x,a$y)
+  a
+}
+
+```
+
+```{r}
+
+acepack::ace(iris$Sepal.Length, as.numeric(iris$Species), cat=0)[["rsq"]]
+
+# the documentation for this function is incorrect, th description entry and the example
+tbl_ace <- function(d, handle.na = T, ...) {
+
+  ace_assoc <- assoc_tibble(d, measure_type = "ace")
+  ace_fn <- function(x,y) {
+
+    x <- d[[x]]
+    y <- d[[y]]
+    if(handle.na){
+      pick <- stats::complete.cases(x, y)
+      x <- x[pick]
+      y <- y[pick]
+    }
+    cat <- NULL
+    if (is.factor(x)) {
+      x <- as.numeric(x)
+      cat <- 1
+    }
+    if (is.factor(y)) {
+      y <- as.numeric(x)
+      cat <- c(cat,0)
+    }
+    ace_assoc <- sqrt(acepack::ace(x,y, cat=cat)[["rsq"]])
+    ace_assoc
+  }
+
+  ace_assoc$measure <- mapply(ace_fn, ace_assoc$x,ace_assoc$y)
+  ace_assoc
+}
+
+assignInNamespace("tbl_ace",tbl_ace,ns="corVis")
+
+```
+
+
+### Missing
+
+Missing from paper
+
+- many of the measures are not symmetric. We use symmetric versions. Why? Put in par about this at the end of section 2.
+
+
+Code comments
+
+- the normalisation for tbl_nmi is incorrect in the case of one numeric and one factor. See code below for fix
+
+
+```{r, eval=T}
+tbl_nmi<- 
+function(d,handle.na=T,...){
+
+  nmi <- assoc_tibble(d, measure_type="nmi")
+  fn <- function(x,y){
+    x <- d[[x]]
+    y <- d[[y]]
+    if(handle.na){
+      pick <- stats::complete.cases(x, y)
+      x <- x[pick]
+      y <- y[pick]
+    }
+    mi <- DescTools::MutInf(x,y)
+    normx <- if (is.numeric(x)) DescTools::Entropy(x) else DescTools::Entropy(table(x))
+    normy <- if (is.numeric(y)) DescTools::Entropy(y) else DescTools::Entropy(table(y))
+    mi/sqrt(normx*normy)
+  }
+  nmi$measure <-  mapply(fn, nmi$x,nmi$y)
+  nmi
+
+}
+```
+
+
+### Preliminary plots
+
+
+```{r}
+
+# drop some variables
+bike$dteday <- NULL 
+bike$weekday <- NULL
+bike$atemp <- NULL
+bike$cnt <- NULL
+
+library(corrplot)
+biken <- bike[, sapply(bike, is.numeric)]
+corrplot(cor(biken), diag=F)
+```
+
+The standard function works for numeric variables only. 
+
+
+
+```{r}
+
+
+a <- calc_assoc(bike)
+plot_assoc_matrix(a, glyph="circle")
+a |> arrange(desc(measure))
+```
+
+This one uses cancor or pearson. The factors are 
+
+- weathersit (strongly associated with humidity),
+- workingday (strongly associated with registered, casual)
+- yr (strongly associated with casual, less so with registered)
+- season (strongly associated with casual/registered and temp)
+
+
+### Specifying treatment of variables
+
+Sometimes you might want to treat a factor as ordered. This will also be useful for pairs of binary variables where it will then be possible to see the direction of association. Alternatively, treat binary variables as numerical.
+
+In the previous plot you cannot see the direction of association for working day and holiday for example.
+
+
+```{r}
+calc_assoc1 <- function(d, coerce_types=NULL, ...){
+  if (!is.null(coerce_types)){
+    nums <- coerce_types$numeric
+    # d[,nums] <- as.data.frame(lapply(d[,nums], as.numeric))
+    d[,nums] <- sapply(d[,nums], as.numeric)
+    ords <- coerce_types$ordinal
+    d[,ords] <- as.data.frame(lapply(d[,ords], as.ordered))
+    facs <- coerce_types$factor
+    d[,facs] <- as.data.frame(lapply(d[,facs], factor))
+  }
+  calc_assoc(d,...)
+}
+```
+
+The above changes will be encorporated into `calc_assoc`. 
+
+```{r}
+b <- calc_assoc1(bike, coerce_types=list(ordinal=c("workingday", "yr", "weathersit", "holiday")))
+plot_assoc_matrix(b, glyph="circle")
+```
+
+Now we see strong negative association between workingday and holiday. This is because holidays are not workingdays.
+
+```{r}
+bike |> count(holiday,workingday)
+
+```
+
+There is also a negative association between holidays and weathersit.
+
+It is perhaps surprising there is only a very weak association between holidays and registered/casual.
+
+```{r}
+filter(b, x %in% c("holiday", "registered"), y %in% c("holiday", "registered"))
+show_assoc(bike, "registered", "holiday") 
+```
+
+
+### Multiple association measures
+
+```{r}
+
+biken <- bike |> mutate(mnth=as.numeric(mnth)) |> select(where(is.numeric))
+  
+  
+  
+bn <-calc_assoc_all(biken) # need to sort out warnings
+
+plot_assoc_matrix(bn) # I do not like bars here. lollipops would be better. 
+
+# all measures are positive, so change to
+plot_assoc_matrix(bn, limits=c(0,1)) # label position is now wrong!
+```
+
+nmi measures are a lot higher than other measures
+
+```{r}
+filter(bn, x %in% c("windspeed", "hum"), y %in% c("windspeed", "hum"))
+
+show_assoc(bike, "windspeed", "hum")
+```
+
+Is there a problem with the nmi measure? or the DescTools implementation?.
+The tbl_nmi documentation is not complete. (Check other tbl functions.) It should have a reference to the definition of nmi, and to the Desctools package you are using for calculation.
+
+Check if other packages calculate nmi. Do further checks on linkspotter version.  You can comment in the paper that DescTools nmi seems incorrect.
+
+```{r}
+library(linkspotter)
+maxNMI(bike$windspeed, bike$hum) # mabe switch to this one in corVis.
+```
+
+```{r, eval=T}
+tbl_nmi<-  function(d,handle.na=T,...){
+
+  nmi <- assoc_tibble(d, measure_type="nmi")
+  fn <- function(x,y){
+    x <- d[[x]]
+    y <- d[[y]]
+    if(handle.na){
+      pick <- stats::complete.cases(x, y)
+      x <- x[pick]
+      y <- y[pick]
+    }
+    mi <- linkspotter::maxNMI(x,y)
+  }
+  nmi$measure <-  mapply(fn, nmi$x,nmi$y)
+  nmi
+
+}
+
+assignInNamespace("tbl_nmi",tbl_nmi,ns="corVis")
+```
+
+```{r}
+bn <-calc_assoc_all(biken) # need to sort out warnings
+plot_assoc_matrix(bn, limits=c(0,1)) # label position is now wrong!
+show_assoc(biken, "mnth", "casual")
+show_assoc(biken, "mnth", "temp")
+```
+
+ace gives a higher value than other measures for mnth and casual. nmi, dcor and mic are similar and all higher that pearson/spearman/kendall.
+The relationship between these two variables is non-linear.
+
+```{r}
+filter(bn, x %in% c("mnth", "casual"), y %in% c("mnth", "casual"))
+ares <- acepack::ace(biken$mnth, biken$casual)
+plot(biken$mnth,ares$tx)
+plot(biken$casual,ares$ty)
+plot(ares$tx,ares$ty)
+```
+
+Write some explanation here looking at the Murphy and Wang paper
+
+
+
+### Grouped association measures
+
+
+
+```{r}
+select(bike, -workingday, -holiday, -mnth, -yr) |>
+ calc_assoc1(by="season", 
+                  coerce_types=list(ordinal=c( "weathersit"))) -> bx
+
+bx |> group_by(x,y) |> summarise(rng=max(measure)-min(measure)) |> arrange(desc(rng)) -> bxrng
+
+plot_assoc_matrix(bx) # I do not like the yellow navy colours
+
+corrplot(matrix_assoc(bx), diag=F)
+
+
+bxrngf <- filter(bxrng, rng > .2)
+# filter the pairs in bx in bxrng and plot them in linear layout.
+
+
+filter(bx, x %in% c("hum", "temp"), y %in% c("hum", "temp"))
+show_assoc(bike, "temp", "hum", by="season") # 
+
+filter(bx, x %in% c("registered", "temp"), y %in% c("registered", "temp"))
+show_assoc(bike, "temp", "registered", by="season")
+
+filter(bx, x %in% c("casual", "temp"), y %in% c("casual", "temp"))
+show_assoc(bike, "temp", "casual", by="season")
+
+filter(bx, x %in% c("casual", "registered"), y %in% c("casual", "registered"))
+show_assoc(bike, "registered", "casual", by="season")
+
+```
+
+The overall correlation between hum and temp is low. This is also true in Spring and Winter, but the association is positive in fall and negative in Summer.
+
+
+The overall correlation between registered and temp is moderate and positive. This is also true in each season except for summer where
+the correlation is about 0. The same pattern holds for casual.
+
+
+### things to check in code
+
+use of pairwise class.
+
+
+seriation option: should be able to override, that is provide an order of variables to the assoc matrix plot.
+
+If you do filtering, then you are missing entries for some pairs. What does the matrix layout do? It breaks I think.
+
+

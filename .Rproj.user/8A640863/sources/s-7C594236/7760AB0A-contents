@@ -1,0 +1,28 @@
+tbl_ace_test <- function(d, handle.na = T, ...) {
+  
+  ace_assoc <- assoc_tibble(d, measure_type = "ace")
+  ace_fn <- function(x,y) {
+    
+    x <- d[[x]]
+    y <- d[[y]]
+    if(handle.na){
+      pick <- stats::complete.cases(x, y)
+      x <- x[pick]
+      y <- y[pick]
+    }
+    cat <- NULL
+    if (is.factor(x)) {
+      x <- as.numeric(x)
+      cat <- 1
+    }
+    if (is.factor(y)) {
+      y <- as.numeric(y)
+      cat <- c(cat,0)
+    }
+    ace_assoc <- sqrt(acepack::ace(x,y, cat=cat)[["rsq"]])
+    ace_assoc
+  }
+  
+  ace_assoc$measure <- mapply(ace_fn, ace_assoc$x,ace_assoc$y)
+  ace_assoc
+}
