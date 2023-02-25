@@ -2,12 +2,13 @@
 % Please edit documentation in R/order_assoc.R
 \name{order_assoc_lollipop}
 \alias{order_assoc_lollipop}
-\title{Ordering lollipops for the lollipop plot in matrix layout}
+\title{Ordering lollipops for the lollipop plot}
 \usage{
 order_assoc_lollipop(assoc, group_var = group_var)
 }
 \arguments{
-\item{assoc}{A tibble with association measures for different variable pairs in the dataset.}
+\item{assoc}{A tibble with association measures for different variable pairs in the dataset.
+Must be of class \code{cond_pairwise} or \code{multi_pairwise}.}
 
 \item{group_var}{a character vector for grouping variable. One of "by" or "measure_type"}
 }
@@ -15,7 +16,7 @@ order_assoc_lollipop(assoc, group_var = group_var)
 character vector representing the ordering of the lollipops
 }
 \description{
-Calculates an ordering for the lollipops.
+Calculates an ordering for the lollipops in matrix layout displays
 }
 \examples{
 order_assoc_lollipop(calc_assoc(iris),"by")

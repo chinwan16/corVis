@@ -7,7 +7,7 @@
 tbl_scag(d, scagnostic = "Outlying", handle.na = T, ...)
 }
 \arguments{
-\item{d}{A dataframe}
+\item{d}{A dataframe or tibble}
 
 \item{scagnostic}{a character string for the scagnostic to be calculated. One of "Outlying",
 "Stringy", "Striated", "Clumpy", "Sparse", "Skewed", "Convex", "Skinny" or "Monotonic"}

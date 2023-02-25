@@ -6,19 +6,25 @@
 \usage{
 plot_assoc_linear(
   assoc,
-  var_order = "default",
+  pair_order = "default",
   plot_type = c("heatmap", "dotplot"),
   limits = c(-1, 1)
 )
 }
 \arguments{
-\item{assoc}{A tibble with the calculated association measures for every variable pair in the dataset..}
+\item{assoc}{A tibble with the calculated association measures for every variable pair in the dataset.
+Must be of class \code{pairwise}, \code{cond_pairwise} or \code{multi_pairwise}.}
 
-\item{var_order}{a character string for the ordering of the variables. Either "default" (default) or "max_diff"}
+\item{pair_order}{a character string for ordering of the pairs of variables in linear layout. One of "default" (default) or "max_diff".
+When set to "default", pairs are arranged in decreasing order of the absolute value of measure or measures (when multiple measure per pair are present).
+When set to "max_diff", the ordering is only applicable to assoc with class cond_pairwise or multi_pairwise and the pairs are ordered in descending order of the maximum difference calculated among the measures.}
 
-\item{plot_type}{a character string for specifying the plot type. One of "hearmap" or "dotplot"}
+\item{plot_type}{a character string for specifying the type of plot an analyst wants. One of "heatmap" or "dotplot".}
 
-\item{limits}{a numeric vector of length $2$ specifying the limits of the scale. Default is c(-1,1)}
+\item{limits}{a numeric vector specifying the limits of the scale. Default is c(-1,1)}
+}
+\value{
+A static \code{ggplot2} plot
 }
 \description{
 Plots the calculated measures of association among different variable pairs for a dataset in a linear layout.

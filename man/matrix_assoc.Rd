@@ -16,7 +16,7 @@ which matrix to be created}
 tibble
 }
 \description{
-Creates a symmetric association matrix of calcualted association measures among pairs of variables.
+Creates a symmetric association matrix of calculated association measures among pairs of variables.
 }
 \examples{
 matrix_assoc(tbl_cor(iris))

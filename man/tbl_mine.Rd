@@ -7,7 +7,7 @@
 tbl_mine(d, method = "mic", handle.na = TRUE, ...)
 }
 \arguments{
-\item{d}{A dataframe}
+\item{d}{A dataframe or tibble}
 
 \item{method}{character string for the MINE measure to be calculated. Either "mic" (default), "mas", "mev",
 "mcn", or "mic-r2"}

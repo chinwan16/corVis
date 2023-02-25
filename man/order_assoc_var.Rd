@@ -2,12 +2,13 @@
 % Please edit documentation in R/order_assoc.R
 \name{order_assoc_var}
 \alias{order_assoc_var}
-\title{Ordering variables}
+\title{Ordering variables for matrix layout}
 \usage{
 order_assoc_var(assoc, group_var = group_var)
 }
 \arguments{
-\item{assoc}{A tibble with association measures for different variable pairs in the dataset.}
+\item{assoc}{A tibble with association measures for different variable pairs in the dataset.
+Must be of class \code{pairwise}, \code{cond_pairwise} or \code{multi_pairwise}.}
 
 \item{group_var}{a character vector for grouping variable. One of NULL, "by" or "measure_type"}
 }
@@ -15,7 +16,7 @@ order_assoc_var(assoc, group_var = group_var)
 character vector representing the ordering of the variables
 }
 \description{
-Calculates an ordering for the variables in a dataset.
+Calculates an ordering for the variables for matrix layout displays.
 }
 \examples{
 order_assoc_var(calc_assoc(iris))

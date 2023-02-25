@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_association.R
 \name{calc_assoc_all}
 \alias{calc_assoc_all}
-\title{Calculates all association measures in the package for a dataset}
+\title{Multiple association measures}
 \usage{
 calc_assoc_all(
   d,
@@ -25,7 +25,7 @@ can be updated to a subset of these measures.}
 tibble of class "multi_pairwise"
 }
 \description{
-Calculates all association measures for every variable pair in a dataset.
+Calculates multiple association measures for every variable pair in a dataset.
 }
 \examples{
 calc_assoc_all(iris)

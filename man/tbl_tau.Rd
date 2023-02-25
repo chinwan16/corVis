@@ -7,7 +7,7 @@
 tbl_tau(d, method = c("B", "A", "C", "W"), ...)
 }
 \arguments{
-\item{d}{A dataframe}
+\item{d}{A dataframe or tibble}
 
 \item{method}{A character string for the correlation coefficient to be calculated. Either "B" (default),
 "A", "C" or "W"}

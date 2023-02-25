@@ -14,7 +14,7 @@ calc_assoc(
 )
 }
 \arguments{
-\item{d}{dataframe}
+\item{d}{dataframe or tibble}
 
 \item{by}{a character string for the name of the conditional variable. Set to \emph{NULL} by default.}
 

@@ -7,7 +7,7 @@
 tbl_ace(d, handle.na = T, ...)
 }
 \arguments{
-\item{d}{A dataframe}
+\item{d}{A dataframe or tibble}
 
 \item{handle.na}{If TRUE uses pairwise complete observations.}
 

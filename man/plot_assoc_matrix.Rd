@@ -13,17 +13,21 @@ plot_assoc_matrix(
 )
 }
 \arguments{
-\item{lassoc}{A tibble with the calculated association measures for the lower triangle of the matrix plot.}
+\item{lassoc}{A tibble with the calculated association measures for the lower triangle of the matrix plot.
+Must be of class \code{pairwise}, \code{cond_pairwise} or \code{multi_pairwise}.}
 
 \item{uassoc}{A tibble with the calculated association measures for the upper triangle of the matrix plot.
-If \emph{NULL} (default) the matrix plot is symmetric.}
+Must be of class \code{pairwise}, \code{cond_pairwise} or \code{multi_pairwise}.  If \emph{NULL} (default) the matrix plot is symmetric.}
 
-\item{glyph}{A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle"}
+\item{glyph}{A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle".}
 
 \item{var_order}{A character string for the variable order. Either "default" for ordering
 using Dendser or a user provided variable order.}
 
-\item{limits}{a numeric vector of length 2 specifying the limits of the scale. Default is c(-1,1)}
+\item{limits}{a numeric vector of length specifying the limits of the scale. Default is c(-1,1)}
+}
+\value{
+A static \code{ggplot2} plot
 }
 \description{
 Plots the calculated measures of association among different variable pairs for a dataset in a matrix layout.
