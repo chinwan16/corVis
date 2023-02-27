@@ -1,0 +1,31 @@
+---
+title: "Seriation in corVis"
+author: "Amit Chinwan and Catherine Hurley"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+     toc: true
+vignette: >
+  %\VignetteIndexEntry{seriation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r global options, echo=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+
+
+
+```{r setup}
+if (!requireNamespace("palmerpenguins", quietly = TRUE))
+  install.packages("palmerpenguins")
+
+library(corVis)
+library(palmerpenguins)
+library(dplyr)
+```
+
+

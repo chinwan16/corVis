@@ -1,0 +1,165 @@
+---
+title: "Calculating associations using corVis"
+author: "Amit Chinwan and Catherine Hurley"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+     toc: true
+vignette: >
+  %\VignetteIndexEntry{Calculating associations using corVis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r global options, echo=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+corVis is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. The package can also calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette gives an overview of how these association measures are calculated in the package. Different methods to visualise these calculated measures are provided in the accompanying vignette.  
+
+
+```{r setup}
+if (!requireNamespace("palmerpenguins", quietly = TRUE))
+  install.packages("palmerpenguins")
+
+library(corVis)
+library(palmerpenguins)
+library(dplyr)
+```
+
+
+## Measures of Association
+
+An association measure can be defined as a numerical summary quantifying relationship between two or more variables. For example, Pearson's correlation coefficient summarizes the strength and direction of the linear relationship present between two *numeric* variables and is in the range $[-1,1]$. Similarly, distance correlation coefficient measures the non-linear association between two *numeric* variables and summarizes it in $[0,1]$ where $0$ suggests no non-linear relationship and $1$ suggests very high non-linear relationship.
+
+The package provides a collection of various measures of association which can be used to quantify the relationship between two variables and could be used to explore patterns prior to modeling. The measures available in the package are not limited to *numeric* variables only and can be used with *categorical* and *ordinal* variables as well. Table 1 lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure.
+```{r,echo=FALSE}
+measures <- dplyr::tribble(
+  ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
+  "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
+  "tbl_dcor", "y", " ", " ", " ", "energy::dcor2d", "[0,1]",
+  "tbl_mine", "y", " ", " ", " ", "minerva::mine", "[0,1]",
+  "tbl_ace", "y", "y", " ", "y", "corVis", "[0,1]",
+  "tbl_cancor", "y", "y", " ","y", "corVis", "[0,1]",
+  "tbl_nmi",  "y", "y", " ", "y", "linkspotter::maxNMI", "[0,1]",
+  "tbl_polycor", " ", " ","y", " ", "polycor::polychor", "[-1,1]",
+  "tbl_tau", " ", " ","y", " ", "DescTools::KendalTauA,B,C,W", "[-1,1]",
+  "tbl_gkGamma", " ", " ", "y", " ", "DescTools::GoodmanKruskalGamma", "[-1,1]",
+  "tbl_gkTau", " ", " ", "y", " ", "DescTools::GoodmanKruskalTau", "[0,1]",
+  "tbl_uncertainty", " ",  "y", " ", " ", "DescTools::UncertCoef", "[0,1]",
+  "tbl_chi", " ",  "y", " ", " ", "DescTools::ContCoef", "[0,1]"
+)
+
+kableExtra::kbl(measures,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.") %>% kableExtra::kable_styling(latex_options = "scale_down")
+```
+Table 1: Table of Association methods
+
+
+## Calculating association measures
+
+We introduce a method which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table 1) for different association measures in the form `tbl_*` to calculate them. For example, a user might be interested in calculating distance correlation for numeric pair of variables in a dataset. This can be done by using `tbl_dcor`. 
+
+```{r}
+df <- penguins
+distance <- tbl_dcor(df)
+glimpse(distance)
+```
+
+Similarly, one can use `tbl_nmi` to calculate normalised mutual information for numeric, nominal and mixed pair of variables.
+```{r}
+nmi <- tbl_nmi(df)
+glimpse(nmi)
+```
+
+These functions return a tibble with the variable pairs and calculated measure, and also with additional classes *pairwise* and *data.frame*. With the pairwise measures of association in a tibble or dataframe structure, the output of these functions can then be used with packages like _dplyr_ , _ggplot2_ for further exploration of association measures. 
+
+```{r}
+class(distance)
+```
+
+
+In some applications, a matrix structure for a measure is more useful than dataframe or tibble. The function `matrix_assoc` helps in converting the tibble of association measure to matrix structure. The function takes a tibble or dataframe of the variable pairs of the dataset along with the calculated association measures and returns a symmetric matrix of the variables.
+```{r}
+head(matrix_assoc(distance))
+```
+
+The function has an additional argument called *group* which represents the level of the grouping categorical variable for which the matrix output needs to be calculated and is set to *overall* as default. 
+
+
+## Calculating association measures for whole dataset
+
+`calc_assoc` can be used to calculate association measures for all the variable pairs in the dataset at once in a tibble structure. In addition to tibble structure, the output also has *pairwise* and *data.frame* class which are important class attributes for producing visual summaries in this package. 
+
+```{r}
+complete_assoc <- calc_assoc(df)
+glimpse(complete_assoc)
+class(complete_assoc)
+```
+
+The function has a *types* argument which is basically a tibble of the association measure to be calculated for different variable pairs. The default tibble of measures is `default_assoc()` which calculates Pearson's correlation if both the variables are numeric, Kendall's tau-b if both the variables are ordinal, canonical correlation if one is factor and other is numeric and canonical correlation for the rest of the variable pairs. 
+
+```{r}
+default_measures <- update_assoc()
+default_measures
+```
+
+
+An analyst can update these measures using the `update_assoc` function where one can specify a `tbl_*` function to calculate association measure depending on the variable pair in the dataset and a method if it calculates more than one measure.
+
+```{r}
+updated_assoc <- update_assoc(num_pair = "tbl_cor",
+                              num_pair_argList = "spearman",
+                              mixed_pair = "tbl_cancor",
+                              other_pair = "tbl_nmi")
+updated_assoc
+
+updated_complete_assoc <- calc_assoc(df, types = updated_assoc)
+glimpse(updated_complete_assoc)
+```
+
+The tibble output for `calc_assoc` has the following structure:
+
+  - `x` and `y` representing a pair of variables
+  - `measure` representing the calculated value for association measure
+  - `measure_type` representing the association measure calculated for `x` and `y` pair.
+  
+The variable pairs in the output are unique pairs and a subset of all the variable pairs of a dataset where `x` $\neq$ `y`. As explained earlier, the `measure_type` represents the association measure calculated for a specific type of variable pair. A user can be interested in calculating multiple association measures for a type of variable pair. This can be done by using the `calc_assoc` and `update_assoc` together for calculating different association measures and then merging the output tibbles. 
+
+## Calculating conditional association
+
+`calc_assoc` can also be used to calculate association measures for all the variable pairs at different levels of a categorical variable. This can help in exploring the conditional associations and find out interesting patterns in the data prior to modeling. The output of this function is a data structure with *cond_pairwise*, *data.frame*, *tibble* as  class attributes. The `by` argument is used for the grouping variable which needs to be categorical. 
+```{r}
+complete_assoc_by <- calc_assoc(df,by = "sex")
+```
+
+The function also has a `types` argument which can be updated similarly to `calc_assoc`. 
+```{r}
+updated_assoc <- update_assoc(num_pair = "tbl_cor",
+                              num_pair_argList = "spearman",
+                              mixed_pair = "tbl_cancor",
+                              other_pair = "tbl_nmi")
+updated_complete_assoc_by <- calc_assoc(df,by = "sex", types = updated_assoc)
+glimpse(updated_complete_assoc_by)
+```
+
+By default, the function calculates the association measures for all the variable pairs at different levels of the grouping variable and the pairwise association measures for the ungrouped data (*overall*). This behavior can be changed by setting `include.overall` to *FALSE*.
+
+```{r}
+complete_assoc_by <- calc_assoc(df,by = "sex",include.overall = FALSE)
+```
+
+The variable pairs in the output are repeated for every level of `by` variable.
+
+## Calculating mutliple association measures
+
+We calculate multiple assocaition measures with `calc_assoc_all` function in the package. The function takes a dataset and a list of measures as input and outputs a tibble structure with multiple measures of association for every variable pair. The output data structure has class attribute *multi_pairwise* which is used for producing multiple measures display. It also has additional class attributes such as *data.frame* or *tibble* which are useful for leveraging tools in _dplyr_ or _ggplot2_.
+
+This output is used by the plotting functions to produce multiple measures display in different layout. The code section below calculates `pearson`, `dcor` and `ace` measures for the variable pairs in penguins data. The pairs for which a measure is not defined is not included in the result.
+
+```{r}
+penguin_assoc_multi <- calc_assoc_all(d = df,
+                                   measures = c("pearson",
+                                                "dcor",
+                                                "ace"))
+penguin_assoc_multi
