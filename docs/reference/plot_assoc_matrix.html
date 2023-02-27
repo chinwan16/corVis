@@ -63,16 +63,17 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>lassoc</dt>
-<dd><p>A tibble with the calculated association measures for the lower triangle of the matrix plot.</p></dd>
+<dd><p>A tibble with the calculated association measures for the lower triangle of the matrix plot.
+Must be of class <code>pairwise</code>, <code>cond_pairwise</code> or <code>multi_pairwise</code>.</p></dd>
 
 
 <dt>uassoc</dt>
 <dd><p>A tibble with the calculated association measures for the upper triangle of the matrix plot.
-If <em>NULL</em> (default) the matrix plot is symmetric.</p></dd>
+Must be of class <code>pairwise</code>, <code>cond_pairwise</code> or <code>multi_pairwise</code>.  If <em>NULL</em> (default) the matrix plot is symmetric.</p></dd>
 
 
 <dt>glyph</dt>
-<dd><p>A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle"</p></dd>
+<dd><p>A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle".</p></dd>
 
 
 <dt>var_order</dt>
@@ -81,9 +82,15 @@ using Dendser or a user provided variable order.</p></dd>
 
 
 <dt>limits</dt>
-<dd><p>a numeric vector of length 2 specifying the limits of the scale. Default is c(-1,1)</p></dd>
+<dd><p>a numeric vector of length specifying the limits of the scale. Default is c(-1,1)</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>A static <code>ggplot2</code> plot</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

@@ -6,5 +6,8 @@ articles:
   integrating_corVis: integrating_corVis.html
   scagnostic_corVis: scagnostic_corVis.html
   vis_association: vis_association.html
-last_built: 2023-02-25T11:56Z
+last_built: 2023-02-27T09:51Z
+urls:
+  reference: https://chinwan16.github.io/corVis/reference
+  article: https://chinwan16.github.io/corVis/articles
 
