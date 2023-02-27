@@ -78,6 +78,8 @@
 ~%2FTechnical%20Modules%2FHM804_AppliedProbability%2Freport.Rmd="86C82D8C"
 ~%2FassocVis%2FR%2FCHcortest.R="C966A6C0"
 ~%2FassocVis%2FR%2Fpairwise_linear_plot.R="1CC9AE95"
+~%2FcorVis%2F.Rbuildignore="80888142"
+~%2FcorVis%2F.Renviron="707E5B4B"
 ~%2FcorVis%2F.Rhistory="F7ED59A5"
 ~%2FcorVis%2F.github%2Fworkflows%2Fpkgdown.yaml="6668CA64"
 ~%2FcorVis%2F.gitignore="3E98F4E3"

@@ -1,1 +1,0 @@
-Steel_industry_data %>% group_by(Day_of_week) %>% summarize(n=n())
