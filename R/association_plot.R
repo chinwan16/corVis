@@ -26,12 +26,12 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   glyph = match.arg(glyph)
 
   # defining a grouping variable vector depedning on class of assoc
-  if(class(lassoc)[1]=="pairwise"){
-    group_var <- NULL
-  } else if(class(lassoc)[1]=="cond_pairwise"){
-    group_var <- "by"
-  } else if(class(lassoc)[1]=="multi_pairwise") {
+  if(inherits(lassoc,"multi_pairwise")){
     group_var <- "measure_type"
+  } else if(inherits(lassoc,"cond_pairwise")){
+    group_var <- "by"
+  } else if(inherits(lassoc,"pairwise")) {
+    group_var <- NULL
   } else {
     stop("'lassoc' must be of class pairwise, cond_pairwise or multi_pairwise")
   }

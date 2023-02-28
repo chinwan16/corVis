@@ -304,11 +304,14 @@ kableExtra::kbl(measures,booktabs = T,caption = "List of the functions available
 
 For numeric pairs, the package provides popular correlation coefficients like Pearson, Spearman or Kendall and are calculated using `tbl_cor` function. The measures such as distance correlation or MIC for detecting non-linear patterns are implemented using `tbl_dcor` or `tbl_mine` respectively. For ordinal pairs, the measures such as polychoric correlation and Kendall's coefficients are used to find association and are computed by `tbl_polycor` or `tbl_tau` respectively. For nominal pairs , the functions `tbl_uncertainty`, `tbl_chi` or `tbl_cancor` are used for exploring association among the variables. 
 
+We do not handle date times, or circular variables (usually time related). The only association measure which handles circular variables is ace, but we are not so far using this feature. In the bike data the circular variables are `season`, `month` and `weekday`.
+
 The function `tbl_cancor` calculates a measure of association based on canonical correlations for mixed pairs of variables. Nominal variables are converted into sets of dummy variables, which are then assigned score to find the maximal correlation. For two numeric variables this measure is identical to absolute correlation, for two factors the correlation is identical to that obtained from correspondence analysis.
 
 The functions listed in Table \@ref(tab:association-measures) for calculating association measures provide a functionality for handling missing value or `NA` in the dataset. Each of these functions either have a `handle.na` argument or automatically uses pairwise complete observations (depending on the package used for calculation) for taking care of missing values present in the data. 
 
-We do not handle date times, or circular variables (usually time related). The only association measure which handles circular variables is ace, but we are not so far using this feature. In the bike data the circular variables are `season`, `month` and `weekday`.
+The `tbl_*` functions outputs a data structure with class `pairwise`. We define a `pairwise` data structure as a data format which contain scores for pairs of variables in a dataset for which a specified measure is defined. In addition to `pairwise`, the package also has `multi_pairwise` and `cond_pairwise` data structures which are discussed in the later sections. These structures are useful for producing displays in \CRANpkg{corVis}.
+
 
 <!-- ## Calculating association for a single type of variable pairs -->
 
@@ -326,7 +329,8 @@ We do not handle date times, or circular variables (usually time related). The o
 
 ## Calculating association measures for whole dataset
 
-The `calc_assoc` function calculates association measures for every variable pair in a dataset. The variable pairs in the output are unique pairs in the dataset where `x` $\neq$ `y`. Because of the tidy structure of the output, the data manipulation and visualization tools of \CRANpkg{tidyverse} [@tidyverse] are applicable and are useful for further exploration of pairwise associations. In addition to tibble structure, the output also has `pairwise` and `data.frame` class which are important class attributes for producing visual summaries in this package.
+The `calc_assoc` function calculates association measures for every variable pair in a dataset. The variable pairs in the output are unique pairs in the dataset where `x` $\neq$ `y`. Because of the tidy structure of the output, the data manipulation and visualization tools of \CRANpkg{tidyverse} [@tidyverse] are applicable and are useful for further exploration of pairwise associations. The output of `calc_assoc` has a `pairwise` data structure which has one score (measure) for each pair of variable in the dataset.
+
 
 The code snippet below shows the calculation of association measures for a subset of the bike sharing data. We select three numeric (temp, windspeed, registered) and two nominal variables (weathersit, workingday) from the original dataset to demostrate the usage of `calc_assoc`. We include all of the function arguments for the below example and describe how these are useful. The inputs such as `by` and `include.overall` will be described in the section [Calculating conditional association]. 
 
