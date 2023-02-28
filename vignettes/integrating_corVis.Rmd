@@ -20,8 +20,6 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE,echo=FALSE,fig.height = 5, fi
 
 This vignette provides information on how data structures or display methods in _corVis_ can be used with other R packages. We separate out the calculation and visualisation steps in _corVis_, which makes it an open ended package for both data structures and displays.
 
-
-
 ```{r, setup}
 if (!requireNamespace("palmerpenguins", quietly = TRUE))
   install.packages("palmerpenguins")
@@ -33,7 +31,7 @@ library(kableExtra)
 library(ggplot2)
 ```
 
-## Using data structures from corVis with other packages
+## Using data structures from `corVis` with other packages
 
 The package provides a collection of various measures of association which can be used to quantify the relationship between two variables and could be used to explore patterns prior to modeling. The measures available in the package are not limited to *numeric* variables only and can be used with *categorical* and *ordinal* variables as well. Table 1 lists the different measures of association provided in the package with the variable types they can be used with, the package used for calculation, the information on whether the measure is symmetric, and the minimum and maximum value of the measure.
 
@@ -61,26 +59,17 @@ Table 1: Table of association measures available in the package corVis
 
 An analyst can follow *Calculating associations using corVis* vignette for calculating association measures. These data structures are then used with other packages to display association measures.
 
-
-
 ### Visualising association measures using `corrplot`
 
-The package \CRANpkg{corrplot} provides an implementation of the methods in Friendly (2002) and produces correlation display in matrix layout. The correlation displays in the package are only applicable to numeric variables in a dataset. Figure 1 shows the correlation plot of the numeric variables in penguins data.
+The package _corrplot_ provides an implementation of the methods in Friendly (2002) and produces correlation display in matrix layout. The correlation displays in the package are only applicable to numeric variables in a dataset. In _corVis_, we calculate association measures for all variables irrespective of their type and then display these measures with different layouts. After calculating measures we can use other packages which provide correlation displays and support tidy structure of association measures to visualize association in a dataset. Figure 1 shows the correlation plot of the numeric variables in penguins data on the left and association measure display on the right. The plot on the right show strong association for species and other numeric variables which is not present in the left-hand plot.
 
-```{r , corrplot,echo=TRUE }
+```{r , corrplot_assoc,echo=TRUE, fig.show="hold", out.width="40%", fig.align='default'}
 library(corrplot)
 df <- penguins
 df_num <- df |>
   dplyr::select(where(is.numeric))
   
 corrplot(cor(df_num,use = "pairwise.complete.obs"))
-```
-
-Figure 1: Correlation plot for penguins data using `corrplot`.
-
-In \CRANpkg{corVis}, we calculate association measures for all variables irrespective of their type and then display these measures with different layouts. After calculating measures we can use other packages which provide correlation displays and support tidy structure of association measures to visualize association in a dataset. Figure 2 provides an example where the association measures are first calculated using \CRANpkg{corVis} and then displayed using \CRANpkg{corrplot}. The plot show strong association for species and other numeric variables suggesting the body measurements differ for different species of penguins.
-
-```{r, corrplot_assoc, echo=TRUE}
 
 penguins_assoc <- calc_assoc(df)
 
@@ -89,41 +78,43 @@ penguins_assoc_mat <- matrix_assoc(penguins_assoc)
 corrplot(penguins_assoc_mat, diag = F)
 ```
 
-Figure 2: Association plot for penguins data using association measures calculated by `corVis` and visulaized with `corrplot`.
-
-
+Figure 1: Left: Correlation plot for penguins data using `corrplot`. Right: Association plot for penguins data using association measures calculated by `corVis` and visulaized with `corrplot`.
 
 ### Visualising association measures using `linkspotter`
 
-The `linkspotter` package calculates and visualizes association for numeric and factor variables using a network layout plot. The nodes show the variables and the edges represent the measure of association between pair of variables. The width of edge maps to absolute correlation among the nodes. Two nodes are connected if the `corMethod` is defined for the variable pairs.
+The `linkspotter` package calculates and visualizes association for numeric and factor variables using a network layout plot. The nodes show the variables and the edges represent the measure of association between pair of variables. The width of edge maps to absolute correlation among the nodes. Two nodes are connected if the `corMethod` is defined for the variable pairs. 
+
+It is not possible to use association measures calculated using `corVis` to display with `linkspotter` package as they have hard-coded the displays with measures available only in their package. We create a custom function to display association measures in a network display as shown in Figure 2.  
 ```{r, linkspotter, echo=TRUE}
 library(linkspotter)
+library(ggraph)
+library(igraph)
 
 corCouples<-multiBivariateCorrelation(df)
 linkspotterGraph(corDF = corCouples, corMethod = "pearson", smoothEdges = FALSE, 
   dynamicNodes = FALSE)
+
+nw_corVis <- function(assoc){
+  assoc <- sym_assoc(assoc)
+  graph <- graph_from_data_frame(assoc)
+  ggraph(graph = graph) + 
+    geom_edge_link(aes(edge_alpha=abs(measure),color=measure,edge_width=abs(measure))) +
+    geom_node_point(size=3) + 
+    geom_node_text(aes(label=name),repel = TRUE) +
+    guides(edge_alpha="none",edge_width="none") +
+    scale_edge_color_gradient2(limits=c(-1,1),low="blue",mid = "white",high="brown")
+  
+}
+
+nw_corVis(penguins_assoc)
 ```
 
-Figure 3: Association display for penguins data in a network layout.
+Figure 2: Left:Association display for penguins data using `linkspotter`. Right: Association display for penguins data in a network plot.
 
-
-```{r, linkspotter_assoc,echo=TRUE, eval=FALSE}
-penguins_assoc <- calc_assoc(df)
-
-corCouples<-multiBivariateCorrelation(df)
-corCouples$pearson <- penguins_assoc$measure
-
-linkspotterGraph(corDF = corCouples,corMethod = "pearson", smoothEdges = FALSE, 
-  dynamicNodes = FALSE)
-```
-
-
-Figure 4: Association display for penguins data with association measures calculated using `corVis`
-
-
-## Visualising association using `corrr`
+### Visualising association using `corrr`
 
 Another package useful for exploring correlations is `corrr`. The main focus of the package is to create dataframes of correlation instead of matrices, which then can be explored by leveraging tools from *tidyverse*. 
+Similar to `corrplot`, the packge `corrr` doesn't support variables other than numeric. An analyst can calculate association measures for every variable pair using `corVis` and then display these measures using the visualizations offered by the `corrr`.
 
 ```{r, corrr,echo=TRUE}
 library(corrr)
@@ -132,52 +123,70 @@ glimpse(cor_df)
 rplot(cor_df) + 
   theme(axis.text = element_text(size = 7),
         axis.text.x = element_text(angle=30, hjust=1))
-```
 
-Figure 5: Association display for penguins data using `corrr`
-
-
-Similar to `corrplot`, the packge `corrr` doesn't support variables other than numeric. An analyst can calculate association measures for every variable pair using `corVis` and then display these measures using the visualizations offered by the `corrr`.
-
-```{r, corrr_assoc,echo=TRUE}
-penguins_assoc <- calc_assoc(df)
-penguins_assoc_mat <- matrix_assoc(penguins_assoc)
 penguins_assoc_df <- as.data.frame(penguins_assoc_mat)
 rplot(penguins_assoc_df) + 
   theme(axis.text = element_text(size = 7),
         axis.text.x = element_text(angle=30, hjust=1))
 ```
-Figure 6: Association display for penguins data with association measures calculated using `corVis` and displayed using `corrr`
 
-We can also display association measures using network layout with `corrr` for displaying the variables pairs having a higher value for association measures than a threshold. Figure 7 displays variable pairs in a network layout where measure value is greater than $0.4$.
+Figure 3: Left: Association display for penguins data using `corrr`. Right: Assocaition display for penguins data using measures from `corVis` and displayed using `corrr`
 
-```{r, corrr_assoc_nw,echo=TRUE}
-network_plot(penguins_assoc_df,min_cor = 0.4)
+
+## Using displays from corVis with data structures from other packages
+
+### Data structure using `linkspotter`
+
+As mentioned earlier, `linkspotter` package calculates association measures for numeric and factor variables. The measures available in the package are: `pearson`, `spearman`, `kendall`, `mic` and `maxNMI`. We can convert their data structure into _pairwise_ or _multi_pairwise_  depending on the number of measures calculated for every variable pair.
+
+The code snippet below show how we can convert the data structure from `linkspotter` to _pairwise_ and then use plotting function for displaying the association measure.
+```{r linkspotter_calc_assoc}
+corCouples<-multiBivariateCorrelation(df, corMethods = "pearson")
+
+as_pairwise <- function(corCouples){
+  
+  pick <- stats::complete.cases(corCouples)
+  d <- corCouples[pick,]
+  d <- d |>
+    select(X1,X2,pearson)
+  names(d) <- c("x","y","measure")
+  d$measure_type <- "pearson"
+  row.names(d) <- NULL
+  
+  class(d) <- append("pairwise", class(d))
+  
+  d
+}
+
+penguins_assoc <- as_pairwise(corCouples)
+plot_assoc_matrix(penguins_assoc)
 ```
-Figure 7: Association display in a network layout
+Figure 4: Association plot with measures calculated using `linkspotter`
+
+The below code snippet shows how we can convert a data structure with multiple measures calcultaed using `linkspotter` to _multi_pairwise_ data structure to be used with plotting functions in `corVis` package.
+```{r linkspotter_calc_assoc_multi}
+corCouples<-multiBivariateCorrelation(df)
+
+as_multi_pairwise <- function(corCouples){
+  
+  corCouples <- tidyr::pivot_longer(corCouples,cols = 5:9,
+                                    names_to = "measure_type",values_to = "measure") |>
+    dplyr::select(X1,X2,measure_type, measure)
+  pick <- stats::complete.cases(corCouples)
+  d <- corCouples[pick,]
+  
+  names(d)[1:2] <- c("x","y")
+  row.names(d) <- NULL
+  
+  class(d) <- append(c("multi_pairwise", "pairwise"), class(d))
+  
+  d
+}
+
+penguins_assoc_multi <- as_multi_pairwise(corCouples)
+plot_assoc_matrix(penguins_assoc_multi)
 
 
-## Visualising association using `corrgrapher`
-
-Another package for displaying correlations in a network layout is `corrgrapher`. The network display is interactive and produced for every variable pair in a dataset, where the highly correlated variables (calculate comparable correlation coefficients for different types of variable pairs) are put closer to each other. Also, the edge width is proportional to the magnitude of the correlation value. The display also has an option to look at the distribution of a variable by clicking on the corresponding node/variable in the plot or selecting the variable from the drop down. Below is an example of the network plot.
-
-```{r}
-library(corrgrapher)
-corrgrapher(df)
 ```
 
-Figure 8: Correlation network using `corrgrapher`
-
-Alternatively, we can use `corVis` for calculating pairwise association measures and display it using `corrgrapher`. In order to display a network layout, we will need to convert the tibble of calculated measures to a matrix. Figure 9 shows the network plot calculated association measures using `corVis`.
-
-```{r}
-assoc_df <- calc_assoc(df)
-assoc_df_mat <- matrix_assoc(assoc_df)
-corrgrapher(assoc_df_mat)
-```
-
-Figure 9: Association network plot for penguins data
-
-The only limitation with this display is that the plot for individual variables lose its signficance when used with matrix input. 
-
-
+Figure 5: Multiple association measures plot with measures calculated using `linkspotter`
