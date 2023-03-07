@@ -31,7 +31,7 @@ library(dplyr)
 library(kableExtra)
 library(ggplot2)
 
-df <- penguins
+df <- palmerpenguins::penguins
 names(df) <- c("species", "island", "bill_l", "bill_d", "flip_l", "mass", "sex", "year")
 
 a_order <- c( "bill_d", "bill_l", "flip_l", "island", "mass", "sex", "species", "year")
@@ -40,19 +40,27 @@ a_order <- c( "bill_d", "bill_l", "flip_l", "island", "mass", "sex", "species", 
 
 ## Matrix displays
 
-Generally for seriating matrix displays, the first step is to produce a dissimilarity or similarity matrix followed by an order from hierarchical clustering, where similar variables (objects) are placed closer to each other. In addition to placing similar variables closer, our aim is to place these variables on the top-left corner of the display in order to direct viewer's attention to these variables. 
+In many of the seriation algorithms for matrix displays, the first step is to produce a dissimilarity or similarity matrix of objects to be clustered. Here, objects are the variables of a dataset. For each cell in the matrix, a seriation weight $w_{ij}$ for variables $i$ and $j$, which measures the importance of the cell, is assigned. In many cases, $w_{ij}$ is a measure of variable dissimilarity. The second step is to perform a hierarchical clustering using the seriation weights $w_{ij}$ which yields a dendrogram. The final step is to rearrange the nodes of the dendrogram such that the ordering of the nodes minimizes a cost function. This produces an ordering where important variable pairs are placed adjacent or nearby each other. As people generally read from left to right, placing the most important cells at the beginning or top-left corner of the display allows an analyst to immediately identify important pairs of variables. By selecting appropriate cost function, we provide this feature for our matrix displays.
 
-We use seriation algorithm from Earle and Hurley (2015) to achieve this for our displays. The first step is to perform hierarchical clustering of a dissimilarity matrix (either for association measure display, multiple measures display or conditional measure display). This yields a dendrogram with an ordering where highly similar variables, depending on the display, are nearby. When used in a matrix display, this ordering brings similar variables close to the diagonal. In order to put these variables on the top-left corner we need an additional sorting step. This step uses seriation weights $w_{ij}$, where $w_{ij}$ measures the importance of comparison for variables $(i,j)$ and a cost function, where the main goal is to find a dendrogram ordering which minimizes the cost function. The cost function we use in _corVis_ is lazy path length (LPL) which is a variant of travelling salesman problem and rewards a short path with increasing weights. 
+We use the Lazy path length (LPL) cost function proposed by Earle and Hurley (2015) to order the matrix displays. Let $\pi$ be an order obtained from the hierarchical clustering of a matrix with n variables using the seriation weights $w_{ij}$. Then, LPL cost function for an order $\pi$ is defined as:
+
+$LPL(\pi) = \sum_{i=1}^{n-1} (n-1) w_{\pi(i),\pi(i+1)}$
+
+LPL is a weighted measure of path length and awards orders with short path lengths and where the weights generally increase. The method provides a form of importance sorting and is efficient in making interesting pairs more prominent in matrix displays by placing them at the start and top-left position.
+
+<!-- We use seriation algorithm from Earle and Hurley (2015) to achieve this for our displays. The first step is to perform hierarchical clustering of a dissimilarity matrix (either for association measure display, multiple measures display or conditional measure display). This yields a dendrogram with an ordering where highly similar variables, depending on the display, are nearby. When used in a matrix display, this ordering brings similar variables close to the diagonal. In order to put these variables on the top-left corner we need an additional sorting step. This step uses seriation weights $w_{ij}$, where $w_{ij}$ measures the importance of comparison for variables $(i,j)$ and a cost function, where the main goal is to find a dendrogram ordering which minimizes the cost function. The cost function we use in _corVis_ is lazy path length (LPL) which is a variant of travelling salesman problem and rewards a short path with increasing weights.  -->
 
 We use the sorting approach discussed above for all of our matrix displays to obtain variable ordering.
 
 ### Association measure display
 
-The association measure display uses a similarity matrix of association measure created with _pairwise_ data structure for ordering the variables. The _pairwise_ data structure has one association measure for every variable pair in the dataset. Figure 1 compares the default ordering of the variables in the dataset with ordering obtained by dendrogram seriation using LPL cost function. It is evident that the plot on right is more easier to interpret compared to the plot on left.
+The association measure display plots a measure of association for variable pairs in a dataset. The plotting function `plot_assoc_matrix` takes a data structure with variable pairs and corresponding measures as input. For ordering the variables, a dissimilarity matrix is constructed first where the dissimilarity is measured by $-|m_{ij}|$, where $m_{ij}$ is the association measure value for a variable pair $(i,j)$. This is followed by hierarchical clustering using the seriation weights (similar to the dissimilarity measure), which produces an order such that the LPL cost function is minimised.  
+
+Figure 1 compares the alphabetical ordering of the variables in the dataset with ordering obtained by seriation using LPL cost function. The plot on the right shows highly associated variables at the top left corner of the display, making it easier for an analyst to identify associated pairs instantly.
 
 ```{r assoc_display, fig.show="hold", out.width="40%", echo=TRUE, fig.align='default'}
 assoc_penguin <- calc_assoc(df)
-plot_assoc_matrix(assoc_penguin, var_order = names(df))
+plot_assoc_matrix(assoc_penguin, var_order = a_order)
 plot_assoc_matrix(assoc_penguin)
 ```
 
@@ -62,35 +70,50 @@ A user can also supply their own ordering perhaps obtained from other algorithm 
 
 ### Multiple measures display
 
-The multiple measures display is produced by a _multi_pairwise_ data structure which has multiple measures of association for every variable pair in the dataset. For seriation of multiple measures display, a similarity matrix is first constructed using the maximum association measure value for every variable pair followed by hierarchical clustering and dendrogram seriation. This produces an ordering of variables for the matrix display where highly associated variables at the start and close to each other.
+The multiple measures display plots multiple measures of association for every variable pair in the dataset. For the seriation of this display, a similarity matrix is obtained by taking the maximum association measure value for a variable pair. Let $m_{ij}$ denote the maximum value of the association measure for pair $(i,j)$. A hierarchical clustering is then performed with seriation weights $w_{ij} = - |m_{ij}|$ and an optimal ordering is found using the LPL cost function. 
 
-We also use seriation to order the lollipops in each cell of the multiple measures display. We follow the same strategy by first constructing a heirachical clustering of the similarity matrix of the association measures and then sorting the dendrogram ordering by LPL criterion. Figure 2 shows the seriated multiple measures display with highly associated variables pulled towards the top left corner of the plot.
-```{r multi_display, echo=TRUE}
+We also use seriation to order multiple measure types in each cell of the multiple measures display. We follow the same strategy by first constructing a dissimilarity matrix of the association measures. Dissimilarity between the pairs of measure types is measured by -|Pearson correlation|. This is followed by hierarchical clustering using weights the same as the dissimilarity measure. We find the optimal ordering using the LPL criterion. 
+
+Figure 2 shows a comparison of multiple measures display before and after seriation. The plot on the right displays variable pairs with high measure value(s) on the top left corner, making it easier to find pairs of variables where any of the measures is high.
+
+```{r multi_display, fig.show="hold", out.width="40%", echo=TRUE, fig.align='default'}
 df_num <- dplyr::select(df,where(is.numeric))
+
 multi_assoc_penguins <- calc_assoc_all(df_num)
+
+plot_assoc_matrix(multi_assoc_penguins, var_order = names(df_num))
 plot_assoc_matrix(multi_assoc_penguins)
 ```
 
-Figure 2: Seriated multiple association measures display for numeric variables in penguins data.
+Figure 2: Multiple association measures display for numeric variables in penguins data. Left: variables in default order of the data; right: variables ordered by LPL cost function
+
 
 ### Conditional association measures display
 
-The conditional association measure display is obtained by a _cond_pairwise_ data structure which has $k$ or $k+1$ rows (depending on whether overall is included or not), where k is the number of levels of coniditioning variable, for every variable pair. A similarity matrix is constructed using the maximum difference among association measures for each pair of variable. The rest of steps for seriation are similar to association measure or multiple measures display.
+The conditional association measure display plots pairwise association measures at different levels of a conditioning variable. For ordering the variables, we use a similar strategy as with the case of multiple measures display. The only difference is that a similarity matrix is constructed by taking the maximum difference among association measure values at different levels of the conditioning variable for a variable pair.
 
-For ordering the lollipops, representing the measure value at every level, we follow a similar approach used for ordering lollipops in multiple measures display. Figure 3 shows a seriated conditional association measure display for penguins data.
-```{r cond_display, echo=TRUE}
+For ordering levels of the conditioning variable, we follow a similar approach used for ordering measure types in multiple measures display. 
+
+Figure 3 shows the difference in conditional association measure displays before and after seriation. The variable pairs with high differences in measure value for a grouping variable are placed at the beginning of the seriated display on the right. This helps in quickly finding pairs with high group differences. The plot shows variable pairs (`flip_l`, `bill_d`) and (`flip_l`, `mass`) with high difference in measure value at different levels of the conditioning variable `species`.
+```{r cond_display, fig.show="hold", out.width="40%", echo=TRUE, fig.align='default'}
 cond_assoc_penguins <- calc_assoc(df,by="species")
+
+a_order_cond <- c("bill_d", "bill_l", "flip_l", "island", "mass", "sex", "year")
+
+plot_assoc_matrix(cond_assoc_penguins, var_order = a_order_cond)
 plot_assoc_matrix(cond_assoc_penguins)
 ```
 
-Figure 3: Seriated conditional association measure display for penguins data.
+Figure 3: Conditional association measures display for penguins data. Left: variables in default order of the data; right: variables ordered by LPL cost function
 
 
 ## Linear displays
 
-In _corVis_, we produce linear displays (dot-plot or heatmap) of _pairwise_, _multi_pairwise_ or _cond_pairwise_ data structures by plotting variable pairs in a linear layout ordered by certain criterion. We provide two seriation methods in the package. 
+In addition to matrix displays, we provide linear displays in the form of dot plots or heatmaps for plotting association measures and conditional association measures in _corVis_. Linear layouts are especially useful when the analyst wishes to limit the display to pairs of variables showing non-negligible association. We use two basic sorting techniques to seriate the variable pairs in these displays.
 
-The first method uses maximum absolute measure value for ordering the variable pairs. For the case of _multi_pairwise_ or _cond_pairwise_ data structures, maximum absolute measure value among the available measures for every variable pair is considered to obtain an ordering of variable pairs. 
+The first technique involves using the maximum absolute value for ordering the variable pairs. In the case of multiple measures and conditional measures display, the variable pairs are ordered in descending order by the maximum absolute measure value of the available measures for each pair. This produces a display with highly associated variable pairs at the top, simplifying the task to identify associated variables.
+
+Figure 4 shows the seriated linear display where it is easier to find highly associated variable pairs in the plot compared to a plot with default varaible pairs ordering. The variable pairs such as (mass, flip_l) and (sex, mass) are placed at the top of the display and are strongly associated.
 
 ```{r linear_cond_max,echo=TRUE}
 plot_assoc_linear(cond_assoc_penguins, plot_type = "dotplot")
@@ -99,11 +122,12 @@ plot_assoc_linear(cond_assoc_penguins, plot_type = "dotplot")
 Figure 4: Conditional association measure display in linear layout with variable pair ordered by maximum absolute measure value at each level
 
 
+The second technique uses the maximum difference among the value of the measures to order variable pairs. The pairs of variables are ordered in descending order by the maximum difference value. As a result of this ordering, the variable pairs with a maximum difference are placed on the top of the display, making it easier for an analyst to find variable pairs with a high difference.
+
+Figure 5 shows a seriated linear display using the maximum difference technique. It is easier to spot the variable pairs with high differences in the plot. The variable pairs (flip_l, bill_d) and (mass, bill_d) are placed at the top of the display and have highest difference among the measures.
 ```{r linear_cond_max_diff,echo=TRUE}
-plot_assoc_linear(cond_assoc_penguins, plot_type = "dotplot",var_order = "max_diff")
+plot_assoc_linear(cond_assoc_penguins, plot_type = "dotplot",pair_order = "max_diff")
 ```
 
-The second method uses the maximum difference among the measures value for each pair of variable to order variable pairs. This method is ignored for data structures with _pairwise_ class as there is only one measure per variable pair.
-
-
+Figure 5: Conditional association measure display in linear layout with variable pair ordered by maximum absolute measure value at each level
 
