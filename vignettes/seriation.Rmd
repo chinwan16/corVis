@@ -58,7 +58,7 @@ The association measure display plots a measure of association for variable pair
 
 Figure 1 compares the alphabetical ordering of the variables in the dataset with ordering obtained by seriation using LPL cost function. The plot on the right shows highly associated variables at the top left corner of the display, making it easier for an analyst to identify associated pairs instantly.
 
-```{r assoc_display, fig.show="hold", out.width="40%", echo=TRUE, fig.align='default'}
+```{r assoc_display, fig.show="hold", out.width="45%", echo=TRUE, fig.align='default'}
 assoc_penguin <- calc_assoc(df)
 plot_assoc_matrix(assoc_penguin, var_order = a_order)
 plot_assoc_matrix(assoc_penguin)
@@ -76,7 +76,7 @@ We also use seriation to order multiple measure types in each cell of the multip
 
 Figure 2 shows a comparison of multiple measures display before and after seriation. The plot on the right displays variable pairs with high measure value(s) on the top left corner, making it easier to find pairs of variables where any of the measures is high.
 
-```{r multi_display, fig.show="hold", out.width="40%", echo=TRUE, fig.align='default'}
+```{r multi_display, fig.show="hold", out.width="45%", echo=TRUE, fig.align='default'}
 df_num <- dplyr::select(df,where(is.numeric))
 
 multi_assoc_penguins <- calc_assoc_all(df_num)
@@ -95,7 +95,7 @@ The conditional association measure display plots pairwise association measures 
 For ordering levels of the conditioning variable, we follow a similar approach used for ordering measure types in multiple measures display. 
 
 Figure 3 shows the difference in conditional association measure displays before and after seriation. The variable pairs with high differences in measure value for a grouping variable are placed at the beginning of the seriated display on the right. This helps in quickly finding pairs with high group differences. The plot shows variable pairs (`flip_l`, `bill_d`) and (`flip_l`, `mass`) with high difference in measure value at different levels of the conditioning variable `species`.
-```{r cond_display, fig.show="hold", out.width="40%", echo=TRUE, fig.align='default'}
+```{r cond_display, fig.show="hold", out.width="45%", echo=TRUE, fig.align='default'}
 cond_assoc_penguins <- calc_assoc(df,by="species")
 
 a_order_cond <- c("bill_d", "bill_l", "flip_l", "island", "mass", "sex", "year")
@@ -129,5 +129,5 @@ Figure 5 shows a seriated linear display using the maximum difference technique.
 plot_assoc_linear(cond_assoc_penguins, plot_type = "dotplot",pair_order = "max_diff")
 ```
 
-Figure 5: Conditional association measure display in linear layout with variable pair ordered by maximum absolute measure value at each level
+Figure 5: Conditional association measure display in linear layout with variable pair ordered by maximum difference value at each level
 
