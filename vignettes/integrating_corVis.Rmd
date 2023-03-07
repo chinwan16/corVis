@@ -111,26 +111,6 @@ nw_corVis(penguins_assoc)
 
 Figure 2: Left:Association display for penguins data using `linkspotter`. Right: Association display for penguins data in a network plot.
 
-### Visualising association using `corrr`
-
-Another package useful for exploring correlations is `corrr`. The main focus of the package is to create dataframes of correlation instead of matrices, which then can be explored by leveraging tools from *tidyverse*. 
-Similar to `corrplot`, the packge `corrr` doesn't support variables other than numeric. An analyst can calculate association measures for every variable pair using `corVis` and then display these measures using the visualizations offered by the `corrr`.
-
-```{r, corrr,echo=TRUE}
-library(corrr)
-cor_df <- correlate(df_num)
-glimpse(cor_df)
-rplot(cor_df) + 
-  theme(axis.text = element_text(size = 7),
-        axis.text.x = element_text(angle=30, hjust=1))
-
-penguins_assoc_df <- as.data.frame(penguins_assoc_mat)
-rplot(penguins_assoc_df) + 
-  theme(axis.text = element_text(size = 7),
-        axis.text.x = element_text(angle=30, hjust=1))
-```
-
-Figure 3: Left: Association display for penguins data using `corrr`. Right: Assocaition display for penguins data using measures from `corVis` and displayed using `corrr`
 
 
 ## Using displays from corVis with data structures from other packages
@@ -142,8 +122,9 @@ As mentioned earlier, we separate the calculation and visualisation step in _cor
 `correlation` package calculates different kinds of correlations, such as partial correlations, Bayesian correlations, multilevel correlations, polychoric correlations, biweight, percentage bend or Sheperd’s Pi correlations, distance correlation and more. The output data structure is a tidy dataframe with a correlation value and correlation tests for variable pairs for which the correlation method is defined. We can convert this data structure into _pairwise_ (or _multi_pairwise_) using a customised function.
 
 The code snippet below shows how we can convert the data structure from `correlation` to _pairwise_ and then use the plotting function for displaying the variable pairs with association measures.
-```{r correlation_calc_assoc}
-
+```{r correlation_calc_assoc, echo=TRUE}
+library(correlation)
+names(df) <- c("species", "island", "bill_l", "bill_d", "flip_l", "mass", "sex", "year")
 correlation_df <- correlation::correlation(df, method = "pearson")
 as_pairwise <- function(correlation_df){
   d <- correlation_df |>
@@ -157,10 +138,10 @@ as_pairwise <- function(correlation_df){
 penguins_assoc <- as_pairwise(correlation_df)
 plot_assoc_matrix(penguins_assoc)
 ```
-Figure 4: Association plot with measures calculated using `linkspotter`
+Figure 4: Association plot with measures calculated using `correlation` package
 
 The below code snippet shows how we can convert a data structure with multiple measures calcultaed using `linkspotter` to _multi_pairwise_ data structure to be used with plotting functions in `corVis` package.
-```{r linkspotter_calc_assoc_multi}
+```{r linkspotter_calc_assoc_multi, echo=TRUE}
 multi_correlation_df <- rbind(as_pairwise(correlation(df, method = "pearson")),
                               as_pairwise(correlation(df, method = "blomqvist")),
                               as_pairwise(correlation(df, method = "hoeffding")),
@@ -179,4 +160,4 @@ plot_assoc_matrix(penguins_assoc_multi)
 
 ```
 
-Figure 5: Multiple association measures plot with measures calculated using `correlation`
+Figure 5: Multiple association measures plot with measures calculated using `correlation` package
