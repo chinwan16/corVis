@@ -53,21 +53,15 @@ order_assoc_var <- function(assoc, group_var = group_var){
 
 order_assoc_lollipop <- function(assoc, group_var = group_var){
 
-  assoc <- assoc |>
-    tidyr::pivot_wider(id_cols = 1:2,names_from = group_var, values_from = "measure")
-  if (group_var=="by"){
-    assoc <- dplyr::select(assoc,-x,-y,-overall)
-  } else{
-    assoc <- dplyr::select(assoc,-x,-y)
-  }
-  lollipop_m <- stats::cor(assoc, use = "pairwise.complete.obs")
+  if (group_var=="by") assoc <- filter(assoc,by!="overall")
 
-  if (nrow(lollipop_m)==2){
-    lollipop_o <- rownames(lollipop_m)[c(1,2)]
-  } else {
-    lollipop_o <- DendSer::dser(x = as.dist(-abs(lollipop_m)), cost = DendSer::costLPL)
-  }
-  rownames(lollipop_m)[lollipop_o]
+  o <- assoc |>
+    dplyr::group_by(.data[[group_var]]) |>
+    dplyr::summarise( avg=mean(.data$measure, na.rm=TRUE),.groups = "drop") |>
+    dplyr::arrange(dplyr::desc(avg)) |>
+    dplyr::pull(.data[[group_var]])
+  as.character(o)
+
 }
 
 

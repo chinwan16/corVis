@@ -18,7 +18,7 @@ update_assoc(
 )
 }
 \arguments{
-\item{default}{default measure functions for different variable pairs. set to default_assoc()}
+\item{default}{default measure functions for different variable pairs. set to \code{\link[=default_assoc]{default_assoc()}}}
 
 \item{num_pair}{a measure(s) function for numeric pair of variables, default is NULL}
 

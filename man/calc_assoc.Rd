@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_association.R
 \name{calc_assoc}
 \alias{calc_assoc}
-\title{Association/Conditional Association measures for a dataset}
+\title{Calculates association or conditional association measures for a dataset}
 \usage{
 calc_assoc(
   d,
@@ -14,31 +14,64 @@ calc_assoc(
 )
 }
 \arguments{
-\item{d}{dataframe or tibble}
+\item{d}{data}
 
-\item{by}{a character string for the name of the conditional variable. Set to \emph{NULL} by default.}
+\item{by}{a character string for the name of the conditioning variable. Set to \code{NULL} by default.}
 
 \item{types}{a tibble for the measures to be calculated for different variable types. The default is
-\emph{default_assoc()} which calculates Pearson's correlation if the variable pair is numeric,
-Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
-other is a factor, and canonical correlation for any other variable pair.}
+\code{\link[=default_assoc]{default_assoc()}} which calculates Pearson's correlation if the variable pair is numeric,
+Goodman Kruskal's gamma if variable pair is ordered factor, canonical correlation for
+a factor pair, and canonical correlation for mixed variable pairs.}
 
-\item{include.overall}{Useful during calculation of conditional association measures. If TRUE calculates the overall measure of association for every pair of variable and
-includes it in the result.}
+\item{include.overall}{Useful during calculation of conditional association measures.
+If TRUE calculates the overall measure of association for every pair of
+variable, in addition to association measures for pairs at levels of the
+conditioning variable, and includes it in the result.}
 
 \item{handle.na}{If TRUE uses pairwise complete observations to calculate measure of association.}
 
-\item{coerce_types}{a list specifying the variables that to need to be coerced to different variable types}
+\item{coerce_types}{a list specifying the variables that need to be coerced to different variable types}
 }
 \value{
-A tibble with class "pairwise" when by argument is set to NULL. Else a tibble with class
-"cond_pairwise"
+A tibble with class \code{pairwise} when by argument is set to NULL. When a conditioning variable is
+specified the function returns a tibble with class \code{cond_pairwise}.
 }
 \description{
-Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
-variable in a dataset.
+Calculates association measures for every variable pair in a dataset when \code{by} is \code{NULL}. If \code{by}
+is a name of a categorical variable in the dataset, conditional association measures for every
+variable pair at different levels of the conditional variable in a dataset are calculated.
+}
+\details{
+Returns a \code{pairwise} tibble structure with \code{(px(p-1))/2} variable pairs, if a dataset has \code{p}
+variables. The \code{pairwise} output contains association measures for different types of pairs
+of variables specified by the \code{types} argument. The default is set to \code{\link[=default_assoc]{default_assoc()}} and
+a user can update these measures using \code{\link[=update_assoc]{update_assoc()}}. The function also allows the user
+to change the variable type of variable using \code{coerce_types} argument.
+The function returns a \code{cond_pairwise} data structure when \code{by} is set to a conditioning
+variable. The output contains an association measure for variable pairs at different levels
+of the conditioning variable. If \code{include.overall} is TRUE, the output also includes measures
+of association for variable pairs calculated without the conditioning variable.
 }
 \examples{
-calc_assoc(iris)
-calc_assoc(iris, by = "Species")
+assoc_iris <- calc_assoc(iris, types=default_assoc())
+
+# Example for updating assocaition measures
+updated_assoc <- update_assoc(mixed_pair="tbl_ace")
+assoc_iris <- calc_assoc(iris, types=updated_assoc)
+
+
+# Example for coercing variable types
+iris1 <- dplyr::as_tibble(iris)
+iris1$Sepal.Length <- cut(iris1$Sepal.Length,breaks=4) # converting Sepal.Length into a factor
+iris1$Sepal.Width <- cut(iris1$Sepal.Width,breaks=4) # converting Sepal.Width into a factor
+iris1$Species <- as.character(iris1$Species) # converting Species into a character vector
+assoc_iris1 <- calc_assoc(iris1, coerce_types = list(ordinal=c("Sepal.Length","Sepal.Width"),
+                                                     factor="Species",
+                                                     numeric=NULL))
+# Example for calculating conditional association measures
+cond_assoc_iris <- calc_assoc(iris, by = "Species",include.overall=TRUE)
+cond_assoc_iris_wo <- calc_assoc(iris, by = "Species",include.overall=FALSE) # without overall
+
+
+
 }

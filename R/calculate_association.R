@@ -1,26 +1,61 @@
-#' Association/Conditional Association measures for a dataset
+#' Calculates association or conditional association measures for a dataset
 #'
-#' Calculates association  measures for every variable pair or conditional association measures for every variable pair at different levels of a third (conditional)
-#' variable in a dataset.
+#' Calculates association measures for every variable pair in a dataset when `by` is `NULL`. If `by`
+#' is a name of a categorical variable in the dataset, conditional association measures for every
+#' variable pair at different levels of the conditional variable in a dataset are calculated.
 #'
-#' @param d dataframe or tibble
-#' @param by a character string for the name of the conditional variable. Set to *NULL* by default.
+#' @param d data
+#' @param by a character string for the name of the conditioning variable. Set to `NULL` by default.
 #' @param types a tibble for the measures to be calculated for different variable types. The default is
-#'              *default_assoc()* which calculates Pearson's correlation if the variable pair is numeric,
-#'              Kendall's tau B if variable pair is ordered factor, canonical correlation if one is numeric and
-#'              other is a factor, and canonical correlation for any other variable pair.
-#' @param include.overall Useful during calculation of conditional association measures. If TRUE calculates the overall measure of association for every pair of variable and
-#'                        includes it in the result.
+#'              [`default_assoc()`] which calculates Pearson's correlation if the variable pair is numeric,
+#'              Goodman Kruskal's gamma if variable pair is ordered factor, canonical correlation for
+#'              a factor pair, and canonical correlation for mixed variable pairs.
+#' @param include.overall Useful during calculation of conditional association measures.
+#'                       If TRUE calculates the overall measure of association for every pair of
+#'                       variable, in addition to association measures for pairs at levels of the
+#'                       conditioning variable, and includes it in the result.
 #' @param handle.na If TRUE uses pairwise complete observations to calculate measure of association.
-#' @param coerce_types a list specifying the variables that to need to be coerced to different variable types
-#' @return A tibble with class "pairwise" when by argument is set to NULL. Else a tibble with class
-#' "cond_pairwise"
+#' @param coerce_types a list specifying the variables that need to be coerced to different variable types
+#' @details Returns a `pairwise` tibble structure with `(p(p-1))/2` variable pairs, if a dataset has `p`
+#'          variables. The `pairwise` output contains association measures for different types of pairs
+#'          of variables specified by the `types` argument. The default is set to [`default_assoc()`] and
+#'          a user can update these measures using [`update_assoc()`]. The function also allows the user
+#'          to change the variable type of variable using `coerce_types` argument.
+#'          The function returns a `cond_pairwise` data structure when `by` is set to a conditioning
+#'          variable. The output contains an association measure for variable pairs at different levels
+#'          of the conditioning variable. An additional column `by` is included in the output having
+#'          levels of the conditioning variable.
+#'          When `include.overall` is TRUE, the output also includes measures of association for
+#'          variable pairs calculated without the conditioning variable. The `by` column has a level
+#'          "overall" for these cases.
+#' @return A tibble with class `pairwise` when by argument is set to NULL. When a conditioning variable is
+#' specified the function returns a tibble with class `cond_pairwise`.
+#'
 #' @export
 #'
 #'
 #' @examples
-#' calc_assoc(iris)
-#' calc_assoc(iris, by = "Species")
+#' assoc_iris <- calc_assoc(iris, types=default_assoc())
+#'
+#' # Example for updating assocaition measures
+#' updated_assoc <- update_assoc(mixed_pair="tbl_ace")
+#' assoc_iris <- calc_assoc(iris, types=updated_assoc)
+#'
+#'
+#' # Example for coercing variable types
+#' iris1 <- dplyr::as_tibble(iris)
+#' iris1$Sepal.Length <- cut(iris1$Sepal.Length,breaks=4) # converting Sepal.Length into a factor
+#' iris1$Sepal.Width <- cut(iris1$Sepal.Width,breaks=4) # converting Sepal.Width into a factor
+#' iris1$Species <- as.character(iris1$Species) # converting Species into a character vector
+#' assoc_iris1 <- calc_assoc(iris1, coerce_types = list(ordinal=c("Sepal.Length","Sepal.Width"),
+#'                                                      factor="Species",
+#'                                                      numeric=NULL))
+#' # Example for calculating conditional association measures
+#' cond_assoc_iris <- calc_assoc(iris, by = "Species",include.overall=TRUE)
+#' cond_assoc_iris_wo <- calc_assoc(iris, by = "Species",include.overall=FALSE) # without overall
+#'
+#'
+#'
 
 calc_assoc  <- function(d,
                         by=NULL,
@@ -145,7 +180,7 @@ default_assoc <- function(){
 #' A user friendly function for changing association measures
 #'
 #' Creates a tibble for different measures of association for different variable types of a dataset.
-#' @param default default measure functions for different variable pairs. set to default_assoc()
+#' @param default default measure functions for different variable pairs. set to [`default_assoc()`]
 #' @param num_pair a measure(s) function for numeric pair of variables, default is NULL
 #' @param num_pair_argList a character string specifying the measure to be calculated using num_pair, default is NULL
 #' @param factor_pair a measure(s) function for factor pair of variables, default is NULL
@@ -203,7 +238,7 @@ update_assoc <- function(default=default_assoc(),
   updated
 }
 
-#' Multiple association measures
+#' Calculates multiple association measures
 #'
 #' Calculates multiple association measures for every variable pair in a dataset.
 #'

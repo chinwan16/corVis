@@ -1,11 +1,12 @@
-#' A generic function to create a tibble structure for a measure of association
+#' A generic function to create a data structure for every variable pair in a dataset
 #'
-#' Creates a tibble for every variable pair in a dataset with a measure of association
+#' Creates a data structure for every variable pair in a dataset.
 #'
-#' @param data A dataframe
-#' @param measure_type a character string indicating the measure of association
-#'
-#' @return A tibble structure of variable pairs and measure of association
+#' @param data A dataframe.
+#' @param measure_type a character string indicating the measure of association.
+#' @param pair_type a character string specifying the type of variable pair.
+#' @return A data structure for pairs of variables with a column `measure` for measure value,
+#' `measure_type` for a type of association measure and `pair_type` for the variable pair.
 #' @export
 #'
 #' @examples

@@ -4,7 +4,7 @@
 \alias{assoc_tibble}
 \alias{assoc_tibble.matrix}
 \alias{assoc_tibble.data.frame}
-\title{A generic function to create a tibble structure for a measure of association}
+\title{A generic function to create a data structure for every variable pair in a dataset}
 \usage{
 assoc_tibble(data, measure_type = "?", pair_type = "?")
 
@@ -13,15 +13,18 @@ assoc_tibble(data, measure_type = "?", pair_type = "?")
 \method{assoc_tibble}{data.frame}(data, measure_type = NA_character_, pair_type = NA_character_)
 }
 \arguments{
-\item{data}{A dataframe}
+\item{data}{A dataframe.}
 
-\item{measure_type}{a character string indicating the measure of association}
+\item{measure_type}{a character string indicating the measure of association.}
+
+\item{pair_type}{a character string specifying the type of variable pair.}
 }
 \value{
-A tibble structure of variable pairs and measure of association
+A data structure for pairs of variables with a column \code{measure} for measure value,
+\code{measure_type} for a type of association measure and \code{pair_type} for the variable pair.
 }
 \description{
-Creates a tibble for every variable pair in a dataset with a measure of association
+Creates a data structure for every variable pair in a dataset.
 }
 \section{Methods (by class)}{
 \itemize{

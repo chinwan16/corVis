@@ -138,7 +138,9 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
       ggplot2::geom_text(ggplot2::aes(x= length(levels(.data[[group_var]]))/2+0.5,y= mean(limits),label=.data$text),size=3) +
       ggplot2::geom_hline(ggplot2::aes(yintercept=.data$intercept), size=0.5) +
       ggplot2::scale_y_continuous(limits=limits) +
+      ggplot2::guides(colour = ggplot2::guide_legend(byrow = T)) +
       ggplot2::theme(panel.spacing = ggplot2::unit(0.05, "lines"))
+
 
     by_var <- attr(lassoc,"by_var")
     p <- p+ {if(group_var=="by") ggplot2::labs(color = by_var)}
