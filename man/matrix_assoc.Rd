@@ -2,22 +2,50 @@
 % Please edit documentation in R/assoc_structure.R
 \name{matrix_assoc}
 \alias{matrix_assoc}
-\title{Symmetric association matrix}
+\alias{matrix_assoc.pairwise}
+\alias{matrix_assoc.cond_pairwise}
+\alias{matrix_assoc.multi_pairwise}
+\title{A generic function to create a symmetric matrix from a tibble of association measures with different
+classes}
 \usage{
-matrix_assoc(assoc, group = "overall")
+matrix_assoc(assoc, group = NULL)
+
+\method{matrix_assoc}{pairwise}(assoc, group = NULL)
+
+\method{matrix_assoc}{cond_pairwise}(assoc, group = "overall")
+
+\method{matrix_assoc}{multi_pairwise}(assoc, group = NULL)
 }
 \arguments{
 \item{assoc}{A tibble or dataframe with calculated association measures for variable pairs.}
 
 \item{group}{A character string specifying the level of the conditioning variable for
-which matrix to be created}
+which a symmetric matrix needs to be create. One of "overall" (default) or a level of
+conditioning variable.}
 }
 \value{
-tibble
+matrix symmetric matrix of variable pairs with corresponding association measure
 }
 \description{
-Creates a symmetric association matrix of calculated association measures among pairs of variables.
+Creates a symmetric association matrix from a tibble of association measures with classes such as
+\code{pairwise}, \code{cond_pairwise} and \code{multi_pairwise}. For an association measure tibble of class
+\code{multi_pairwise}, a matrix is not calculated.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{matrix_assoc(pairwise)}: matrix_assoc method
+
+\item \code{matrix_assoc(cond_pairwise)}: matrix_assoc method
+
+\item \code{matrix_assoc(multi_pairwise)}: matrix_assoc method
+
+}}
 \examples{
-matrix_assoc(tbl_cor(iris))
+# Symmetric matrix for assoc with class `pairwise`
+a <- calc_assoc(iris)
+matrix_assoc(a)
+
+# Symmetric matrix for assoc with class `cond_pairwise`
+b <- calc_assoc(iris, by="Species")
+matrix_assoc(b,group="setosa")
 }

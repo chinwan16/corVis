@@ -2,15 +2,17 @@
 % Please edit documentation in R/calculate_association.R
 \name{default_assoc}
 \alias{default_assoc}
-\title{A function for default association measures}
+\title{Default association measures calculated using \code{\link{calc_assoc}}}
 \usage{
 default_assoc()
 }
 \value{
-tibble
+tibble default association measures for pairs of variables
 }
 \description{
-Creates a tibble for different measures of association for different variable types of a dataset.
+Gives a tibble for association measures for different types of variable pairs in a dataset.
+The variable pairs (ordinal,factor) and (ordinal,numeric) are considered as factor pair and mixed pair
+respectively. Used by \code{\link{calc_assoc}} for its \code{types} argument.
 }
 \examples{
 default_assoc()

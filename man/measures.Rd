@@ -3,7 +3,7 @@
 \docType{data}
 \name{measures}
 \alias{measures}
-\title{Association functions available in the package}
+\title{Association measure functions available in the package}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 12 rows and 7 columns.
 }
@@ -14,6 +14,8 @@ measures
 tibble
 }
 \description{
-List of all the functions available to calculate association measures in the package.
+A tibble of association measure functions along with the types of variable pairs these functions
+can be applied to. It also contains information regarding the packages used to calculate association
+measures and the range of the measures calculated.
 }
 \keyword{datasets}

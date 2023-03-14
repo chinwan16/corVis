@@ -549,9 +549,11 @@ tbl_ace <- function(d, handle.na = T, ...) {
   ace_assoc
 }
 
-#' Association functions available in the package
+#' Association measure functions available in the package
 #'
-#' List of all the functions available to calculate association measures in the package.
+#' A tibble of association measure functions along with the types of variable pairs these functions
+#' can be applied to. It also contains information regarding the packages used to calculate association
+#' measures and the range of the measures calculated.
 #'
 #' @return tibble
 #' @export
@@ -559,16 +561,16 @@ tbl_ace <- function(d, handle.na = T, ...) {
 
 measures <- dplyr::tribble(
   ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
-  "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
-  "tbl_dcor", "y", " ", " ", " ", "energy::dcor2d", "[0,1]",
-  "tbl_mine", "y", " ", " ", " ", "minerva::mine", "[0,1]",
-  "tbl_ace", "y", "y", " ", "y", "corVis", "[0,1]",
-  "tbl_cancor", "y", "y", " ","y", "corVis", "[0,1]",
-  "tbl_nmi",  "y", "y", " ", "y", "linkspotter::maxNMI", "[0,1]",
-  "tbl_polycor", " ", " ","y", " ", "polycor::polychor", "[-1,1]",
-  "tbl_tau", " ", " ","y", " ", "DescTools::KendalTauA,B,C,W", "[-1,1]",
-  "tbl_gkGamma", " ", " ", "y", " ", "DescTools::GoodmanKruskalGamma", "[-1,1]",
-  "tbl_gkTau", " ", " ", "y", " ", "DescTools::GoodmanKruskalTau", "[0,1]",
-  "tbl_uncertainty", " ",  "y", " ", " ", "DescTools::UncertCoef", "[0,1]",
-  "tbl_chi", " ",  "y", " ", " ", "DescTools::ContCoef", "[0,1]"
+  "tbl_cor", "y", "n", "n" ,"n", "stats::cor", "[-1,1]",
+  "tbl_dcor", "y", "n", "n", "n", "energy::dcor2d", "[0,1]",
+  "tbl_mine", "y", "n", "n", "n", "minerva::mine", "[0,1]",
+  "tbl_ace", "y", "y", "n", "y", "corVis", "[0,1]",
+  "tbl_cancor", "y", "y", "n","y", "corVis", "[0,1]",
+  "tbl_nmi",  "y", "y", "n", "y", "linkspotter::maxNMI", "[0,1]",
+  "tbl_polycor", "n", "n","y", "n", "polycor::polychor", "[-1,1]",
+  "tbl_tau", "n", "n","y", "n", "DescTools::KendalTauA,B,C,W", "[-1,1]",
+  "tbl_gkGamma", "n", "n", "y", "n", "DescTools::GoodmanKruskalGamma", "[-1,1]",
+  "tbl_gkTau", "n", "n", "y", "n", "DescTools::GoodmanKruskalTau", "[0,1]",
+  "tbl_uncertainty", "n",  "y", "n", "n", "DescTools::UncertCoef", "[0,1]",
+  "tbl_chi", "n",  "y", "n", "n", "DescTools::ContCoef", "[0,1]"
 )

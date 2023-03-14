@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_association.R
 \name{calc_assoc_all}
 \alias{calc_assoc_all}
-\title{Multiple association measures}
+\title{Calculates multiple association measures}
 \usage{
 calc_assoc_all(
   d,

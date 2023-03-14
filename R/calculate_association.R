@@ -154,11 +154,13 @@ calc_assoc  <- function(d,
 
 }
 
-#' A function for default association measures
+#' Default association measures calculated using [`calc_assoc`]
 #'
-#' Creates a tibble for different measures of association for different variable types of a dataset.
+#' Gives a tibble for association measures for different types of variable pairs in a dataset.
+#' The variable pairs (ordinal,factor) and (ordinal,numeric) are considered as factor pair and mixed pair
+#' respectively. Used by [`calc_assoc`] for its `types` argument.
 #'
-#' @return tibble
+#' @return tibble default association measures for pairs of variables
 #' @export
 #'
 #' @examples
@@ -172,8 +174,8 @@ default_assoc <- function(){
   dplyr::tribble(
     ~funName, ~typeX, ~typeY, ~argList,
     "tbl_cor", "numeric", "numeric", NULL,
-    "tbl_cancor", "factor", "factor", NULL,
     "tbl_gkGamma", "ordered", "ordered", NULL,
+    "tbl_cancor", "factor", "factor", NULL,
     "tbl_cancor",  "factor", "numeric", NULL)
 }
 

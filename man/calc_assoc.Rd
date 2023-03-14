@@ -42,15 +42,18 @@ is a name of a categorical variable in the dataset, conditional association meas
 variable pair at different levels of the conditional variable in a dataset are calculated.
 }
 \details{
-Returns a \code{pairwise} tibble structure with \code{(px(p-1))/2} variable pairs, if a dataset has \code{p}
+Returns a \code{pairwise} tibble structure with \code{(p(p-1))/2} variable pairs, if a dataset has \code{p}
 variables. The \code{pairwise} output contains association measures for different types of pairs
 of variables specified by the \code{types} argument. The default is set to \code{\link[=default_assoc]{default_assoc()}} and
 a user can update these measures using \code{\link[=update_assoc]{update_assoc()}}. The function also allows the user
 to change the variable type of variable using \code{coerce_types} argument.
 The function returns a \code{cond_pairwise} data structure when \code{by} is set to a conditioning
 variable. The output contains an association measure for variable pairs at different levels
-of the conditioning variable. If \code{include.overall} is TRUE, the output also includes measures
-of association for variable pairs calculated without the conditioning variable.
+of the conditioning variable. An additional column \code{by} is included in the output having
+levels of the conditioning variable.
+When \code{include.overall} is TRUE, the output also includes measures of association for
+variable pairs calculated without the conditioning variable. The \code{by} column has a level
+"overall" for these cases.
 }
 \examples{
 assoc_iris <- calc_assoc(iris, types=default_assoc())

@@ -2,6 +2,9 @@
 
 S3method(assoc_tibble,data.frame)
 S3method(assoc_tibble,matrix)
+S3method(matrix_assoc,cond_pairwise)
+S3method(matrix_assoc,multi_pairwise)
+S3method(matrix_assoc,pairwise)
 export(assoc_tibble)
 export(calc_assoc)
 export(calc_assoc_all)
