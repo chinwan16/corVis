@@ -20,6 +20,7 @@
 order_assoc_var <- function(assoc, group_var = group_var){
   if (is.null(group_var)){
     assoc <- assoc
+    assoc$measure[is.na(assoc$measure)] <- min(assoc$measure,na.rm = T)
   } else if (group_var == "measure_type"){
     assoc <- assoc |>
       dplyr::group_by(.data$x,.data$y) |>
