@@ -18,25 +18,22 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE,echo=FALSE,fig.height = 5, fi
                       fig.align = 'center')
 ```
 
-Careful ordering of graphical displays makes it easier to identify patterns and structures. An example of simple graphical sorting is a barplot for Covid deaths in different countries arranged in descending order compared to the alphabetical order of the countries. Other complex ordering examples include Friendly (2002) who demonstrated ordered correlation displays so that groups of variables with high mutual correlation are easily identified and Hurley (2004) who ordered variables in a scatterplot matrix so that interesting panels were positioned close to the main diagonal. All the above cases illustrate how seriation, a term to describe ordering of objects, is useful to reveal interesting patterns. This vignette focuses on the seriation techniques used for matrix and linear displays in _corVis_.
+Careful ordering of graphical displays makes it easier to identify patterns and structures. An example of simple graphical sorting is a barplot for Covid deaths in different countries arranged in descending order compared to the alphabetical order of the countries. Other complex ordering examples include Friendly (2002) who demonstrated ordered correlation displays so that groups of variables with high mutual correlation are easily identified and Hurley (2004) who ordered variables in a scatterplot matrix so that interesting panels were positioned close to the main diagonal. All the above cases illustrate how seriation, a term to describe ordering of objects, is useful to reveal interesting patterns. This vignette focuses on the seriation techniques used for matrix and linear displays in `corVis`.
 
 
 ```{r, setup}
-if (!requireNamespace("palmerpenguins", quietly = TRUE))
-  install.packages("palmerpenguins")
+if (!requireNamespace("openintro", quietly = TRUE))
+  install.packages("openintro")
 
 library(corVis)
-library(palmerpenguins)
+library(openintro)
 library(dplyr)
 library(kableExtra)
 library(ggplot2)
 
-library(readr)
-cdc <- read_csv("../data/cdc.csv")
-samp <- sample(1:nrow(cdc),1000)
-df <- cdc[samp,]
-df$genhlth <- ordered(df$genhlth,levels=c("poor","fair","good","very good","excellent"))
-df$gender <- factor(df$gender)
+df <- openintro::acs12
+df$time_to_work <- NULL # many NAs
+df$edu <- as.ordered(df$edu)
 
 # names(df) <- c("species", "island", "bill_l", "bill_d", "flip_l", "mass", "sex", "year")
 # 
@@ -45,14 +42,14 @@ df$gender <- factor(df$gender)
 
 ## Linear displays
 
-We provide linear displays in the form of dot plots or heatmaps for plotting association measures and conditional association measures in _corVis_. In these displays, the items ordered are variable pairs. We use two basic sorting techniques to seriate the variable pairs in these displays.
+We provide linear displays in the form of dot plots or heatmaps for plotting association measures and conditional association measures in `corVis`. In these displays, the items ordered are variable pairs. We use two basic sorting techniques to seriate the variable pairs in these displays.
 
 The first technique involves using the maximum absolute value for ordering the variable pairs. In the case of multiple measures and conditional measures display, the variable pairs are ordered in descending order by the maximum absolute measure value of the available measures for each pair. This produces a display with highly associated variable pairs at the top, simplifying the task to identify associated variables.
 
-Figure 1 shows the seriated linear display for `cdc` data where it is easier to find highly associated variable pairs in the plot compared to a plot with default varaible pairs ordering. The variable pairs such as (wtdesire, weight) and (wtdesire, height) are placed at the top of the display and are strongly associated.
+Figure 1 shows the seriated linear display for `acs12` (American Community Survey) data where it is easier to find highly associated variable pairs in the plot compared to a plot with default varaible pairs ordering. The variable pairs such as (`lang`, `race`) and (`age`, `employement`) are placed at the top of the display and are strongly associated.
 
 ```{r linear_cond_max,echo=TRUE}
-cond_assoc_cdc <- calc_assoc(df,by="genhlth")
+cond_assoc_cdc <- calc_assoc(df,"edu")
 
 plot_assoc_linear(cond_assoc_cdc, plot_type = "dotplot")
 ```
@@ -62,7 +59,7 @@ Figure 1: Conditional association measure display in linear layout with variable
 
 The second technique uses the range of the measures to order variable pairs. The pairs of variables are ordered in descending order by range. As a result of this ordering, the variable pairs with highest range are placed on the top of the display, making it easier for an analyst to find variable pairs with a high difference.
 
-Figure 2 shows a seriated linear display using the range technique. It is easier to spot the variable pairs with high differences in the plot. The variable pairs (gender, weight) and (weight, height) are placed at the top of the display and have highest difference among the measures.
+Figure 2 shows a seriated linear display using the range technique. It is easier to spot the variable pairs with high differences in the plot. The variable pairs (`birth_qtr`, `race`) and (`married`, `age`) are placed at the top of the display and have highest difference among the measures.
 ```{r linear_cond_max_diff,echo=TRUE}
 plot_assoc_linear(cond_assoc_cdc, plot_type = "dotplot",pair_order = "max_diff")
 ```
@@ -74,7 +71,7 @@ Figure 2: Conditional association measure display in linear layout with variable
 
 ## Matrix displays
 
-We use methods from _DendSer_ package to seriate matrix displays in _corVis_. In many of the seriation algorithms for matrix displays, the first step is to produce a dissimilarity or similarity matrix of objects to be clustered. Here, objects are the variables of a dataset. For each cell in the matrix, a seriation weight $w_{ij}$ for variables $i$ and $j$, which measures the importance of the cell, is assigned. The second step is to perform a hierarchical clustering using the seriation weights $w_{ij}$ which yields a dendrogram. The final step is to rearrange the nodes of the dendrogram such that the ordering of the nodes minimizes a cost function. This produces an ordering where associated variable pairs are placed adjacent or nearby each other. As people generally read from left to right, placing the most important cells at the beginning or top-left corner of the display allows an analyst to immediately identify important pairs of variables. By selecting appropriate cost function, we provide this feature for our matrix displays.
+We use methods from `DendSer` package to seriate matrix displays in `corVis`. In many of the seriation algorithms for matrix displays, the first step is to produce a dissimilarity or similarity matrix of objects to be clustered. Here, objects are the variables of a dataset. For each cell in the matrix, a seriation weight $w_{ij}$ for variables $i$ and $j$, which measures the importance of the cell, is assigned. The second step is to perform a hierarchical clustering using the seriation weights $w_{ij}$ which yields a dendrogram. The final step is to rearrange the nodes of the dendrogram such that the ordering of the nodes minimizes a cost function. This produces an ordering where associated variable pairs are placed adjacent or nearby each other. As people generally read from left to right, placing the most important cells at the beginning or top-left corner of the display allows an analyst to immediately identify important pairs of variables. By selecting appropriate cost function, we provide this feature for our matrix displays.
 
 We use the Lazy path length (LPL) cost function proposed by Earle and Hurley (2015) to order the matrix displays. Let $\pi$ be an order obtained from the hierarchical clustering of a matrix with n variables using the seriation weights $w_{ij}$. Then, LPL cost function for an order $\pi$ is defined as:
 
@@ -82,7 +79,7 @@ $LPL(\pi) = \sum_{i=1}^{n-1} (n-1) w_{\pi(i),\pi(i+1)}$
 
 LPL is a weighted measure of path length and rewards orders with short path lengths and where the weights generally increase. The method provides a form of importance sorting and is efficient in making interesting pairs more prominent in matrix displays by placing them at the start and top-left position.
 
-Below is a code snippet showing how `dser` function from _DendSer_ can be used to obtain an ordering for the correlation matrix of numeric variables in `iris`  data.
+Below is a code snippet showing how `dser` function from `DendSer` can be used to obtain an ordering for the correlation matrix of numeric variables in `iris`  data.
 
 ```{r,echo=TRUE}
 iris_n <- dplyr::select(iris,where(is.numeric))
@@ -139,8 +136,8 @@ For ordering levels of the conditioning variable, we follow a similar approach u
 
 Figure 5 shows the difference in conditional association measure displays before and after seriation. The variable pairs with high differences in measure value for a grouping variable are placed at the beginning of the seriated display on the right. This helps in quickly finding pairs with high group differences. The plot shows variable pairs (`flip_l`, `bill_d`) and (`flip_l`, `mass`) with high difference in measure value at different levels of the conditioning variable `species`.
 ```{r cond_display, fig.show="hold", out.width="45%", echo=TRUE, fig.align='default'}
-cond_assoc_cdc <- calc_assoc(df,by="genhlth")
-df_order <- names(df)[-1]
+cond_assoc_cdc <- calc_assoc(df,by="edu")
+df_order <- names(df)[-10]
 
 plot_assoc_matrix(cond_assoc_cdc, var_order = df_order)
 plot_assoc_matrix(cond_assoc_cdc)
