@@ -1,4 +1,5 @@
 url: https://chinwan16.github.io/corVis/
 template:
-  bootstrap: 5
+  params:
+    bootswatch: cosmo
 
