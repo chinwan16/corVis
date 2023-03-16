@@ -53,6 +53,17 @@ matrix_assoc <- function(assoc, group=NULL){
 #' @describeIn matrix_assoc  matrix_assoc method
 #' @export
 
+matrix_assoc.tbl <- function(assoc, group=NULL){
+  assoc_vars <- unique(c(assoc$y, assoc$x))
+  m <- matrix(NA, nrow=length(assoc_vars), ncol=length(assoc_vars))
+  rownames(m)<- colnames(m)<- assoc_vars
+  m[cbind(assoc$x,assoc$y)]<- m[cbind(assoc$y,assoc$x)]<-assoc$measure
+  m
+}
+
+#' @describeIn matrix_assoc  matrix_assoc method
+#' @export
+
 matrix_assoc.pairwise <- function(assoc, group=NULL){
   assoc_vars <- unique(c(assoc$y, assoc$x))
   m <- matrix(NA, nrow=length(assoc_vars), ncol=length(assoc_vars))

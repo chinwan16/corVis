@@ -27,6 +27,7 @@
     <a class="dropdown-item" href="../articles/calc_association.html">Calculating associations using corVis</a>
     <a class="dropdown-item" href="../articles/integrating_corVis.html">Integrating corVis with other packages</a>
     <a class="dropdown-item" href="../articles/scagnostic_corVis.html">Exploring pairwise associations with scagnostics and corVis</a>
+    <a class="dropdown-item" href="../articles/seriation.html">Seriation in corVis</a>
     <a class="dropdown-item" href="../articles/vis_association.html">Visualising associations using corVis</a>
   </div>
 </li>
@@ -75,13 +76,9 @@ Must be of class <code>cond_pairwise</code> or <code>multi_pairwise</code>.</p><
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">order_assoc_lollipop</span><span class="op">(</span><span class="fu"><a href="calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>,<span class="st">"by"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tidyr::pivot_wider(assoc, id_cols = 1:2, names_from = group_var,     values_from = "measure"):</span> Can't subset columns that don't exist.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `by` doesn't exist.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in by != "overall":</span> comparison (2) is possible only for atomic and list types</span>
 <span class="r-in"><span><span class="fu">order_assoc_lollipop</span><span class="op">(</span><span class="fu"><a href="calc_assoc_all.html">calc_assoc_all</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>,<span class="st">"measure_type"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 method overwritten by 'seriation':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   method         from </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   reorder.hclust gclus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cancor"   "dcor"     "ace"      "mic"      "nmi"      "kendall"  "spearman"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ace"      "cancor"   "dcor"     "mic"      "nmi"      "spearman" "kendall" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [8] "pearson" </span>
 </code></pre></div>
     </div>

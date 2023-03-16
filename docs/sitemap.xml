@@ -1,111 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://chinwan16.github.io/corVis/404.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/404.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/LICENSE-text.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/articles/calc_association.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/articles/calc_association.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/articles/index.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/articles/integrating_corVis.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/articles/integrating_corVis.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/articles/scagnostic_corVis.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/articles/scagnostic_corVis.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/articles/vis_association.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/articles/seriation.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/authors.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/articles/vis_association.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/index.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/authors.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/assoc_tibble.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/index.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/calc_assoc.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/assoc_tibble.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/calc_assoc_all.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/calc_assoc.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/default_assoc.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/calc_assoc_all.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/index.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/default_assoc.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/matrix_assoc.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/measures.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/matrix_assoc.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/order_assoc_lollipop.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/measures.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/order_assoc_var.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/order_assoc_lollipop.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/plot_assoc_linear.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/order_assoc_var.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/plot_assoc_matrix.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/plot_assoc_linear.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/show_assoc.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/plot_assoc_matrix.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/sym_assoc.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/show_assoc.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_ace.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/sym_assoc.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_cancor.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_ace.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_chi.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_cancor.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_cor.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_chi.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_dcor.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_cor.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_gkGamma.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_dcor.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_gkTau.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_gkGamma.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_mine.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_gkTau.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_nmi.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_mine.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_polycor.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_nmi.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_scag.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_polycor.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_tau.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_scag.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/tbl_uncertainty.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_tau.html</loc>
   </url>
   <url>
-    <loc>https://chinwan16.github.io/corVis/reference/update_assoc.html</loc>
+    <loc>~https://chinwan16.github.io/corVis/reference/tbl_uncertainty.html</loc>
+  </url>
+  <url>
+    <loc>~https://chinwan16.github.io/corVis/reference/update_assoc.html</loc>
   </url>
 </urlset>

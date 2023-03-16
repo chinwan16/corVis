@@ -44,6 +44,7 @@
     <a class="dropdown-item" href="../articles/calc_association.html">Calculating associations using corVis</a>
     <a class="dropdown-item" href="../articles/integrating_corVis.html">Integrating corVis with other packages</a>
     <a class="dropdown-item" href="../articles/scagnostic_corVis.html">Exploring pairwise associations with scagnostics and corVis</a>
+    <a class="dropdown-item" href="../articles/seriation.html">Seriation in corVis</a>
     <a class="dropdown-item" href="../articles/vis_association.html">Visualising associations using corVis</a>
   </div>
 </li>
@@ -68,7 +69,7 @@
                         <h4 data-toc-skip class="author">Amit Chinwan
 and Catherine Hurley</h4>
             
-            <h4 data-toc-skip class="date">2023-02-27</h4>
+            <h4 data-toc-skip class="date">2023-03-16</h4>
       
       
       <div class="d-none name"><code>calc_association.Rmd</code></div>
@@ -88,7 +89,7 @@ accompanying vignette.</p>
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"palmerpenguins"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"palmerpenguins"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://chinwan16.github.io/corVis/">corVis</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://chinwan16.github.io/corVis/" class="external-link">corVis</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/" class="external-link">palmerpenguins</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -493,8 +494,8 @@ and canonical correlation for the rest of the variable pairs.</p>
 <span><span class="co">##   funName     typeX   typeY   argList</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> tbl_cor     numeric numeric <span style="color: #949494;">&lt;NULL&gt;</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> tbl_cancor  factor  factor  <span style="color: #949494;">&lt;NULL&gt;</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> tbl_gkGamma ordered ordered <span style="color: #949494;">&lt;NULL&gt;</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> tbl_gkGamma ordered ordered <span style="color: #949494;">&lt;NULL&gt;</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> tbl_cancor  factor  factor  <span style="color: #949494;">&lt;NULL&gt;</span> </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> tbl_cancor  factor  numeric <span style="color: #949494;">&lt;NULL&gt;</span></span></span></code></pre>
 <p>An analyst can update these measures using the
 <code>update_assoc</code> function where one can specify a
@@ -511,8 +512,8 @@ than one measure.</p>
 <span><span class="co">##   funName     typeX   typeY   argList  </span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> tbl_cor     numeric numeric <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> tbl_cancor  factor  factor  <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> tbl_gkGamma ordered ordered <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> tbl_gkGamma ordered ordered <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> tbl_cancor  factor  factor  <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> tbl_cancor  factor  numeric <span style="color: #949494;">&lt;NULL&gt;</span></span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">updated_complete_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>, types <span class="op">=</span> <span class="va">updated_assoc</span><span class="op">)</span></span>
