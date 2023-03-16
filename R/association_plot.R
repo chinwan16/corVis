@@ -71,7 +71,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
   if ("by" %in% names(assoc)){
     overall <- dplyr::filter(assoc, by =="overall")
-    assoc <- dplyr::filter(assoc, by != "overall")
+    assoc <- dplyr::filter(assoc, by != "overall" | is.na(by))
   }
   else overall <- NULL
 

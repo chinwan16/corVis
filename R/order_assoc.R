@@ -19,14 +19,15 @@
 
 order_assoc_var <- function(assoc, group_var = group_var){
   if (is.null(group_var)){
-    assoc <- assoc
-    assoc$measure[is.na(assoc$measure)] <- min(assoc$measure,na.rm = T)
+    assoc$measure[is.na(assoc$measure)] <- min(assoc$measure,na.rm = T) # replacing pairs having NA measure value with minimum measure value
   } else if (group_var == "measure_type"){
+    assoc$measure[is.na(assoc$measure)] <- min(assoc$measure,na.rm = T) # replacing pairs having NA measure value with minimum measure value
     assoc <- assoc |>
       dplyr::group_by(.data$x,.data$y) |>
       dplyr::summarize(measure = max(.data$measure, na.rm=TRUE),.groups = 'drop')
   } else {
     assoc <- dplyr::filter(assoc, group_var != "overall")
+    assoc$measure[is.na(assoc$measure)] <- min(assoc$measure,na.rm = T) # replacing pairs having NA measure value with minimum measure value
     assoc <- assoc |>
       dplyr::group_by(.data$x,.data$y) |>
       dplyr::summarize(measure = max(.data$measure, na.rm=TRUE) - min(.data$measure, na.rm=TRUE),.groups = 'drop')

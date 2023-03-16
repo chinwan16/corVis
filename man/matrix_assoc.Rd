@@ -2,6 +2,7 @@
 % Please edit documentation in R/assoc_structure.R
 \name{matrix_assoc}
 \alias{matrix_assoc}
+\alias{matrix_assoc.tbl}
 \alias{matrix_assoc.pairwise}
 \alias{matrix_assoc.cond_pairwise}
 \alias{matrix_assoc.multi_pairwise}
@@ -9,6 +10,8 @@
 classes}
 \usage{
 matrix_assoc(assoc, group = NULL)
+
+\method{matrix_assoc}{tbl}(assoc, group = NULL)
 
 \method{matrix_assoc}{pairwise}(assoc, group = NULL)
 
@@ -33,6 +36,8 @@ Creates a symmetric association matrix from a tibble of association measures wit
 }
 \section{Methods (by class)}{
 \itemize{
+\item \code{matrix_assoc(tbl)}: matrix_assoc method
+
 \item \code{matrix_assoc(pairwise)}: matrix_assoc method
 
 \item \code{matrix_assoc(cond_pairwise)}: matrix_assoc method
