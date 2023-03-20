@@ -93,11 +93,11 @@ We use the sorting approach discussed above for all of our matrix displays to ob
 
 The association measure display plots a measure of association for variable pairs in a dataset. The plotting function `plot_assoc_matrix` takes a data structure with variable pairs and corresponding measures as input. For ordering the variables, a dissimilarity matrix is constructed first where the dissimilarity is measured by $-|m_{ij}|$, where $m_{ij}$ is the association measure value for a variable pair $(i,j)$. This is followed by hierarchical clustering using the seriation weights (similar to the dissimilarity measure), which produces an order such that the LPL cost function is minimised.  
 
-Figure 3 compares the default ordering of the variables in the dataset with ordering obtained by seriation using LPL cost function. The plot on the right shows highly associated variables at the top left corner or along the diagonal of the display, making it easier for an analyst to identify associated pairs instantly. For instance, the variable pairs (`edu`,`inc`) and (`emp`, `dis`) are highly associated and are easy to discover in the plot on right compared to the plot on the left.
+Figure 3 compares the default ordering of the variables in the dataset with ordering obtained by seriation using LPL cost function. The plot with default ordering uses circular glyph and the seriated plot uses square glyph to show association measure value. The plot on the right shows highly associated variables at the top left corner or along the diagonal of the display, making it easier for an analyst to identify associated pairs instantly. For instance, the variable pairs (`edu`,`inc`) and (`emp`, `dis`) are highly associated and are easy to discover in the plot on right compared to the plot on the left.
 
 ```{r assoc_display, fig.show="hold", out.width="45%", echo=TRUE, fig.align='default',fig.cap="Figure 3: Association measure display for `acs12` data. Left: variables in default order of the data; right: variables ordered by LPL cost function"}
 assoc <- calc_assoc(df)
-plot_assoc_matrix(assoc, var_order = names(df))
+plot_assoc_matrix(assoc, var_order = names(df),glyph = "circle")
 plot_assoc_matrix(assoc)
 ```
 
