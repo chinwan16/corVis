@@ -113,17 +113,20 @@ Figure 4 shows a seriated multiple measures display. The plot displays variable 
 
 The variable pair (`inc`, `age`) in Figure 4 is also placed close to the diagonal and shows a high value for measure `ace` compared to other measures of association. A closer look at the variable pair using a scatterplot shows the presence of non-linear association which is captured by `ace` measure. 
 
-```{r multi_display, echo=TRUE, fig.align='default',fig.cap="Figure 4: Seriated multiple association measures display for acs12 data. Variable pairs at top left or along diagonal of the display have a high value for any of the multiple measures."}
+```{r multi_display, echo=TRUE, fig.align='default',fig.cap="Figure 4: Seriated multiple association measures display for `acs12` data. Variable pairs at top left or along diagonal of the display have a high value for any of the multiple measures.", fig.height=6,fig.width=7}
 
 multi_assoc <- calc_assoc_all(df)
 
 #plot_assoc_matrix(multi_assoc, var_order = names(df))
 plot_assoc_matrix(multi_assoc)
+```
 
+```{r scatter, fig.cap="Figure 5: Scatterplot for variable pair (`age`, `inc`) showing non-linear pattern"}
 # scatterplot for variable pair (`inc`, `age`)
 df_mod <- filter(df,inc>0) # removing individuals with 0 income
 show_assoc(df_mod,x="age",y="inc")
 ```
+
 
 ### Conditional association measures display
 
@@ -132,7 +135,7 @@ The conditional association measure display plots pairwise association measures 
 For ordering levels of the conditioning variable, we follow a similar approach used for ordering measure types in multiple measures display. 
 
 Figure 5 shows the seriated conditional association measure display. The variable pairs with high differences in measure value for a grouping variable are placed at the beginning or along the diagonal of the display. This helps in quickly finding pairs with high group differences. The plot shows variable pairs (`marr`, `age`) and (`age`, `emp`) with high differences in canonical correlation value at different levels of the conditioning variable `edu`.
-```{r cond_display, echo=TRUE, fig.align='default', fig.cap="Figure 5: Seriated conditional association measures display for acs12 data. Variable pairs at top left or along diagonal of the display have a high difference in the measures value calculated at different levels of the conditioning variable."}
+```{r cond_display, echo=TRUE, fig.align='default', fig.cap="Figure 6: Seriated conditional association measures display for acs12 data. Variable pairs at top left or along diagonal of the display have a high difference in the measures value calculated at different levels of the conditioning variable.", fig.height=6,fig.width=7}
 cond_assoc <- calc_assoc(df,by="edu",include.overall = F)
 plot_assoc_matrix(cond_assoc)
 ```
