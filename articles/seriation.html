@@ -84,7 +84,7 @@
                         <h4 data-toc-skip class="author">Amit Chinwan
 and Catherine Hurley</h4>
             
-            <h4 data-toc-skip class="date">2023-03-16</h4>
+            <h4 data-toc-skip class="date">2023-03-20</h4>
       
       
       <div class="hidden name"><code>seriation.Rmd</code></div>
@@ -104,7 +104,7 @@ variables in a scatterplot matrix so that interesting panels were
 positioned close to the main diagonal. All the above cases illustrate
 how seriation, a term to describe ordering of objects, is useful to
 reveal interesting patterns. This vignette focuses on the seriation
-techniques used for matrix and linear displays in
+techniques used for linear and matrix displays in
 <code>corVis</code>.</p>
 <div class="section level2">
 <h2 id="linear-displays">Linear displays<a class="anchor" aria-label="anchor" href="#linear-displays"></a>
@@ -121,35 +121,62 @@ descending order by the maximum absolute measure value of the available
 measures for each pair. This produces a display with highly associated
 variable pairs at the top, simplifying the task to identify associated
 variables.</p>
-<p>Figure 1 shows the seriated linear display for <code>acs12</code>
-(American Community Survey) data where it is easier to find highly
-associated variable pairs in the plot compared to a plot with default
-varaible pairs ordering. The variable pairs such as (<code>lang</code>,
-<code>race</code>) and (<code>age</code>, <code>employement</code>) are
-placed at the top of the display and are strongly associated.</p>
+<p>Figure 1 shows the seriated conditional measure linear display for
+<code>acs12</code> (American Community Survey) data where it is easier
+to find highly associated variable pairs in the plot compared to a plot
+with default variable pairs ordering. The variable pairs
+(<code>lang</code>, <code>race</code>) and (<code>age</code>,
+<code>emp</code>) are placed at the top of the display and are strongly
+associated for indviduals with <code>grad</code> level education. The
+<code>NA</code> level for the grouping variable <code>edu</code> shows
+that education was missing for some individuals in the survey. Looking
+at the dataset more closely, it is found that these individuals haven’t
+started school yet. The variable pair
+(<code>time_w</code>,<code>emp</code>) at the bottom of the plot shows
+no calculated measure for any level of <code>edu</code>. This is
+because, at different levels of <code>edu</code>, the complete cases for
+this pair contain only one level for the <code>emp</code> variable and
+the calculated canonical correlation measure is undefined.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cond_assoc_cdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>,<span class="st">"edu"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">openintro</span><span class="fu">::</span><span class="va"><a href="https://openintrostat.github.io/openintro/reference/acs12.html" class="external-link">acs12</a></span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="co"># variable names</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "income"       "employment"   "hrs_work"     "race"         "age"         </span></span>
+<span><span class="co">##  [6] "gender"       "citizen"      "time_to_work" "lang"         "married"     </span></span>
+<span><span class="co">## [11] "edu"          "disability"   "birth_qrtr"</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inc"</span>, <span class="st">"emp"</span>, <span class="st">"hrs_w"</span>, <span class="st">"race"</span>, <span class="st">"age"</span>, <span class="st">"gen"</span>, <span class="st">"citz"</span>, <span class="st">"time_w"</span>, <span class="st">"lang"</span>,</span>
+<span>               <span class="st">"marr"</span>, <span class="st">"edu"</span>, <span class="st">"dis"</span>,<span class="st">"birt_q"</span><span class="op">)</span> <span class="co"># shortening the variable names</span></span>
+<span><span class="va">cond_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>, by <span class="op">=</span> <span class="st">"edu"</span>, include.overall <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">cond_assoc_cdc</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="seriation_files/figure-html/linear_cond_max-1.png" width="480" style="display: block; margin: auto;"></p>
-<p>Figure 1: Conditional association measure display in linear layout
-with variable pair ordered by maximum absolute measure value at each
-level</p>
-<p>The second technique uses the range of the measures to order variable
+<span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">cond_assoc</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: left">
+<img src="seriation_files/figure-html/linear_cond_max-1.png" alt="Figure 1: Conditional association measure display in linear layout with variable pair ordered by maximum absolute measure value at each level" width="480"><p class="caption">
+Figure 1: Conditional association measure display in linear layout with
+variable pair ordered by maximum absolute measure value at each level
+</p>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">df</span>,<span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">edu</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># age of individuals with missing education</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0 2</span></span></code></pre>
+<p>The second technique uses the range of measures to order variable
 pairs. The pairs of variables are ordered in descending order by range.
-As a result of this ordering, the variable pairs with highest range are
-placed on the top of the display, making it easier for an analyst to
+As a result of this ordering, the variable pairs with the highest range
+are placed on the top of the display, making it easier for an analyst to
 find variable pairs with a high difference.</p>
 <p>Figure 2 shows a seriated linear display using the range technique.
-It is easier to spot the variable pairs with high differences in the
-plot. The variable pairs (<code>birth_qtr</code>, <code>race</code>) and
-(<code>married</code>, <code>age</code>) are placed at the top of the
+It is easier to spot the variable pairs with high differences among
+association measures at different levels of conditioning variable in the
+plot. The variable pairs (<code>birth_q</code>, <code>race</code>) and
+(<code>marr</code>, <code>age</code>) are placed at the top of the
 display and have highest difference among the measures.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">cond_assoc_cdc</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,pair_order <span class="op">=</span> <span class="st">"max_diff"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="seriation_files/figure-html/linear_cond_max_diff-1.png" width="480" style="display: block; margin: auto;"></p>
-<p>Figure 2: Conditional association measure display in linear layout
-with variable pair ordered by maximum difference value at each level</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">cond_assoc</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,pair_order <span class="op">=</span> <span class="st">"max_diff"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: left">
+<img src="seriation_files/figure-html/linear_cond_max_diff-1.png" alt="Figure 2: Conditional association measure display in linear layout with variable pair ordered by maximum difference value at each level" width="480"><p class="caption">
+Figure 2: Conditional association measure display in linear layout with
+variable pair ordered by maximum difference value at each level
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="matrix-displays">Matrix displays<a class="anchor" aria-label="anchor" href="#matrix-displays"></a>
@@ -158,40 +185,46 @@ with variable pair ordered by maximum difference value at each level</p>
 displays in <code>corVis</code>. In many of the seriation algorithms for
 matrix displays, the first step is to produce a dissimilarity or
 similarity matrix of objects to be clustered. Here, objects are the
-variables of a dataset. For each cell in the matrix, a seriation weight
-<span class="math inline">\(w_{ij}\)</span> for variables <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, which measures the importance of the
-cell, is assigned. The second step is to perform a hierarchical
-clustering using the seriation weights <span class="math inline">\(w_{ij}\)</span> which yields a dendrogram. The
-final step is to rearrange the nodes of the dendrogram such that the
-ordering of the nodes minimizes a cost function. This produces an
-ordering where associated variable pairs are placed adjacent or nearby
-each other. As people generally read from left to right, placing the
-most important cells at the beginning or top-left corner of the display
-allows an analyst to immediately identify important pairs of variables.
-By selecting appropriate cost function, we provide this feature for our
-matrix displays.</p>
-<p>We use the Lazy path length (LPL) cost function proposed by Earle and
-Hurley (2015) to order the matrix displays. Let <span class="math inline">\(\pi\)</span> be an order obtained from the
-hierarchical clustering of a matrix with n variables using the seriation
-weights <span class="math inline">\(w_{ij}\)</span>. Then, LPL cost
-function for an order <span class="math inline">\(\pi\)</span> is
-defined as:</p>
-<p><span class="math inline">\(LPL(\pi) = \sum_{i=1}^{n-1} (n-1)
-w_{\pi(i),\pi(i+1)}\)</span></p>
-<p>LPL is a weighted measure of path length and rewards orders with
-short path lengths and where the weights generally increase. The method
-provides a form of importance sorting and is efficient in making
-interesting pairs more prominent in matrix displays by placing them at
-the start and top-left position.</p>
+variables of a dataset. We use the Lazy path length (LPL) cost function
+proposed in <code>DendSer</code> to obtain an ordering using the
+dissimilarity matrix of variables. This method provides a form of
+importance sorting and is efficient in making interesting pairs more
+prominent in matrix displays by placing them at the start and top-left
+position.</p>
 <p>Below is a code snippet showing how <code>dser</code> function from
-<code>DendSer</code> can be used to obtain an ordering for the
-correlation matrix of numeric variables in <code>iris</code> data.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code>DendSer</code> package can be used to obtain an ordering for the
+correlation matrix of numeric variables in <code>iris</code> data. The
+dissimilarity between variable pairs is measured by -|Pearson
+correlation| and a dissimilarity matrix is constructed.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris_n</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">iris</span>,<span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">iris_n</span><span class="op">)</span></span>
 <span><span class="va">o</span><span class="op">&lt;-</span><span class="fu">DendSer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DendSer/man/dser.html" class="external-link">dser</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span>,cost <span class="op">=</span> <span class="fu">DendSer</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/DendSer/man/costARc.html" class="external-link">costLPL</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">iris_n</span><span class="op">)</span><span class="op">[</span><span class="va">o</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Sepal.Length" "Petal.Length" "Petal.Width"  "Sepal.Width"</span></span></code></pre>
+<p>Below we provide a general overview of the seriation algorithm
+presented in <code>DendSer</code> and LPL cost function to understand
+how seriation is implemented. The algorithm uses a seriation weight
+<span class="math inline">\(w_{ij}\)</span> for variables <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, which measures the importance of a
+cell, in the matrix and uses these weights to perform hierarchical
+clustering. Generally, the weights are measures of dissimilarity between
+the variables. The final step is to rearrange the nodes of the
+dendrogram obtained from clustering such that ordering minimises a cost
+function. This produces an arrangement where associated variable pairs
+are placed adjacent or nearby each other. As people generally read from
+left to right, placing the most important cells at the beginning or
+top-left corner of the display allows an analyst to immediately identify
+important pairs of variables. We use the LPL cost function to achieve
+this.</p>
+<p>Let <span class="math inline">\(\pi\)</span> be an order obtained
+from the hierarchical clustering of a matrix with n variables using the
+seriation weights <span class="math inline">\(w_{ij}\)</span>. Then, LPL
+cost function for an order <span class="math inline">\(\pi\)</span> is
+defined as:</p>
+<p><span class="math inline">\(LPL(\pi) = \sum_{i=1}^{n-1} (n-1)
+w_{\pi(i),\pi(i+1)}\)</span></p>
+<p>LPL is a weighted measure of path length and rewards orders with
+short path lengths and where the weights generally increase.</p>
 <!-- We use seriation algorithm from Earle and Hurley (2015) to achieve this for our displays. The first step is to perform hierarchical clustering of a dissimilarity matrix (either for association measure display, multiple measures display or conditional measure display). This yields a dendrogram with an ordering where highly similar variables, depending on the display, are nearby. When used in a matrix display, this ordering brings similar variables close to the diagonal. In order to put these variables on the top-left corner we need an additional sorting step. This step uses seriation weights $w_{ij}$, where $w_{ij}$ measures the importance of comparison for variables $(i,j)$ and a cost function, where the main goal is to find a dendrogram ordering which minimizes the cost function. The cost function we use in _corVis_ is lazy path length (LPL) which is a variant of travelling salesman problem and rewards a short path with increasing weights.  -->
 <p>We use the sorting approach discussed above for all of our matrix
 displays to obtain variable ordering.</p>
@@ -211,16 +244,22 @@ cost function is minimised.</p>
 <p>Figure 3 compares the default ordering of the variables in the
 dataset with ordering obtained by seriation using LPL cost function. The
 plot on the right shows highly associated variables at the top left
-corner of the display, making it easier for an analyst to identify
-associated pairs instantly.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">assoc_cdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">assoc_cdc</span>, var_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">assoc_cdc</span><span class="op">)</span></span></code></pre></div>
-<p><img src="seriation_files/figure-html/assoc_display-1.png" width="45%"><img src="seriation_files/figure-html/assoc_display-2.png" width="45%"></p>
-<p>Figure 3: Association measure display for <code>cdc</code> data.
-Left: variables in default order of the data; right: variables ordered
-by LPL cost function</p>
+corner or along the diagonal of the display, making it easier for an
+analyst to identify associated pairs instantly. For instance, the
+variable pairs (<code>edu</code>,<code>inc</code>) and
+(<code>emp</code>, <code>dis</code>) are highly associated and are easy
+to discover in the plot on right compared to the plot on the left.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">assoc</span>, var_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">assoc</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="seriation_files/figure-html/assoc_display-1.png" alt="Figure 3: Association measure display for `acs12` data. Left: variables in default order of the data; right: variables ordered by LPL cost function" width="45%"><img src="seriation_files/figure-html/assoc_display-2.png" alt="Figure 3: Association measure display for `acs12` data. Left: variables in default order of the data; right: variables ordered by LPL cost function" width="45%"><p class="caption">
+Figure 3: Association measure display for <code>acs12</code> data. Left:
+variables in default order of the data; right: variables ordered by LPL
+cost function
+</p>
+</div>
 <p>A user can also supply their own ordering perhaps obtained from other
 algorithm by specifying <code>var_order</code> argument in the
 <code>plot_assoc_matrix</code> function.</p>
@@ -230,63 +269,83 @@ algorithm by specifying <code>var_order</code> argument in the
 </h3>
 <p>The multiple measures display plots multiple measures of association
 for every variable pair in the dataset. For the seriation of this
-display, a similarity matrix is obtained by taking the maximum
-association measure value for a variable pair. Let <span class="math inline">\(m_{ij}\)</span> denote the maximum value of the
-association measure for pair <span class="math inline">\((i,j)\)</span>.
-A hierarchical clustering is then performed with seriation weights <span class="math inline">\(w_{ij} = - |m_{ij}|\)</span> and an optimal
-ordering is found using the LPL cost function.</p>
-<p>We also use seriation to order multiple measure types in each cell of
-the multiple measures display. We follow the same strategy by first
-constructing a dissimilarity matrix of the association measures.
-Dissimilarity between the pairs of measure types is measured by
--|Pearson correlation|. This is followed by hierarchical clustering
-using weights the same as the dissimilarity measure. We find the optimal
-ordering using the LPL criterion.</p>
-<p>Figure 4 shows a comparison of multiple measures display before and
-after seriation. The plot on the right displays variable pairs with high
-measure value(s) on the top left corner, making it easier to find pairs
-of variables where any of the measures is high.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">multi_assoc_cdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc_all.html">calc_assoc_all</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+display, a similarity matrix is first obtained by taking the maximum
+association measure value for a variable pair. This is followed by steps
+similar to the seriation of the matrix display discussed above.</p>
+<p>We also order multiple measure types in each cell of the multiple
+measures display. We use a simple sorting approach by ordering the
+measure types in decreasing order of their average measure value. This
+locates measure types with high average values at the start of each
+cell.</p>
+<p>Figure 4 shows a seriated multiple measures display. The plot
+displays variable pairs with high measure value(s) in the top left
+corner or along the diagonal of the display, making it easier to find
+pairs of variables where any of the measures is high. The plot shows
+variable pairs (<code>hrs_w</code>, <code>emp</code>),
+(<code>inc</code>, <code>emp</code>), (<code>emp</code>,
+<code>age</code>) and (<code>age</code>, <code>marr</code>) with a high
+value for <code>ace</code> measure.</p>
+<p>The variable pair (<code>inc</code>, <code>age</code>) in Figure 4 is
+also placed close to the diagonal and shows a high value for measure
+<code>ace</code> compared to other measures of association. A closer
+look at the variable pair using a scatterplot shows the presence of
+non-linear association which is captured by <code>ace</code>
+measure.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">multi_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc_all.html">calc_assoc_all</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">multi_assoc_cdc</span>, var_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">multi_assoc_cdc</span><span class="op">)</span></span></code></pre></div>
-<p><img src="seriation_files/figure-html/multi_display-1.png" width="45%"><img src="seriation_files/figure-html/multi_display-2.png" width="45%"></p>
-<p>Figure 4: Multiple association measures display for numeric variables
-in penguins data. Left: variables in default order of the data; right:
-variables ordered by LPL cost function</p>
+<span><span class="co">#plot_assoc_matrix(multi_assoc, var_order = names(df))</span></span>
+<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">multi_assoc</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="seriation_files/figure-html/multi_display-1.png" alt="Figure 4: Seriated multiple association measures display for acs12 data. Variable pairs at top left or along diagonal of the display have a high value for any of the multiple measures." width="480"><p class="caption">
+Figure 4: Seriated multiple association measures display for acs12 data.
+Variable pairs at top left or along diagonal of the display have a high
+value for any of the multiple measures.
+</p>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># scatterplot for variable pair (`inc`, `age`)</span></span>
+<span><span class="va">df_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">df</span>,<span class="va">inc</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="co"># removing individuals with 0 income</span></span>
+<span><span class="fu"><a href="../reference/show_assoc.html">show_assoc</a></span><span class="op">(</span><span class="va">df_mod</span>,x<span class="op">=</span><span class="st">"age"</span>,y<span class="op">=</span><span class="st">"inc"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="seriation_files/figure-html/multi_display-2.png" alt="Figure 4: Seriated multiple association measures display for acs12 data. Variable pairs at top left or along diagonal of the display have a high value for any of the multiple measures." width="480"><p class="caption">
+Figure 4: Seriated multiple association measures display for acs12 data.
+Variable pairs at top left or along diagonal of the display have a high
+value for any of the multiple measures.
+</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="conditional-association-measures-display">Conditional association measures display<a class="anchor" aria-label="anchor" href="#conditional-association-measures-display"></a>
 </h3>
 <p>The conditional association measure display plots pairwise
 association measures at different levels of a conditioning variable. For
-ordering the variables, we use a similar strategy as with the case of
-multiple measures display. The only difference is that a similarity
-matrix is constructed by taking the maximum difference among association
-measure values at different levels of the conditioning variable for a
-variable pair.</p>
+ordering the variables, we use a similar strategy as discussed above for
+matrix displays. The only difference is that a similarity matrix is
+constructed by taking the range of association measure values at
+different levels of the conditioning variable for a variable pair.</p>
 <p>For ordering levels of the conditioning variable, we follow a similar
 approach used for ordering measure types in multiple measures
 display.</p>
-<p>Figure 5 shows the difference in conditional association measure
-displays before and after seriation. The variable pairs with high
-differences in measure value for a grouping variable are placed at the
-beginning of the seriated display on the right. This helps in quickly
-finding pairs with high group differences. The plot shows variable pairs
-(<code>flip_l</code>, <code>bill_d</code>) and (<code>flip_l</code>,
-<code>mass</code>) with high difference in measure value at different
-levels of the conditioning variable <code>species</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cond_assoc_cdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>,by<span class="op">=</span><span class="st">"edu"</span><span class="op">)</span></span>
-<span><span class="va">df_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">10</span><span class="op">]</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">cond_assoc_cdc</span>, var_order <span class="op">=</span> <span class="va">df_order</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">cond_assoc_cdc</span><span class="op">)</span></span></code></pre></div>
-<p><img src="seriation_files/figure-html/cond_display-1.png" width="45%"><img src="seriation_files/figure-html/cond_display-2.png" width="45%"></p>
-<p>Figure 5: Conditional association measures display for cdc data.
-Left: variables in default order of the data; right: variables ordered
-by LPL cost function</p>
+<p>Figure 5 shows the seriated conditional association measure display.
+The variable pairs with high differences in measure value for a grouping
+variable are placed at the beginning or along the diagonal of the
+display. This helps in quickly finding pairs with high group
+differences. The plot shows variable pairs (<code>marr</code>,
+<code>age</code>) and (<code>age</code>, <code>emp</code>) with high
+differences in canonical correlation value at different levels of the
+conditioning variable <code>edu</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cond_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">df</span>,by<span class="op">=</span><span class="st">"edu"</span>,include.overall <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot_assoc_matrix.html">plot_assoc_matrix</a></span><span class="op">(</span><span class="va">cond_assoc</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="seriation_files/figure-html/cond_display-1.png" alt="Figure 5: Seriated conditional association measures display for acs12 data. Variable pairs at top left or along diagonal of the display have a high difference in the measures value calculated at different levels of the conditioning variable." width="480"><p class="caption">
+Figure 5: Seriated conditional association measures display for acs12
+data. Variable pairs at top left or along diagonal of the display have a
+high difference in the measures value calculated at different levels of
+the conditioning variable.
+</p>
+</div>
 </div>
 </div>
   </div>
