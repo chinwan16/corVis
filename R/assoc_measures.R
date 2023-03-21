@@ -144,19 +144,22 @@ tbl_cancor <- function(d,handle.na=TRUE,...){
 
 tbl_dcor <- function(d, handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.numeric))
-  dcor <- assoc_tibble(d, measure_type="dcor", pair_type = "nn")
-  fn <- function(x,y){
-    x <- d[[x]]
-    y <- d[[y]]
-    if(handle.na){
-      pick <- stats::complete.cases(x, y)
-      x <- x[pick]
-      y <- y[pick]
+  if(ncol(d)>1){
+    dcor <- assoc_tibble(d, measure_type="dcor", pair_type = "nn")
+    fn <- function(x,y){
+      x <- d[[x]]
+      y <- d[[y]]
+      if(handle.na){
+        pick <- stats::complete.cases(x, y)
+        x <- x[pick]
+        y <- y[pick]
+      }
+      sqrt(energy::dcor2d(x,y,...))
     }
-    sqrt(energy::dcor2d(x,y,...))
+    dcor$measure <-  mapply(fn, dcor$x,dcor$y)
+    dcor
   }
-  dcor$measure <-  mapply(fn, dcor$x,dcor$y)
-  dcor
+
 }
 
 # Easystats correlations
@@ -216,12 +219,15 @@ tbl_dcor <- function(d, handle.na=TRUE,...){
 
 tbl_mine <- function(d, method="mic",handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.numeric))
-  if (handle.na)
-    dcor <- minerva::mine(d,use="pairwise.complete.obs",...)
-  else dcor <- minerva::mine(d,...)
+  if(ncol(d)>1){
+    if (handle.na)
+      dcor <- minerva::mine(d,use="pairwise.complete.obs",...)
+    else dcor <- minerva::mine(d,...)
 
-  dcor <- dcor[[toupper(method)]]
-  assoc_tibble(dcor, measure_type=method, pair_type = "nn")
+    dcor <- dcor[[toupper(method)]]
+    assoc_tibble(dcor, measure_type=method, pair_type = "nn")
+  }
+
 }
 
 
@@ -293,9 +299,12 @@ tbl_nmi <- function(d,handle.na=T,...){
 tbl_polycor <- function(d,handle.na=TRUE,...){
   # polycor automatically does pairwise omit
   d <- dplyr::select(d, where(is.ordered))
-  pcor <- assoc_tibble(d, measure_type="polycor", pair_type = "oo")
-  pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
-  pcor
+  if(ncol(d)>1){
+    pcor <- assoc_tibble(d, measure_type="polycor", pair_type = "oo")
+    pcor$measure <- mapply(function(x,y) polycor::polychor(d[[x]],d[[y]],...), pcor$x,pcor$y)
+    pcor
+  }
+
 }
 
 #' Kendall's tau A, B, C and Kendall's W
@@ -327,19 +336,22 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
   # automatically does pairwise omit, Kendall
   method <- method[1]
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type=paste0("tau", method), pair_type = "oo")
-  fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
-             DescTools::KendallW)
-  fn <- fns[[method]]
-  fnlocal <- function(x,y){
-    if (length(unique(d[[x]])) <= 1) return(NA)
-    if (length(unique(d[[y]])) <= 1) return(NA)
-    if (method =="W")
-      fn(d[c(x,y)], correct=TRUE,...)
-    else fn(d[[x]],d[[y]],...)
+  if(ncol(d)>1){
+    a <- assoc_tibble(d, measure_type=paste0("tau", method), pair_type = "oo")
+    fns <- c("A"= DescTools::KendallTauA, "B"=DescTools::KendallTauB, "C" = DescTools::StuartTauC, "W"=
+               DescTools::KendallW)
+    fn <- fns[[method]]
+    fnlocal <- function(x,y){
+      if (length(unique(d[[x]])) <= 1) return(NA)
+      if (length(unique(d[[y]])) <= 1) return(NA)
+      if (method =="W")
+        fn(d[c(x,y)], correct=TRUE,...)
+      else fn(d[[x]],d[[y]],...)
+    }
+    a$measure <- mapply(fnlocal, a$x,a$y)
+    a
   }
-  a$measure <- mapply(fnlocal, a$x,a$y)
-  a
+
 }
 
 #' Uncertainty coefficient
@@ -361,9 +373,12 @@ tbl_tau <- function(d,method=c("B","A","C","W"),...){
 
 tbl_uncertainty <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="uncertainty", pair_type = "ff")
-  a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
-  a
+  if(ncol(d)>1){
+    a <- assoc_tibble(d, measure_type="uncertainty", pair_type = "ff")
+    a$measure <- mapply(function(x,y) DescTools::UncertCoef(d[[x]],d[[y]],...), a$x,a$y)
+    a
+  }
+
 }
 
 
@@ -385,10 +400,13 @@ tbl_uncertainty <- function(d,handle.na=TRUE,...){
 
 tbl_gkTau <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type="gkTau", pair_type = "oo")
-  fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
-  a$measure <- mapply(fnlocal, a$x,a$y)
-  a
+  if(ncol(d)>1){
+    a <- assoc_tibble(d, measure_type="gkTau", pair_type = "oo")
+    fnlocal <- function(x,y) max(DescTools::GoodmanKruskalTau(d[[x]],d[[y]]),DescTools::GoodmanKruskalTau(d[[y]],d[[x]]))
+    a$measure <- mapply(fnlocal, a$x,a$y)
+    a
+  }
+
 }
 
 
@@ -410,9 +428,12 @@ tbl_gkTau <- function(d,handle.na=TRUE,...){
 
 tbl_gkGamma <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.ordered))
-  a <- assoc_tibble(d, measure_type="gkGamma", pair_type = "oo")
-  a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
-  a
+  if(ncol(d)>1){
+    a <- assoc_tibble(d, measure_type="gkGamma", pair_type = "oo")
+    a$measure <- mapply(function(x,y) DescTools::GoodmanKruskalGamma(d[[x]],d[[y]],...), a$x,a$y)
+    a
+  }
+
 }
 
 #' Pearson's Contingency Coefficient
@@ -434,9 +455,12 @@ tbl_gkGamma <- function(d,handle.na=TRUE,...){
 
 tbl_chi <- function(d,handle.na=TRUE,...){
   d <- dplyr::select(d, where(is.factor))
-  a <- assoc_tibble(d, measure_type="chi", pair_type = "ff")
-  a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
-  a
+  if(ncol(d)>1){
+    a <- assoc_tibble(d, measure_type="chi", pair_type = "ff")
+    a$measure <- mapply(function(x,y) DescTools::ContCoef(d[[x]],d[[y]],...), a$x,a$y)
+    a
+  }
+
 }
 
 
