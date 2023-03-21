@@ -155,7 +155,7 @@ The association measures for the case of nominal pair of variables should be inv
 
 # Introducing corVis
 
-Many of the existing correlation displays are limited to numeric pairs of variables. The package \CRANpkg{corVis} extends these displays to every variable pair. The main goal of our work is to propose displays for multiple association measures and conditional associations which are useful for uncovering interesting patterns in the data. This will help in identifying variable pairs which shows a type of relationship or pattern in a dataset with large number of variables.
+Many of the existing correlation displays are limited to numeric pairs of variables. The package \CRANpkg{corVis} extends these displays to mixed variable types. The main goal of our work is to propose displays for multiple association measures and conditional associations which are useful for uncovering interesting patterns in the data. This will help in identifying variable pairs which shows a type of relationship or pattern in a dataset with large number of variables.
 
 ```{r motivation2, fig.width=5, fig.height=4, fig.align='center', fig.cap = "An example plot showing importance of conditional displays"}
 # 
@@ -273,6 +273,54 @@ kableExtra::kbl(df, booktabs = T, caption = "Variable description of the Daily B
 
 Table \@ref(tab:bikedata) provides a brief description of Daily Bike Sharing data along with the types of variables present in the dataset. We use the dataset throughout this paper for illustrative usage of the package.
 
+# corVis: Data Structures
+
+We provide three tidy data structures which are explored using functions in \CRANpkg{corVis} or can be manipulated or visualized by leveraging tools in \CRANpkg{tidyverse} These data structures are: `pairwise`, `multi_pairwise` and `cond_pairwise`. In this section, we provide an example of these three data structures along with how they are beneficial when used in the \CRANpkg{tidyverse} environment.
+
+The `pairwise` data structure is a data format which contains scores for pairs of variables in a dataset for which a specified measure is defined. For example, the function `tbl_dcor` calculates the distance correlation measure for every numeric variable pair in the dataset. Each row of the `pairwise` object is characterized by the variable pair and association measure type.
+
+```{r, pairwise-example,echo=TRUE}
+# a subset of bike dataset
+bike_s <- bike |> 
+  dplyr::select(temp, windspeed, registered,weathersit, workingday)
+dcor_bike <- tbl_dcor(bike_s)
+dcor_bike
+class(dcor_bike)
+```
+
+
+We define a `multi_pairwise` data structure as a data format which consists of multiple scores for variable pairs in the dataset. Similar to the `pairwise` object, every row of the `multi_pairwise` object is defined by the variable pair and measure type. An analyst interested in finding how different the association measure values are for each pair can use this object with \CRANpkg{tidyverse} tools to find the range of measures.
+
+```{r,multipairwise-example,echo=TRUE}
+multi_bike <- calc_assoc_all(bike_s,
+                                 c("pearson","nmi","ace","uncertainty"))
+class(multi_bike)
+
+# calculating range of measures
+multi_bike |> 
+  group_by(x,y) |>
+  summarise(range=max(measure)-min(measure),.groups = "drop") |>
+  arrange(desc(range))
+```
+
+
+The final data structure in \CRANpkg{corVis} is `cond_pairwise` which contains scores for every variable pair at different levels of a conditioning variable. In this case, each row is uniquely identified by a variable pair and a level of the conditioning variable. For exploring pairwise differences in groups, an analyst can easily use data manipulation tools available in \CRANpkg{tidyverse} ecosystem.
+
+```{r,condpairwise-example,echo=TRUE}
+cond_bike <- calc_assoc(bike_s,
+                            by="weathersit")
+class(cond_bike)
+
+# calculating difference in the group
+cond_bike |> 
+  group_by(x,y) |>
+  summarise(diff=max(measure)-min(measure),.groups = "drop") |>
+  arrange(desc(diff))
+
+```
+
+It is worth noting that both `multi_pairwise` and `cond_pairwise` objects inherit the `pairwise` class and satisfies the definition of the `pairwise` data structure.  
+
 # corVis: Calculating Association
 
 This section describes the calculation of association measures in  package \CRANpkg{corVis}. The package  provides a standard interface for calculating a collection of measures which quantifies the relationship between two variables. The measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. The package also provides a functionality for handling missing value or `NA` while calculating these association measures. 
@@ -280,24 +328,6 @@ This section describes the calculation of association measures in  package \CRAN
 Table \@ref(tab:association-measures) lists different functions provided in the package to calculate  measures along with the information on type of variable pairs they can be used with. It also include details about the external package functions used to calculate and the range for these measures. The association measures available in \CRANpkg{corVis} are symmetric. We convert asymmetric measures to symmetric by  taking either the mean or the maximum of the measures calculated by treating each variable from the pair as independent variable. The functions in Table \@ref(tab:association-measures) such as `tbl_ace` and `tbl_cancor` which calculates maximal correlation coefficient among the transformed variables and canonical correlation respectively, have been implemented in \CRANpkg{corVis}.
 
 ```{r association-measures,echo=FALSE}
-
-# assocMethods <- tribble(
-#   ~Function, ~X, ~Y,  ~from, ~symmetric, ~range,
-#   "tbl_cor", "numerical", "numerical",  "stats::cor", "Y", "[-1,1]",
-#   "tbl_dcor", "numerical", "numerical",  "energy::dcor2d", "Y", "[0,1]",
-#   "tbl_mine", "numerical", "numerical", "minerva::mine","Y", "[0,1]",
-#   "tbl_ace", "numerical", "numerical", "corVis","Y", "[0,1]",
-#   "tbl_polycor", "ordinal", "ordinal", "polycor::polychor", "Y", "[-1,1]",
-#   "tbl_tau", "ordinal", "ordinal", "DescTools::KendalTauA,B,C,W", "Y", "[-1,1]",
-#   "tbl_gkGamma", "ordinal", "ordinal", "DescTools::GoodmanKruskalGamma", "Y", "[-1,1]",
-#   "tbl_gkTau", "nominal", "nominal", "DescTools::GoodmanKruskalTau", "N", "[0,1]",
-#   #"tbl_gkLambda", "nominal", "nominal", "DescTools::GoodmanKruskalTau", TRUE, "[0,1]",
-#   "tbl_uncertainty", "nominal", "nominal", "DescTools::UncertCoef", "Y", "[0,1]",
-#   "tbl_chi", "nominal", "nominal", "DescTools::ContCoef", "Y", "[0,1]",
-#   "tbl_cancor", "nominal/numerical", "nominal/numerical", "corVis", "Y", "[0,1]",
-#   "tbl_nmi", "nominal", "nominal", "corVis", "Y", "[0,1]",
-#   "tbl_easy", "nominal/numerical", "nominal/numerical", "correlation::correlation", "Y", "[-1,1]")
-
 measures <- dplyr::tribble(
   ~name, ~nn, ~ff, ~oo, ~nf, ~from, ~range,
   "tbl_cor", "y", " ", " " ," ", "stats::cor", "[-1,1]",
@@ -315,8 +345,6 @@ measures <- dplyr::tribble(
 )
 
 kableExtra::kbl(measures,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.") %>% kableExtra::kable_styling(latex_options = "scale_down")
-#kableExtra::kable_styling(kable_input,latex_options = "striped")
-#knitr::kable(assocMethods)
 ```
 
 For numeric pairs, the package provides popular correlation coefficients like Pearson, Spearman or Kendall and are calculated using `tbl_cor` function. The measures such as distance correlation or MIC for detecting non-linear patterns are implemented using `tbl_dcor` or `tbl_mine` respectively. For ordinal pairs, the measures such as polychoric correlation and Kendall's coefficients are used to find association and are computed by `tbl_polycor` or `tbl_tau` respectively. For nominal pairs , the functions `tbl_uncertainty`, `tbl_chi` or `tbl_cancor` are used for exploring association among the variables. 
@@ -329,25 +357,9 @@ The functions listed in Table \@ref(tab:association-measures) for calculating as
 
 The `tbl_*` functions outputs a data structure with class `pairwise`. We define a `pairwise` data structure as a data format which contain scores for pairs of variables in a dataset for which a specified measure is defined. In addition to `pairwise`, the package also has `multi_pairwise` and `cond_pairwise` data structures which are discussed in the later sections. These structures are useful for producing displays in \CRANpkg{corVis}.
 
-
-<!-- ## Calculating association for a single type of variable pairs -->
-
-<!-- We have a function which creates a tibble structure for the variable pairs in a dataset along with calculated association measure. The package contains various functions (shown in Table \@ref(tab:association-measures)) for different association measures in the form `tbl_*` to calculate them. For example, in order to calculate distance correlation for numeric pair of variables in a dataset, the function `tbl_dcor` is used. -->
-
-<!-- ```{r,echo=TRUE} -->
-
-
-<!-- distance <- tbl_dcor(iris) -->
-<!-- distance -->
-<!-- ``` -->
-
-
-<!-- In the tibble output for the functions mentioned in Table \@ref(tab:association-measures) `x` and `y` represents a pair of variables. The `measure` variable represents the calculated value for association measure. And the `measure_type` variable represents the association measure calculated for `x` and `y` pair. -->
-
 ## Calculating association measures for whole dataset
 
 The `calc_assoc` function calculates association measures for every variable pair in a dataset. The variable pairs in the output are unique pairs in the dataset where `x` $\neq$ `y`. Because of the tidy structure of the output, the data manipulation and visualization tools of \CRANpkg{tidyverse} [@tidyverse] are applicable and are useful for further exploration of pairwise associations. The output of `calc_assoc` has a `pairwise` data structure which has one score (measure) for each pair of variable in the dataset.
-
 
 The code snippet below shows the calculation of association measures for a subset of the bike sharing data. We select three numeric (temp, windspeed, registered) and two nominal variables (weathersit, workingday) from the original dataset to demostrate the usage of `calc_assoc`. We include all of the function arguments for the below example and describe how these are useful. The inputs such as `by` and `include.overall` will be described in the section [Calculating conditional association]. 
 
@@ -371,8 +383,8 @@ default_measures <- default_assoc()
 default_measures
 ```
 
-The default tibble of measures is updated using the `update_assoc` function. The argument `default` has `default_assoc()` tibble as its default value and is useful when `tbl_*` functions need to be updated for a few types of variable pairs. 
 
+The default tibble of measures is updated using the `update_assoc` function. The argument `default` has `default_assoc()` tibble as its default value and is useful when `tbl_*` functions need to be updated for a few types of variable pairs. 
 
 ```{r, update_assoc,echo=TRUE}
 updated_assoc <- update_assoc(default_measures,
@@ -387,7 +399,8 @@ updated_bike_s_assoc
 
 ```
 
-The input `handle.na` for `calc_assoc` manages the `NA` or missing values in the data. The default value is set to `TRUE` for using pairwise complete observations for calculating a measure of association between two variables.
+
+The input `handle.na` for `calc_assoc` manages the `NA` or missing value in the data. The default value is set to `TRUE` for using pairwise complete observations for calculating a measure of association between two variables.
 
 Sometimes an analyst might want to treat a factor as ordered. This will also be useful for pairs of binary variables where it will then be possible to see the direction of association. Alternatively, binary variables are treated as numerical. The input `coerce_types` is used to convert variable types. The code segment below demonstrates how nominal factors can be converted into ordinal.
 
@@ -406,7 +419,7 @@ bike_s_assoc
 
 ## Calculating conditional association
 
-The function `calc_assoc` is also used to calculate association measures for all the variable pairs at different levels of a categorical variable. This helps in exploring the conditional associations and finding out variable pairs showing different associations at different levels of the conditioning variable. The function has a `by` argument which is used as the grouping variable and needs to be categorical. The tibble output in the conditional setting has a similar structure as `calc_assoc` with an additional `by` column representing the levels of the categorical variable. The output data structure has a `cond_pairwise` class attribute which is used for displaying conditional measures. The data structure also has additional class attributes  such as *data.frame* and *tibble* useful for tidy operations with tools available in \CRANpkg{tidyverse} [@tidyverse].
+The function `calc_assoc` is also used to calculate association measures for all the variable pairs at different levels of a categorical variable. This helps in exploring the conditional associations and finding out variable pairs showing different associations at different levels of the conditioning variable. The function has a `by` argument which is used as the grouping variable and needs to be categorical. The tibble output in the conditional setting has a similar structure as `calc_assoc` with an additional `by` column representing the levels of the categorical variable. The output data structure has a `cond_pairwise` class attribute which is used for displaying conditional measures. The data structure is also suitable for tidy operations with tools available in \CRANpkg{tidyverse} [@tidyverse].
 
 The `x` and `y` variables in the output are repeated for every level of `by` variable. In order to have multiple `by` variables, the function `calc_assoc` is used multiple times with a different `by` variable each time and then the multiple outputs are binded row wise. 
 
@@ -430,6 +443,7 @@ bike_s_assoc_by
 ## Calculating multiple association measures
 
 The comparison of multiple association measures help discover patterns other than linear. We calculate multiple measures with `calc_assoc_all` function in the package. The function takes a dataset and a list of measures as input and outputs a tibble structure with multiple measures of association for every variable pair. The data structure has `multi_pairwise` class attribute which is used for plotting multiple measure displays in matrix and linear layouts. The code section below calculates `pearson`, `dcor` and `cancor` measures for the variable pairs in subset of bike sharing data. The pairs for which a measure is not defined is not included in the result.
+
 ```{r}
 bike_s_assoc_multi <- calc_assoc_all(d = bike_s,
                                    measures = c("pearson",
@@ -442,12 +456,13 @@ bike_s_assoc_multi
 
 # corVis: Visualising Association
 
-This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display measures of association and conditional association for every variable pair in a dataset and show multiple bivariate measures of association simultaneously. The package includes functions such as `plot_assoc_matrix` and `plot_assoc_linear` to produce these displays in matrix and linear layout respectively. In addition, the package also provides a function `show_assoc` for a quick graphical overview of the relationship between two variables. It displays a scatterplot for numeric pair, bar plot for ordered and factor pair, and box plot for mixed variable pair.
+This section provides a detailed description of the novel visualisation techniques proposed in the package \CRANpkg{corVis}. These methods display measures of association and conditional association for variable pairs in a dataset and show multiple bivariate measures of association simultaneously. The package includes functions such as `plot_assoc_matrix` and `plot_assoc_linear` to produce these displays in a matrix and linear layout respectively. In addition, the package also provides a function `show_assoc` for a quick graphical overview of the relationship between two variables. It displays a scatterplot for numeric pairs, a bar plot for ordered and factor pairs, and a box plot for mixed variable pairs.
 
 
 ## Association Measures Plots
 
 For association analysis, we start with calculating the default association measures for the bike sharing data (we drop variables dteday, weekday, atemp and cnt) using `calc_assoc` and then plot this result using `plot_assoc_matrix` in a matrix layout in Figure \@ref(fig:assoc-matrix-bike). 
+
 ```{r assoc-matrix-bike,fig.width=3, fig.height=3, fig.align='center', fig.cap="Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs and canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the pair and the area of the square is mapped to absolute measure value for the corresponding variable pair. The plot shows many pairs with strong association, for example (casual, temp), (registered,yr) and (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased during windy days.",echo=TRUE}
 
 bike$dteday <- NULL 
@@ -475,6 +490,7 @@ bike_assoc_o <- calc_assoc(bike,
 plot_assoc_matrix(bike_assoc_o,
                   glyph="circle")
 ```
+
 Figure \@ref(fig:coerce_types_display) shows a strong negative association for (workingday, holiday) as holidays are not working days.
 
 
@@ -508,15 +524,16 @@ The `plot_assoc_matrix` function constructs a matrix display where the diagonal 
 For ordering the display, the argument `var_order` is set to `max_diff` which creates a matrix with entries of maximum difference between the absolute value of measures for a variable pair. The variable ordering is then taken from the hierarchical clustering using average linkage method of this matrix. This orders the cells with large difference between the measures close to the diagonal and are easier to identify.
 
 Figure \@ref(fig:compare-matrix) shows a multiple association measures plot in matrix layout for bike sharing dataset. We convert the factor variable `mnth` into numeric and use only numeric variables to produce the display. The plot compares the absolute values of association measures such as `ace`, `cancor`, `dcor`, `kendall`, `mic`, `nmi`, `pearson` and `spearman` for every variable pair in the dataset.   
+
 ```{r compare-matrix,fig.width=4, fig.height=4.5, fig.align='center',fig.cap="Multiple association measures plot in a matrix layout for numeric variables in bike sharing data. The lollipops in each cell represent the value of the association measure colored by the type of measure. The variable pairs are ordered by the maximum difference between the absolute value of association measures such that cells with highest difference are close to the diagonal. The plot shows that pairs (casual,mnth) and (mnth,temp) might have a non-linear association which can be explored further.",echo=TRUE}
 biken <- bike |>
   mutate(mnth=as.numeric(mnth)) |>
   select(where(is.numeric))
 
 biken_assoc_all <-calc_assoc_all(biken)
-# all measures are positive, so change to
-plot_assoc_matrix(biken_assoc_all) # label position is now wrong!
+plot_assoc_matrix(biken_assoc_all) 
 ```
+
 It is evident from the Figure \@ref(fig:compare-matrix) that pairs (casual,mnth) and (mnth,temp) have higher value for `ace` compared to other measures. The measures `nmi`, `dcor` and `mic` have similar values but higher than `pearson`, `spearman` and `kendall`. This suggests the presence of a non-linear pattern for these pairs. 
 
 We use `show_assoc` to explore the pattern for these variable pairs in Figure \@ref(fig:int-pairs-multiple). It is evident from the scatterplots that both (casual,mnth) and (mnth,temp) show a non-linear relationship which measures such as Pearson, Kendall or Spearman correlation failed to capture. The `ace` measure detects this non-linear association efficiently as the `ace` algorithm estimates the transformations of variables which leads to maximal correlation for the variable pair and uncovers non-linear pattern.
@@ -554,6 +571,7 @@ plot_assoc_matrix(bike_by_assoc)
 ```
 
 We explore these variable pairs in more detail using `show_assoc`. Figure \@ref(fig:int-pairs-conditional) shows scatterplots for variable pairs (temp, hum), (temp, registered), (temp, casual) and (registered, casual) faceted by conditioning variable season. The faceted scatterplot for (temp, hum) show the decrease in humidity with increase in temperature in Summer and the oppsoite during Fall. Clearly, the plot for (temp, registered) and (temp, casual) show that there is no clear pattern for registered and casual with temperature in Summer compared to other seasons.
+
 ```{r  int-pairs-conditional, fig.show="hold", out.width="50%", fig.cap = "Scatterplots for variable pairs (temp, hum), (temp, registered), (temp, casual) and (registered, casual) faceted by conditioning variable season", echo=FALSE}
 
 show_assoc(bike, "temp", "hum", by="season")
