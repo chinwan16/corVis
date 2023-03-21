@@ -627,20 +627,20 @@ is not defined is not included in the result.</p>
 <span>                                                <span class="st">"dcor"</span>,</span>
 <span>                                                <span class="st">"ace"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">penguin_assoc_multi</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 48 × 5</span></span></span>
-<span><span class="co">##    x                 y                 measure measure_type pair_type</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> bill_depth_mm     bill_length_mm    -<span style="color: #BB0000;">0.235</span>  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> flipper_length_mm bill_length_mm     0.656  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> body_mass_g       bill_length_mm     0.595  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> year              bill_length_mm     0.054<span style="text-decoration: underline;">5</span> pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> flipper_length_mm bill_depth_mm     -<span style="color: #BB0000;">0.584</span>  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> body_mass_g       bill_depth_mm     -<span style="color: #BB0000;">0.472</span>  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> year              bill_depth_mm     -<span style="color: #BB0000;">0.060</span><span style="color: #BB0000; text-decoration: underline;">4</span> pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> body_mass_g       flipper_length_mm  0.871  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> year              flipper_length_mm  0.170  pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> year              body_mass_g        0.042<span style="text-decoration: underline;">2</span> pearson      nn       </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 38 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 110 × 5</span></span></span>
+<span><span class="co">##    x                 y       measure measure_type pair_type</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> island            species  0.813  cancor       ff       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> bill_length_mm    species  0.841  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> bill_depth_mm     species  0.824  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> flipper_length_mm species  0.882  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> body_mass_g       species  0.818  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> sex               species  0.012<span style="text-decoration: underline;">1</span> cancor       ff       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> year              species  0.051<span style="text-decoration: underline;">1</span> cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> bill_length_mm    island   0.392  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> bill_depth_mm     island   0.632  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> flipper_length_mm island   0.613  cancor       nf       </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 100 more rows</span></span></span></code></pre>
 </div>
   </div>
 
