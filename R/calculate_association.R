@@ -272,6 +272,7 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
     assoc[[i]] <- do.call(what = fns[i], args = list(d = d, handle.na = handle.na))
   }
   assoc <- do.call(rbind,assoc)
+  pearson<-NULL; spearman<-NULL; kendall<-NULL; mic<-NULL; tau_b<-NULL
 
   if ("pearson" %in% measures) pearson <- tbl_cor(d,handle.na = handle.na)
 
