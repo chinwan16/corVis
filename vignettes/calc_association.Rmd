@@ -1,7 +1,6 @@
 ---
 title: "Calculating associations using corVis"
 author: "Amit Chinwan and Catherine Hurley"
-date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
      toc: true
@@ -16,7 +15,7 @@ vignette: >
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-corVis is an R package which calculates measures of association for every variable pair in a dataset and helps in visualising these associations in different ways. The package can also calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette gives an overview of how these association measures are calculated in the package. Different methods to visualise these calculated measures are provided in the accompanying vignette.  
+corVis is an R package which calculates measures of association for pairs of variables in a dataset and helps in visualising these measures in different layouts. The package also calculate and visualise the pairwise association measures conditionally at different levels of a grouping variable. This vignette gives an overview of how these association measures are calculated in the package. Different methods to visualise these calculated measures are provided in the accompanying vignette.  
 
 
 ```{r setup}
