@@ -480,7 +480,7 @@ Figure \@ref(fig:assoc-matrix-bike) presents the novel feature of our display sh
 
 In some cases, an analyst might want to handle some factors as ordinals to see the direction of association. As discussed in the previous section, we can convert variable types by specifying the `coerce_types` argument. The code below shows an implementation and produces a display with some factor variables as ordinals.
 
-```{r,coerce_types_display, fig.width=3, fig.height=3, fig.align='center', fig.cap="Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs. The color of every circle is mapped with the measure value for the pair and the area of the circle is mapped by absolute measure value for the corresponding variable pair. The variables workingday, yr, weathersit and holiday have been converted to ordinals. The plot shows a strong negative association for (workingday, holiday) because no holiday is a working day.",echo=TRUE}
+```{r,coerce-types-display, fig.width=3, fig.height=3, fig.align='center', fig.cap="Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs. The color of every circle is mapped with the measure value for the pair and the area of the circle is mapped by absolute measure value for the corresponding variable pair. The variables workingday, yr, weathersit and holiday have been converted to ordinals. The plot shows a strong negative association for (workingday, holiday) because no holiday is a working day.",echo=TRUE}
 bike_assoc_o <- calc_assoc(bike, 
                            coerce_types=list(ordinal=c("workingday", 
                                                        "yr", 
@@ -491,7 +491,7 @@ plot_assoc_matrix(bike_assoc_o,
                   glyph="circle")
 ```
 
-Figure \@ref(fig:coerce_types_display) shows a strong negative association for (workingday, holiday) as holidays are not working days.
+Figure \@ref(fig:coerce-types-display) shows a strong negative association for (workingday, holiday) as holidays are not working days.
 
 
 We use function `show_assoc` to to explore associated variable pairs graphically. Figure \@ref(fig:int-pairs-bike) display scatterplots for pairs (temp,registered) and (windspeed,hum) showing a strong positive and negative trend respectively. The boxplot for pair (workingday,casual) shows a high number of casual users using bikes on days that were not working day. The barplot for variable pair (workingday, holiday) confirms that no working day was a holiday.
