@@ -6,7 +6,7 @@
 #' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.
 #' @param uassoc A tibble with the calculated association measures for the upper triangle of the matrix plot.
 #' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.  If *NULL* (default) the matrix plot is symmetric.
-#' @param glyph A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle".
+#' @param glyph A character string for the glyph to be used for lassoc with "pairwise" class. Either "circle" (default) or "square".
 #' @param var_order A character string for the variable order. Either "default" for ordering
 #' using Dendser or a user provided variable order.
 #' @param limits a numeric vector of length specifying the limits of the scale. Default is c(-1,1)
@@ -19,7 +19,7 @@
 #' plot_assoc_matrix(calc_assoc_all(iris))
 
 
-plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
+plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("circle","square"),
                               var_order="default",
                               limits=c(-1,1)){
 
@@ -108,6 +108,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
   if(is.null(group_var)){
 
     p <- p +
+      ggplot2::coord_cartesian(xlim = c(-0.5,0.5), ylim = c(-0.5,0.5)) +
       ggplot2::geom_text(ggplot2::aes(x=0,y=0,label=.data$text),size=3) +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value=NA,limits=limits) +
       ggplot2::theme(axis.text.y = ggplot2::element_blank(),
@@ -115,7 +116,6 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
 
     if (glyph=="square"){
       p <- p+
-        ggplot2::coord_cartesian(xlim = c(-0.5,0.5), ylim = c(-0.5,0.5)) +
         ggplot2::geom_rect(ggplot2::aes(xmin = -sqrt(abs(.data[["measure"]]))/2,
                                         xmax = sqrt(abs(.data[["measure"]]))/2,
                                         ymin = -sqrt(abs(.data[["measure"]]))/2,
@@ -123,7 +123,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("square","circle"),
                                         fill = .data[["measure"]]),na.rm = TRUE)
     } else {
       p <- p +
-        ggforce::geom_circle(color=NA,ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]])/pi),
+        ggforce::geom_circle(color=NA,ggplot2::aes(x0 = 0, y0 = 0, r = sqrt(abs(.data[["measure"]]))/2,
                                                    fill = .data[["measure"]]))
 
     }

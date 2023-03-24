@@ -282,7 +282,7 @@ calc_assoc_all <- function(d,measures=c("pearson","spearman","kendall","cancor",
 
   if ("mic" %in% measures) mic <- tbl_mine(d,handle.na = handle.na)
 
-  if ("tau_b" %in% measures) tau_b <- tbl_tau(d,handle.na = handle.na)
+  if ("tau_b" %in% measures) tau_b <- tbl_tau(d)
 
 
   assoc <- rbind(assoc,pearson, spearman, kendall, mic,tau_b)
