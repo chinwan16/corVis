@@ -69,7 +69,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_assoc_matrix</span><span class="op">(</span></span>
 <span>  <span class="va">lassoc</span>,</span>
 <span>  uassoc <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  glyph <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"square"</span>, <span class="st">"circle"</span><span class="op">)</span>,</span>
+<span>  glyph <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"circle"</span>, <span class="st">"square"</span><span class="op">)</span>,</span>
 <span>  var_order <span class="op">=</span> <span class="st">"default"</span>,</span>
 <span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -88,7 +88,7 @@ Must be of class <code>pairwise</code>, <code>cond_pairwise</code> or <code>mult
 
 
 <dt>glyph</dt>
-<dd><p>A character string for the glyph to be used for lassoc with "pairwise" class. Either "square" or "circle".</p></dd>
+<dd><p>A character string for the glyph to be used for lassoc with "pairwise" class. Either "circle" (default) or "square".</p></dd>
 
 
 <dt>var_order</dt>
@@ -110,6 +110,7 @@ using Dendser or a user provided variable order.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">plot_assoc_matrix</span><span class="op">(</span><span class="fu"><a href="calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 5 rows containing non-finite values (`stat_circle()`).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 20 rows containing missing values (`geom_text()`).</span>
 <span class="r-plt img"><img src="plot_assoc_matrix-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu">plot_assoc_matrix</span><span class="op">(</span><span class="fu"><a href="calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">iris</span>,<span class="st">"Species"</span><span class="op">)</span><span class="op">)</span></span></span>
