@@ -84,7 +84,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("circle","square"),
   assoc$intercept <- 0
   assoc <- rbind(assoc, diag_df)
 
-  assoc$abs_measure <- abs(assoc$measure)
+  #assoc$abs_measure <- abs(assoc$measure)
 
   p <- ggplot2::ggplot(assoc) +
     ggplot2::facet_grid(ggplot2::vars(.data$x), ggplot2::vars(.data$y)) +
@@ -177,7 +177,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("circle","square"),
 
 plot_assoc_linear <- function(assoc,
                               pair_order = "default",
-                              plot_type = c("heatmap","dotplot"),
+                              plot_type = c("dotplot","heatmap"),
                               limits=c(-1,1)){
 
   plot_type = match.arg(plot_type)
