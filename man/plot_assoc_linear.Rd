@@ -7,7 +7,7 @@
 plot_assoc_linear(
   assoc,
   pair_order = "default",
-  plot_type = c("heatmap", "dotplot"),
+  plot_type = c("dotplot", "heatmap"),
   limits = c(-1, 1)
 )
 }
