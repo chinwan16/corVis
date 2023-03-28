@@ -319,6 +319,6 @@ show_assoc <- function(d, x, y, by = NULL){
     ggplot2::ylab(num) + {if(!is.null(by)) ggplot2::facet_wrap(~.data[[by]])}
   }
 
-  print(p)
+  p
 
 }
