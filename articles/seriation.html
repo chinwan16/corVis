@@ -85,7 +85,7 @@
                         <h4 data-toc-skip class="author">Amit Chinwan
 and Catherine Hurley</h4>
             
-            <h4 data-toc-skip class="date">2023-03-28</h4>
+            <h4 data-toc-skip class="date">2023-03-29</h4>
       
       
       <div class="hidden name"><code>seriation.Rmd</code></div>
@@ -275,7 +275,19 @@ associated variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">multi_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc_all.html">calc_assoc_all</a></span><span class="op">(</span><span class="va">acs12</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">multi_assoc</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">multi_assoc</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>max<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">measure</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">max</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">multi_assoc_max</span></span>
+<span><span class="va">multi_assoc_maxf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">multi_assoc_max</span>,<span class="va">max</span><span class="op">&gt;</span><span class="fl">0.4</span><span class="op">)</span> <span class="co"># filtering variable pairs with a maximum measure value of 0.4 or greater</span></span>
+<span></span>
+<span><span class="va">multi_assoc_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">multi_assoc</span>,</span>
+<span>                          <span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">multi_assoc_maxf</span><span class="op">$</span><span class="va">x</span> <span class="op">&amp;</span> <span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">multi_assoc_maxf</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">multi_assoc_mod</span>,</span>
+<span>                  pair_order <span class="op">=</span> <span class="st">"max"</span>,</span>
+<span>                  plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,</span>
+<span>                  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: left">
 <img src="seriation_files/figure-html/linear_cond_max-1.png" alt="Figure 1: Multiple measures display in linear layout with variable pair ordered by maximum absolute measure value." width="480"><p class="caption">
 Figure 1: Multiple measures display in linear layout with variable pair
@@ -285,13 +297,15 @@ ordered by maximum absolute measure value.
 <p>Figure 1 shows the seriated multiple measures display in linear
 layout for <code>acs12</code> data where it is easier to find highly
 associated variable pairs in the plot compared to a plot with default
-variable pairs ordering. The variable pair (<code>emp</code>,
-<code>inc</code>) is placed at the top of the display showing that the
-income and employment status of an individual is highly associated. This
-is expected as employed individuals will have a high income compared to
-unemployed participants. Another highly associated variable pair evident
-from the plot is (<code>hrs_w</code>,<code>inc</code>) showing that
-individuals working more hours earn more money.</p>
+variable pair ordering. The plot shows filtered variable pairs having a
+maximum measure value of 0.4 or greater. The variable pair
+(<code>emp</code>, <code>inc</code>) is placed at the top of the display
+showing that the income and employment status of an individual is highly
+associated. This is expected as employed individuals will have a high
+income compared to unemployed participants. Another highly associated
+variable pair evident from the plot is
+(<code>hrs_w</code>,<code>inc</code>) showing that individuals working
+more hours earn more money.</p>
 <p>We use the range of measures to order variable pairs for conditional
 measures display. The pairs of variables are ordered in descending order
 by range. As a result of this ordering, the variable pairs with the
@@ -302,7 +316,14 @@ levels are similar show that there is no effect of conditioning on their
 association.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cond_assoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_assoc.html">calc_assoc</a></span><span class="op">(</span><span class="va">acs12</span>, by <span class="op">=</span> <span class="st">"edu"</span>, include.overall <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">cond_assoc</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,pair_order <span class="op">=</span> <span class="st">"max_diff"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">cond_assoc</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">measure</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">measure</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">range</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">cond_assoc_range</span></span>
+<span><span class="va">cond_assoc_rangef</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cond_assoc_range</span>,<span class="va">range</span><span class="op">&gt;=</span><span class="fl">0.25</span><span class="op">)</span> <span class="co"># filtering variable pairs with a range of 0.25 or greater</span></span>
+<span><span class="va">cond_assoc_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cond_assoc</span>,</span>
+<span>                          <span class="va">x</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">cond_assoc_rangef</span><span class="op">$</span><span class="va">x</span> <span class="op">&amp;</span> <span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">cond_assoc_rangef</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot_assoc_linear.html">plot_assoc_linear</a></span><span class="op">(</span><span class="va">cond_assoc_mod</span>, plot_type <span class="op">=</span> <span class="st">"dotplot"</span>,pair_order <span class="op">=</span> <span class="st">"max-min"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: left">
 <img src="seriation_files/figure-html/linear_cond_max_diff-1.png" alt="Figure 2: Conditional association measure display in linear layout with variable pair ordered by maximum difference value at each level" width="480"><p class="caption">
 Figure 2: Conditional association measure display in linear layout with
@@ -310,14 +331,15 @@ variable pair ordered by maximum difference value at each level
 </p>
 </div>
 <p>Figure 2 shows a seriated conditional measure display using the range
-of the measures. The plot shows Pearson’s correlation for the numeric
-variable pairs and canonical correlation for factor pairs and mixed
-pairs. It is easier to spot the variable pairs with high differences
-among measures at different levels of conditioning variable
-<code>edu</code> in the plot. The levels of education in the data are
-high school or lower, college or graduate. There are also individuals in
-the data whose education level is missing and are participants who
-haven’t started school yet.</p>
+of the measures. The plot shows filtered variable pairs having a
+difference in measure values equal to or greater than 0.25. It also
+shows Pearson’s correlation for the numeric variable pairs and canonical
+correlation for factor pairs and mixed pairs. It is easier to spot the
+variable pairs with high differences among measures at different levels
+of conditioning variable <code>edu</code> in the plot. The levels of
+education in the data are high school or lower, college or graduate.
+There are also individuals in the data whose education level is missing
+and are participants who haven’t started school yet.</p>
 <p>The variable pair (<code>marr</code>, <code>age</code>) is placed at
 the top of the display and has the highest difference between the
 measures at different levels of <code>edu</code>. The two variables
