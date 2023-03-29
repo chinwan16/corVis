@@ -91,24 +91,43 @@ We provide linear displays in the form of dot plots or heatmaps for plotting ass
 
 We use the maximum absolute value for ordering the variable pairs in multiple measures display. The variable pairs are ordered in descending order by the maximum absolute measure value of the available measures for each pair. This produces a display with highly associated variable pairs for any measure at the top, simplifying the task to identify associated variables.
 
-```{r linear_cond_max,echo=TRUE, fig.height=6,fig.cap="Figure 1: Multiple measures display in linear layout with variable pair ordered by maximum absolute measure value."}
+```{r linear_cond_max,echo=TRUE,fig.cap="Figure 1: Multiple measures display in linear layout with variable pair ordered by maximum absolute measure value."}
 
 multi_assoc <- calc_assoc_all(acs12)
 
-plot_assoc_linear(multi_assoc, plot_type = "dotplot",limits = c(-0.5,1))
+multi_assoc |> 
+  group_by(x,y) |> 
+  summarise(max=max(measure,na.rm = T)) |> 
+  arrange(desc(max)) -> multi_assoc_max
+multi_assoc_maxf <- filter(multi_assoc_max,max>0.4) # filtering variable pairs with a maximum measure value of 0.4 or greater
+
+multi_assoc_mod <- filter(multi_assoc,
+                          x %in% multi_assoc_maxf$x & y %in% multi_assoc_maxf$y)
+
+plot_assoc_linear(multi_assoc_mod,
+                  pair_order = "max",
+                  plot_type = "dotplot",
+                  limits = c(-0.5,1))
 
 ```
 
-Figure 1 shows the seriated multiple measures display in linear layout for `acs12` data where it is easier to find highly associated variable pairs in the plot compared to a plot with default variable pairs ordering. The variable pair (`emp`, `inc`) is placed at the top of the display showing that the income and employment status of an individual is highly associated. This is expected as employed individuals will have a high income compared to unemployed participants. Another highly associated variable pair evident from the plot is (`hrs_w`,`inc`) showing that individuals working more hours earn more money.
+Figure 1 shows the seriated multiple measures display in linear layout for `acs12` data where it is easier to find highly associated variable pairs in the plot compared to a plot with default variable pair ordering. The plot shows filtered variable pairs having a maximum measure value of 0.4 or greater. The variable pair (`emp`, `inc`) is placed at the top of the display showing that the income and employment status of an individual is highly associated. This is expected as employed individuals will have a high income compared to unemployed participants. Another highly associated variable pair evident from the plot is (`hrs_w`,`inc`) showing that individuals working more hours earn more money.
 
 We use the range of measures to order variable pairs for conditional measures display. The pairs of variables are ordered in descending order by range. As a result of this ordering, the variable pairs with the highest difference in measures are placed on the top of the display. This makes it easier to find triples of variables showing an interesting pattern. The pair of variables for which the measures at different levels are similar show that there is no effect of conditioning on their association.
 
-```{r linear_cond_max_diff,echo=TRUE,fig.height=6, fig.cap="Figure 2: Conditional association measure display in linear layout with variable pair ordered by maximum difference value at each level"}
+```{r linear_cond_max_diff,echo=TRUE, fig.cap="Figure 2: Conditional association measure display in linear layout with variable pair ordered by maximum difference value at each level"}
 cond_assoc <- calc_assoc(acs12, by = "edu", include.overall = F)
-plot_assoc_linear(cond_assoc, plot_type = "dotplot",pair_order = "max_diff", limits = c(-0.5,1))
+cond_assoc |> 
+  group_by(x,y) |> 
+  summarise(range=max(measure,na.rm = T)-min(measure,na.rm = T)) |> 
+  arrange(desc(range)) -> cond_assoc_range
+cond_assoc_rangef <- filter(cond_assoc_range,range>=0.25) # filtering variable pairs with a range of 0.25 or greater
+cond_assoc_mod <- filter(cond_assoc,
+                          x %in% cond_assoc_rangef$x & y %in% cond_assoc_rangef$y)
+plot_assoc_linear(cond_assoc_mod, plot_type = "dotplot",pair_order = "max-min", limits = c(-0.5,1))
 ```
 
-Figure 2 shows a seriated conditional measure display using the range of the measures. The plot shows Pearson's correlation for the numeric variable pairs and canonical correlation for factor pairs and mixed pairs. It is easier to spot the variable pairs with high differences among measures at different levels of conditioning variable `edu` in the plot. The levels of education in the data are high school or lower, college or graduate. There are also individuals in the data whose education level is missing and are participants who haven't started school yet.
+Figure 2 shows a seriated conditional measure display using the range of the measures. The plot shows filtered variable pairs having a difference in measure values equal to or greater than 0.25. It also shows Pearson's correlation for the numeric variable pairs and canonical correlation for factor pairs and mixed pairs. It is easier to spot the variable pairs with high differences among measures at different levels of conditioning variable `edu` in the plot. The levels of education in the data are high school or lower, college or graduate. There are also individuals in the data whose education level is missing and are participants who haven't started school yet.
 
 The variable pair (`marr`, `age`) is placed at the top of the display and has the highest difference between the measures at different levels of `edu`. The two variables marriage and age are strongly associated at the education level high school or lower. This is expected as a high proportion of individuals with high school or lower education are usually younger and not married. The canonical correlation for the variable pair at `NA` level of education is not defined as all of the participants with missing education are not married. 
 

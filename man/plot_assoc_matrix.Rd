@@ -27,7 +27,7 @@ using Dendser or a user provided variable order.}
 \item{limits}{a numeric vector of length specifying the limits of the scale. Default is c(-1,1)}
 }
 \value{
-A static \code{ggplot2} plot
+A \code{ggplot2} object
 }
 \description{
 Plots the calculated measures of association among different variable pairs for a dataset in a matrix layout.

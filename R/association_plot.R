@@ -12,7 +12,7 @@
 #' @param limits a numeric vector of length specifying the limits of the scale. Default is c(-1,1)
 
 #' @export
-#' @return A static `ggplot2` plot
+#' @return A `ggplot2` object
 #' @examples
 #' plot_assoc_matrix(calc_assoc(iris))
 #' plot_assoc_matrix(calc_assoc(iris,"Species"))
@@ -158,13 +158,13 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("circle","square"),
 #' @param assoc A tibble with the calculated association measures for every variable pair in the dataset.
 #' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.
 #'
-#' @param pair_order a character string for ordering of the pairs of variables in linear layout. One of "default" (default) or "max_diff".
-#'  When set to "default", pairs are arranged in decreasing order of the absolute value of measure or measures (when multiple measure per pair are present).
-#'  When set to "max_diff", the ordering is only applicable to assoc with class cond_pairwise or multi_pairwise and the pairs are ordered in descending order of the maximum difference calculated among the measures.
+#' @param pair_order a character string for ordering of the pairs of variables in linear layout. One of "max" (default) or "max_diff".
+#'  When set to "max", pairs are arranged in decreasing order of the absolute value of measure or measures (when multiple measures per pair are present).
+#'  When set to "max-min", the ordering is only applicable to assoc with class cond_pairwise or multi_pairwise and the pairs are ordered in descending order of the maximum difference calculated among the measures.
 #'
-#' @param plot_type a character string for specifying the type of plot an analyst wants. One of "heatmap" or "dotplot".
+#' @param plot_type a character string for specifying the type of plot an analyst wants. One of "dotplot" or "heatmap".
 #' @param limits a numeric vector specifying the limits of the scale. Default is c(-1,1)
-#' @return A static `ggplot2` plot
+#' @return A `ggplot2` object
 #'
 #'
 #' @export
@@ -176,7 +176,7 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("circle","square"),
 
 
 plot_assoc_linear <- function(assoc,
-                              pair_order = "default",
+                              pair_order = "max",
                               plot_type = c("dotplot","heatmap"),
                               limits=c(-1,1)){
 
@@ -193,7 +193,7 @@ plot_assoc_linear <- function(assoc,
     stop("'assoc' must be of class pairwise, cond_pairwise or multi_pairwise")
   }
 
-  if (isTRUE(pair_order == "default")){
+  if (isTRUE(pair_order == "max")){
     assoc$z <- paste0(assoc$x, sep=":", assoc$y)
     assoc <- dplyr::arrange(assoc,dplyr::desc(abs(.data$measure)))
     assoc$z <- forcats::fct_inorder(assoc$z)
@@ -235,7 +235,7 @@ plot_assoc_linear <- function(assoc,
       {if(!is.null(group_var)) ggplot2::geom_tile(ggplot2::aes(x=.data[[group_var]],y=.data[["z"]],fill=.data[["measure"]]))} +
       ggplot2::scale_fill_gradient2(low="blue", mid="white", high="brown",na.value="grey95",limits=limits) +
       ggplot2::scale_x_discrete(position = "top") +
-      {if(pair_order=="default") ggplot2::scale_y_discrete(limits=rev)} +
+      {if(pair_order=="max") ggplot2::scale_y_discrete(limits=rev)} +
       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                      axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 0),
                      axis.text = ggplot2::element_text(size = 8),
@@ -251,7 +251,7 @@ plot_assoc_linear <- function(assoc,
       {if(!is.null(group_var)) ggplot2::geom_point(ggplot2::aes(x=.data[["z"]],y=.data[["measure"]],colour=.data[[group_var]]))} +
       ggplot2::ylim(limits[1],limits[2]) +
       ggplot2::coord_flip() +
-      {if(pair_order=="default") ggplot2::scale_x_discrete(limits=rev)} +
+      {if(pair_order=="max") ggplot2::scale_x_discrete(limits=rev)} +
       ggplot2::labs(colour = by_var)
   }
   suppressWarnings(p)
