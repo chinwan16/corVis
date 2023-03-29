@@ -1,0 +1,75 @@
+March 29 2023
+
+Comments on revised background section.
+
+“In this section, we provide a brief review of existing packages used for correlation displays, seriation techniques and association measures used in the package corVis.” This sentence does not reflect the ordering of the content that follows.
+
+
+I would put association measures first, followed by the other two, as they belong together.
+Also, you are not providing an overview of packages for measures. I think in the association measures section you should also mention the packages implementing the measures.
+
+Correlation Displays
+For mbgraphic. Should this be added to the table also? Even though package is no longer on cran? Is it true to say scagnostic measures are based on trend or density? I do not think this is accurate.
+
+“using an interactive shiny application in matrix arrangement” does not make sense.
+
+“compared these measures for variable selection” this is not clear
+
+
+Association Measures
+The structure of this section seems to be first  measures for numerical variables, then measures for ordinal/nominal variables.
+
+
+
+“The measure is called symmetric if its value is invariant to the choice of independent or dependent variable during the calculation.”
+Reword as “The measure is symmetric if its value is invariant to the order of inputs.”
+
+
+“For example, Pearson’s correlation coefficient summarizes the strength and direction in the range  [−1,1] of the linear relationship present between two numeric variables and is symmetric.”
+Reword as
+For example, Pearson’s correlation coefficient is a symmetric measure with a value in the range  [−1,1] summarising  the strength and direction of the linear relationship  between two numeric variables.
+
+“Kendall’s or Spearman’s rank correlation coefficient are other popular measures which assess monotonic relationships in interval 
+[−1,1] among two numeric variables and are symmetric measures.”
+Reword as
+Similarly, Kendall’s and Spearman’s rank correlation coefficients  are symmetric measures assessing monotonic association between numeric variables.
+
+In the sentence “Pearson’s correlation coefficient is generally used with correlation displays to understand bivariate relationships. “ replace “understand” with “summarise”. (in fact, delete this sentence). As regards the next two sentences, is it true that MIC/distance cor  are not influenced by outliers?? I did a quick experiment for both and it seems this is not true for dcor. Find a reference. Or else remove the implication that they are good in presence of outliers.
+
+d <- data.frame(x=rnorm(100), y=rnorm(100))
+d$z <- d$y
+d$z[1]<- 100
+tbl_cor(d)
+tbl_dcor(d)
+tbl_mine(d)
+
+You do not need to the reference twice for dcor and MIC. You say that MIC and door are suitable for datasets with non-linear patterns. Can you give more insight than this?
+You say “The distance correlation is 0
+when the variables are independent and 1 when the variables are perfectly linear, and is a symmetric measure.”
+I think this needs to be made more precise: is it 0 if and only if the variables are independent? Are there other ways of getting a dcor of 1?
+
+
+d <- data.frame(x1=rnorm(100), x2=runif(100))
+d$y1 <- d$x1^2
+d$y2 <- d$x2^2
+d$z <- d$x1
+tbl_cor(d)
+tbl_dcor(d)
+tbl_mine(d)
+
+The next paragraph beginning “Both distance cor..” Is problematical. Delete the first sentence.
+The statement about statistical power is incomplete. power for what?
+I do not know what “Also, distance correlation is not an approximation when compared to MIC” means. As regards the last sentence, for comments about speed you need to be more precise. If you are going to talk about speed comparisons, then why limit it to just a comparison of correlation versus distance correlation. This would be extra work for you, which you do not have time for at this point.
+
+(We use the fast O(n log n) implementation of distance correlation provided by energy::dcor2d. Pearson is O(n), Spearman and Kendall are O(nlogn), though default R implementation of Kendall is O(n^2).) I’m not sure if this much detail is needed.
+
+Delete sentence “Correlation displays commonly use numeric variables while exploring bivariate associations in a dataset and often ignore categorical variables.” Because in this section you are talking about measures, not displays. And delete the following sentence.
+
+
+What about measures between numerical and factors? Also mention canonical correlation here. Ace, nmi also.
+Seriation
+This section does not seem to fit in here.
+
+
+Discuss plans to revise rest of document.
+
