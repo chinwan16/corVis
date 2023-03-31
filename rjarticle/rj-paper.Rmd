@@ -143,32 +143,12 @@ Careful ordering of graphical displays makes it easier to identify patterns and 
 
 The above examples illustrate how seriation, a term to describe the ordering of objects, is useful to reveal interesting patterns. In \CRANpkg{corVis}, we use seriation methods from \CRANpkg{DendSer} [@DendSer] package to seriate matrix displays and use importance sorting for ordering the linear displays.
 
-# Introducing corVis
+# Overview of `corVis`
 
-Many of the existing correlation displays are limited to numeric pairs of variables. The package \CRANpkg{corVis} extends these displays to mixed variable types. The main goal of our work is to propose displays for multiple association measures and conditional associations which are useful for uncovering interesting patterns in the data. This will help in identifying variable pairs which shows a type of relationship or pattern in a dataset with large number of variables.
+The R package \CRANpkg{corVis} offers a flexible framework to investigate and visualise associations using measures of association, in datasets with mixed variable types. The calculation and visualisation of association measures are carried out separately in \CRANpkg{corVis}, making it an open-ended package for both data structure and display of association measures. This allows users to leverage the widely used \CRANpkg{tidyverse} and \CRANpkg{ggplot2} framework for exploring these data structures.
 
-```{r motivation2, fig.width=5, fig.height=4, fig.align='center', fig.cap = "An example plot showing importance of conditional displays"}
-# 
-# a <- data.frame( x = rnorm(100), y = rnorm(100)) %>% mutate(y = y-x/2)
-# b <- a %>% mutate(x=x+2) %>% mutate(y=y+2)
-# c <- a %>% mutate(x=x+4) %>% mutate(y=y+4)
-# data <- do.call(rbind, list(a,b,c))
-# data <- data %>% mutate(group=rep(c("A", "B", "C"), each=100))
-# 
-# p1 <- ggplot(data=data) + geom_point(aes(x=x,y=y))
-# p2 <- ggplot(data=data) + geom_point(aes(x=x,y=y, color=group))
-# 
-# gridExtra::grid.arrange(p1,p2,ncol=2)
-```
 
-<!-- Consider Figure \@ref(fig:motivation2) for the motivation behind conditional association displays. The plot on the left shows a positive linear association between `y` and `x` and has a positive Pearson's correlation of value 0.603. The plot on the right shows the disaggregated data by the `group` variable and it is clearly evident that for each group there is a negative linear relationship between `y` and `x`. This is an example of Simpson's paradox and is one of the patterns which are discoverable when conditional association displays are used. -->
-
-While designing these displays we consider matrix and linear layouts. A matrix layout reduces the effort in looking up for a variable pair corresponding to a cell or panel, and different measures may be displayed on the upper and lower triangle of the matrix. On the other hand, the filtering of variable pairs, for example pairs having measure value greater than a threshold, is easier with linear layouts in comparison to matrix layouts.
-
-Table \@ref(tab:function-corVis) provides a list of the functions available in the package. The functions `calc_assoc` and `calc_assoc_all` are responsible for calculating association measures which are used as input for the `plot_assoc_matrix` and `plot_assoc_linear` functions. The functions `plot_assoc_matrix` and `plot_assoc_linear ` produces association display, multiple association measures display and conditional association display, in a matrix and linear layout respectively. We provide detailed examples on calculation and visualisation of association and conditional association in next sections.
-
-<!-- which are useful for calculating association measures among variable pairs and visualising these associations using novel displays. Section 4 provides a detailed description on functions used for calcuating association measures in the package. Section 5 illustrates the use of visualising functions in table \@ref(tab:function-corVis) for displaying pairwise association and conditional association. -->
-
+In\CRANpkg{corVis}, we extend existing correlation displays beyond numeric variables by including mixed variable types and propose displays for multiple association measures useful for uncovering non-linear patterns or associations depending on the levels of a grouping variable. While designing these displays we consider matrix and linear layouts. Linear layouts are useful for high-dimensional datasets and allow a user to limit the display to variable pairs showing strong associations. We also order these displays so that the variable pairs with a strong association or a high difference in measures are placed at prominent positions. 
 
 ```{r function-corVis,warning=FALSE,message=FALSE,echo=FALSE }
 library(kableExtra)
@@ -208,7 +188,9 @@ kableExtra::kbl(df,booktabs = T, caption = "List of functions in corVis package"
   #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
-# Example: Data
+Table \@ref(tab:function-corVis) provides a list of the functions available in the package. The functions `calc_assoc` and `calc_assoc_all` are responsible for calculating association measures which are used as input for the `plot_assoc_matrix` and `plot_assoc_linear` functions. The functions `plot_assoc_matrix` and `plot_assoc_linear ` produces association display, multiple association measures display and conditional association display, in a matrix and linear layout respectively. We provide detailed examples on calculation and visualisation of association and conditional association in next sections.
+
+## Example: Data
 
 We use the Daily Bike Sharing dataset [@bikeref] from the R package \CRANpkg{timetk} [@timetk] which contains daily count of rental bike transactions between years 2011 and 2012 in Capital bikeshare system. The dataset also includes corresponding daily weather information such as humidity, temperature and windspeed, and seasonal information such as season, whether the day is a holiday and whether the day is a working day.
 
@@ -263,7 +245,8 @@ kableExtra::kbl(df, booktabs = T, caption = "Variable description of the Daily B
 
 Table \@ref(tab:bikedata) provides a brief description of Daily Bike Sharing data along with the types of variables present in the dataset. We use the dataset throughout this paper for illustrative usage of the package.
 
-# corVis: Data Structures
+
+## Data Structures
 
 We provide three tidy data structures which are explored using functions in \CRANpkg{corVis} or can be manipulated or visualized by leveraging tools in \CRANpkg{tidyverse} These data structures are: `pairwise`, `multi_pairwise` and `cond_pairwise`. In this section, we provide an example of these three data structures along with how they are beneficial when used in the \CRANpkg{tidyverse} environment.
 
@@ -309,13 +292,17 @@ cond_bike |>
 
 ```
 
-It is worth noting that both `multi_pairwise` and `cond_pairwise` objects inherit the `pairwise` class and satisfies the definition of the `pairwise` data structure.  
+It is worth noting that both `multi_pairwise` and `cond_pairwise` objects inherit the `pairwise` class and satisfies the definition of the `pairwise` data structure. 
+
+<!-- which are useful for calculating association measures among variable pairs and visualising these associations using novel displays. Section 4 provides a detailed description on functions used for calcuating association measures in the package. Section 5 illustrates the use of visualising functions in table \@ref(tab:function-corVis) for displaying pairwise association and conditional association. -->
+
+
+
+ 
 
 # corVis: Calculating Association
 
 This section describes the calculation of association measures in  package \CRANpkg{corVis}. The package  provides a standard interface for calculating a collection of measures which quantifies the relationship between two variables. The measures available in the package are not limited to numeric variables and are used with nominal, ordinal and mixed variable pairs as well. The package also provides a functionality for handling missing value or `NA` while calculating these association measures. 
-
-Table \@ref(tab:association-measures) lists different functions provided in the package to calculate  measures along with the information on type of variable pairs they can be used with. It also include details about the external package functions used to calculate and the range for these measures. The association measures available in \CRANpkg{corVis} are symmetric. We convert asymmetric measures to symmetric by  taking either the mean or the maximum of the measures calculated by treating each variable from the pair as independent variable. The functions in Table \@ref(tab:association-measures) such as `tbl_ace` and `tbl_cancor` which calculates maximal correlation coefficient among the transformed variables and canonical correlation respectively, have been implemented in \CRANpkg{corVis}.
 
 ```{r association-measures,echo=FALSE}
 measures <- dplyr::tribble(
@@ -336,6 +323,8 @@ measures <- dplyr::tribble(
 
 kableExtra::kbl(measures,booktabs = T,caption = "List of the functions available in the package for calculating different association measures along with the packages used for calculation.") %>% kableExtra::kable_styling(latex_options = "scale_down")
 ```
+
+Table \@ref(tab:association-measures) lists different functions provided in the package to calculate  measures along with the information on type of variable pairs they can be used with. It also include details about the external package functions used to calculate and the range for these measures. The association measures available in \CRANpkg{corVis} are symmetric. We convert asymmetric measures to symmetric by  taking either the mean or the maximum of the measures calculated by treating each variable from the pair as independent variable. The functions in Table \@ref(tab:association-measures) such as `tbl_ace` and `tbl_cancor` which calculates maximal correlation coefficient among the transformed variables and canonical correlation respectively, have been implemented in \CRANpkg{corVis}.
 
 For numeric pairs, the package provides popular correlation coefficients like Pearson, Spearman or Kendall and are calculated using `tbl_cor` function. The measures such as distance correlation or MIC for detecting non-linear patterns are implemented using `tbl_dcor` or `tbl_mine` respectively. For ordinal pairs, the measures such as polychoric correlation and Kendall's coefficients are used to find association and are computed by `tbl_polycor` or `tbl_tau` respectively. For nominal pairs , the functions `tbl_uncertainty`, `tbl_chi` or `tbl_cancor` are used for exploring association among the variables. 
 
@@ -547,8 +536,7 @@ The `plot_assoc_matrix` function constructs a conditional association matrix dis
 
 For ordering the display, the argument `var_order` is set to either `default` or `max_diff`. The default ordering is taken from the ordering of variables obtained by applying average linkage hierarchical clustering to the matrix of overall association measure. When `var_order` is set to `max_diff`, a matrix with entries of maximum difference of association measure at different levels of conditioning variable for a variable pair is created and clustered using hierarchical method to get the ordering of the variables.
 
-Figure \@ref(fig:cond-assoc) shows a conditional association plot for the bike sharing data in matrix layout. Each cell corresponding to a variable pair shows four lollipops which correspond to the association measure (Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs) calculated at the levels of conditioning variable `season`. The horizontal pink line represents the overall association measure for the pair. The plot shows a low overall correlation between hum and temp. This is also true in Spring and Winter, but the association is positive in fall and negative in Summer. Also, the overall correlation between registered and temp is moderate and positive. This is also true in each season except for summer where
-the correlation is about 0. The same pattern also holds for casual. 
+Figure \@ref(fig:cond-assoc) shows a conditional association plot for the bike sharing data in matrix layout. Each cell corresponding to a variable pair shows four lollipops which correspond to the association measure (Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs) calculated at the levels of conditioning variable `season`. The horizontal pink line represents the overall association measure for the pair. The plot shows a low overall correlation between hum and temp. This is also true in Spring and Winter, but the association is positive in fall and negative in Summer. Also, the overall correlation between registered and temp is moderate and positive. This is also true in each season except for summer where the correlation is about 0. The same pattern also holds for casual. 
 
 ```{r cond-assoc,fig.width=4.5, fig.height=4.5, fig.align='center', fig.cap="Conditional Association plot for bike sharing data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs. The lollipops in each cell represent the value for asssociation measure colored by the conditioning variable season. The pink horizontal line in each cell represents overall value of the association measure. The plot shows evident difference in measure value for pairs (temp, hum), (temp, registered), (temp, casual) and (registered, casual) for different seasons.",echo=TRUE}
 
