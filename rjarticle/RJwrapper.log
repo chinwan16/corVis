@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.21)  22 MAR 2023 12:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.21)  2 APR 2023 04:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -732,195 +732,213 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 59.
+(Font)              scaled to size 10.42007pt on input line 59.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 59.
+(Font)              scaled to size 7.91925pt on input line 59.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 59.
+(Font)              scaled to size 6.25204pt on input line 59.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 59.
+(Font)              scaled to size 10.42007pt on input line 59.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 59.
+(Font)              scaled to size 7.91925pt on input line 59.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 59.
-[2]
+(Font)              scaled to size 6.25204pt on input line 59.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 77.
+(Font)              scaled to size 9.37807pt on input line 78.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 77.
+(Font)              scaled to size 7.29405pt on input line 78.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 77.
+(Font)              scaled to size 5.21004pt on input line 78.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 77.
+(Font)              scaled to size 9.37807pt on input line 78.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 77.
+(Font)              scaled to size 7.29405pt on input line 78.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 77.
-[3]
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 118.
+(Font)              scaled to size 5.21004pt on input line 78.
+[2] [3]
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 111.
 (/Users/amitchinwan/Library/TinyTeX/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 118.
+LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
+(Font)              scaled to size 12.24005pt on input line 111.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Overfull \hbox (50.37665pt too wide) in paragraph at lines 124--135
+Overfull \hbox (50.37665pt too wide) in paragraph at lines 121--132
  [][] 
  []
 
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 9.18004pt on input line 134.
 [4] [5] [6] [7] [8] [9] [10]
-<rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf, id=188, 150.5625pt x 199.74625pt>
+<rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf, id=199, 150.5625pt x 199.74625pt>
 File: rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf  used on input line 556.
+Package pdftex.def Info: rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf  used on input line 554.
 (pdftex.def)             Requested size: 150.56212pt x 199.74576pt.
-<rj-paper_files/figure-latex/coerce-types-display-1.pdf, id=192, 150.5625pt x 199.74625pt>
+<rj-paper_files/figure-latex/assoc-matrix-bike-2.pdf, id=200, 150.5625pt x 199.74625pt>
+File: rj-paper_files/figure-latex/assoc-matrix-bike-2.pdf Graphic file (type pdf)
+<use rj-paper_files/figure-latex/assoc-matrix-bike-2.pdf>
+Package pdftex.def Info: rj-paper_files/figure-latex/assoc-matrix-bike-2.pdf  used on input line 567.
+(pdftex.def)             Requested size: 150.56212pt x 199.74576pt.
+
+LaTeX Warning: Reference `fig:assoc-matrix-bike' on page 11 undefined on input line 576.
+
+
+LaTeX Warning: Reference `fig:assoc-matrix-bike' on page 11 undefined on input line 580.
+
+
+LaTeX Warning: Reference `fig:assoc-matrix-bike' on page 11 undefined on input line 580.
+
+[11] [12 <./rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf> <./rj-paper_files/figure-latex/assoc-matrix-bike-2.pdf>]
+<rj-paper_files/figure-latex/coerce-types-display-1.pdf, id=229, 150.5625pt x 199.74625pt>
 File: rj-paper_files/figure-latex/coerce-types-display-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/coerce-types-display-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/coerce-types-display-1.pdf  used on input line 582.
+Package pdftex.def Info: rj-paper_files/figure-latex/coerce-types-display-1.pdf  used on input line 597.
 (pdftex.def)             Requested size: 150.56212pt x 199.74576pt.
-[11] [12 <./rj-paper_files/figure-latex/assoc-matrix-bike-1.pdf> <./rj-paper_files/figure-latex/coerce-types-display-1.pdf>]
-<rj-paper_files/figure-latex/int-pairs-bike-1.pdf, id=223, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-bike-1.pdf, id=232, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-bike-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-bike-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-1.pdf  used on input line 594.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-1.pdf  used on input line 609.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj-paper_files/figure-latex/int-pairs-bike-2.pdf, id=224, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-bike-2.pdf, id=233, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-bike-2.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-bike-2.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-2.pdf  used on input line 594.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-2.pdf  used on input line 609.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj-paper_files/figure-latex/int-pairs-bike-3.pdf, id=225, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-bike-3.pdf, id=234, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-bike-3.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-bike-3.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-3.pdf  used on input line 594.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-3.pdf  used on input line 609.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj-paper_files/figure-latex/int-pairs-bike-4.pdf, id=226, 453.695pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-bike-4.pdf, id=235, 453.695pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-bike-4.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-bike-4.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-4.pdf  used on input line 594.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-bike-4.pdf  used on input line 609.
 (pdftex.def)             Requested size: 199.16928pt x 138.36111pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 594--594
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 609--609
 [][] []
  []
 
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 594--594
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 609--609
 [] [] 
  []
 
-[13 <./rj-paper_files/figure-latex/int-pairs-bike-1.pdf> <./rj-paper_files/figure-latex/int-pairs-bike-2.pdf> <./rj-paper_files/figure-latex/int-pairs-bike-3.pdf> <./rj-paper_files/figure-latex/int-pairs-bike-4.pdf>]
-<rj-paper_files/figure-latex/compare-matrix-1.pdf, id=264, 287.0725pt x 310.15875pt>
+[13 <./rj-paper_files/figure-latex/coerce-types-display-1.pdf>]
+<rj-paper_files/figure-latex/compare-matrix-1.pdf, id=253, 287.0725pt x 310.15875pt>
 File: rj-paper_files/figure-latex/compare-matrix-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/compare-matrix-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/compare-matrix-1.pdf  used on input line 619.
+Package pdftex.def Info: rj-paper_files/figure-latex/compare-matrix-1.pdf  used on input line 632.
 (pdftex.def)             Requested size: 287.0718pt x 310.15799pt.
-<rj-paper_files/figure-latex/int-pairs-multiple-1.pdf, id=267, 464.73625pt x 313.17pt>
+<rj-paper_files/figure-latex/int-pairs-multiple-1.pdf, id=256, 464.73625pt x 313.17pt>
 File: rj-paper_files/figure-latex/int-pairs-multiple-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-multiple-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-multiple-1.pdf  used on input line 631.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-multiple-1.pdf  used on input line 644.
 (pdftex.def)             Requested size: 199.16928pt x 134.21127pt.
-<rj-paper_files/figure-latex/int-pairs-multiple-2.pdf, id=268, 464.73625pt x 313.17pt>
+<rj-paper_files/figure-latex/int-pairs-multiple-2.pdf, id=257, 464.73625pt x 313.17pt>
 File: rj-paper_files/figure-latex/int-pairs-multiple-2.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-multiple-2.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-multiple-2.pdf  used on input line 631.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-multiple-2.pdf  used on input line 644.
 (pdftex.def)             Requested size: 199.16928pt x 134.21127pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 631--631
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 644--644
 [][] [] 
  []
 
-[14 <./rj-paper_files/figure-latex/compare-matrix-1.pdf>]
-<rj-paper_files/figure-latex/cond-assoc-1.pdf, id=284, 287.0725pt x 310.15875pt>
+[14 <./rj-paper_files/figure-latex/int-pairs-bike-1.pdf> <./rj-paper_files/figure-latex/int-pairs-bike-2.pdf> <./rj-paper_files/figure-latex/int-pairs-bike-3.pdf> <./rj-paper_files/figure-latex/int-pairs-bike-4.pdf>] [15 <./rj-paper_files/figure-latex/compare-matrix-1.pdf> <./rj-paper_files/figure-latex/int-pairs-multiple-1.pdf> <./rj-paper_files/figure-latex/int-pairs-multiple-2.pdf>]
+<rj-paper_files/figure-latex/cond-assoc-1.pdf, id=320, 287.0725pt x 310.15875pt>
 File: rj-paper_files/figure-latex/cond-assoc-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/cond-assoc-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/cond-assoc-1.pdf  used on input line 657.
+Package pdftex.def Info: rj-paper_files/figure-latex/cond-assoc-1.pdf  used on input line 669.
 (pdftex.def)             Requested size: 287.0718pt x 310.15799pt.
-<rj-paper_files/figure-latex/int-pairs-conditional-1.pdf, id=286, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-conditional-1.pdf, id=322, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-conditional-1.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-conditional-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-1.pdf  used on input line 667.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-1.pdf  used on input line 679.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj-paper_files/figure-latex/int-pairs-conditional-2.pdf, id=287, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-conditional-2.pdf, id=323, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-conditional-2.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-conditional-2.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-2.pdf  used on input line 667.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-2.pdf  used on input line 679.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj-paper_files/figure-latex/int-pairs-conditional-3.pdf, id=288, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-conditional-3.pdf, id=324, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-conditional-3.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-conditional-3.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-3.pdf  used on input line 667.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-3.pdf  used on input line 679.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
-<rj-paper_files/figure-latex/int-pairs-conditional-4.pdf, id=289, 459.7175pt x 315.1775pt>
+<rj-paper_files/figure-latex/int-pairs-conditional-4.pdf, id=325, 459.7175pt x 315.1775pt>
 File: rj-paper_files/figure-latex/int-pairs-conditional-4.pdf Graphic file (type pdf)
 <use rj-paper_files/figure-latex/int-pairs-conditional-4.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-4.pdf  used on input line 667.
+Package pdftex.def Info: rj-paper_files/figure-latex/int-pairs-conditional-4.pdf  used on input line 679.
 (pdftex.def)             Requested size: 199.16928pt x 136.54803pt.
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 667--667
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 679--679
 [][] []
  []
 
 
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 667--667
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 679--679
 [] [] 
  []
 
-[15 <./rj-paper_files/figure-latex/int-pairs-multiple-1.pdf> <./rj-paper_files/figure-latex/int-pairs-multiple-2.pdf>] [16 <./rj-paper_files/figure-latex/cond-assoc-1.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-1.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-2.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-3.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-4.pdf>]
-<rj-paper_files/figure-latex/linear-cond-assoc-1.pdf, id=351, 356.33125pt x 272.01625pt>
-File: rj-paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
-<use rj-paper_files/figure-latex/linear-cond-assoc-1.pdf>
-Package pdftex.def Info: rj-paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 685.
-(pdftex.def)             Requested size: 356.33037pt x 272.01558pt.
-[17 <./rj-paper_files/figure-latex/linear-cond-assoc-1.pdf>]
-Overfull \hbox (0.8791pt too wide) in paragraph at lines 719--721
-[]\T1/ppl/m/n/9 (-20) Gerber, Samuel. 2022. \T1/ppl/m/it/9 (-20) Scorr: S-CorrPlot: Vi-su-al-iz-ing Cor-re-la-tion\T1/ppl/m/n/9 (-20) . [][]$\T1/zi4/m/n/9 http : / / mckennapsean . com / scorrplot/$[][]\T1/ppl/m/n/9 (-20) . 
+[16] [17 <./rj-paper_files/figure-latex/cond-assoc-1.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-1.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-2.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-3.pdf> <./rj-paper_files/figure-latex/int-pairs-conditional-4.pdf>]
+Overfull \hbox (123.12263pt too wide) in paragraph at lines 710--710
+[]\T1/zi4/m/n/9 bike_by_assoc_rngf <- filter(bike_by_assoc_rng,range>=0.25) # filtering variable pairs with a range of 0.25 or greater[] 
  []
 
-(./RJwrapper.bbl (./RJwrapper.brf)
+<rj-paper_files/figure-latex/linear-cond-assoc-1.pdf, id=376, 351.3125pt x 272.01625pt>
+File: rj-paper_files/figure-latex/linear-cond-assoc-1.pdf Graphic file (type pdf)
+<use rj-paper_files/figure-latex/linear-cond-assoc-1.pdf>
+Package pdftex.def Info: rj-paper_files/figure-latex/linear-cond-assoc-1.pdf  used on input line 714.
+(pdftex.def)             Requested size: 351.31163pt x 272.01558pt.
+[18 <./rj-paper_files/figure-latex/linear-cond-assoc-1.pdf>] (./RJwrapper.bbl (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[18])
+[19])
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 794.
+(Font)              using `T1/zi4/m/n' instead on input line 820.
 
+[20]
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 804.
-) [19] (./RJwrapper.aux)
+(Font)              scaled to size 9.18004pt on input line 830.
+) [21] (./RJwrapper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 00C71D025742546B6EAA30BA10762EA2;3870.
+(rerunfilecheck)             Checksum: CD48A84F650CBD9255C9DA541BDDC3B3;3450.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27000 strings out of 478028
- 504501 string characters out of 5838503
- 1875793 words of memory out of 5000000
- 46224 multiletter control sequences out of 15000+600000
- 558283 words of font info for 282 fonts, out of 8000000 for 9000
+ 27051 strings out of 478028
+ 505416 string characters out of 5838503
+ 1873793 words of memory out of 5000000
+ 46241 multiletter control sequences out of 15000+600000
+ 560695 words of font info for 302 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 115i,12n,131p,1221b,842s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (19 pages, 760150 bytes).
+ 115i,12n,131p,1314b,819s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/amitchinwan/Library/TinyTeX/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on RJwrapper.pdf (21 pages, 1105321 bytes).
 PDF statistics:
- 514 PDF objects out of 1000 (max. 8388607)
- 427 compressed objects within 5 object streams
- 125 named destinations out of 1000 (max. 500000)
- 59112 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 547 PDF objects out of 1000 (max. 8388607)
+ 452 compressed objects within 5 object streams
+ 130 named destinations out of 1000 (max. 500000)
+ 59629 words of extra memory for PDF output out of 61914 (max. 10000000)
 

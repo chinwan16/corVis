@@ -158,9 +158,9 @@ plot_assoc_matrix <- function(lassoc, uassoc=NULL, glyph = c("circle","square"),
 #' @param assoc A tibble with the calculated association measures for every variable pair in the dataset.
 #' Must be of class `pairwise`, `cond_pairwise` or `multi_pairwise`.
 #'
-#' @param pair_order a character string for ordering of the pairs of variables in linear layout. One of "max" (default) or "max_diff".
+#' @param pair_order a character string for ordering of the pairs of variables in linear layout. One of "max" (default) or "max-min".
 #'  When set to "max", pairs are arranged in decreasing order of the absolute value of measure or measures (when multiple measures per pair are present).
-#'  When set to "max-min", the ordering is only applicable to assoc with class cond_pairwise or multi_pairwise and the pairs are ordered in descending order of the maximum difference calculated among the measures.
+#'  When set to "max-min", the ordering is only applicable to assoc with class cond_pairwise or multi_pairwise and the pairs are ordered in descending order of the range calculated among the measures.
 #'
 #' @param plot_type a character string for specifying the type of plot an analyst wants. One of "dotplot" or "heatmap".
 #' @param limits a numeric vector specifying the limits of the scale. Default is c(-1,1)

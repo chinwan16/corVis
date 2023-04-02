@@ -194,7 +194,8 @@ acs12_mod$log_inc <- log(acs12_mod$inc)
 show_assoc(acs12_mod,x="age",y="log_inc") + geom_smooth()
 ```
 
-The variable pair (`inc`, `age`) in Figure 4 is also placed close to the diagonal and shows a high value for measure `ace` compared to other measures of association. A closer look at the transformed variable pair using a scatterplot shows the presence of non-linear association which is captured by `ace` measure. 
+The variable pair (`inc`, `age`) in Figure 4 is also placed close to the diagonal and shows a high value for measure `ace` compared to other measures of association. A closer look at the transformed variable pair using a scatterplot shows the presence of non-linear association which is captured by `ace` measure.
+
 ### Conditional association measures display
 
 The conditional association measure display plots pairwise association measures at different levels of a conditioning variable. For ordering the variables, we use a similar strategy as discussed above for matrix displays. The only difference is that a similarity matrix is constructed by taking the range of association measure values at different levels of the conditioning variable for a variable pair.

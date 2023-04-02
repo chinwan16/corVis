@@ -34,20 +34,6 @@ kableExtra::kbl(df, booktabs = T, caption = "List of the R packages dealing with
   #kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 
 
-## ----motivation2, fig.width=5, fig.height=4, fig.align='center', fig.cap = "An example plot showing importance of conditional displays"----
-# 
-# a <- data.frame( x = rnorm(100), y = rnorm(100)) %>% mutate(y = y-x/2)
-# b <- a %>% mutate(x=x+2) %>% mutate(y=y+2)
-# c <- a %>% mutate(x=x+4) %>% mutate(y=y+4)
-# data <- do.call(rbind, list(a,b,c))
-# data <- data %>% mutate(group=rep(c("A", "B", "C"), each=100))
-# 
-# p1 <- ggplot(data=data) + geom_point(aes(x=x,y=y))
-# p2 <- ggplot(data=data) + geom_point(aes(x=x,y=y, color=group))
-# 
-# gridExtra::grid.arrange(p1,p2,ncol=2)
-
-
 ## ----function-corVis,warning=FALSE,message=FALSE,echo=FALSE-------------------
 library(kableExtra)
 
@@ -210,7 +196,7 @@ default_measures
 updated_assoc <- update_assoc(default_measures,
                               num_pair = "tbl_cor",
                               num_pair_argList = "spearman",
-                              mixed_pair = "tbl_cancor",
+                              mixed_pair = "tbl_ace",
                               factor_pair = "tbl_nmi")
 updated_assoc
 updated_bike_s_assoc <- calc_assoc(d = bike_s, 
@@ -251,7 +237,7 @@ bike_s_assoc_multi <- calc_assoc_all(d = bike_s,
 bike_s_assoc_multi
 
 
-## ----assoc-matrix-bike,fig.width=3, fig.height=3, fig.align='center', fig.cap="Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs and canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a square glyph. The color of every square is mapped with the measure value for the pair and the area of the square is mapped to absolute measure value for the corresponding variable pair. The plot shows many pairs with strong association, for example (casual, temp), (registered,yr) and (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased during windy days.",echo=TRUE----
+## ----assoc-matrix-bike,fig.width=3, fig.height=3, fig.align='center', fig.cap="Left: variables in default order of the data; Right: variables ordered by LPL cost function. Association measures displays for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs and canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a circle glyph. The color of every circle is mapped with the measure value for the pair and the radius of the circle is mapped to absolute measure value for the corresponding variable pair. It is easier to identify pairs on the right-hand plot with strong association, for example (casual, temp), (registered,yr) and (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased during windy days.",echo=TRUE----
 
 bike$dteday <- NULL 
 bike$weekday <- NULL
@@ -259,7 +245,8 @@ bike$atemp <- NULL
 bike$cnt <- NULL
 
 bike_assoc <- calc_assoc(d = bike)
-plot_assoc_matrix(lassoc = bike_assoc)
+plot_assoc_matrix(lassoc = bike_assoc,var_order = names(bike)) #default ordering
+plot_assoc_matrix(lassoc = bike_assoc, var_order = "default") # DendSer ordering
 
 
 ## ----coerce-types-display, fig.width=3, fig.height=3, fig.align='center', fig.cap="Association matrix display for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs, canonical correlation for factor pairs and mixed pairs. The color of every circle is mapped with the measure value for the pair and the area of the circle is mapped by absolute measure value for the corresponding variable pair. The variables workingday, yr, weathersit and holiday have been converted to ordinals. The plot shows a strong negative association for (workingday, holiday) because no holiday is a working day.",echo=TRUE----
@@ -291,7 +278,7 @@ show_assoc(d = bike,
            y = "holiday")
 
 
-## ----compare-matrix,fig.width=4, fig.height=4.5, fig.align='center',fig.cap="Multiple association measures plot in a matrix layout for numeric variables in bike sharing data. The lollipops in each cell represent the value of the association measure colored by the type of measure. The variable pairs are ordered by the maximum difference between the absolute value of association measures such that cells with highest difference are close to the diagonal. The plot shows that pairs (casual,mnth) and (mnth,temp) might have a non-linear association which can be explored further.",echo=TRUE----
+## ----compare-matrix,fig.width=4, fig.height=4.5, fig.align='center',fig.cap="Seriated multiple association measures plot in a matrix layout for numeric variables in bike sharing data. The lollipops in each cell represent the value of the association measure colored by the type of measure. The variable pairs are ordered by the maximum value of association measures such that cells with highest value for any measure are close to the diagonal. The plot shows that pairs (casual,mnth) and (mnth,temp) might have a non-linear association which can be explored further.",echo=TRUE----
 biken <- bike |>
   mutate(mnth=as.numeric(mnth)) |>
   select(where(is.numeric))
@@ -306,7 +293,7 @@ show_assoc(biken, "mnth", "casual")
 show_assoc(biken, "mnth", "temp")
 
 
-## ----cond-assoc,fig.width=4.5, fig.height=4.5, fig.align='center', fig.cap="Conditional Association plot for bike sharing data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for nominal or mixed pairs. The lollipops in each cell represent the value for asssociation measure colored by the conditioning variable season. The pink horizontal line in each cell represents overall value of the association measure. The plot shows evident difference in measure value for pairs (temp, hum), (temp, registered), (temp, casual) and (registered, casual) for different seasons.",echo=TRUE----
+## ----cond-assoc,fig.width=4.5, fig.height=4.5, fig.align='center', fig.cap="Seriated conditional association measures plot for bike sharing data showing Pearson's correlation for numeric pairs, Goodman and Kruskal's gamma for ordinal pair, canonical correlation for factor or mixed pairs. The lollipops in each cell represent the value for asssociation measure colored by the conditioning variable season. The pink horizontal line in each cell represents overall value of the association measure. The plot shows evident difference in measure value for pairs (temp, hum), (temp, registered), (temp, casual) and (registered, casual) for different seasons.",echo=TRUE----
 
 bike_by_assoc <- select(bike, -workingday, -holiday, -mnth, -yr) |>
   calc_assoc(by="season", 
@@ -327,12 +314,23 @@ show_assoc(bike, "temp", "casual", by="season")
 show_assoc(bike, "registered", "casual", by="season")
 
 
-## ----linear-cond-assoc,fig.width=5, fig.height=4, fig.align='left', fig.cap="Conditional Association plot for bike sharing data using linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.",echo=TRUE----
+## ----linear-cond-assoc,fig.width=5, fig.height=4, fig.align='left', fig.cap="Conditional association measures plot for bike sharing data in linear layout.The display has variable pairs on the Y-axis and the value of association measures on the X-axis. The points corresponding to every variable pair represents the value of association measure for different levels of the conditioning variable and the overall value of association measure.",echo=TRUE----
 
 bike_by_assoc <- select(bike, -workingday, -holiday, -mnth, -yr) |>
   calc_assoc(by="season", 
-                  coerce_types=list(ordinal=c( "weathersit")))
-bike_by_assoc <- dplyr::filter(bike_by_assoc, abs(measure) > 0.2)
-plot_assoc_linear(assoc = bike_by_assoc,
-                  plot_type = "dotplot")
+             coerce_types=list(ordinal=c( "weathersit")),
+             include.overall = F)
+
+bike_by_assoc |> 
+  group_by(x,y) |> 
+  summarise(range=max(measure,na.rm = T)-min(measure,na.rm = T)) |> 
+  arrange(desc(range)) -> bike_by_assoc_rng
+bike_by_assoc_rngf <- filter(bike_by_assoc_rng,range>=0.25) # filtering variable pairs with a range of 0.25 or greater
+bike_by_assoc_mod <- filter(bike_by_assoc,
+                          x %in% bike_by_assoc_rngf$x & y %in% bike_by_assoc_rngf$y)
+plot_assoc_linear(bike_by_assoc_mod, 
+                  plot_type = "dotplot",
+                  pair_order = "max-min",
+                  limits = c(-0.5,1))
+
 
