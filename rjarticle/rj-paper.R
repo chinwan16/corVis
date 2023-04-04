@@ -14,12 +14,12 @@ library(magrittr)
 ## ----corrdisplay-packages,warning=FALSE,message=FALSE,echo=FALSE--------------
 library(kableExtra)
 
-Package <- c("corrplot","corrr","corrgrapher","linkspotter",  "correlation","corVis")
+Package <- c("corrplot","mbgraphic","corrr","corrgrapher","linkspotter",  "correlation","corVis")
 
-Display <- c("heatmap","heatmap/network","network","network","heatmap/network","heatmap/matrix/linear")
+Display <- c("heatmap","heatmap","heatmap/network","network","network","heatmap/network","heatmap/matrix/linear")
 
 
-MixedVariables <- c(" "," "," ","Yes"," ","Yes")
+MixedVariables <- c(" "," "," "," ","Yes"," ","Yes")
 
 
 
@@ -237,7 +237,7 @@ bike_s_assoc_multi <- calc_assoc_all(d = bike_s,
 bike_s_assoc_multi
 
 
-## ----assoc-matrix-bike,fig.width=3, fig.height=3, fig.align='center', fig.cap="Left: variables in default order of the data; Right: variables ordered by LPL cost function. Association measures displays for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs and canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a circle glyph. The color of every circle is mapped with the measure value for the pair and the radius of the circle is mapped to absolute measure value for the corresponding variable pair. It is easier to identify pairs on the right-hand plot with strong association, for example (casual, temp), (registered,yr) and (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased during windy days.",echo=TRUE----
+## ----assoc-matrix-bike,fig.show="hold", out.width="50%", fig.cap="Left: variables in default order of the data; Right: variables ordered by LPL cost function. Association measures displays for bike sharing data showing Pearson's correlation for the numeric pairs, Goodman Kruskal's gamma measure for ordered pairs and canonical correlation for factor pairs and mixed pairs. The off diagonal cells show the measure value for a variable pair using a circle glyph. The color of every circle is mapped with the measure value for the pair and the radius of the circle is mapped to absolute measure value for the corresponding variable pair. It is easier to identify pairs on the right-hand plot with strong association, for example (casual, temp), (registered,yr) and (weathersit,hum). Also, there is a negative association for (windspeed,registered) suggesting the number of registered users decreased during windy days.",echo=TRUE----
 
 bike$dteday <- NULL 
 bike$weekday <- NULL
