@@ -1,0 +1,17 @@
+March 5 2023
+
+Page 11 comments Material on seriation is mixed in again to material on display. Better to separate it out.
+
+Labels for variables in figures 1 and 2 are not readable.
+
+What does function show_assoc do? I do not see it explained anywhere. A more useful version of this would take the dataset and the assoc and produce plots of pairs with assoc beyond some threshold.
+
+Page 13
+The bar plot in Figure 3 is not good because the bar for working dat=yes is twice the width it should be. Did we not discuss mosaic plots instead of bar plots?
+
+Figure 4 legend is truncated.
+
+
+I do not agree with "as humidity generally decreases with temperature in summer whereas it tends to increase with temperature during the fall season." 
+
+What does the code at the end of section 5 relate to?
