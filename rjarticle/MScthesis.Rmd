@@ -1,0 +1,43 @@
+---
+title: "MSc thesis"
+output: html_document
+date: "2023-04-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Introduction
+
+This section gives an overview of the problem being addressed (similar  to introduction in RJ paper, perhaps somewhat broader).
+
+Write detailed summary of the Friendly paper and related package.(A page, at least.)
+
+Then a short outline of the content of the following chapters (a sentence
+or two or par for each.)
+
+## Chapter 2 
+
+finished version of current paper
+
+### Chapter 3
+
+The package: polish off vignettes and include here.
+
+Could add one more vignette comparing measures of non linear association for simulated data patterns (you did a little work on this before.)
+
+
+### Chapter 4
+
+Conclusion and further work. 
+
+Include some discussion of Simpson's paradox as further work, and how corVis could be used for this.
+
+Include some discussion of Anand paper, and how corVis could be used for this.
+
+Adding interactivity.
+
+(These three items do not need worked examples, just discussion. )
