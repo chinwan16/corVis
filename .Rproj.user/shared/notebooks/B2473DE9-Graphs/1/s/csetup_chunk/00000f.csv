@@ -1,8 +1,0 @@
-"0","knitr::opts_chunk$set(dev = c(""pdf"",""png""),echo = TRUE, fig.width=10, fig.height=5, dpi = 300, fig.path = ""GUIVIS_Plots/"", warning = FALSE)"
-"2","Warning message:
-"
-"2","In unloadNamespace(package) :"
-"2","
- "
-"2"," namespace ‘Matrix’ is imported by ‘survival’, ‘mgcv’, ‘expm’, ‘ranger’ so cannot be unloaded
-"
